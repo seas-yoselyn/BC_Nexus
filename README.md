@@ -1,4 +1,5 @@
-# BC-CLEWS-Model (BC Nexus Model)
+# BC Nexus Model
+or **`BC-CLEWS-Model`**
 
 The objective of this project is to develop a model that integrates water, food, energy, and climate factors, calibrated to British Columbia specifications. Using the open-source Climate, Land, Energy, Water Systems (CLEWS) modeling platform, the model will examine the impacts of various decarbonization policies in British Columbia on the security of these interconnected systems. The model uses cost optimization assessments to identify the least expensive pathway and the most reliable energy technology mix to successfully implement the policies while still meeting policy constraints and demand. The model also identifies the points of interaction among the various sectors, such as the land requirements for energy, the water requirements for agriculture and energy systems, and the connection between food and water infrastructure. The term "nexus" is used to describe the model because it captures the interdependence of the various components and how changes in one component can affect the security of other components within the nexus.[1]
 
