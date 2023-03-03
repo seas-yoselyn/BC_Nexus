@@ -13,7 +13,7 @@ Model: V1.1.7_BC_CLEWS_Model-REF Scenario-LND intensity Ave
 
 # Either otoole or MoManI (capitalization matters)
 OutputFormat: otoole
-otooleOutputDirectory: otoole_output
+otooleOutputDirectory: CLEWsy_outputs
 
 # The OSeMOSYS regions in the model.  For most models, leave this as REGION1 as CLEWs regions are
 # built with technologies and commodities rather than OSeMOSYS regions.
