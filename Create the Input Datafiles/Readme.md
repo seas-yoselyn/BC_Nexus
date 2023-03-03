@@ -22,6 +22,8 @@ For instructions of the use of the tool, run the command line
 
 **`clewsy --help`**
 
+![Sets creation workflow](https://github.com/DeltaE/BC-CLEWS-Model/blob/main/Graphical%20Resources/CLEWsy%20workflow.svg)
+
 ## Example ##
 1. Lets create a Folder "*CLEWsy*"
 
