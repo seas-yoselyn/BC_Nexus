@@ -1,4 +1,4 @@
-# Creating the Datafile 
+# Creating the Datafiles
 
 Adapted from clewsy-[Readme](https://github.com/OSeMOSYS/clewsy/blob/main/README.rst)  
 
