@@ -9,10 +9,10 @@ A set of tools for building CLEWs models,it is a Python package which provides a
 * Configuration file [[Structure explanation and download from here](https://github.com/DeltaE/BC-CLEWS-Model/blob/main/Create%20the%20Input%20Datafiles/ReadMe_CofigurationFileForCLEWsy.md)]
 * Clustering data files [[download from here](https://github.com/DeltaE/BC-CLEWS-Model/tree/main/Create%20the%20Input%20Datafiles)]
 
-### Dependencies ### 
+## Dependencies ##
 CLEWsy requires a number of dependencies, but these should be installed automatically when installing clewsy.
 
-### Installation ###
+## Installation ##
 Install clewsy using pip:
 
 **`pip install clewsy`**
@@ -21,14 +21,14 @@ To upgrade clewsy using pip:
 
 **`pip install clewsy --upgrade`**
 
-### Usage ###
+## Usage ##
 For instructions of the use of the tool, run the command line
 
 **`clewsy --help`**
 
 ![Sets creation workflow](https://github.com/DeltaE/BC-CLEWS-Model/blob/main/Graphical%20Resources/CLEWsy%20workflow.svg)
 
-## Example ##
+## Step-by-step example ##
 1. Lets create a Folder "*CLEWsy*"
 
 2. Clone the "[clusterDataSet](https://github.com/DeltaE/BC-CLEWS-Model/tree/main/Create%20the%20Input%20Datafiles/ClusterDataSet)" folder and paste it inside your "*CLEWsy*" folder
