@@ -108,7 +108,7 @@ LandUseCodes: {
 ```
 # Hardcoded Typical Values
 ## Evapotranspiration 
-Values for water balances for other land uses. Typical values may not require frequent changes. Values given in this sample were taken from the *Bolivia model by Abhishek Shivakumar.*
+Values for water balances for other land uses. Typical values may not require frequent changes. Values given in this sample were taken from the *Bolivia model by Abhishek Shivakumar et al 2021* [[1]](#1).
 ```
 EvapotranspirationPercentPRCOtherLandUse: {  
   BAR: 0.773,
@@ -120,7 +120,7 @@ EvapotranspirationPercentPRCOtherLandUse: {
 }
 ```
 ## Groundwater % of Excess Other Land Use 
-Ratios for how much excess water goes to groudwater vs surface runoff.Typical values may not require frequent changes. Values given in this sample were taken from the *Bolivia model by Abhishek Shivakumar.*
+Ratios for how much excess water goes to groudwater vs surface runoff.Typical values may not require frequent changes. Values given in this sample were taken from the *Bolivia model by Abhishek Shivakumar et al 2021* [[1]](#1).
 ```
 GroundwaterPercentofExcessOtherLandUse: {  
   BAR: 0.009,
@@ -394,3 +394,7 @@ NamingConvention: {
 ```
 
 **Full Configuration file** (.yaml) is available [here](https://github.com/DeltaE/BC-CLEWS-Model/tree/main/Create%20the%20Input%20Datafiles)
+
+# References
+<a id="1">[1]</a> 
+*[A clustering approach to improve spatial representation in water-energy-food models]-(Abhishek Shivakumar et al 2021 Environ. Res. Lett. 16 114027)*
