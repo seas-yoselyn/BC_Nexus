@@ -175,7 +175,7 @@ ExportFuels: ['CRU', 'NGS', 'COA', 'BIO']
 DomesticMining: ['COA', 'NGS', 'CRU', 'URN']
 DomesticRenewables: ['WND', 'HYD', 'BIO', 'SOL', 'GEO']
 ```
-# Technolgies
+# Technologies
 Transformation technologies that connect parts of the CLEWs model together.  For example, power transmission between grids, oil refineries, biofuel plants, etc. These technologies cannot create fuels but assume that their fuels are created elsewhere (either in the DomesticMining, DomesticRenewables or ImportFuels).
 
 > **Structure**:  
