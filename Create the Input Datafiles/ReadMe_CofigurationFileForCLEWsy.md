@@ -7,8 +7,8 @@ This is a MoManI interface requirement and the model name here must match the mo
 ```
 Model: V1.1.7_BC_CLEWS_Model-REF Scenario-LND intensity Ave
 ```
-# CLEWsy Output Format
-This is the datafile structure required for otoole or MoManI (capital/small letters sensitive syntax)
+# CLEWsy Output Format & Directory
+This is the datafile structure required for otoole or MoManI (capital/small letters sensitive syntax) and also identifying the CLEWsy output directory.
 ```
 OutputFormat: otoole
 otooleOutputDirectory: CLEWsy_outputs
@@ -55,13 +55,13 @@ Years:
   - 2049
   - 2050
 ```
-## Land Regions
+# Land Regions
 There could be seevral land regions or clusters inside a modelling region. This field must be matched with the clustered land use data inputs. Typically comprises of two or three letter codes.
 ```
 LandRegions:
   - BC1
 ```  
-## Grid
+# Power Grid
 The land use (and thereby the energy needs) from a given land inside a land region must be mapped to an electrical grid.
 Typically the grids have a single letter code. Here we have assumed a copperplate transmission model for grid i.e. only one grid in BC labelled as "B". FInally, we have to make the connection that which land region to connected to which grid. In this example, we have mapped "BC1" land region to grid "B".
 ```
@@ -69,7 +69,7 @@ LandToGridMap: {
   BC1: B, 
 }
 ```
-# Directories 
+# Clustering Data Directories 
 Required input data directories with speicific file names to collect land use data for the model. 
 ```
 DataDirectoryName: "./ClusterDataSet"
