@@ -393,4 +393,4 @@ NamingConvention: {
   }
 ```
 
-**Full Configuration file (.yaml) is available [here]**(https://github.com/DeltaE/BC-CLEWS-Model/tree/main/Create%20the%20Input%20Datafiles)
+**Full Configuration file** (.yaml) is available [here](https://github.com/DeltaE/BC-CLEWS-Model/tree/main/Create%20the%20Input%20Datafiles)
