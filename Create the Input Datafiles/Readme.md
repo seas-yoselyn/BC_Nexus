@@ -15,16 +15,23 @@ CLEWsy requires a number of dependencies, but these should be installed automati
 ## Installation ##
 Install clewsy using pip:
 
-**`pip install clewsy`**
+```
+pip install clewsy
+```
 
 To upgrade clewsy using pip:
 
-**`pip install clewsy --upgrade`**
+```
+pip install clewsy --upgrade
+```
+
 
 ## Usage ##
 For instructions of the use of the tool, run the command line
 
-**`clewsy --help`**
+```
+clewsy --help
+```
 
 ![Sets creation workflow](https://github.com/DeltaE/BC-CLEWS-Model/blob/main/Graphical%20Resources/CLEWsy%20workflow.svg)
 
@@ -40,9 +47,13 @@ For instructions of the use of the tool, run the command line
 >>DataDirectoryName: "./ClusterDataSet"
 
 4. Change the directory to "CLEWsy" folder  
-**`cd <path to CLEWsy folder>`**  
+```
+cd <path to CLEWsy folder>
+```
 
 5. Run the clewsy tool cmd :  
-**`clewsy build <yaml File Path>`**
+```
+clewsy build <yaml File Path>
+```
 
 >It will create a folder  "CLEWsy_outputs" which contains all the set. The folder will be created on the directory in which the command is being executed i.e. here inside '*CLEWsy*' folder.
