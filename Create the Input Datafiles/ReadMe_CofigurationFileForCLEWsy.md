@@ -1,4 +1,4 @@
-# CLEWsy model shell builder
+# CLEWsy Model Shell Builder
 
 Configuration file (.yaml) structure exaplined as follows:
 
@@ -7,7 +7,7 @@ This is a MoManI interface requirement and the model name here must match the mo
 ```
 Model: V1.1.7_BC_CLEWS_Model-REF Scenario-LND intensity Ave
 ```
-# CLEWsy Output format
+# CLEWsy Output Format
 This is the datafile structure required for otoole or MoManI (capital/small letters sensitive syntax)
 ```
 OutputFormat: otoole
@@ -95,7 +95,7 @@ IrrigationTypeList: {
   I: Irrigation
 }
 ```
-# Land use codes for other lands not included in croplands.
+# Land-use codes for other lands not included in croplands.
 ```
 LandUseCodes: {
   BAR: Barren and sparsely vegetated land,
@@ -131,7 +131,7 @@ GroundwaterPercentofExcessOtherLandUse: {
   OTH: 0.051
 }
 ```
-## Crop yield factors 
+## Crop Yield Factors 
 for calibrating the model. Codes here must match crop codes in the land use data. Typical data used, might not require frequent changes
 ```
 CropYieldFactors: {
@@ -147,14 +147,14 @@ CropYieldFactors: {
     OTH: 0.95
 }
 ```
-## % of excess water that returns as groundwater
+## % of Excess Water that Returns as Groundwater
 For croplands, percent of excess water (*Irrigation + Precipitation - Evapotranspiration*) that returns as groundwater. Rest returns as Runoff.
 ```
 GroundwaterPercentofExcess: 0.051
 ```
 
 #  Fuels (commodities)
-## End use Fuels (commodities)
+## End-use Fuels (commodities)
 Defines the final demand fuels in the model, and the sectors they are used in.
 ```
 EndUseFuels: {
@@ -170,7 +170,7 @@ EndUseFuels: {
 ImportFuels: ['CRU', 'COA', 'JFL', 'LPG', 'GSL', 'KER', 'DSL', 'HFO']
 ExportFuels: ['CRU', 'NGS', 'COA', 'BIO']
 ```
-## Domestically available
+## Domestically Available
 ```
 DomesticMining: ['COA', 'NGS', 'CRU', 'URN']
 DomesticRenewables: ['WND', 'HYD', 'BIO', 'SOL', 'GEO']
@@ -187,22 +187,27 @@ TransformationTechnologies: [
   ['PWRTRNB01', 'ELCB01', '1.11', 'ELCB02', '1', 'Power transmission grid B', '1'],
 ```  
 
-## Land use impact of a power generation technology:
+## Land-use Impact of a Power Generation Technology:
 > **Structure**:  
-['power plant name and discription', 'input fuel', 'input activity ratio: for 1PJ of output how much land will be needded', 'output fuel- leave it blank', 'output activity raio- leave it blank', 'discription-leave it blank', 'Mode of operation'],
- 
+['power plant name and discription', 'input fuel', 'input activity ratio: for 1PJ of output how much land will be needded', 'output fuel- leave it blank', 'output activity raio- leave it blank', 'discription-leave it blank', 'Mode of operation'],  
+ >> We have seven cluster for all land clusters from GEAZ clustering
  ```
- ['LNDAGRBC1C01', '', '', 'LND4PWR', '1', '', '54'], #seven times for all land clusters from GEAZ clustering
- ['LNDAGRBC1C02', '', '', 'LND4PWR', '1', '', '54'], # connection between LND4PWR with Built-up land in LNDAGRBC
+ ['LNDAGRBC1C01', '', '', 'LND4PWR', '1', '', '54'], 
+ ['LNDAGRBC1C02', '', '', 'LND4PWR', '1', '', '54'], # connection between LND4PWR with Built-up land (mode no. 54 ) in LNDAGRBC
  ['LNDAGRBC1C03', '', '', 'LND4PWR', '1', '', '54'],
  ['LNDAGRBC1C04', '', '', 'LND4PWR', '1', '', '54'],
  ['LNDAGRBC1C05', '', '', 'LND4PWR', '1', '', '54'],
  ['LNDAGRBC1C06', '', '', 'LND4PWR', '1', '', '54'],
  ['LNDAGRBC1C07', '', '', 'LND4PWR', '1', '', '54'],
- 
- 
+ ```
+ > Aggregated Powerplants (land use information only)
+ >> Natural Gas
+ ```
  ['PWRNGSB01', 'LND4PWR', '0.0006', '', '', '', '1'], 
+ ```
 
+>> Wind
+```
  ['PWRWNDB01', 'LND4PWR', '0.00038', '', '', '', '1'],
  ['PWRWNDB02', 'LND4PWR', '0.00038', '', '', '', '1'],
  ['PWRWNDB03', 'LND4PWR', '0.00038', '', '', '', '1'],
@@ -211,15 +216,24 @@ TransformationTechnologies: [
  ['PWRWNDB06', 'LND4PWR', '0.00038', '', '', '', '1'],
  ['PWRWNDB07', 'LND4PWR', '0.00038', '', '', '', '1'],
  ['PWRWNDB08', 'LND4PWR', '0.00038', '', '', '', '1'],
+ ```
 
+>> Biofuel
+```
  ['PWRBIOB01', 'LND4PWR', '0.293', '', '', '', '1'],
  ['PWRBIOB02', 'LND4PWR', '0.293', '', '', '', '1'],
  ['PWRBIOB03', 'LND4PWR', '0.293', '', '', '', '1'],
  ['PWRBIOB04', 'LND4PWR', '0.293', '', '', '', '1'],
  ['PWRBIOB05', 'LND4PWR', '0.293', '', '', '', '1'],
+ ```
 
+>> Solar
+```
  ['PWRSOLB01', 'LND4PWR', '0.0044', '', '', '', '1'],
+ ```
 
+>> Hydro
+```
  ['PWRHYDB01', 'LND4PWR', '0.022', '', '', '', '1'],
  ['PWRHYDB02', 'LND4PWR', '0.022', '', '', '', '1'],
  ['PWRHYDB03', 'LND4PWR', '0.022', '', '', '', '1'],
@@ -232,8 +246,10 @@ TransformationTechnologies: [
  ['PWRHYDB10', 'LND4PWR', '0.022', '', '', '', '1'],
  ['PWRHYDB11', 'LND4PWR', '0.022', '', '', '', '1'],
  ['PWRHYDB12', 'LND4PWR', '0.022', '', '', '', '1'],
+ ```
 
-# Technologies for future expansions
+ >> Technologies for future expansions
+ ```
  ['PWRGEOB01', 'LND4PWR', '0.00054', '', '', '', '1'],
  ['PWRGEOB02', 'LND4PWR', '0.00054', '', '', '', '1'],
  ['PWRGEOB03', 'LND4PWR', '0.00054', '', '', '', '1'],
@@ -243,9 +259,9 @@ TransformationTechnologies: [
  ['PWRWNDB11', 'LND4PWR', '0.00038', '', '', '', '1'],
  ['PWRBIOB06', 'LND4PWR', '0.293', '', '', '', '1'],
  ['PWRHYDB13', 'LND4PWR', '0.022', '', '', '', '1'],
-```
+ ```
 
-> Example of a Crude oil refinery that produces a number of output products **(not used in the model, shown for example)**
+>> Example of a Crude oil refinery that produces a number of output products **(not used in the model, shown for example)**
 ```
 # ['UPSCRU001', 'CRU', '1.0', 'LPG', '0.0081', 'Crude oil refinery', '1'],
 # ['UPSCRU001', '', '', 'GSL', '0.1694', 'Crude oil refinery', '1'],
@@ -254,13 +270,13 @@ TransformationTechnologies: [
 # ['UPSCRU001', '', '', 'HFO', '0.1429', '', '1'],
 # ['UPSCRU001', '', '', 'OHC', '0.0816', '', '1'],
 ```
-> Example of  Biofuel Processing **(not used in the model, shown for example)**
+>> Example of  Biofuel Processing **(not used in the model, shown for example)**
 ```
   # ['UPSPLM001', 'CRPPLM', '1.0', 'PLMKER', '0.2', 'Palm oil mill.', '1'],
   # ['UPSPLM001', '', '', 'PLMPOM', '0.3', '', '1'],
   # ['UPSPLM001', '', '', 'PLMCRU', '0.5', '', '1'],
-  ```
-# Power Plants
+```
+# Power Plants (capacity and other inputs)
 >**Structure**:  
 PLANTCODE:  ['Power plant description.', InputActivityRatio, WaterWithdrawals, WaterReturnedAsSurfaceWater]  
 **Example**:  
@@ -333,7 +349,7 @@ Timeslices: {
   SEA4N: ['Season 4 Nighttime', '#cc3333']
 }
 ```
-# Naming conventions
+# Naming Conventions
 ```
 NamingConvention: {
   IND: 'Industry',
