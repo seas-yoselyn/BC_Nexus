@@ -1,4 +1,4 @@
-# CLEWsy Model Shell Builder
+# Cofiguration File Structure for CLEWsy Model Shell Builder
 
 Configuration file (.yaml) structure exaplined as follows:
 
