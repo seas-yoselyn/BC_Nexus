@@ -138,7 +138,6 @@ CropYieldFactors: {
     RAP: 0.95,
     OAT: 0.95,
     BAR: 0.95,
-    #corrected from 'BRL'
     PEA: 0.95,
     MAI: 0.95,
     RYE: 0.95,
@@ -286,7 +285,6 @@ PowerPlants: {
 
   PWRSOLB01:  ['Solar plant on B grid, K-Se Region (1 MW).', 2.85, 0, 0],
   
- 
   PWRHYDB01:  ['Large hydro plant on B grid, PR Region (2730 MW).', 1.05, 0, 0], 
   PWRHYDB02:  ['Meduim-size hydro plant on B grid, PR Region (694 MW).', 1.05, 0, 0],
   PWRHYDB03:  ['Aggregated hydro plants on B grid, N Region (312 MW).', 1.67, 0, 0],
@@ -374,8 +372,7 @@ NamingConvention: {
   MAI: 'Maize',
   RYE: 'Rye',
   PTW: 'White potato'
-  #corrected from 'PWT'
-}
+  }
 ```
 
 **Full Configuration file (.yaml) is available [here]**(https://github.com/DeltaE/BC-CLEWS-Model/tree/main/Create%20the%20Input%20Datafiles)
