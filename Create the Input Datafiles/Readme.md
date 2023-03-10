@@ -6,7 +6,7 @@ Adapted from clewsy-[Readme](https://github.com/OSeMOSYS/clewsy/blob/main/README
 A set of tools for building CLEWs models,it is a Python package which provides a command-line interface for building CLEWs models using OSeMOSYS.
 
 ## Input Requirements ##
-* Configuration file [[Structure explanation](https://github.com/DeltaE/BC-CLEWS-Model/tree/main/Create%20the%20Input%20Datafiles) , [download](https://github.com/DeltaE/BC-CLEWS-Model/blob/main/Create%20the%20Input%20Datafiles/ReadMe_CofigurationFileForCLEWsy.md)]
+* Configuration file [[Structure explanation](https://github.com/DeltaE/BC-CLEWS-Model/blob/main/Create%20the%20Input%20Datafiles/ReadMe_CofigurationFileForCLEWsy.md) , [download](https://github.com/DeltaE/BC-CLEWS-Model/blob/main/Create%20the%20Input%20Datafiles/ReadMe_CofigurationFileForCLEWsy.md)]
 * Clustering data files [[download](https://github.com/DeltaE/BC-CLEWS-Model/tree/main/Create%20the%20Input%20Datafiles)]
 
 ## Dependencies ##
