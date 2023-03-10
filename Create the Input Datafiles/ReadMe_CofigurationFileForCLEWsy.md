@@ -1,4 +1,6 @@
-CLEWsy model shell builder configuration file structure exaplined as follows:
+# CLEWsy model shell builder
+
+Configuration file (.yaml) structure exaplined as follows:
 
 # Model Name
 This is a MoManI interface requirement and the model name here must match the model name in MoManI. Insignificant syntax for otoole interace usage.  
