@@ -132,7 +132,7 @@ GroundwaterPercentofExcessOtherLandUse: {
 }
 ```
 ## Crop Yield Factors 
-for calibrating the model. Codes here must match crop codes in the land use data. Typical data used, might not require frequent changes
+Codes here must match crop codes in the land use data. Typical data used, might not require frequent changes
 ```
 CropYieldFactors: {
     ALF: 0.95,
@@ -148,7 +148,8 @@ CropYieldFactors: {
 }
 ```
 ## % of Excess Water that Returns as Groundwater
-For croplands, percent of excess water (*Irrigation + Precipitation - Evapotranspiration*) that returns as groundwater. Rest returns as Runoff.
+For croplands, percent of excess water (*Irrigation + Precipitation - Evapotranspiration*) that returns as groundwater, rest returns as Runoff. Typical value:
+
 ```
 GroundwaterPercentofExcess: 0.051
 ```
@@ -156,6 +157,7 @@ GroundwaterPercentofExcess: 0.051
 #  Fuels (commodities)
 ## End-use Fuels (commodities)
 Defines the final demand fuels in the model, and the sectors they are used in.
+
 ```
 EndUseFuels: {
   IND: ['DSL', 'BIO', 'NGS', 'ELCB02'],
@@ -190,10 +192,10 @@ TransformationTechnologies: [
 ## Land-use Impact of a Power Generation Technology:
 > **Structure**:  
 ['power plant name and discription', 'input fuel', 'input activity ratio: for 1PJ of output how much land will be needded', 'output fuel- leave it blank', 'output activity raio- leave it blank', 'discription-leave it blank', 'Mode of operation'],  
- >> We have seven cluster for all land clusters from GEAZ clustering
+ >> We have seven cluster for all land clusters from GEAZ clustering. Mode no. 54 is the connection between LND4PWR with Built-up land in LNDAGRBC
  ```
  ['LNDAGRBC1C01', '', '', 'LND4PWR', '1', '', '54'], 
- ['LNDAGRBC1C02', '', '', 'LND4PWR', '1', '', '54'], # connection between LND4PWR with Built-up land (mode no. 54 ) in LNDAGRBC
+ ['LNDAGRBC1C02', '', '', 'LND4PWR', '1', '', '54'], 
  ['LNDAGRBC1C03', '', '', 'LND4PWR', '1', '', '54'],
  ['LNDAGRBC1C04', '', '', 'LND4PWR', '1', '', '54'],
  ['LNDAGRBC1C05', '', '', 'LND4PWR', '1', '', '54'],
@@ -257,11 +259,12 @@ TransformationTechnologies: [
  ['PWRWNDB09', 'LND4PWR', '0.00038', '', '', '', '1'],
  ['PWRWNDB10', 'LND4PWR', '0.00038', '', '', '', '1'],
  ['PWRWNDB11', 'LND4PWR', '0.00038', '', '', '', '1'],
- ['PWRBIOB06', 'LND4PWR', '0.293', '', '', '', '1'],
- ['PWRHYDB13', 'LND4PWR', '0.022', '', '', '', '1'],
+ ['PWRBIOB06', 'LND4PWR', '0.29300', '', '', '', '1'],
+ ['PWRHYDB13', 'LND4PWR', '0.02200', '', '', '', '1'],
  ```
 
 >> Example of a Crude oil refinery that produces a number of output products **(not used in the model, shown for example)**
+
 ```
 # ['UPSCRU001', 'CRU', '1.0', 'LPG', '0.0081', 'Crude oil refinery', '1'],
 # ['UPSCRU001', '', '', 'GSL', '0.1694', 'Crude oil refinery', '1'],
@@ -271,6 +274,7 @@ TransformationTechnologies: [
 # ['UPSCRU001', '', '', 'OHC', '0.0816', '', '1'],
 ```
 >> Example of  Biofuel Processing **(not used in the model, shown for example)**
+
 ```
   # ['UPSPLM001', 'CRPPLM', '1.0', 'PLMKER', '0.2', 'Palm oil mill.', '1'],
   # ['UPSPLM001', '', '', 'PLMPOM', '0.3', '', '1'],
@@ -364,8 +368,8 @@ NamingConvention: {
   DSL: 'Diesel', 
   ELC001: 'Electricity from power plants',
   ELC002: 'Electricity from transmission',
-  ELCB01: 'Electricity from power plants in region B',
-  ELCB02: 'Electricity from transmission in region B',
+  ELCB01: 'Electricity from power plants in grid region B',
+  ELCB02: 'Electricity from transmission in grid region B',
   GSL: 'Gasoline', 
   HFO: 'Heavy fuel oil',
   NGS: 'Natural gas',
@@ -397,4 +401,4 @@ NamingConvention: {
 
 # References
 <a id="1">[1]</a> 
-*A clustering approach to improve spatial representation in water-energy-food models, [DOI 10.1088/1748-9326/ac2ce9] (https://iopscience.iop.org/article/10.1088/1748-9326/ac2ce9/meta) -Abhishek Shivakumar et al 2021 Environ. Res. Lett. 16 114027*
+*A clustering approach to improve spatial representation in water-energy-food models, DOI 10.1088/1748-9326/ac2ce9 (https://iopscience.iop.org/article/10.1088/1748-9326/ac2ce9/meta) -Abhishek Shivakumar et al 2021 Environ. Res. Lett. 16 114027*
