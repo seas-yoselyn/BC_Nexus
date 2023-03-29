@@ -397,4 +397,4 @@ NamingConvention: {
 
 # References
 <a id="1">[1]</a> 
-*[A clustering approach to improve spatial representation in water-energy-food models]([10.1088/1748-9326/ac2ce9](https://iopscience-iop-org.proxy.lib.sfu.ca/article/10.1088/1748-9326/ac2ce9))-Abhishek Shivakumar et al 2021 Environ. Res. Lett. 16 114027*
+*A clustering approach to improve spatial representation in water-energy-food models, [DOI 10.1088/1748-9326/ac2ce9] (https://iopscience.iop.org/article/10.1088/1748-9326/ac2ce9/meta) -Abhishek Shivakumar et al 2021 Environ. Res. Lett. 16 114027*
