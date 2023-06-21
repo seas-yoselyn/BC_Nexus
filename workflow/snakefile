@@ -69,7 +69,7 @@ if not os.path.isdir('res/csv'):
     # to include CBC/Gurobi solvers
     # introducing a CONFIG file where user choose the solver
 # !!!!!! Issues:  (Installation of CBC solver needs to be resolved)
-rule MODEL:
+rule RUN_MODEL:
     input:
         data='processed_data.txt',
         model='model/model_BCNexus.txt',
@@ -129,9 +129,9 @@ rule clean:
             rm -rf docs/*
         fi
 
-        if [ -d LP_file ]; then
-            rm -rf LP_file/*
-        fi
+        # if [ -d LP_file ]; then
+        #     rm -rf LP_file/*
+        # fi
 
         if [ -d res/csv ]; then
             rm -rf res/csv/*
@@ -139,11 +139,14 @@ rule clean:
         '''
 
 ###############################################################################
-# OVERALL Future scopes: 
+#>>>> OVERALL Future scopes: 
+
 # define a rule for output visualization
+# the RUN_MODEL rule runs everytime as I defined the OUTPUT of the rule as LP file, have to find a way to define the specific list of outputs (CSV files).
 # modify rules for wildcards inclusion + Scenario based data sources
-# introduce rules for CLEWsy > SET csv files
+# introduce rules for MODEL SHELL creating via CLEWsy > SET csv files and merge with scenario dependent files.
 # to create pipeline of data sources to generate scenario dependent CSV files
+# Technical/Temporal/Spatial resolution tweaking via parallel rules e.g. if the resolution is same,don't run all rules.
 
 # !!!!!! Issues:  Prepare scripts for output visualization
 ##############################################################################
