@@ -9,7 +9,7 @@ osemosys_files = os.listdir('./data')
 
 # Define the rule all and the input is the file to generate whucg requires all associated rules to play.
 ### >>> Future Scope: Checks needed for required  DIRECTORIES structure. If not available then MAKE DIRECTORIES
-rule all:
+rule Results:
     input:
         'LP_file/BCNexus.lp'
 
@@ -18,11 +18,34 @@ rule make_dag:
     message:
         'DAG created successfully and saved as docs/dag.pdf'
     shell:
-        'snakemake --dag all | dot -Tpdf > docs/BCNexus_workflow_dag.pdf'
+        'snakemake --dag Results | dot -Tsvg > docs/BCNexus_workflow_dag.svg'
+
+# Generating the MODEL SHELL (i.e. SETS) with clewsy tool
+configfile:'config_files/20221207_BC_CLEWS_Elias.yaml'
+rule DATA_preparation:
+    message:
+        'Collecting the data files...'
+    input:
+        Input_files = 'user_inputs',
+        CLEW_Config_file = 'config_files/20221207_BC_CLEWS_Elias.yaml'
+    output:
+        directory(config['otooleOutputDirectory'])
+    shell:
+        '''
+        clewsy build {input.CLEW_Config_file}
+        [ -d {output} ]  && echo "BC NEXUS - SETS' files Created Successfully." || echo "Model Shell Creation failed !!!"
+        '''
+
+# Collect the MODEL SHELL from clewsy and the other user input PARAMETERS' CSV files from different folders and store to a single directory 'data'
+rule COLLECT_DATA_FILES:
+    output:
+        directory('data')
+    shell:
+        "python ./Scripts/organize_files.py"
 
 
 # Rule for Converting CSV files to datafile "data.txt"
-# INPUT is the "data" folder with all CSVs and OUTPUT is the "data.txt" file + Otoole enviroment file
+## INPUT is the "data" folder with all CSVs and OUTPUT is the "data.txt" file + Otoole enviroment file
 ### >>> Future scope: to verify a prescribed list of input CSV files inside "data" folder
 
 rule otoole_convert:
@@ -38,7 +61,7 @@ rule otoole_convert:
     log:
         log='logs/otoole_convert.log'
     conda:
-        'Envs/otoole.yml'
+        'envs/otoole.yml'
     shell:
         'otoole convert csv datafile {input} {output} {params.config_file} 2> {log}'
 
@@ -74,7 +97,8 @@ rule RUN_MODEL:
         data='processed_data.txt',
         model='model/model_BCNexus.txt',
     output:
-        LP_file='LP_file/BCNexus.lp'
+        LP_file='LP_file/BCNexus.lp',
+        # directory('.res/csv')
     shell:
         'glpsol -m {input.model} -d {input.data} --wlp {output.LP_file}'
 
