@@ -1,0 +1,10 @@
+InputActivityRatio.csv
+OutputActivityRatio.csv
+MODE_OF_OPERATION.csv
+.snakemake_timestamp
+TECHNOLOGY.csv
+REGION.csv
+EMISSION.csv
+COMMODITY.csv
+YEAR.csv
+TIMESLICE.csv
