@@ -1,43 +1,53 @@
-#BC Nexus Input file preparation workflow
+# BC Nexus Input file preparation workflow
 
 import os
 from pathlib import Path
 
-osemosys_files = os.listdir('./data')
+# osemosys_files = os.listdir('./data')
 # osemosys_files.remove('default_values.csv') #taken form /resources
 
-
-# Define the rule all and the input is the file to generate whucg requires all associated rules to play.
-### >>> Future Scope: Checks needed for required  DIRECTORIES structure. If not available then MAKE DIRECTORIES
+# Define the rule all and the input is the file to generate which requires all associated rules to play.
+### >>> Future Scope: Checks needed for required DIRECTORIES structure. If not available then MAKE DIRECTORIES
 rule Results:
     input:
         'LP_file/BCNexus.lp'
+    # output:
+    #     'Result file generation Complete'
+    # shell:
+    #     'touch {output}'
 
-# Rule for generatinge the DAG
+
+# Rule for generating the DAG
 rule make_dag:
     message:
         'DAG created successfully and saved as docs/dag.pdf'
+    # input:
+    #     'Result file generation Complete'
     shell:
-        'snakemake --dag Results | dot -Tsvg > docs/BCNexus_workflow_dag.svg'
+        'snakemake --dag Results | dot -Tsvg -Gsize="8.3,11.7" -Gorientation="portrait" -o docs/BCNexus_workflow_dag.svg'
+
 
 # Generating the MODEL SHELL (i.e. SETS) with clewsy tool
-configfile:'config_files/20221207_BC_CLEWS_Elias.yaml'
-rule DATA_preparation:
+configfile: 'config_files/20221207_BC_CLEWS_Elias.yaml'
+rule Model_Shell:
     message:
         'Collecting the data files...'
     input:
-        Input_files = 'user_inputs',
+        Input_files = ancient('user_inputs'),
         CLEW_Config_file = 'config_files/20221207_BC_CLEWS_Elias.yaml'
     output:
-        directory(config['otooleOutputDirectory'])
+        directory(config['otooleOutputDirectory']),
+        'Model_shell_complete'
     shell:
         '''
         clewsy build {input.CLEW_Config_file}
-        [ -d {output} ]  && echo "BC NEXUS - SETS' files Created Successfully." || echo "Model Shell Creation failed !!!"
+        [ -d {output[0]} ] && echo "BC NEXUS - SETS files Created Successfully." || echo "Model Shell Creation failed !!!"
+        touch {output[1]}
         '''
 
-# Collect the MODEL SHELL from clewsy and the other user input PARAMETERS' CSV files from different folders and store to a single directory 'data'
-rule COLLECT_DATA_FILES:
+
+# Collect the MODEL SHELL from clewsy and the other user input PARAMETERS' CSV files from different folders and store them in a single directory 'data'
+rule Scenario_Data_Files:
     output:
         directory('data')
     shell:
@@ -48,11 +58,12 @@ rule COLLECT_DATA_FILES:
 ## INPUT is the "data" folder with all CSVs and OUTPUT is the "data.txt" file + Otoole enviroment file
 ### >>> Future scope: to verify a prescribed list of input CSV files inside "data" folder
 
-rule otoole_convert:
+rule Input_Data_Interfacing_otoole:
     message:
         'Creating data file...'
     input:
         datapackage='data',
+        flag='Model_shell_complete'
         #rm \csv_files=expand('data/{osemosys_file}', osemosys_file=osemosys_files),
     output:
         data_file='data.txt'
@@ -63,13 +74,18 @@ rule otoole_convert:
     conda:
         'envs/otoole.yml'
     shell:
-        'otoole convert csv datafile {input} {output} {params.config_file} 2> {log}'
-
+        '''
+        if [ -f data/.snakemake_timestamp ]; then
+            rm data/.snakemake_timestamp
+        fi
+        
+        otoole convert csv datafile {input.datapackage} {output} {params.config_file} 2> {log}
+        '''
 
 # Preprocessing the data after Otoole Creates the "data.txt" file
 # INPUT is the output datafile (.txt) from Otoole Rule + Model File + preprocessing python script , OUTPUT is another datafile in same format.
 ### >>> Future scope: xxx
-rule preprocess_data:
+rule Preprocess_data:
     input:
         data_in='data.txt',
         model='model/model_BCNexus.txt',
@@ -113,20 +129,6 @@ onerror:
 ### >>> Future scopes: 
     # use wildcards for cleaning purposes
 # !!!!!! Issues: It is a standalone rule.
-# rule clean:
-#     message:
-#         'Reseting to defaults and cleaning existing data...'
-#     shell:
-#         '''
-#         rm data.txt 
-#         rm processed_data.txt
-#         rm processed_model_BCNexus.txt
-#         rm -rf logs/*
-#         rm -rf docs/*
-#         rm -rf LP_file/*
-#         rm -rf res/csv/*
-#         '''
-
 
 rule clean:
     message:
