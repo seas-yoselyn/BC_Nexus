@@ -4,22 +4,16 @@ import os
 from snakemake.utils import min_version
 min_version("7.0")
 from pathlib import Path
-from graphviz import dot
+
+
 
 # Define the rule all and the input is the file to generate which requires all associated rules to play.
 ### >>> Future Scope: Checks needed for required DIRECTORIES structure. If not available then MAKE DIRECTORIES
 rule Results:
     input:
-        'LP_file/BCNexus.lp',
-        'check_flags/Solution_found.check',
         'check_flags/Plots_generated.check',
+        'check_flags/otoole_ResultsFile_genrated.check',
         'docs/BCNexus_RES.png'
-    output:
-        'docs/Run_Summary.txt'
-    shell:
-        '''
-        snakemake --summary > {output}
-        '''
 
 # Rule for generating the DAG
 rule make_graphs:
@@ -30,8 +24,8 @@ rule make_graphs:
         'docs/BCNexus_workflow_Rulegraph.svg',
         'docs/BCNexus_workflow_filegraph.svg',
     shell:
-        '''      
-        # snakemake --dag Results | dot -Tsvg -Gsize="8.3,11.7" -Gorientation="portrait" -o {output[0]}
+        '''
+        rm -f docs/*.svg
         snakemake --forceall --dag | dot -Tsvg -Gsize="8.3,11.7" -Gorientation="portrait" -o {output[0]}
         snakemake --rulegraph | dot -Tsvg -o {output[1]}
         snakemake --filegraph | dot -Tsvg -o {output[2]}
@@ -75,8 +69,11 @@ rule Scenario_setup:
     shell:
         'touch {output}'
 
+include : 'DemandData_pipeline.smk'
+
 rule Data_pipeline:
     input:
+        'check_flags/DemandData_updated.check',
         'check_flags/Scenario_Setup_configuration_completed.check'
     output:
         'check_flags/Data_Updated.check'
@@ -106,7 +103,6 @@ rule Input_Data_Interfacing_otoole:
         'Creating data file...'
     input:
         datapackage='data',
-        #rm \csv_files=expand('data/{osemosys_file}', osemosys_file=osemosys_files)
     output:
         'data.txt',
         'check_flags/otoole_datafile_prepared.check'
@@ -121,7 +117,7 @@ rule Input_Data_Interfacing_otoole:
         if [ -f data/.snakemake_timestamp ]; then
             rm data/.snakemake_timestamp
         fi
-        
+
         otoole convert csv datafile {input.datapackage} {output[0]} {params} 2> {log}
         touch {output[1]}
         '''
@@ -142,8 +138,6 @@ rule make_RES:
         otoole viz res datafile {input[1]} {output} {params}
         '''
 
-
-
 # Preprocessing the data after Otoole Creates the "data.txt" file
 # INPUT is the output datafile (.txt) from Otoole Rule + Model File + preprocessing python script , OUTPUT is another datafile in same format.
 ### >>> Future scope: xxx
@@ -158,42 +152,68 @@ rule Preprocess_data:
     shell:
         'python {input.script} {input.data_in} {output.data_out} {input.model} {output.processed_model}'
 
-
-# Creating directory if it doesn't exist. This directory is a REQUIREMENT for GLPK solver's output TABLE (tout) writing
-if not os.path.isdir('res/csv'):
-    os.makedirs('res/csv')
-
 # Rule for MODEL RUN.
 # INPUT is the result of pre-processing data rule and OUTPUT is the ./res/csv folder with result CSV files.
-### >>> Future scopes: 
-    # to verify a prescribed list of output CSV files inside "res/csv" folder
-    # to include CBC/Gurobi solvers
-    # introducing a CONFIG file where user choose the solver
-# !!!!!! Issues:  (Installation of CBC solver needs to be resolved)
+### >>> Future scopes: xxx
+if not os.path.isdir('LP_file'):
+    os.makedirs('LP_file')
+
 rule RUN_MODEL:
     input:
         data='processed_data.txt',
-        # model='model/model_BCNexus.txt',
-        model='processed_model_BCNexus.txt',
+        model='processed_model_BCNexus.txt'
     output:
         'LP_file/BCNexus.lp',
-        'check_flags/Solution_found.check'
-    threads: 4
+        'docs/CBC_solution.sol'
+    threads: 8
     shell:
         '''
-        glpsol -m {input.model} -d {input.data} --wlp {output[0]}
+        if test -d "{output[0]}" && ! test -d "{output[1]}"; then
+            cbc "{output[0]}" solve -solu "{output[1]}"
+        else
+            glpsol -m "{input.model}" -d "{input.data}" --wlp "{output[0]}" --check
+            cbc "{output[0]}" solve -solu "{output[1]}"
+        fi
+        '''
+
+if not os.path.isdir('results'):
+    os.makedirs('results')
+    
+rule Output_Data_Interfacing_otoole:
+    message:
+        'Generating result files...'
+    input:
+        'docs/CBC_solution.sol'
+    output:
+        directory("results"),
+        'check_flags/otoole_ResultsFile_genrated.check'
+    params:
+        'config_files/otoole_config.yaml'
+    conda:
+        'envs/otoole.yml'
+    shell:
+        '''
+        otoole results cbc csv {input} results {params}
         touch {output[1]}
         '''
 
 rule Visualization:
     input:
-        'check_flags/Solution_found.check',
-        'Scripts/TotalAnnualCapacity_PLOT.py'
+        'check_flags/otoole_ResultsFile_genrated.check',
+        'Scripts/Capacity_VIS.py',
+        'Scripts/Energy_VIS.py',
+        'Scripts/Emission_VIS.py',
+        'Scripts/Landuse_VIS.py',
+        'Scripts/Dashboard.py',
     output:
         'check_flags/Plots_generated.check'
     shell:
         '''
         python {input[1]}
+        python {input[2]}
+        python {input[3]}
+        python {input[4]}
+        python {input[5]}
         touch {output}
         '''
 
@@ -212,75 +232,20 @@ onerror:
 rule clean:
     message:
         'Resetting to defaults and cleaning existing data...'
-    
     shell:
         '''
         read -p "Do you want to clean the existing results? (y/n): " clean_choice
         if [[ "$clean_choice" == "y" ]]; then
-            # Perform the clean operation
+                        
+            # Deletes Spefic Files
+            rm -f data.xlsx data.txt processed_data.txt processed_model_BCNexus.txt Modelist.txt docs/Run_Summary.txt 
+
+            # Deletes all files/specific extension under directories
+            rm -rf logs/* docs/* LP_file/*.svg results/* user_inputs/Sets/clewsy_output/*.csv check_flags/*.check
             
+            # Remove entire folder
+            rm -rf data
             
-            if [ -f data.txt ]; then
-                rm data.txt
-            fi
-
-            if [ -f processed_data.txt ]; then
-                rm processed_data.txt
-            fi
-
-            if [ -f processed_model_BCNexus.txt ]; then
-                rm processed_model_BCNexus.txt
-            fi
-
-            if [ -d logs ]; then
-                rm -rf logs/*
-            fi
-
-            if [ -d docs ]; then
-                rm -rf docs/*
-            fi
-
-            if [ -d LP_file ]; then
-                rm -rf LP_file/*
-            fi
-
-            if [ -f Modelist.txt ]; then
-                rm -rf Modelist.txt
-            fi
-
-            if [ -f user_inputs/Sets/CLEWsy_outputs ]; then
-                rm -rf user_inputs/Sets/CLEWsy_outputs/*.csv
-            fi
-    
-
-            if [ -f docs/Run_Summary ]; then
-                rm docs/Run_Summary.txt
-            fi
-
-            if [ -d res/csv ]; then
-                rm -rf res/csv/*
-            fi
-
-            if [ -d data ]; then
-                rm -rf data
-            fi
-
-            if [ -d user_inputs/Sets/clewsy_output]; then
-                rm -rf user_inputs/Sets/clewsy_output/*
-            fi
-            
-            if [ -d check_flags]; then
-                rm -rf check_flags/*.check
-            fi
-            
-            if [ -d docs/Results_plots/yearly_capacity.png]; then
-                rm docs/Results_plots/yearly_capacity.png
-            fi
-
-            if [ -d data.xlsx]; then
-                rm data.xlsx
-            fi
-
             echo "Existing results cleaned."
         else
             echo "No cleaning operation performed."
@@ -288,25 +253,15 @@ rule clean:
         fi
         '''
 
+
 ###############################################################################
 #>>>> OVERALL Future scopes: 
-
-# define a rule for output visualization
-# the RUN_MODEL rule runs everytime as I defined the OUTPUT of the rule as LP file, have to find a way to define the specific list of outputs (CSV files).
-# modify rules for wildcards inclusion + Scenario based data sources
-# introduce rules for MODEL SHELL creating via CLEWsy > SET csv files and merge with scenario dependent files.
 # to create pipeline of data sources to generate scenario dependent CSV files
 # Technical/Temporal/Spatial resolution tweaking via parallel rules e.g. if the resolution is same,don't run all rules.
-
-# !!!!!! Issues:  Prepare scripts for output visualization
+# Prepare more scripts for output visualization
 ##############################################################################
 
 
-#######################>>>>>>>>>>>>>>>>>>------------------<<<<<<<<<<#####################
-# DISCUSSION POINTS:
-# Should I work on visualization right now ?
-# Should I split it to separate .smk files ?
-#######################>>>>>>>>>>>>>>>>>>------------------<<<<<<<<<<#####################
 rule datafile_to_Excel:
     input:
         'config_files/otoole_config.yaml'
