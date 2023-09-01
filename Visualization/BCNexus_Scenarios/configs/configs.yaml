@@ -1,6 +1,6 @@
 SCENARIOS: {'REF','AGG','100-ELC','100-ELC-CO2reduction','100-ELC-NoGeo','100-ELC-Nuc(10GW)','100-ELC-Nuc(10GW)+NoBio'}
 
-output_directory : "./plots"
+output_directory : "plots"
 Nexus_results_directory : "/home/eliasinul/Visualizations/BCNexus_Scenarios/results"
 
 
