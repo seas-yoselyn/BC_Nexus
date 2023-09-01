@@ -1,21 +1,15 @@
-# import tools
-
-# config_file = r"/home/eliasinul/Visualizations/BCNexus_Scenarios/config/configs.yaml"
-# cfg =tools.load_config(config_file)
-
-rule Visualization:
+rule visualization:
     input:
-        'Scripts/Capacity_VIS.py',
-        'Scripts/Emission_VIS.py',
-        'Scripts/Energy_VIS.py',
-        'Scripts/Landuse_VIS.py'
-    output:
-        'check_flags/Plots_generated.check'
+        capacity="Scripts/Capacity_VIS.py",
+        emission="Scripts/Emission_VIS.py",
+        energy="Scripts/Energy_VIS.py",
+        landuse="Scripts/Landuse_VIS.py"
+
     shell:
         '''
-        python {input[0]}&
-        python {input[1]}&
-        python {input[2]}&
-        python {input[3]}
-        touch {output}
+        python {input.capacity}
+        python {input.emission}
+        python {input.energy}
+        python {input.landuse}
         '''
+
