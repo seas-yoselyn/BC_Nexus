@@ -31,17 +31,6 @@ rule make_graphs:
         snakemake --filegraph | dot -Tsvg -o {output[2]}
         '''
 
-rule Temporal_Resolution_config:
-    # input:
-    #     ''
-    output:
-        'check_flags/Temporal_configuration_completed.check'
-    # dot:
-        # 'shape=box,color=red,style=bold'
-    shell:
-        'touch {output}'
-
-
 # Generating the MODEL SHELL (i.e. SETS) with clewsy tool
 configfile: 'config_files/20230302_BCNexus_CLEWsy.yaml'
 
@@ -49,7 +38,6 @@ rule Model_Shell:
     message:
         'check_flags/Collecting the data files...'
     input:
-        'check_flags/Temporal_configuration_completed.check',
         Input_files = 'user_inputs',
         CLEW_Config_file = 'config_files/20230302_BCNexus_CLEWsy.yaml'
     output:
@@ -61,24 +49,6 @@ rule Model_Shell:
         [ -d {output[0]} ] && echo "BC NEXUS - SETS files Created Successfully." || echo "Model Shell Creation failed !!!"
         touch {output[1]}
         '''
-rule Scenario_setup:
-    input:
-        'check_flags/Temporal_configuration_completed.check',
-    output:    
-        'check_flags/Scenario_Setup_configuration_completed.check'       
-    shell:
-        'touch {output}'
-
-include : 'DemandData_pipeline.smk'
-
-rule Data_pipeline:
-    input:
-        'check_flags/DemandData_updated.check',
-        'check_flags/Scenario_Setup_configuration_completed.check'
-    output:
-        'check_flags/Data_Updated.check'
-    shell:
-        'touch {output}'
 
 # Collect the MODEL SHELL from clewsy and the other user input PARAMETERS' CSV files from different folders and store them in a single directory 'data'
 rule Scenario_Data_Files:
