@@ -5,7 +5,7 @@ You can try any of the following method
 ### METHOD 1
 clone this [repository](https://github.com/DeltaE/BC-CLEWS-Model/tree/main/workflow) and then run the following cmd in WSL bash
 ```
-conda env create -f .\envs\snakemake_environment.yml
+conda env create -f envs/snakemake_environment.yml
 ```
 ```
 conda activate snakemake
