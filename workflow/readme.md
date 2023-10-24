@@ -17,7 +17,7 @@ Snakemake has been used to design the workflow. It is popular open-source tool w
 >### METHOD 1
 clone this [__BC-CLEWS-Model__ repository](https://github.com/DeltaE/BC-CLEWS-Model/tree/main/workflow) and then run the following cmd in _WSL/Linux bash_
 ```
-conda env create -f envs\snakemake_environment.yml
+conda env create -f envs/snakemake_environment.yml
 ```
 ```
 conda activate snakemake
@@ -35,7 +35,7 @@ conda update -c bioconda snakemake
 > ### METHOD 2 (alternate)
 ```
 conda create -n snakemake python=3
-conda env update -f envs\snakemake_environment.yml
+conda env update -f envs/snakemake_environment.yml
 
 ```
 ```
