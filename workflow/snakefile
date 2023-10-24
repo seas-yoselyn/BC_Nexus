@@ -5,8 +5,6 @@ from snakemake.utils import min_version
 min_version("7.0")
 from pathlib import Path
 
-
-
 # Define the rule all and the input is the file to generate which requires all associated rules to play.
 ### >>> Future Scope: Checks needed for required DIRECTORIES structure. If not available then MAKE DIRECTORIES
 rule Results:
