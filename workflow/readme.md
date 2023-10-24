@@ -8,14 +8,14 @@ Snakemake has been used to design the workflow. It is popular open-source tool w
 
 ## Step 1: Workspace setup
 ### 1.1 Initiate Linux/ WSL
->[Install WSL on Windows OS](https://learn.microsoft.com/en-us/windows/wsl/install)
+[Install WSL on Windows OS](https://learn.microsoft.com/en-us/windows/wsl/install)
 ### 1.2 Anaconda
-[Install Anaconda on WSL/Linux](https://gist.github.com/kauffmanes/5e74916617f9993bc3479f401dfec7da)
+[Steps to Install Anaconda on Windows Ubuntu Terminal](https://gist.github.com/kauffmanes/5e74916617f9993bc3479f401dfec7da)
 
 ## Step 2: Set-up snakemake
 
 >### METHOD 1
-clone this [repository](https://github.com/DeltaE/BC-CLEWS-Model/tree/main/workflow) and then run the following cmd in _WSL/Linux bash_
+clone this [__BC-CLEWS-Model__ repository](https://github.com/DeltaE/BC-CLEWS-Model/tree/main/workflow) and then run the following cmd in _WSL/Linux bash_
 ```
 conda env create -f .\envs\snakemake_environment.yml
 ```
@@ -44,21 +44,23 @@ conda install -c bioconda -c conda-forge snakemake
 ```
 
 ## Step 3: Run the Workflow
-### 3.1:
+### 3.1: Directory Set-up
+After clonning __BC-CLEWS-Model__ repo, then change the Directory to the "__workflow__" folder
 ```
-cd <your/workflow/clonned/directory>
+cd <your "workflow" folder directory inside clonned repo>
 ```
 
-> You can define the number of cores, or simply write "all" to utilize all available cores.
+> You can define the number of cores, or simply write "__all__" to utilize all available cores.
 ```
 snakemake -c all
 ```
 
-### 3.2:
+### 3.2: Directed acyclic graph (DAG) creation.
+You can check the DAG to cross-check the rules' execution. You can find the DAG @ 'workflow\docs\__BCNexus_workflow_dag.svg__'
 ```
 snakemake -c 4 make_dag
 ```
-
+### 3.3: Cleaning up residual files and check flags to run a fresh workflow.
 * To remove the residual data and files*
 ```
 snakemake -c 4 clean
