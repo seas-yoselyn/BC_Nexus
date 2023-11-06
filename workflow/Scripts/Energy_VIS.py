@@ -7,14 +7,12 @@ import numpy as np
 output_directory = "./docs/Results_plots"
 
 # Input CSV files' Directory
-directory_path = r"/home/eliasinul/BC-Nexus-Snakemake/results"
+# directory_path = r"/home/eliasinul/BC-Nexus-Snakemake/results"
+directory_path=os.getcwd()
 filenames= ["TotalTechnologyAnnualActivity.csv"]
 filenames_mapping={
     'TotalTechnologyAnnualActivity.csv':'Generation'
 }
-
-
-
 # Create the directory if it doesn't exist
 os.makedirs(output_directory, exist_ok=True)
 

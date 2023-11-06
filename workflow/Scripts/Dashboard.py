@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 
 # Set the output Directory path
-output_directory = "./docs/Results_plots"
+output_directory = "docs/Results_plots"
 # Get a list of all PNG files in the output directory
 plot_files = [filename for filename in os.listdir(output_directory) if filename.lower().endswith('.png')]
 

@@ -4,7 +4,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # Input CSV files' Directory
-directory_path = r"/home/eliasinul/BC-Nexus-Snakemake/results"
+# directory_path = r"/home/eliasinul/BC-Nexus-Snakemake/results"
+directory_path=os.getcwd()
+
 filenames= ["NewCapacity.csv","TotalCapacityAnnual.csv"]
 filenames_mapping={
     'NewCapacity.csv':'New Capacity',

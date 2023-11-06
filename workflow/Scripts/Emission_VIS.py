@@ -7,7 +7,8 @@ import numpy as np
 output_directory = "./docs/Results_plots"
 
 # Input CSV files' Directory
-directory_path = r"/home/eliasinul/BC-Nexus-Snakemake/results"
+# directory_path = r"/home/eliasinul/BC-Nexus-Snakemake/results"
+directory_path=os.getcwd()
 
 filenames= ["AnnualEmissions.csv","AnnualTechnologyEmission.csv"]
 

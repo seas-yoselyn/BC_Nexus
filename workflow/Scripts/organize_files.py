@@ -25,7 +25,7 @@ def collect_csv_files(source_dir, destination_dir):
 
         if os.path.isfile(item_path) and item.lower().endswith(".csv"):
             # Rename the specific CSV file if the path matches
-            if item_path == "./user_inputs/Sets/CLEWsy_outputs/COMMODITY.csv":
+            if item_path == "user_inputs/Sets/CLEWsy_outputs/COMMODITY.csv":
                 destination_file = os.path.join(destination_dir, "FUEL.csv")
                 shutil.copy(item_path, destination_file)
             else:
@@ -33,8 +33,8 @@ def collect_csv_files(source_dir, destination_dir):
                 shutil.copy(item_path, destination_dir)
 
 # Define the source directory and destination directory
-source_directory = "./user_inputs"
-destination_directory = "./data"
+source_directory = "user_inputs"
+destination_directory = "data"
 
 # Collect CSV files from specific folders in the source directory and copy them to the destination directory
 collect_files(source_directory, destination_directory)
