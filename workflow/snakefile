@@ -7,11 +7,12 @@ from pathlib import Path
 
 # Define the rule all and the input is the file to generate which requires all associated rules to play.
 ### >>> Future Scope: Checks needed for required DIRECTORIES structure. If not available then MAKE DIRECTORIES
+
 rule Results:
     input:
         'check_flags/Plots_generated.check',
         'check_flags/otoole_ResultsFile_genrated.check',
-        'docs/BCNexus_RES.png'
+        'RES/BCNexus_RES.png'
 
 # Rule for generating the DAG
 rule make_graphs:
@@ -52,7 +53,7 @@ rule Model_Shell:
 rule Scenario_Data_Files:
     input:
         'check_flags/Model_shell_complete.check',
-        'check_flags/Data_Updated.check',
+        # 'check_flags/Data_Updated.check',
         organize_files='Scripts/organize_files.py'
     output:
         directory('data'),
@@ -96,7 +97,7 @@ rule make_RES:
         'check_flags/otoole_datafile_prepared.check',
         'data.txt'
     output:
-        'docs/BCNexus_RES.png'
+        'RES/BCNexus_RES.png'
     params:
         'config_files/otoole_config.yaml'
     conda:
@@ -161,7 +162,7 @@ rule Output_Data_Interfacing_otoole:
         'envs/otoole.yml'
     shell:
         '''
-        otoole results cbc csv {input} results {params}
+        otoole results cbc csv {input} results csv data {params}
         touch {output[1]}
         '''
 
@@ -212,7 +213,7 @@ rule clean:
             rm -rf logs/* docs/* LP_file/*.svg results/* user_inputs/Sets/clewsy_output/*.csv check_flags/*.check
             
             # Remove entire folder
-            rm -rf data
+            # rm -rf data
             
             echo "Existing results cleaned."
         else
