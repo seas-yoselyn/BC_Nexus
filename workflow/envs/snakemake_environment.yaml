@@ -1,4 +1,4 @@
-name: ss
+name: snakemake
 channels:
   - bioconda
   - conda-forge
@@ -244,7 +244,10 @@ dependencies:
     - pydantic-core==2.10.1
     - pydot==1.4.2
     - pymongo==4.5.0
-    - python-graphviz==0.20.1
+    - python-graphviz
     - v==1
     - xlrd==2.0.1
+    - clewsy
+    - otoole==1.1.0
+
 prefix: /home/eliasinul/miniconda3/envs/snakemake
