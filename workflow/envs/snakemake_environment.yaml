@@ -4,6 +4,7 @@ channels:
   - conda-forge
   - defaults
 dependencies:
+  - conda-forge::python-graphviz
   - _libgcc_mutex=0.1=conda_forge
   - _openmp_mutex=4.5=2_kmp_llvm
   - abseil-cpp=20220623.0=h8cdb687_6
@@ -244,7 +245,6 @@ dependencies:
     - pydantic-core==2.10.1
     - pydot==1.4.2
     - pymongo==4.5.0
-    - python-graphviz
     - v==1
     - xlrd==2.0.1
     - clewsy
