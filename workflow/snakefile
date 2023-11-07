@@ -79,8 +79,8 @@ rule Input_Data_Interfacing_otoole:
         'config_files/otoole_config.yaml'
     log:
         log='logs/otoole_convert.log'
-    conda:
-        'envs/otoole.yml'
+    # conda:
+    #     'envs/otoole.yml'
     shell:
         '''
         if [ -f data/.snakemake_timestamp ]; then
@@ -90,6 +90,10 @@ rule Input_Data_Interfacing_otoole:
         otoole convert csv datafile {input.datapackage} {output[0]} {params} 2> {log}
         touch {output[1]}
         '''
+
+if not os.path.isdir('RES'):
+    os.makedirs('RES')
+
 rule make_RES:
     message:
         'Creating Reference Energy System (RES)...'
@@ -100,8 +104,8 @@ rule make_RES:
         'RES/BCNexus_RES.png'
     params:
         'config_files/otoole_config.yaml'
-    conda:
-        'envs/otoole.yml'
+    # conda:
+    #     'envs/otoole.yml'
     shell:
         '''
         otoole viz res datafile {input[1]} {output} {params}
@@ -158,8 +162,8 @@ rule Output_Data_Interfacing_otoole:
         'check_flags/otoole_ResultsFile_genrated.check'
     params:
         'config_files/otoole_config.yaml'
-    conda:
-        'envs/otoole.yml'
+    # conda:
+    #     'envs/otoole.yml'
     shell:
         '''
         otoole results cbc csv {input} results csv data {params}
@@ -236,8 +240,8 @@ rule datafile_to_Excel:
         'config_files/otoole_config.yaml'
     output:
         'data.xlsx'
-    conda:
-        'envs/otoole.yml'
+    # conda:
+    #     'envs/otoole.yml'
     shell:
         'otoole convert csv excel data {output} {input}'
 
