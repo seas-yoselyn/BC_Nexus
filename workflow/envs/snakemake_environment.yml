@@ -5,6 +5,7 @@ channels:
   - defaults
 dependencies:
   - _libgcc_mutex
+  - matplotlib
   - _openmp_mutex
   - abseil-cpp
   - aioeasywebdav
