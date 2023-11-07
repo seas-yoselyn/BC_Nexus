@@ -8,7 +8,7 @@ output_directory = "./docs/Results_plots"
 
 # Input CSV files' Directory
 # directory_path = r"/home/eliasinul/BC-Nexus-Snakemake/results"
-directory_path=os.getcwd()
+directory_path=os.path.join(os.getcwd(),"results")
 filename = "TotalAnnualTechnologyActivityByMode.csv"
 file = os.path.join(directory_path, filename)
 
