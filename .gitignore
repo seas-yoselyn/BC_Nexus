@@ -18,3 +18,5 @@ bin-release/
 # information for Eclipse / Flash Builder.
 
 note_accessing_git_through_linux.txt
+workflow/LP_file/*
+workflow/.snakemake/*
