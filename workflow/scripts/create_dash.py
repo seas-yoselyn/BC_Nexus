@@ -23,7 +23,7 @@ def combine_plots_for_dash(plots_html_directory,combined_plot_name):
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-    <div class='title'>CLEWS Kenya (preliminary results)</div>
+    <div class='title'>CLEWs-BC results (case : REF)</div>
 """
 
     for content in html_contents:
