@@ -1,44 +1,22 @@
 
-    /* Add borders to subplots */
-.subplot {
-    width: 45%; /* Adjust width as needed */
-    height: auto;
-    display: inline-block;
-    margin: 2px;
-    vertical-align: top;
-    border: 1px solid #ccc; /* Add a solid border with a light gray color */
-    padding: 10px; /* Add padding inside the subplot */
-}
+    .subplot {
+        width: 45%;
+        height: 60%;
+        display: inline-block;
+        margin: 5px 8px;
+        vertical-align: top;
+        padding: 10px;
+        border: 1px solid #ccc;
+        box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    }
 
-/* Add box shadows to subplots */
-.subplot {
-    width: 45%; /* Adjust width as needed */
-    height: auto;
-    display: inline-block;
-    margin: 2px;
-    vertical-align: top;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.1); /* Add a subtle box shadow */
-    padding: 10px; /* Add padding inside the subplot */
-}
+    /* Add grid lines to subplots */
+    .subplot table {
+        border-collapse: collapse;
+    }
 
-/* Add grid lines to subplots */
-.subplot {
-    width: 45%; /* Adjust width as needed */
-    height: auto;
-    display: inline-block;
-    margin: 2px;
-    vertical-align: top;
-    border: 1px solid #ccc; /* Add a solid border with a light gray color */
-    padding: 10px; /* Add padding inside the subplot */
-}
-
-.subplot table {
-    border-collapse: collapse; /* Collapse table borders */
-}
-
-.subplot th, .subplot td {
-    border: 1px solid #ddd; /* Add borders to table cells */
-    padding: 8px; /* Add padding to table cells */
-}
-
+    .subplot th, .subplot td {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
     

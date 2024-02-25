@@ -3,42 +3,21 @@ import pandas as pd
 import numpy as np
 import plotly.graph_objs as go
 from plotly.offline import plot
+import utilities as utils
 
-# Set the output Directory path
-output_directory = os.path.join(os.getcwd(), "docs/Results_plots")
 
-# Input CSV files' Directory
-directory_path = os.path.join(os.getcwd(), "results")
-# directory_path='/home/eliasinul/repositories/CLEWs_Kenya/workflow/results'
-
-filenames = ["AnnualEmissions.csv", "AnnualTechnologyEmission.csv"]
-
-filenames_mapping = {
-    'AnnualTechnologyEmission.csv': 'Emission by Sector',
-    'AnnualEmissions.csv': 'Emission'
-}
-
-# Define the technologies and colors
-technologies = ['DEMAGR', 'DEMCOM', 'DEMIND', 'DEMRES', 'DEMTRA']
-custom_colors = {
-    'DEMAGR': '#C57F7B',
-    'DEMCOM': '#65B465',
-    'DEMIND': '#B3B3B3',
-    'DEMRES': '#87B4D7',
-    'DEMTRA': '#676767',
-}
-
-# Legend label dictionary
-legend_labels = {
-    'DEMRES': 'Residential',
-    'DEMIND': 'Industrial',
-    'DEMTRA': 'Transport',
-    'DEMAGR': 'Agricultural',
-    'DEMCOM': 'Commercial'
-}
+visual_configs = utils.load_config('config_files/visualization_configs.yaml')
+model_results_direc = os.path.join(os.getcwd(), "results")
+plots_direc = os.path.join(os.getcwd(), "docs/Results_plots")
+os.makedirs(plots_direc, exist_ok=True)
+filenames = visual_configs['emission_plots']['filenames']
+filenames_mapping = visual_configs['emission_plots']['filenames_mapping']
+technologies = visual_configs['emission_plots']['technologies']
+custom_colors = visual_configs['emission_plots']['custom_colors']
+legend_labels = visual_configs['emission_plots']['legend_labels']
 
 for filename in filenames:
-    file = os.path.join(directory_path, filename)
+    file = os.path.join(model_results_direc, filename)
     df_file = pd.read_csv(file)
 
     if filename == 'AnnualEmissions.csv':
@@ -55,8 +34,8 @@ for filename in filenames:
                           plot_bgcolor='rgba(0, 0, 0, 0)')
 
         # Save the plot as an HTML file in the specified directory
-        html_filename = f'{output_directory}/{filenames_mapping[filename]}.html'
-        plot(fig, filename=html_filename, auto_open=False)
+        html_filename = f'{plots_direc}/{filenames_mapping[filename]}.html'
+        fig.write_html(html_filename, include_plotlyjs='cdn')
         
     else:
         # Create a list to hold traces for the stacked bar chart
@@ -81,8 +60,8 @@ for filename in filenames:
         fig = go.Figure(data=traces, layout=layout)
 
         # Save the plot as an HTML file in the specified directory
-        html_filename = f'{output_directory}/{filenames_mapping[filename]}.html'
+        html_filename = f'{plots_direc}/{filenames_mapping[filename]}.html'
         # plot(fig, filename=html_filename, auto_open=False)
         fig.write_html(html_filename, include_plotlyjs='cdn')
 
-print(f"Emission Plots generated successfully and saved as HTML files to the output directory: {output_directory}")
+print(f"Emission Plots generated successfully and saved as HTML files to the output directory: {plots_direc}")

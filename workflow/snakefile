@@ -193,9 +193,9 @@ rule visualization_static:
 rule visualization_interactive:
     input:
         check_flag_1='check_flags/otoole_ResultsFile_genrated.check',
-        capacity_plots_interactive='scripts/Capacity_VIS_v2.py',
+        capacity_plots_interactive='scripts/Capacity_VIS_v3.py',
         energy_plots_interactive='scripts/Energy_VIS_v2.py',
-        emission_plots_interactive='scripts/Emission_VIS_v2.py',
+        emission_plots_interactive='scripts/Emission_VIS_v3.py',
         landuse_plots_interactive='scripts/Landuse_VIS_v2.py',
         dashboard_plots_interactive='scripts/create_dash.py',
     output:

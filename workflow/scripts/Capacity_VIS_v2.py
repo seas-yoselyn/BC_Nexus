@@ -1,62 +1,35 @@
 # %%
 import os
 import pandas as pd
-import matplotlib.pyplot as plt
 import numpy as np
-
-# %%
-# Input CSV files' Directory
-# directory_path = r"/home/eliasinul/BC-Nexus-Snakemake/results"
-directory_path=os.path.join(os.getcwd(),"results")
-# directory_path='/home/eliasinul/repositories/CLEWs_Kenya/workflow/results'
-
-# %%
-filenames= ["NewCapacity.csv","TotalCapacityAnnual.csv"]
-filenames_mapping={
-    'NewCapacity.csv':'New Capacity',
-    'TotalCapacityAnnual.csv':'Total Capacity'
-}
-
-# %%
-# Set the output Directory path
-output_directory = os.path.join(os.getcwd(), "docs/Results_plots")
-
-# %%
-# Create the directory if it doesn't exist
-os.makedirs(output_directory, exist_ok=True)
-
-# %%
-# Define the technologies and colors
-technologies = ['PWRBIO','PWRHYD','PWRNGS',  'PWRSOL', 'PWRWND', 'PWRGEO', 'PWRURN']
-custom_colors = {
-    'PWRWND': '#DDB3F9',
-    'PWRNGS': '#D27A78',
-    'PWRBIO': '#5BAB59',
-    'PWRHYD': '#86B4D8',
-    'PWRSOL': '#FEE566',
-    'PWRGEO': '#B067B3',
-    'PWRURN': 'gray'
-}
-
-# %%
-# Legend label dictionary
-legend_labels = {
-    'PWRWND': 'Wind',
-    'PWRNGS': 'Natural Gas',
-    'PWRBIO': 'Biomass/Biofuel',
-    'PWRHYD': 'Hydro',
-    'PWRSOL': 'Solar',
-    'PWRGEO': 'Geothermal',
-    'PWRURN': 'Nuclear'
-}
-
-# %%
 import plotly.graph_objs as go
 from plotly.offline import iplot
+import utilities as utils
 
-# Iterate through each filename
+# %%
+# Load Visual Config File
+visual_configs=utils.load_config('config_files/visualization_configs.yaml')
+
+# Input CSV files' Directory
+model_results_direc=os.path.join(os.getcwd(),"results")
+
+# Set the output Directory path
+plots_direc = os.path.join(os.getcwd(), "docs/Results_plots")
+os.makedirs(plots_direc, exist_ok=True)
+# %%
+# define .csv filenames required for the plots
+filenames= visual_configs['capacity_plots']['filenames']
+filenames_mapping=visual_configs['capacity_plots']['filenames_mapping']
+
+# Define the technologies and colors from config file
+technologies = visual_configs['capacity_plots']['technologies']
+custom_colors = visual_configs['capacity_plots']['custom_colors']
+legend_labels = visual_configs['capacity_plots']['legend_labels']
+
+# %%
+
 for filename in filenames:
-    file = os.path.join(directory_path, filename)
+    file = os.path.join(model_results_direc, filename)
     df_file = pd.read_csv(file)
 
     # Create an empty dictionary for yearly summed values
@@ -103,9 +76,9 @@ for filename in filenames:
     fig = go.Figure(data=traces, layout=layout)
 
     # Save the plot as an HTML file in the specified directory
-    html_filename = f'{output_directory}/{filenames_mapping[filename]}.html'
+    html_filename = f'{plots_direc}/{filenames_mapping[filename]}.html'
     fig.write_html(html_filename)
 
-print(f"Capacity Plots generated successfully and saved as HTML files to the output directory: {output_directory}")
+print(f"Capacity Plots generated successfully and saved as HTML files to the output directory: {plots_direc}")
 
 
