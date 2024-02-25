@@ -34,26 +34,26 @@ def combine_plots_for_dash(plots_html_directory,combined_plot_name):
     with open(combined_plot_name, 'w') as file:
         return file.write(combined_html)
 
-def create_style_css(file_path):
-    css_content = """
-    .subplot {
-        width: 45%; /* Adjust width as needed */
-        display: inline-block;
-        margin: 2px;
-        vertical-align: top;
-    }
-    .title {
-        font-weight: bold;
-        font-size: 24px;
-        text-align: center;
-        margin-bottom: 0px;
-    }
-    """
-    with open(file_path, 'w') as file:
-        file.write(css_content)
+# def create_style_css(file_path):
+#     css_content = """
+#     .subplot {
+#         width: 45%; /* Adjust width as needed */
+#         display: inline-block;
+#         margin: 2px;
+#         vertical-align: top;
+#     }
+#     .title {
+#         font-weight: bold;
+#         font-size: 24px;
+#         text-align: center;
+#         margin-bottom: 0px;
+#     }
+#     """
+#     with open(file_path, 'w') as file:
+#         file.write(css_content)
 
 if __name__ == "__main__":
     plots_html_directory = "docs/Results_plots"
     combine_plots_for_dash(plots_html_directory, 'index.html')
-    create_style_css("style.css")
+    # create_style_css("style.css")
     print(f"Interactive Dashboard Created and saved as index.html. \nstyle.css file created")

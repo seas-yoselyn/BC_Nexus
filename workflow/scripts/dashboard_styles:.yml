@@ -1,0 +1,13 @@
+styles:
+  subplot:
+    width: 45%
+    display: inline-block
+    margin: 2px
+    vertical-align: top
+    border: 1px solid #ccc
+    padding: 10px
+  title:
+    font-weight: bold
+    font-size: 24px
+    text-align: center
+    margin-bottom: 0px
