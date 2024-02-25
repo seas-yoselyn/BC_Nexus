@@ -199,7 +199,9 @@ rule visualization_interactive:
         landuse_plots_interactive='scripts/Landuse_VIS_v2.py',
         dashboard_plots_interactive='scripts/create_dash.py',
     output:
-        check_flag_1='check_flags/interactive_Plots_generated.check'
+        check_flag_1='check_flags/interactive_Plots_generated.check',
+        # dashboard='index.html',
+        # dashboard_css_style='style.css',
     shell:
         '''
         python {input.capacity_plots_interactive}
