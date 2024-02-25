@@ -4,7 +4,7 @@ interactive_dashboard:
     font_size : "32px"
     font_color : "#00008B"
     plot_width: '45%'
-    plot_height: '60%'
+    plot_height: '80%'
     index_html_directory: '/home/eliasinul/repositories/BC-CLEWS-Model/index.html'
     style_css_directory : '/home/eliasinul/repositories/BC-CLEWS-Model/style.css'
 
