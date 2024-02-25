@@ -1,8 +1,8 @@
 # Original Version: OSeMOSYS_2016_08_01_short
-# Original Version: OSeMOSYS_2016_08_01_short
+
 ###### Changelog #######
-#2022_11_10 : Defining parameter under the STORAGE set @line127 of this code >> param DiscountRateStorage{r in STORAGE};
-#line 71-75 added to aid the processed data file after 'preprocess_data.py' script run on input data file
+# 2022_11_10 : Defining parameter under the STORAGE set @line127 of this code >> param DiscountRateStorage{r in STORAGE};
+# line 71-75 added to aid the processed data file after 'preprocess_data.py' script run on input data file
 
 # Open Source energy MOdeling SYStem
 #
@@ -66,7 +66,7 @@ set REGION;
 set SEASON;
 set DAYTYPE;
 set DAILYTIMEBRACKET;
-set FLEXIBLEDEMANDTYPE;
+set FLEXIBLEDEMANDTYPE; 
 set STORAGE;
 
 set MODEperTECHNOLOGY{TECHNOLOGY} within MODE_OF_OPERATION;

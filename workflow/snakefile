@@ -10,24 +10,25 @@ from pathlib import Path
 
 rule Results:
     input:
-        'check_flags/Plots_generated.check',
-        'check_flags/otoole_ResultsFile_genrated.check',
-        'RES/BCNexus_RES.png'
+        check_flag_static_plots='check_flags/static_Plots_generated.check',
+        check_flag_interactive_plots='check_flags/interactive_Plots_generated.check',
+        check_flag_results_files='check_flags/otoole_ResultsFile_genrated.check',
+        RES_diagram='RES/BCNexus_RES.png'
 
 # Rule for generating the DAG
 rule make_graphs:
     message:
         'Graphs created successfully and saved as "docs/dag.pdf"'
     output:
-        'docs/BCNexus_workflow_dag.svg',
-        'docs/BCNexus_workflow_Rulegraph.svg',
-        'docs/BCNexus_workflow_filegraph.svg',
+        DAG='docs/BCNexus_workflow_dag.svg',
+        RULEGRAPH='docs/BCNexus_workflow_Rulegraph.svg',
+        FILEGRAPH='docs/BCNexus_workflow_filegraph.svg',
     shell:
         '''
         rm -f docs/*.svg
-        snakemake --forceall --dag | dot -Tsvg -Gsize="8.3,11.7" -Gorientation="portrait" -o {output[0]}
-        snakemake --rulegraph | dot -Tsvg -o {output[1]}
-        snakemake --filegraph | dot -Tsvg -o {output[2]}
+        snakemake --forceall --dag | dot -Tsvg -Gsize="8.3,11.7" -Gorientation="portrait" -o {output.DAG}
+        snakemake --rulegraph | dot -Tsvg -o {output.RULEGRAPH}
+        snakemake --filegraph | dot -Tsvg -o {output.FILEGRAPH}
         '''
 
 # Generating the MODEL SHELL (i.e. SETS) with clewsy tool
@@ -38,25 +39,25 @@ rule Model_Shell:
         'check_flags/Collecting the data files...'
     input:
         Input_files = 'user_inputs',
-        CLEW_Config_file = 'config_files/20230302_BCNexus_CLEWsy.yaml'
+        CLEWsy_Config_file = 'config_files/20230302_BCNexus_CLEWsy.yaml'
     output:
-        directory((config['otooleOutputDirectory']).lstrip('./')),
-        'check_flags/Model_shell_complete.check'
+        CLEWsy_outputs=directory((config['otooleOutputDirectory']).lstrip('./')),
+        check_flag_1='check_flags/Model_shell_complete.check'
     shell:
         '''
-        clewsy build {input.CLEW_Config_file}
-        [ -d {output[0]} ] && echo "BC NEXUS - SETS files Created Successfully." || echo "Model Shell Creation failed !!!"
-        touch {output[1]}
+        clewsy build {input.CLEWsy_Config_file}
+        [ -d {output.CLEWsy_outputs} ] && echo "BC NEXUS - SETS files Created Successfully." || echo "Model Shell Creation failed !!!"
+        touch {output.check_flag_1}
         '''
 
 # Collect the MODEL SHELL from clewsy and the other user input PARAMETERS' CSV files from different folders and store them in a single directory 'data'
 rule Scenario_Data_Files:
     input:
-        'check_flags/Model_shell_complete.check',
+        check_flag_1='check_flags/Model_shell_complete.check',
         # 'check_flags/Data_Updated.check',
-        organize_files='Scripts/organize_files.py'
+        organize_files='scripts/organize_files.py'
     output:
-        directory('data'),
+       CLEWs_model_input_data_direc=directory('data'),
         # 'Scenario Data folder Created.check'
     shell:
         '''
@@ -71,24 +72,23 @@ rule Input_Data_Interfacing_otoole:
     message:
         'Creating data file...'
     input:
-        datapackage='data',
+        CLEWs_model_input_data_direc='data',
     output:
-        'data.txt',
-        'check_flags/otoole_datafile_prepared.check'
+        CLEWs_model_input_datafile='data.txt',
+        check_flag_1='check_flags/otoole_datafile_prepared.check'
     params:
         'config_files/otoole_config.yaml'
     log:
         log='logs/otoole_convert.log'
     # conda:
     #     'envs/otoole.yml'
+    # if [ -f data/.snakemake_timestamp ]; then
+    #     rm data/.snakemake_timestamp
+    # fi
     shell:
         '''
-        if [ -f data/.snakemake_timestamp ]; then
-            rm data/.snakemake_timestamp
-        fi
-
-        otoole convert csv datafile {input.datapackage} {output[0]} {params} 2> {log}
-        touch {output[1]}
+        otoole convert csv datafile {input.CLEWs_model_input_data_direc} {output.CLEWs_model_input_datafile} {params} 2> {log}
+        touch {output.check_flag_1}
         '''
 
 if not os.path.isdir('RES'):
@@ -98,17 +98,17 @@ rule make_RES:
     message:
         'Creating Reference Energy System (RES)...'
     input:
-        'check_flags/otoole_datafile_prepared.check',
-        'data.txt'
+        check_flag_1='check_flags/otoole_datafile_prepared.check',
+        CLEWs_model_input_datafile='data.txt'
     output:
-        'RES/BCNexus_RES.png'
+        RES_diagram='RES/BCNexus_RES.png'
     params:
-        'config_files/otoole_config.yaml'
+        otoole_config='config_files/otoole_config.yaml'
     # conda:
     #     'envs/otoole.yml'
     shell:
         '''
-        otoole viz res datafile {input[1]} {output} {params}
+        otoole viz res datafile {input.CLEWs_model_input_datafile} {output.RES_diagram} {params.otoole_config}
         '''
 
 # Preprocessing the data after Otoole Creates the "data.txt" file
@@ -116,14 +116,14 @@ rule make_RES:
 ### >>> Future scope: xxx
 rule Preprocess_data:
     input:
-        data_in='data.txt',
-        model='model/model_BCNexus.txt',
-        script='Scripts/preprocess_data.py'
+        CLEWs_model_input_datafile='data.txt',
+        CLEWs_model='model/model_BCNexus.txt',
+        otoole_preprocessing_script='scripts/preprocess_data.py'
     output:
-        data_out='processed_data.txt',
-        processed_model='processed_model_BCNexus.txt'
+        CLEWs_model_input_datafile_toole_processed='processed_data.txt',
+        CLEWs_model_otoole_processed='processed_model_BCNexus.txt'
     shell:
-        'python {input.script} {input.data_in} {output.data_out} {input.model} {output.processed_model}'
+        'python {input.otoole_preprocessing_script} {input.CLEWs_model_input_datafile} {output.CLEWs_model_input_datafile_toole_processed} {input.CLEWs_model} {output.CLEWs_model_otoole_processed}'
 
 # Rule for MODEL RUN.
 # INPUT is the result of pre-processing data rule and OUTPUT is the ./res/csv folder with result CSV files.
@@ -136,16 +136,16 @@ rule RUN_MODEL:
         data='processed_data.txt',
         model='processed_model_BCNexus.txt'
     output:
-        'LP_file/BCNexus.lp',
-        'docs/CBC_solution.sol'
+        LP_file='LP_file/BCNexus.lp',
+        solution_file='docs/CBC_solution.sol'
     threads: 8
     shell:
         '''
-        if test -d "{output[0]}" && ! test -d "{output[1]}"; then
-            cbc "{output[0]}" solve -solu "{output[1]}"
+        if test -d "{output.LP_file}" && ! test -d "{output.solution_file}"; then
+            cbc "{output.LP_file}" solve -solu "{output.solution_file}"
         else
-            glpsol -m "{input.model}" -d "{input.data}" --wlp "{output[0]}" --check
-            cbc "{output[0]}" solve -solu "{output[1]}"
+            glpsol -m "{input.model}" -d "{input.data}" --wlp "{output.LP_file}" --check
+            cbc "{output.LP_file}" solve -solu "{output.solution_file}"
         fi
         '''
 
@@ -156,38 +156,58 @@ rule Output_Data_Interfacing_otoole:
     message:
         'Generating result files...'
     input:
-        'docs/CBC_solution.sol'
+        solution_file='docs/CBC_solution.sol'
     output:
-        directory("results"),
-        'check_flags/otoole_ResultsFile_genrated.check'
+        results_direc=directory("results"),
+        check_flag_1='check_flags/otoole_ResultsFile_genrated.check'
     params:
-        'config_files/otoole_config.yaml'
+        otoole_config='config_files/otoole_config.yaml'
     # conda:
     #     'envs/otoole.yml'
     shell:
         '''
-        otoole results cbc csv {input} results csv data {params}
-        touch {output[1]}
+        otoole results cbc csv {input.solution_file} results csv data {params.otoole_config}
+        touch {output.check_flag_1}
         '''
 
-rule Visualization:
+rule visualization_static:
     input:
-        'check_flags/otoole_ResultsFile_genrated.check',
-        'Scripts/Capacity_VIS.py',
-        'Scripts/Energy_VIS.py',
-        'Scripts/Emission_VIS.py',
-        'Scripts/Landuse_VIS.py',
-        'Scripts/Dashboard.py',
+        check_flag_1='check_flags/otoole_ResultsFile_genrated.check',
+        capacity_plots_static='scripts/Capacity_VIS.py',
+        energy_plots_static='scripts/Energy_VIS.py',
+        emission_plots_static='scripts/Emission_VIS.py',
+        landuse_plots_static='scripts/Landuse_VIS.py',
+        dashboard_plots_static='scripts/Dashboard.py',
     output:
-        'check_flags/Plots_generated.check'
+        check_flag_1='check_flags/static_Plots_generated.check'
     shell:
         '''
-        python {input[1]}
-        python {input[2]}
-        python {input[3]}
-        python {input[4]}
-        python {input[5]}
-        touch {output}
+        python {input.capacity_plots_static}
+        python {input.energy_plots_static}
+        python {input.emission_plots_static}
+        python {input.landuse_plots_static}
+        python {input.dashboard_plots_static}
+        touch {output.check_flag_1}
+        '''
+
+rule visualization_interactive:
+    input:
+        check_flag_1='check_flags/otoole_ResultsFile_genrated.check',
+        capacity_plots_interactive='scripts/Capacity_VIS_v2.py',
+        energy_plots_interactive='scripts/Energy_VIS_v2.py',
+        emission_plots_interactive='scripts/Emission_VIS_v2.py',
+        landuse_plots_interactive='scripts/Landuse_VIS_v2.py',
+        dashboard_plots_interactive='scripts/create_dash.py',
+    output:
+        check_flag_1='check_flags/interactive_Plots_generated.check'
+    shell:
+        '''
+        python {input.capacity_plots_interactive}
+        python {input.energy_plots_interactive}
+        python {input.emission_plots_interactive}
+        python {input.landuse_plots_interactive}
+        python {input.dashboard_plots_interactive}
+        touch {output.check_flag_1}
         '''
 
 # Execution status messages
