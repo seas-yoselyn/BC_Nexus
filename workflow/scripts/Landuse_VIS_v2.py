@@ -2,81 +2,73 @@ import os
 import pandas as pd
 import numpy as np
 import plotly.graph_objs as go
-
-# Set the output Directory path
-output_directory = os.path.join(os.getcwd(), "docs/Results_plots")
+import utilities as utils
+# Load Visual Config File
+visual_configs=utils.load_config('config_files/visualization_configs.yaml')
 
 # Input CSV files' Directory
-directory_path = os.path.join(os.getcwd(), "results")
-filename = "TotalAnnualTechnologyActivityByMode.csv"
-file = os.path.join(directory_path, filename)
+model_results_direc=os.path.join(os.getcwd(),"results")
 
-# Read the CSV file
-df_file = pd.read_csv(file)
+# Set the output Directory path
+plots_direc = os.path.join(os.getcwd(), "docs/Results_plots")
+os.makedirs(plots_direc, exist_ok=True)
 
-# List of selected technologies
-selected_technologies = ['LNDAGRBC1C01', 'LNDAGRBC1C02', 'LNDAGRBC1C03', 'LNDAGRBC1C04', 'LNDAGRBC1C05', 'LNDAGRBC1C06', 'LNDAGRBC1C07']
+filenames= visual_configs['landuse_plots']['filenames']
+filenames_mapping=visual_configs['landuse_plots']['filenames_mapping']
 
-# Filter technologies that start with 'LND' and are in the selected list
-filtered_df = df_file[df_file['TECHNOLOGY'].str.startswith('LND') & df_file['TECHNOLOGY'].isin(selected_technologies)]
+# Define the technologies and colors from config file
+technologies = visual_configs['landuse_plots']['technologies']
+custom_colors = visual_configs['landuse_plots']['custom_colors']
+legend_labels = visual_configs['landuse_plots']['legend_labels']
 
-# Filter for MODE value of 54
-filtered_df = filtered_df[filtered_df['MODE_OF_OPERATION'] == 54]
+for filename in filenames:
+    file = os.path.join(model_results_direc, filename)
+    df_file = pd.read_csv(file)
 
-# Filter positive values
-positive_technologies = filtered_df[filtered_df['VALUE'] > 0]
+    # Create an empty dictionary for yearly summed values
+    yearly_summed_values = {tech: [] for tech in technologies}
 
-# Pivot the data to have years as columns
-pivot_table = positive_technologies.pivot_table(index='YEAR', columns='TECHNOLOGY', values='VALUE', fill_value=0)
+    # Calculate the yearly summed values for each technology
+    all_years = sorted(set(df_file['YEAR']))
+    for tech in technologies:
+        filtered_df = df_file[df_file['TECHNOLOGY'].str.startswith(tech)]
+        grouped = filtered_df.groupby('YEAR')['VALUE'].sum()
+        yearly_summed_values[tech] = [grouped.get(year, 0) for year in all_years]
 
-# Custom colors and legend labels
-custom_colors = {
-    'LNDAGRBC1C01': '#DDB3F9',
-    'LNDAGRBC1C02': '#D27A78',
-    'LNDAGRBC1C03': '#5BAB59',
-    'LNDAGRBC1C04': '#86B4D8',
-    'LNDAGRBC1C05': '#FEE566',
-    'LNDAGRBC1C06': '#B067B3',
-    'LNDAGRBC1C07': 'gray'
-}
+    # Create a list to hold traces for the stacked bar chart
+    traces = []
 
-legend_labels = {
-    'LNDAGRBC1C01': 'Land resource - Cluster 1',
-    'LNDAGRBC1C02': 'Land resource - Cluster 2',
-    'LNDAGRBC1C03': 'Land resource - Cluster 3',
-    'LNDAGRBC1C04': 'Land resource - Cluster 4',
-    'LNDAGRBC1C05': 'Land resource - Cluster 5',
-    'LNDAGRBC1C06': 'Land resource - Cluster 6',
-    'LNDAGRBC1C07': 'Land resource - Cluster 7'
-}
+    # Generate traces for each technology
+    for i, tech in enumerate(technologies):
+        yearly_sum = yearly_summed_values[tech]
+        if np.any(yearly_sum):
+            trace = go.Bar(
+                x=all_years,
+                y=yearly_sum,
+                name=legend_labels[tech],
+                marker=dict(color=custom_colors[tech]),
+                textposition='auto',
+                hoverinfo='y',
+                hoverlabel=dict(bgcolor='white', bordercolor='gray'),
+            )
+            traces.append(trace)
 
-# Create a list of traces for each technology
-traces = []
-for tech in selected_technologies:
-    trace = go.Bar(
-        x=pivot_table.index,
-        y=pivot_table[tech],
-        name=legend_labels[tech],
-        marker=dict(color=custom_colors[tech])
+    # Create the layout
+    layout = go.Layout(
+        title=f'Yearly {filenames_mapping[filename]} for Different Technologies - REF Case',
+        xaxis=dict(title='Year'),
+        yaxis=dict(title='Thousand Sq. Km per PJ'),
+        barmode='stack',
+        legend=dict(x=1, y=0.5),
+        margin=dict(b=150),  # Add margin for legend
+        hovermode='closest'
     )
-    traces.append(trace)
 
-# Create the layout
-layout = go.Layout(
-    title='Landuse',
-    xaxis=dict(title='Year'),
-    yaxis=dict(title='Thousand Sq. Km per PJ'),
-    barmode='stack',
-    legend=dict(x=1, y=0.5),
-    plot_bgcolor='rgba(0, 0, 0, 0)',
-    showlegend=True
-)
+    # Create the figure
+    fig = go.Figure(data=traces, layout=layout)
 
-# Create the figure
-fig = go.Figure(data=traces, layout=layout)
+    # Save the plot as an HTML file in the specified directory
+    html_filename = f'{plots_direc}/{filenames_mapping[filename]}.html'
+    fig.write_html(html_filename)
 
-# Save the plot as an HTML file in the specified directory
-html_filename = f'{output_directory}/Landuse.html'
-fig.write_html(html_filename, include_plotlyjs='cdn')
-
-print(f"Landuse Plot generated successfully and saved as HTML file to output directory: {output_directory}")
+print(f"Landuse Plots generated successfully and saved as HTML files to the output directory: {plots_direc}")
