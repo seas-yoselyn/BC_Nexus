@@ -49,22 +49,55 @@ def combine_plots_for_dash(plots_html_directory, combined_plot_name,title,font_s
     print(f"Interactive Dashboard Created and saved as {combined_plot_name}.")
 
 def create_style_css(file_path, width, height):
-    # Define common style for subplot
+    # max_container_width = f"calc({width} * 3 + 12px)"
+    # # Define common style for subplot
+    # css_content = f"""
+
+    # .subplot {{
+    #     width: {width};
+    #     height: {height};
+    #     display: inline-block;
+    #     margin: 2px 2px;
+    #     vertical-align: top;
+    #     padding: 5px;
+    #     border: 1px solid #ccc;
+    #     box-shadow: 2px 2px 2px rgba(0,0,0,0.1);
+    # }}
+
+    # /* Add grid lines to subplots */
+    # .subplot table {{
+    #     border-collapse: collapse;
+    # }}
+
+    # .subplot th, .subplot td {{
+    #     border: 1px solid #ddd;
+    #     padding: 8px;
+    # }}
+    # """
+    # Calculate the maximum width for the container based on the width of each subplot
+    max_container_width = f"calc({width} * 6 + 12px)"  # Adjust 3 as needed based on the number of subplots per row
+
+    # Update the CSS content with the adjusted container width
     css_content = f"""
+    .container {{
+        max-width: {max_container_width};
+        display: grid;
+        grid-template-columns: repeat(1, {width});
+        grid-gap: 1px; /* Adjust as needed */
+    }}
+
     .subplot {{
         width: {width};
         height: {height};
-        display: inline-block;
-        margin: 5px 8px;
-        vertical-align: top;
-        padding: 10px;
+        padding: 2px;
         border: 1px solid #ccc;
-        box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+        box-shadow: 2px 2px 2px rgba(0,0,0,0.1);
     }}
 
     /* Add grid lines to subplots */
     .subplot table {{
         border-collapse: collapse;
+        width: 100%;
     }}
 
     .subplot th, .subplot td {{
@@ -72,6 +105,7 @@ def create_style_css(file_path, width, height):
         padding: 8px;
     }}
     """
+
 
     with open(file_path, 'w') as file:
         file.write(css_content)
