@@ -57,6 +57,7 @@ def generate_plots(model_results_direc, filenames, filenames_mapping, technologi
 
 def main():
     visual_configs = utils.load_config('config_files/visualization_configs.yaml')
+    SCENARIOS=visual_configs['SCENARIOS']
     model_results_direc = os.path.join(os.getcwd(), "results")
     plots_direc = os.path.join(os.getcwd(), "docs/Results_plots")
     os.makedirs(plots_direc, exist_ok=True)

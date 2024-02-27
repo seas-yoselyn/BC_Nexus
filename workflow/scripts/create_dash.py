@@ -78,7 +78,7 @@ def create_style_css(file_path, width, height):
     print(f"Style CSS file created at {file_path}.")
 
 if __name__ == "__main__":
-    visual_configs = utils.load_config('config_files/visualization_configs.yaml')
+    visual_configs = utils.load_config('config/visualization_config.yaml')
     title=visual_configs['interactive_dashboard']['title']
     font_size=visual_configs['interactive_dashboard']['font_size']
     font_color=visual_configs['interactive_dashboard']['font_color']

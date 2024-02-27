@@ -212,13 +212,6 @@ rule visualization_interactive:
         touch {output.check_flag_1}
         '''
 
-# Execution status messages
-onsuccess:
-    print('Workflow finished successfully!')
-
-onerror:
-    print('An error occurred')
-
 # Cleaning residual data
 ### >>> Future scopes: 
     # use wildcards for cleaning purposes

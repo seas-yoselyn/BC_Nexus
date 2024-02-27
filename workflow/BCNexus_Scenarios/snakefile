@@ -1,0 +1,71 @@
+# rule visualization:
+#     input:
+#         capacity="Scripts/Capacity_VIS.py",
+#         emission="Scripts/Emission_VIS.py",
+#         energy="Scripts/Energy_VIS.py",
+#         landuse="Scripts/Landuse_VIS.py"
+
+#     shell:
+#         '''
+#         python {input.capacity}
+#         python {input.emission}
+#         python {input.energy}
+#         python {input.landuse}
+#         '''
+SCENARIOS = {'REF','AGG','100-ELC','100-ELC-CO2reduction','100-ELC-NoGeo','100-ELC-Nuc(10GW)'}
+rule scenarios_visualization:
+    input:
+        expand("check_flags/{scenario}_interactive_Plots_generated.check", scenario=SCENARIOS)
+
+rule visualization_interactive:
+    input:
+        check_flag_1='check_flags/{scenario}_ResultsFile_genrated.check',
+        capacity_plots_interactive='scripts/Capacity_VIS_v4.py',
+        energy_plots_interactive='scripts/Energy_VIS_v2.py',
+        emission_plots_interactive='scripts/Emission_VIS_v3.py',
+        landuse_plots_interactive='scripts/Landuse_VIS_v2.py',
+        dashboard_plots_interactive='scripts/create_dash.py',
+    output:
+        check_flag_1='check_flags/{scenario}_interactive_Plots_generated.check',
+        # dashboard='index.html',
+        # dashboard_css_style='style.css',
+    params:
+        scenario=lambda wildcards: wildcards.scenario
+    shell:
+        '''
+        python {input.capacity_plots_interactive}
+        python {input.energy_plots_interactive}
+        python {input.emission_plots_interactive}
+        python {input.landuse_plots_interactive}
+        python {input.dashboard_plots_interactive}
+        touch {output.check_flag_1}
+        '''
+# Execution status messages
+onsuccess:
+    print('Scenario Plots finished successfully!')
+
+onerror:
+    print('An error occurred')
+# # Rule for generating the DAG
+# rule make_graphs:
+#     message:
+#         'Graphs created successfully'
+#     output:
+#         dag='workflow_graphs/BCNexus_scenario_visualization_workflow_dag.svg',
+#         filegraph='workflow_graphs/BCNexus_scenario_visualization_workflow_filegraph.svg'
+#     shell:
+#         '''      
+#         # snakemake --dag Results | dot -Tsvg -Gsize="8.3,11.7" -Gorientation="portrait" -o {output.dag}
+#         snakemake --forceall --dag | dot -Tsvg -Gsize="8.3,11.7" -Gorientation="portrait" -o {output.dag}
+#         snakemake --filegraph | dot -Tsvg -o {output.filegraph}
+#         '''
+
+# # Copy all the plots to a single folder
+# rule collect_plots:
+#     input:
+#         "scenario_files"
+#     output:
+#         directory("scenario_all_PLOTS")
+#     run:
+#         shell("mkdir -p {output}")
+#         shell("find {input} -name '*.png' -exec cp {{}} {output} \;")
