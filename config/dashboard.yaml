@@ -1,6 +1,10 @@
 
-SCENARIOS: {'REF','AGG','100-ELC','100-ELC-CO2reduction','100-ELC-NoGeo','100-ELC-Nuc(10GW)'}
+SCENARIOS: ['REF','AGG','100-ELC','100-ELC-CO2reduction','100-ELC-NoGeo','100-ELC-Nuc(10GW)']
 # SCENARIOS: {'25082','19523','24950','21595','30679','30680'}
+result_type: cloud #otoole
+cloud_results:
+  'year': 'y'
+  'technology' : 't'
 
 info_SCENARIOS: {
   'REF': V1.1.7_reTest-BC_CLEWS_Model-REF Scenario-LND intensity Ave.,
@@ -12,21 +16,27 @@ info_SCENARIOS: {
     }
 
 title : "CLEWs-BC Results"
-font_size : "32px"
+font_size : "26px"
 font_color : "#00008B"
 
 result_files:
-  capacity_plots : ["NewCapacity.csv","TotalCapacityAnnual.csv"]
-  emission_plots : ["AnnualEmissions.csv", "AnnualTechnologyEmission.csv"]
-  energy_plots : ["TotalTechnologyAnnualActivity.csv"]
-  landuse_plots: ["TotalAnnualTechnologyActivityByMode.csv"]
+  capacity : ["NewCapacity.csv","TotalCapacityAnnual.csv"]
+  emission : ["AnnualEmissions.csv", "AnnualTechnologyEmission.csv"]
+  energy : ["TotalTechnologyAnnualActivity.csv"]
+  landuse: ["TotalAnnualTechnologyActivityByMode.csv"]
 
 units_mapping: {
-  capacity_plots: 'Capacity (GW)',
-  energy_plots: 'Generation (Pj)',
-  emission_plots: "Millon Tonnes of CO2",
-  landuse_plots: "Thousand Sq. Km per Pj",
+  capacity: 'Capacity (GW)',
+  energy: 'Generation (Pj)',
+  emission: "Millon Tonnes of CO2",
+  landuse: "Thousand Sq. Km per Pj",
     }
+technologies:
+  capacity: ['PWRWND','PWRNGS','PWRBIO', 'PWRHYD', 'PWRSOL', 'PWRGEO', 'PWRURN']
+  emission: ['DEMAGR', 'DEMCOM', 'DEMIND', 'DEMRES', 'DEMTRA']
+  energy: ['PWRBIO', 'PWRHYD', 'PWRNGS', 'PWRSOL', 'PWRWND', 'PWRGEO', 'PWRURN']
+  landuse: ['LNDAGRBC1C01', 'LNDAGRBC1C02', 'LNDAGRBC1C03', 'LNDAGRBC1C04', 'LNDAGRBC1C05', 'LNDAGRBC1C06', 'LNDAGRBC1C07']
+
 filenames_mapping: {
   'NewCapacity.csv':'New Capacity',
   'TotalCapacityAnnual.csv':'Total Capacity',
@@ -84,8 +94,4 @@ legend_labels : {
       'LNDAGRBC1C07': 'Land resource - Cluster 7'
   }
 
-technologies:
-  capacity_plots: ['PWRWND','PWRNGS','PWRBIO', 'PWRHYD', 'PWRSOL', 'PWRGEO', 'PWRURN']
-  emission_plots: ['DEMAGR', 'DEMCOM', 'DEMIND', 'DEMRES', 'DEMTRA']
-  energy_plots: ['PWRBIO', 'PWRHYD', 'PWRNGS', 'PWRSOL', 'PWRWND', 'PWRGEO', 'PWRURN']
-  landuse_plots: ['LNDAGRBC1C01', 'LNDAGRBC1C02', 'LNDAGRBC1C03', 'LNDAGRBC1C04', 'LNDAGRBC1C05', 'LNDAGRBC1C06', 'LNDAGRBC1C07']
+
