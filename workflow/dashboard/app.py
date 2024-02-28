@@ -36,7 +36,13 @@ app = Dash(__name__)
 server = app.server
 # Define layout
 app.layout = html.Div([
-    html.H1(children=dash_configs['title'], style={'textAlign': 'center', 'fontSize': dash_configs['font_size'], 'color': dash_configs['font_color']}),
+    html.H1(children=dash_configs['title'], style={'textAlign': 'center', 'fontSize': dash_configs['font_size'], 'color': dash_configs['font_color'],'margin-bottom': '1px'}),
+    html.Div(
+        children=[
+            html.A("more about BC-CLEWS-Model", href="https://github.com/DeltaE/BC-CLEWS-Model/wiki", target="_blank"),
+        ],
+        style={'textAlign': 'center', 'margin-bottom': '2px'}
+    ),
     html.Div([
         html.Label('Select Scenario ', style={'font-weight': 'bold', 'color': 'brown', 'display': 'inline-block', 'margin-right': '10px'}),
         dcc.Dropdown(
@@ -61,6 +67,7 @@ app.layout = html.Div([
     ]),
     html.Div(id='tab-content')
 ])
+
 
 # Callback to update scenario information
 @app.callback(
