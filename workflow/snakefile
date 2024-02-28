@@ -11,15 +11,17 @@ configfile: 'config/BCNexus_CLEWsy.yaml'
 # Define the rule all and the input is the file to generate which requires all associated rules to play.
 ### >>> Future Scope: Checks needed for required DIRECTORIES structure. If not available then MAKE DIRECTORIES
 
-rule Results:
+# Rule for generating the DAG
+
+rule all:
     input:
         # check_flag_static_plots='workflow/check_flags/static_Plots_generated.check',
         # check_flag_interactive_plots='workflow/check_flags/interactive_Plots_generated.check',
         check_flag_results_files='workflow/check_flags/otoole_ResultsFile_genrated.check',
         check_flag_dash='workflow/check_flags/dashboard_deployed.check',
-        RES_diagram='RES/BCNexus_RES.png'
-
-# Rule for generating the DAG
+        RES_diagram='RES/BCNexus_RES.png',
+        check_flag_scenario_file_dump='workflow/check_flags/check_flag_scenario_file_dump.check',
+   
 rule make_graphs:
     message:
         "Graphs created successfully and saved to 'docs'"
@@ -33,39 +35,23 @@ rule make_graphs:
         snakemake --rulegraph | dot -Tsvg -o {output.RULEGRAPH} 
         snakemake --filegraph | dot -Tsvg -o {output.FILEGRAPH}
         '''
-# rm -f docs/*.svg
+
 # Generating the MODEL SHELL (i.e. SETS) with clewsy tool
-
-
 rule Model_Shell:
     message:
         'Collecting the data files...'
     input:
         Input_files = 'user_inputs',
-        CLEWsy_Config_file = 'config/20230302_BCNexus_CLEWsy.yaml'
+        CLEWsy_Config_file = 'config/BCNexus_CLEWsy.yaml'
     output:
         CLEWsy_outputs=directory((config['otooleOutputDirectory']).lstrip('./')),
-        check_flag_1='workflow/check_flags/Model_shell_complete.check'
+        check_flag_model_shell='workflow/check_flags/Model_shell_complete.check'
     shell:
         '''
         clewsy build {input.CLEWsy_Config_file}
         [ -d {output.CLEWsy_outputs} ] && echo "BC NEXUS - SETS files Created Successfully." || echo "Model Shell Creation failed !!!"
-        touch {output.check_flag_1}
+        touch {output.check_flag_model_shell}
         '''
-
-# Collect the MODEL SHELL from clewsy and the other user input PARAMETERS' CSV files from different folders and store them in a single directory 'data'
-# rule Scenario_Data_Files:
-#     input:
-#         check_flag_1='workflow/check_flags/Model_shell_complete.check',
-#         # 'check_flags/Data_Updated.check',
-#         organize_files='workflow/scripts/organize_files.py'
-#     output:
-#        CLEWs_model_input_data_direc=directory('data'),
-#         # 'Scenario Data folder Created.check'
-#     shell:
-#         '''
-#         python {input.organize_files}
-#         '''
 
 # Rule for Converting CSV files to datafile "data.txt"
 ## INPUT is the "data" folder with all CSVs and OUTPUT is the "data.txt" file + Otoole enviroment file
@@ -75,10 +61,11 @@ rule Input_Data_Interfacing_otoole:
     message:
         'Creating data file...'
     input:
+        check_flag_model_shell='workflow/check_flags/Model_shell_complete.check',
         CLEWs_model_input_data_direc='data',
     output:
         CLEWs_model_input_datafile='workflow/data.txt',
-        check_flag_1='workflow/check_flags/otoole_datafile_prepared.check'
+        check_flag_input_datafile='workflow/check_flags/otoole_datafile_prepared.check'
     params:
         'config/otoole_config.yaml'
     log:
@@ -91,7 +78,7 @@ rule Input_Data_Interfacing_otoole:
     shell:
         '''
         otoole convert csv datafile {input.CLEWs_model_input_data_direc} {output.CLEWs_model_input_datafile} {params} 2> {log}
-        touch {output.check_flag_1}
+        touch {output.check_flag_input_datafile}
         '''
 
 if not os.path.isdir('RES'):
@@ -101,7 +88,7 @@ rule make_RES:
     message:
         'Creating Reference Energy System (RES)...'
     input:
-        check_flag_1='workflow/check_flags/otoole_datafile_prepared.check',
+        check_flag_input_datafile='workflow/check_flags/otoole_datafile_prepared.check',
         CLEWs_model_input_datafile='workflow/data.txt'
     output:
         RES_diagram='RES/BCNexus_RES.png'
@@ -119,12 +106,13 @@ rule make_RES:
 ### >>> Future scope: xxx
 rule Preprocess_data:
     input:
-        CLEWs_model_input_datafile='data.txt',
+        check_flag_input_datafile='workflow/check_flags/otoole_datafile_prepared.check',
+        CLEWs_model_input_datafile='workflow/data.txt',
         CLEWs_model='model/model_BCNexus.txt',
         otoole_preprocessing_script='workflow/scripts/preprocess_data.py'
     output:
-        CLEWs_model_input_datafile_toole_processed='processed_data.txt',
-        CLEWs_model_otoole_processed='processed_model_BCNexus.txt'
+        CLEWs_model_input_datafile_toole_processed='workflow/processed_data.txt',
+        CLEWs_model_otoole_processed='workflow/processed_model_BCNexus.txt'
     shell:
         'python {input.otoole_preprocessing_script} {input.CLEWs_model_input_datafile} {output.CLEWs_model_input_datafile_toole_processed} {input.CLEWs_model} {output.CLEWs_model_otoole_processed}'
 
@@ -136,20 +124,22 @@ if not os.path.isdir('LP_file'):
 
 rule RUN_MODEL:
     input:
-        data='workflow/processed_data.txt',
-        model='workflow/processed_model_BCNexus.txt'
+        CLEWs_model_input_datafile_toole_processed='workflow/processed_data.txt',
+        CLEWs_model_otoole_processed='workflow/processed_model_BCNexus.txt'
     output:
         LP_file='workflow/LP_file/BCNexus.lp',
-        solution_file='workflow/docs/CBC_solution.sol'
+        solution_file='workflow/docs/CBC_solution.sol',
+        check_flag_model_run='workflow/check_flags/check_flag_model_run.check',
     threads: 8
     shell:
         '''
         if test -d "{output.LP_file}" && ! test -d "{output.solution_file}"; then
             cbc "{output.LP_file}" solve -solu "{output.solution_file}"
         else
-            glpsol -m "{input.model}" -d "{input.data}" --wlp "{output.LP_file}" --check
+            glpsol -m "{input.CLEWs_model_otoole_processed}" -d "{input.CLEWs_model_input_datafile_toole_processed}" --wlp "{output.LP_file}" --check
             cbc "{output.LP_file}" solve -solu "{output.solution_file}"
         fi
+        touch {output.check_flag_model_run}
         '''
 
 if not os.path.isdir('results'):
@@ -159,6 +149,7 @@ rule Output_Data_Interfacing_otoole:
     message:
         'Generating result files...'
     input:
+        check_flag_model_run='workflow/check_flags/check_flag_model_run.check',
         solution_file='workflow/docs/CBC_solution.sol'
     output:
         results_direc=directory('results'),
@@ -218,21 +209,29 @@ scenario_files=os.path.join('workflow/BCNexus_Scenarios/scenario_files',config['
 if not os.path.isdir(scenario_files):
     os.makedirs(scenario_files)
 
-rule deploy_dashboard:
+rule scenario_Results:
     input:
         check_flag_otoole_results='workflow/check_flags/otoole_ResultsFile_genrated.check',
-        # Scenario_files_dumper_script='workflow/scripts/scenario_dash_data_organize.py',
-        data='workflow/data.txt',
+        CLEWs_model_input_datafile='workflow/data.txt',
+        CLEWs_model='model/model_BCNexus.txt',
         results_direc='results'
     output:
-        check_flag_dash='workflow/check_flags/dashboard_deployed.check',
-        
-    params:
-        scenario_files=os.path.join('workflow/BCNexus_Scenarios/scenario_files',config['SCENARIO_name'])
+       check_flag_scenario_file_dump='workflow/check_flags/check_flag_scenario_file_dump.check',
+       scenario_files=os.path.join('workflow/BCNexus_Scenarios/scenario_files',config['SCENARIO_name'])
     shell:
         '''
-        cp -r {input.results_direc} {params.scenario_files}
-        cp {input.data} {params.scenario_files}
+        cp -r {input.results_direc} {output.scenario_files} 
+        cp {input.data} {output.scenario_files}
+        touch {output.check_flag_scenario_file_dump}
+        '''
+
+rule deploy_dashboard:
+    input:
+        check_flag_scenario_file_dump='workflow/check_flags/check_flag_scenario_file_dump.check',
+    output:
+        check_flag_dash='workflow/check_flags/dashboard_deployed.check',
+    shell:
+        '''
         bash dashboard.sh deploy
         echo "Press 'CTRL+C' to Exit from Command Line"
         '''
@@ -270,8 +269,6 @@ rule clean:
 # Technical/Temporal/Spatial resolution tweaking via parallel rules e.g. if the resolution is same,don't run all rules.
 # Prepare more scripts for output visualization
 ##############################################################################
-
-
 
 rule datafile_to_Excel:
     input:
