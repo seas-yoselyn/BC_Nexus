@@ -1,0 +1,91 @@
+
+SCENARIOS: {'REF','AGG','100-ELC','100-ELC-CO2reduction','100-ELC-NoGeo','100-ELC-Nuc(10GW)'}
+# SCENARIOS: {'25082','19523','24950','21595','30679','30680'}
+
+info_SCENARIOS: {
+  'REF': V1.1.7_reTest-BC_CLEWS_Model-REF Scenario-LND intensity Ave.,
+  'AGG': V1.1.8_BC_CLEWS_Model-AGG scenario-LND intensity Ave. NoNGS-no caps on solar or nuclear,
+  '100-ELC': V1.1.9_reTest-BC_CLEWS_Model-NET scenario- Annual Emission Limit- fossil fuel demand decrease from 2025 except IND, aviation and HF-LND intensity Ave.,
+  '100-ELC-CO2reduction': V1.1.9_BC_CLEWS_Model-NET scenario- Annual Emission Limit zero for 2050- fossil fuel demand decrease from 2025 except IND, aviation and HF-LND intensity Ave.,
+  '100-ELC-Nuc(10GW)': V1.1.9_BC_CLEWS_Model-100-ELC- 10GW limit Nu,
+  '100-ELC-NoGeo': V1.1.9_BC_CLEWS_Model-100-ELC-NoGEO 
+    }
+
+title : "CLEWs-BC Results"
+font_size : "32px"
+font_color : "#00008B"
+
+result_files:
+  capacity_plots : ["NewCapacity.csv","TotalCapacityAnnual.csv"]
+  emission_plots : ["AnnualEmissions.csv", "AnnualTechnologyEmission.csv"]
+  energy_plots : ["TotalTechnologyAnnualActivity.csv"]
+  landuse_plots: ["TotalAnnualTechnologyActivityByMode.csv"]
+
+units_mapping: {
+  capacity_plots: 'Capacity (GW)',
+  energy_plots: 'Generation (Pj)',
+  emission_plots: "Millon Tonnes of CO2",
+  landuse_plots: "Thousand Sq. Km per Pj",
+    }
+filenames_mapping: {
+  'NewCapacity.csv':'New Capacity',
+  'TotalCapacityAnnual.csv':'Total Capacity',
+  "AnnualEmissions.csv": "System Emission", 
+  "AnnualTechnologyEmission.csv" : "Sectoral Emission",
+  'TotalTechnologyAnnualActivity.csv' : 'Generation',
+  "TotalAnnualTechnologyActivityByMode.csv" : "Landuse"
+  }
+
+custom_colors : {
+      'PWRWND': '#DDB3F9',
+      'PWRNGS': '#D27A78',
+      'PWRBIO': '#5BAB59',
+      'PWRHYD': '#86B4D8',
+      'PWRSOL': '#FEE566',
+      'PWRGEO': '#B067B3',
+      'PWRURN': 'gray',
+
+      'DEMAGR': '#C57F7B',
+      'DEMCOM': '#65B465',
+      'DEMIND': '#B3B3B3',
+      'DEMRES': '#87B4D7',
+      'DEMTRA': '#676767',
+
+      'LNDAGRBC1C01': '#DDB3F9',
+      'LNDAGRBC1C02': '#D27A78',
+      'LNDAGRBC1C03': '#5BAB59',
+      'LNDAGRBC1C04': '#86B4D8',
+      'LNDAGRBC1C05': '#FEE566',
+      'LNDAGRBC1C06': '#B067B3',
+      'LNDAGRBC1C07': 'gray',
+  }
+
+legend_labels : {
+      'PWRWND': 'Wind',
+      'PWRNGS': 'Natural Gas',
+      'PWRBIO': 'Biomass/Biofuel',
+      'PWRHYD': 'Hydro',
+      'PWRSOL': 'Solar',
+      'PWRGEO': 'Geothermal',
+      'PWRURN': 'Nuclear',
+
+      'DEMRES': 'Residential',
+      'DEMIND': 'Industrial',
+      'DEMTRA': 'Transport',
+      'DEMAGR': 'Agricultural',
+      'DEMCOM': 'Commercial',
+
+      'LNDAGRBC1C01': 'Land resource - Cluster 1',
+      'LNDAGRBC1C02': 'Land resource - Cluster 2',
+      'LNDAGRBC1C03': 'Land resource - Cluster 3',
+      'LNDAGRBC1C04': 'Land resource - Cluster 4',
+      'LNDAGRBC1C05': 'Land resource - Cluster 5',
+      'LNDAGRBC1C06': 'Land resource - Cluster 6',
+      'LNDAGRBC1C07': 'Land resource - Cluster 7'
+  }
+
+technologies:
+  capacity_plots: ['PWRWND','PWRNGS','PWRBIO', 'PWRHYD', 'PWRSOL', 'PWRGEO', 'PWRURN']
+  emission_plots: ['DEMAGR', 'DEMCOM', 'DEMIND', 'DEMRES', 'DEMTRA']
+  energy_plots: ['PWRBIO', 'PWRHYD', 'PWRNGS', 'PWRSOL', 'PWRWND', 'PWRGEO', 'PWRURN']
+  landuse_plots: ['LNDAGRBC1C01', 'LNDAGRBC1C02', 'LNDAGRBC1C03', 'LNDAGRBC1C04', 'LNDAGRBC1C05', 'LNDAGRBC1C06', 'LNDAGRBC1C07']

@@ -1,0 +1,3 @@
+WorkflowError in file /home/eliasinul/repositories/BC-CLEWS-Model/workflow/snakefile, line 35:
+Workflow defines configfile config/20230302_BCNexus_CLEWsy.yaml but it is not present or accessible (full checked path: /home/eliasinul/repositories/BC-CLEWS-Model/config/20230302_BCNexus_CLEWsy.yaml).
+  File "/home/eliasinul/repositories/BC-CLEWS-Model/workflow/snakefile", line 35, in <module>

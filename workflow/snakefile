@@ -10,36 +10,35 @@ from pathlib import Path
 
 rule Results:
     input:
-        check_flag_static_plots='check_flags/static_Plots_generated.check',
-        check_flag_interactive_plots='check_flags/interactive_Plots_generated.check',
-        check_flag_results_files='check_flags/otoole_ResultsFile_genrated.check',
+        check_flag_static_plots='workflow/check_flags/static_Plots_generated.check',
+        check_flag_interactive_plots='workflow/check_flags/interactive_Plots_generated.check',
+        check_flag_results_files='workflow/check_flags/otoole_ResultsFile_genrated.check',
         RES_diagram='RES/BCNexus_RES.png'
 
 # Rule for generating the DAG
 rule make_graphs:
     message:
-        'Graphs created successfully and saved as "docs/dag.pdf"'
+        "Graphs created successfully and saved to 'docs'"
     output:
         DAG='docs/BCNexus_workflow_dag.svg',
         RULEGRAPH='docs/BCNexus_workflow_Rulegraph.svg',
-        FILEGRAPH='docs/BCNexus_workflow_filegraph.svg',
+        FILEGRAPH='docs/BCNexus_workflow_filegraph.svg'
     shell:
         '''
-        rm -f docs/*.svg
         snakemake --forceall --dag | dot -Tsvg -Gsize="8.3,11.7" -Gorientation="portrait" -o {output.DAG}
-        snakemake --rulegraph | dot -Tsvg -o {output.RULEGRAPH}
+        snakemake --rulegraph | dot -Tsvg -o {output.RULEGRAPH} 
         snakemake --filegraph | dot -Tsvg -o {output.FILEGRAPH}
         '''
-
+# rm -f docs/*.svg
 # Generating the MODEL SHELL (i.e. SETS) with clewsy tool
-configfile: 'config_files/20230302_BCNexus_CLEWsy.yaml'
+configfile: 'config/20230302_BCNexus_CLEWsy.yaml'
 
 rule Model_Shell:
     message:
         'check_flags/Collecting the data files...'
     input:
         Input_files = 'user_inputs',
-        CLEWsy_Config_file = 'config_files/20230302_BCNexus_CLEWsy.yaml'
+        CLEWsy_Config_file = 'config/20230302_BCNexus_CLEWsy.yaml'
     output:
         CLEWsy_outputs=directory((config['otooleOutputDirectory']).lstrip('./')),
         check_flag_1='check_flags/Model_shell_complete.check'
@@ -55,7 +54,7 @@ rule Scenario_Data_Files:
     input:
         check_flag_1='check_flags/Model_shell_complete.check',
         # 'check_flags/Data_Updated.check',
-        organize_files='scripts/organize_files.py'
+        organize_files='workflow/scripts/organize_files.py'
     output:
        CLEWs_model_input_data_direc=directory('data'),
         # 'Scenario Data folder Created.check'
@@ -77,7 +76,7 @@ rule Input_Data_Interfacing_otoole:
         CLEWs_model_input_datafile='data.txt',
         check_flag_1='check_flags/otoole_datafile_prepared.check'
     params:
-        'config_files/otoole_config.yaml'
+        'config/otoole_config.yaml'
     log:
         log='logs/otoole_convert.log'
     # conda:
@@ -103,7 +102,7 @@ rule make_RES:
     output:
         RES_diagram='RES/BCNexus_RES.png'
     params:
-        otoole_config='config_files/otoole_config.yaml'
+        otoole_config='config/otoole_config.yaml'
     # conda:
     #     'envs/otoole.yml'
     shell:
@@ -161,7 +160,7 @@ rule Output_Data_Interfacing_otoole:
         results_direc=directory("results"),
         check_flag_1='check_flags/otoole_ResultsFile_genrated.check'
     params:
-        otoole_config='config_files/otoole_config.yaml'
+        otoole_config='config/otoole_config.yaml'
     # conda:
     #     'envs/otoole.yml'
     shell:
@@ -170,25 +169,25 @@ rule Output_Data_Interfacing_otoole:
         touch {output.check_flag_1}
         '''
 
-rule visualization_static:
-    input:
-        check_flag_1='check_flags/otoole_ResultsFile_genrated.check',
-        capacity_plots_static='scripts/Capacity_VIS.py',
-        energy_plots_static='scripts/Energy_VIS.py',
-        emission_plots_static='scripts/Emission_VIS.py',
-        landuse_plots_static='scripts/Landuse_VIS.py',
-        dashboard_plots_static='scripts/Dashboard.py',
-    output:
-        check_flag_1='check_flags/static_Plots_generated.check'
-    shell:
-        '''
-        python {input.capacity_plots_static}
-        python {input.energy_plots_static}
-        python {input.emission_plots_static}
-        python {input.landuse_plots_static}
-        python {input.dashboard_plots_static}
-        touch {output.check_flag_1}
-        '''
+# rule visualization_static:
+#     input:
+#         check_flag_1='check_flags/otoole_ResultsFile_genrated.check',
+#         capacity_plots_static='scripts/Capacity_VIS.py',
+#         energy_plots_static='scripts/Energy_VIS.py',
+#         emission_plots_static='scripts/Emission_VIS.py',
+#         landuse_plots_static='scripts/Landuse_VIS.py',
+#         dashboard_plots_static='scripts/Dashboard.py',
+#     output:
+#         check_flag_1='check_flags/static_Plots_generated.check'
+#     shell:
+#         '''
+#         python {input.capacity_plots_static}
+#         python {input.energy_plots_static}
+#         python {input.emission_plots_static}
+#         python {input.landuse_plots_static}
+#         python {input.dashboard_plots_static}
+#         touch {output.check_flag_1}
+#         '''
 
 rule visualization_interactive:
     input:
@@ -229,10 +228,10 @@ rule clean:
             rm -f data.xlsx data.txt processed_data.txt processed_model_BCNexus.txt Modelist.txt docs/Run_Summary.txt 
 
             # Deletes all files/specific extension under directories
-            rm -rf logs/* docs/* LP_file/*.svg results/* user_inputs/Sets/clewsy_output/*.csv check_flags/*.check
+            rm -rf workflow/logs/* docs/* workflow/LP_file/*.svg results/* user_inputs/Sets/clewsy_output/*.csv workflow/check_flags/*
             
             # Remove entire folder
-            # rm -rf data
+            # rm -rf workflow/data
             
             echo "Existing results cleaned."
         else
@@ -252,7 +251,7 @@ rule clean:
 
 rule datafile_to_Excel:
     input:
-        'config_files/otoole_config.yaml'
+        'config/otoole_config.yaml'
     output:
         'data.xlsx'
     # conda:
