@@ -6,6 +6,8 @@ min_version("7.0")
 from pathlib import Path
 import scripts.utilities as utils
 
+configfile: 'config/BCNexus_CLEWsy.yaml'
+
 # Define the rule all and the input is the file to generate which requires all associated rules to play.
 ### >>> Future Scope: Checks needed for required DIRECTORIES structure. If not available then MAKE DIRECTORIES
 
@@ -33,7 +35,7 @@ rule make_graphs:
         '''
 # rm -f docs/*.svg
 # Generating the MODEL SHELL (i.e. SETS) with clewsy tool
-configfile: 'config/20230302_BCNexus_CLEWsy.yaml'
+
 
 rule Model_Shell:
     message:
@@ -212,19 +214,25 @@ rule Output_Data_Interfacing_otoole:
 #         python {input.dashboard_plots_interactive}
 #         touch {output.check_flag_interactive_plots}
 #         '''
+scenario_files=os.path.join('workflow/BCNexus_Scenarios/scenario_files',config['SCENARIO_name'])
+if not os.path.isdir(scenario_files):
+    os.makedirs(scenario_files)
 
 rule deploy_dashboard:
     input:
         check_flag_otoole_results='workflow/check_flags/otoole_ResultsFile_genrated.check',
-        Scenario_files_dumper_script='workflow/scripts/scenario_dash_data_organize.py'
+        # Scenario_files_dumper_script='workflow/scripts/scenario_dash_data_organize.py',
+        data='workflow/data.txt',
+        results_direc='results'
     output:
         check_flag_dash='workflow/check_flags/dashboard_deployed.check',
-        results_direc='results'
+        
     params:
-        scenario_files=os.path.join(config['SCENARIO_name'],'results')
+        scenario_files=os.path.join('workflow/BCNexus_Scenarios/scenario_files',config['SCENARIO_name'])
     shell:
         '''
-        python  {input.Scenario_files_dumper_script} {output.results_direc} {params.scenario_files}
+        cp -r {input.results_direc} {params.scenario_files}
+        cp {input.data} {params.scenario_files}
         bash dashboard.sh deploy
         echo "Press 'CTRL+C' to Exit from Command Line"
         '''

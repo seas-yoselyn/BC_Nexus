@@ -20,5 +20,8 @@ workflow/.snakemake
 note_accessing_git_through_linux.txt
 workflow/LP_file/*
 workflow/.snakemake/*
+workflow/processed_data.txt
+workflow/processed_model_BCNexus.txt
+workflow/ModeList.txt
 .snakemake/locks/0.output.lock
 .snakemake/log

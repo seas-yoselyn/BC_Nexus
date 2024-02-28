@@ -1,5 +1,5 @@
-# last modification: Mar 02, 2023 by M Eliasinul Islam
-
+# last modification: Feb 28, 2023 by M Eliasinul Islam
+# ____________________________________________
 # This file defines the input variables for the clewsy model building script.
 # Based on the data in this file, clewsy builds the SETS, InputActivityRatio and OutputActivityRatio
 # Authors: The information in this file has brought together by Nastaran Arianpoo for the project called BC (British Columbia, Canada) Nexus of water, food, energy model.
@@ -11,7 +11,7 @@
 # It is suggested that the empty shell be uploaded first, and the model in the shell renamed to match the model name here.
 Model: V1.1.7_BC_CLEWS_Model-REF Scenario-LND intensity Ave
 
-SCENARIO_name: 'Elias'
+SCENARIO_name: 'Sample'
 
 # Either otoole or MoManI (capitalization matters)
 OutputFormat: otoole
