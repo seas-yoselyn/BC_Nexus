@@ -1,4 +1,4 @@
-import yaml
+import yaml,os
 import pandas as pd
 
 # Function to Load User Configuration File
@@ -7,7 +7,6 @@ def load_config(file_path):
     with open(file_path, 'r') as file:
         configs = yaml.safe_load(file)
     return configs
-
 
 
 def load_and_process_data(file_path, technologies):
@@ -29,3 +28,6 @@ def load_and_process_data(file_path, technologies):
     result_df = pd.DataFrame(grouped_data)
 
     return all_years, result_df
+
+
+

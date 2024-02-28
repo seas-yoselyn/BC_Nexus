@@ -1,9 +1,8 @@
 
 SCENARIOS: {'REF','AGG','100-ELC','100-ELC-CO2reduction','100-ELC-NoGeo','100-ELC-Nuc(10GW)'}
-# SCENARIOS: {'25082','19523','24950','21595','30679','30680'}
-
 
 info_SCENARIOS: {
+  'Sample' : 'Sample Scenario',
   'REF': V1.1.7_reTest-BC_CLEWS_Model-REF Scenario-LND intensity Ave.,
   'AGG': V1.1.8_BC_CLEWS_Model-AGG scenario-LND intensity Ave. NoNGS-no caps on solar or nuclear,
   '100-ELC': V1.1.9_reTest-BC_CLEWS_Model-NET scenario- Annual Emission Limit- fossil fuel demand decrease from 2025 except IND, aviation and HF-LND intensity Ave.,
@@ -11,15 +10,6 @@ info_SCENARIOS: {
   '100-ELC-Nuc(10GW)': V1.1.9_BC_CLEWS_Model-100-ELC- 10GW limit Nu,
   '100-ELC-NoGeo': V1.1.9_BC_CLEWS_Model-100-ELC-NoGEO 
     }
-
-# info_SCENARIOS: {
-#   '25082': V1.1.7_reTest-BC_CLEWS_Model-REF Scenario-LND intensity Ave.,
-#   '19523': V1.1.8_BC_CLEWS_Model-AGG scenario-LND intensity Ave. NoNGS-no caps on solar or nuclear,
-#   '24950': V1.1.9_reTest-BC_CLEWS_Model-NET scenario- Annual Emission Limit- fossil fuel demand decrease from 2025 except IND, aviation and HF-LND intensity Ave.,
-#   '21595': V1.1.9_BC_CLEWS_Model-NET scenario- Annual Emission Limit zero for 2050- fossil fuel demand decrease from 2025 except IND, aviation and HF-LND intensity Ave.,
-#   '30679': V1.1.9_BC_CLEWS_Model-100-ELC- 10GW limit Nu,
-#   '30680': V1.1.9_BC_CLEWS_Model-100-ELC-NoGEO 
-# }
 
 interactive_dashboard:
     title : "CLEWs-BC results"

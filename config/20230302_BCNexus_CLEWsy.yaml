@@ -11,6 +11,8 @@
 # It is suggested that the empty shell be uploaded first, and the model in the shell renamed to match the model name here.
 Model: V1.1.7_BC_CLEWS_Model-REF Scenario-LND intensity Ave
 
+SCENARIO_name: 'Elias'
+
 # Either otoole or MoManI (capitalization matters)
 OutputFormat: otoole
 otooleOutputDirectory: ./user_inputs/Sets/CLEWsy_outputs

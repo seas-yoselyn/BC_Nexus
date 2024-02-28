@@ -1,6 +1,6 @@
 
 SCENARIOS: ['Sample','REF','AGG','100-ELC','100-ELC-CO2reduction','100-ELC-NoGeo','100-ELC-Nuc(10GW)']
-# SCENARIOS: {'25082','19523','24950','21595','30679','30680'}
+scenario_files_root: 'workflow/BCNexus_Scenarios/scenario_files'
 result_type:
   otoole:
    'year': 'YEAR'

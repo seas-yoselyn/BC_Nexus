@@ -16,8 +16,6 @@ scenario_results_direc='/home/eliasinul/repositories/BC-CLEWS-Model/workflow/BCN
 plots_direc = os.path.join(os.getcwd(), "docs/Results_plots")
 os.makedirs(plots_direc, exist_ok=True)
 
-
-
 result_files = dash_configs['result_files']
 units_mapping = dash_configs['units_mapping']
 filenames_mapping = dash_configs['filenames_mapping']
@@ -86,16 +84,16 @@ def update_tab_content(selected_tab, selected_scenario, *selected_filenames):
 
     # Construct file paths for the filtered filenames
     result_file_paths_filtered = [os.path.join(scenario_results_direc, selected_scenario, 'results', filename) for filename in selected_filenames_filtered]
-
+    year_col='YEAR'
+    technology_col='TECHNOLOGY'
     # Load and process data for each selected filename
     for file_path, filename in zip(result_file_paths_filtered, selected_filenames_filtered):
 
         if filename == "AnnualEmissions.csv":
             # Generate line chart for AnnualEmissions.csv
-            df_emission = pd.read_csv(file_path)
-            if 'YEAR' or 'TECHNOLOGY' not in df.columns():
+            df_emission = pd.read_csv(file_path)    
+            if 'YEAR'  not in df_emission.columns:
                 year_col='y'
-                technology_col='t'
             fig = px.line(df_emission, x=year_col, y=df_emission.columns[-1], title=f'Emission Trends', markers=True)
             fig.update_xaxes(title_text='Year')
             units_title = units_mapping[selected_tab]
@@ -106,7 +104,7 @@ def update_tab_content(selected_tab, selected_scenario, *selected_filenames):
             # Load and process data for other file types
             techs = selected_technologies[selected_tab]
             years, df = utils.load_and_process_data(file_path, techs)
-            if 'YEAR' or 'TECHNOLOGY' not in df.columns():
+            if 'YEAR' or 'TECHNOLOGY' not in df.columns:
                 year_col='y'
                 technology_col='t'
             fig = px.bar(df, x=years, y=techs, title=f'{filenames_mapping[filename]}', color_discrete_map=custom_colors)
