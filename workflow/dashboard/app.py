@@ -8,9 +8,14 @@ import utilities as utils
 import plotly.io as pio
 
 # Load configurations
-dash_configs = utils.load_config('/home/eliasinul/repositories/BC-CLEWS-Model/config/dashboard.yaml')
-SCENARIOS = dash_configs['SCENARIOS']
-scenario_results_directory = ''
+dash_configs = utils.load_config('config/dashboard.yaml')
+# SCENARIOS = dash_configs['SCENARIOS']
+# List all files and directories in the specified directory
+scenario_results_directory='workflow/BCNexus_Scenarios/scenario_files'
+contents = os.listdir(scenario_results_directory)
+# Filter out directories
+SCENARIOS = sorted([item for item in contents if os.path.isdir(os.path.join(scenario_results_directory, item))])
+
 model_results_direc = '/home/eliasinul/repositories/BC-CLEWS-Model/results'
 scenario_results_direc='/home/eliasinul/repositories/BC-CLEWS-Model/workflow/BCNexus_Scenarios/scenario_files'
 plots_direc = os.path.join(os.getcwd(), "docs/Results_plots")
@@ -24,6 +29,7 @@ custom_colors = dash_configs['custom_colors']
 legend_labels = dash_configs['legend_labels']
 result_type=dash_configs['result_type']
 info_SCENARIOS=dash_configs['info_SCENARIOS']
+
 # Initialize Dash app
 app = Dash(__name__)
 
