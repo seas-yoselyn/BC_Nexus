@@ -214,14 +214,14 @@ rule scenario_Results:
         check_flag_otoole_results='workflow/check_flags/otoole_ResultsFile_genrated.check',
         CLEWs_model_input_datafile='workflow/data.txt',
         CLEWs_model='model/model_BCNexus.txt',
-        results_direc='results'
+        results_direc=directory('results')
     output:
        check_flag_scenario_file_dump='workflow/check_flags/check_flag_scenario_file_dump.check',
-       scenario_files=os.path.join('workflow/BCNexus_Scenarios/scenario_files',config['SCENARIO_name'])
+       scenario_files=directory(os.path.join('workflow/BCNexus_Scenarios/scenario_files', config['SCENARIO_name']))
     shell:
         '''
         cp -r {input.results_direc} {output.scenario_files} 
-        cp {input.data} {output.scenario_files}
+        cp {input.CLEWs_model_input_datafile} {output.scenario_files}
         touch {output.check_flag_scenario_file_dump}
         '''
 
