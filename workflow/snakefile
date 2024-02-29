@@ -256,7 +256,7 @@ rule clean:
             rm -f data.xlsx data.txt processed_data.txt processed_model_BCNexus.txt Modelist.txt docs/Run_Summary.txt 
 
             # Deletes all files/specific extension under directories
-            rm -rf workflow/logs/* workflow/docs/* workflow/LP_file/*.svg results/* user_inputs/Sets/clewsy_output/*.csv workflow/check_flags/*
+            rm -rf workflow/logs/* workflow/docs/*.sol workflow/LP_file/*.svg results/* user_inputs/Sets/clewsy_output/*.csv workflow/check_flags/*
             
             # Remove entire folder
             # rm -rf workflow/data
