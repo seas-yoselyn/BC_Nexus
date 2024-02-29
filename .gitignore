@@ -3,7 +3,7 @@ bin-debug/
 bin-release/
 [Oo]bj/
 [Bb]in/
-results
+results/*
 # Other files and folders
 .settings/
 workflow/.snakemake
@@ -25,3 +25,15 @@ workflow/processed_model_BCNexus.txt
 workflow/ModeList.txt
 .snakemake/locks/0.output.lock
 .snakemake/log
+ModeList.txt
+.snakemake/incomplete/d29ya2Zsb3cvTFBfZmlsZS9CQ05leHVzLmxw
+.snakemake/incomplete/d29ya2Zsb3cvY2hlY2tfZmxhZ3MvY2hlY2tfZmxhZ19tb2RlbF9ydW4uY2hlY2s=
+.snakemake/incomplete/d29ya2Zsb3cvZG9jcy9DQkNfc29sdXRpb24uc29s
+.snakemake/locks/0.input.lock
+.snakemake/metadata/d29ya2Zsb3cvcHJvY2Vzc2VkX2RhdGEudHh0
+.snakemake/metadata/d29ya2Zsb3cvcHJvY2Vzc2VkX21vZGVsX0JDTmV4dXMudHh0
+.snakemake/metadata/d29ya2Zsb3cvY2hlY2tfZmxhZ3Mvb3Rvb2xlX2RhdGFmaWxlX3ByZXBhcmVkLmNoZWNr
+.snakemake/metadata/d29ya2Zsb3cvY2hlY2tfZmxhZ3MvTW9kZWxfc2hlbGxfY29tcGxldGUuY2hlY2s=
+.snakemake/metadata/d29ya2Zsb3cvZGF0YS50eHQ=
+.snakemake/metadata/dXNlcl9pbnB1dHMvU2V0cy9DTEVXc3lfb3V0cHV0cw==
+.snakemake/metadata/UkVTL0JDTmV4dXNfUkVTLnBuZw==
