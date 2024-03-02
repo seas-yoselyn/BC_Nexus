@@ -1,6 +1,6 @@
 import os
 import sys
-sys.path.append('/home/eliasinul/repositories/BC-CLEWS-Model/workflow/scripts')
+sys.path.append('workflow/scripts')
 from dash import Dash, html, dcc, callback, Output, Input
 import plotly.express as px
 import pandas as pd
@@ -16,8 +16,8 @@ contents = os.listdir(scenario_results_directory)
 # Filter out directories
 SCENARIOS = sorted([item for item in contents if os.path.isdir(os.path.join(scenario_results_directory, item))])
 
-model_results_direc = '/home/eliasinul/repositories/BC-CLEWS-Model/results'
-scenario_results_direc='/home/eliasinul/repositories/BC-CLEWS-Model/workflow/BCNexus_Scenarios/scenario_files'
+model_results_direc = 'results'
+scenario_results_direc='workflow/BCNexus_Scenarios/scenario_files'
 plots_direc = os.path.join(os.getcwd(), "docs/Results_plots")
 os.makedirs(plots_direc, exist_ok=True)
 
