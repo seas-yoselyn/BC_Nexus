@@ -147,3 +147,4 @@ xlrd==2.0.1
 yarl @ file:///home/conda/feedstock_root/build_artifacts/yarl_1705508298164/work
 yte @ file:///home/conda/feedstock_root/build_artifacts/yte_1702295091829/work
 zipp @ file:///home/conda/feedstock_root/build_artifacts/zipp_1695255097490/work
+gunicorn
