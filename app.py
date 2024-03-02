@@ -34,6 +34,7 @@ info_SCENARIOS=dash_configs['info_SCENARIOS']
 app = Dash(__name__)
 
 server = app.server
+
 # Define layout
 app.layout = html.Div([
     html.H1(children=dash_configs['title'], style={'textAlign': 'center', 'fontSize': dash_configs['font_size'], 'color': dash_configs['font_color'],'margin-bottom': '1px'}),
