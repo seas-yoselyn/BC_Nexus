@@ -14,8 +14,8 @@ dependencies:
   - attmap=0.13.2=pyhd8ed1ab_0
   - attrs=23.2.0=pyh71513ae_0
   - boto=2.49.0=py_0
-  - boto3=1.34.51=pyhd8ed1ab_0
-  - botocore=1.34.51=pyge310_1234567_0
+  - boto3=1.34.54=pyhd8ed1ab_0
+  - botocore=1.34.54=pyge310_1234567_0
   - brotli-python=1.1.0=py312h30efb56_1
   - bz2file=0.98=py_0
   - bzip2=1.0.8=hd590300_5
@@ -51,7 +51,7 @@ dependencies:
   - google-crc32c=1.1.2=py312h775cd15_5
   - google-resumable-media=2.7.0=pyhd8ed1ab_0
   - googleapis-common-protos=1.62.0=pyhd8ed1ab_0
-  - grpcio=1.61.1=py312hb06c811_0
+  - grpcio=1.61.1=py312hb06c811_1
   - humanfriendly=10.0=pyhd8ed1ab_6
   - idna=3.6=pyhd8ed1ab_0
   - immutables=0.20=py312h98912ed_1
@@ -73,7 +73,7 @@ dependencies:
   - libgfortran-ng=13.2.0=h69a702a_5
   - libgfortran5=13.2.0=ha4646dd_5
   - libgomp=13.2.0=h807b86a_5
-  - libgrpc=1.61.1=hccd595a_0
+  - libgrpc=1.61.1=h42401df_1
   - liblapack=3.9.0=21_linux64_openblas
   - liblapacke=3.9.0=21_linux64_openblas
   - libnsl=2.0.1=hd590300_0
@@ -95,6 +95,7 @@ dependencies:
   - numpy=1.26.4=py312heda63a1_0
   - openssl=3.2.1=hd590300_0
   - packaging=23.2=pyhd8ed1ab_0
+  - pandas=2.2.1=py312hfb8ada1_0
   - peppy=0.40.1=pyhd8ed1ab_0
   - pip=24.0=pyhd8ed1ab_0
   - pkgutil-resolve-name=1.3.10=pyhd8ed1ab_1
@@ -113,7 +114,7 @@ dependencies:
   - pysocks=1.7.1=pyha2e5f31_6
   - pytest=8.0.2=pyhd8ed1ab_0
   - python=3.12.2=hab00c5b_0_cpython
-  - python-dateutil=2.8.2=pyhd8ed1ab_0
+  - python-dateutil=2.9.0=pyhd8ed1ab_0
   - python-fastjsonschema=2.19.1=pyhd8ed1ab_0
   - python-tzdata=2024.1=pyhd8ed1ab_0
   - python_abi=3.12=4_cp312
@@ -160,33 +161,4 @@ dependencies:
   - yarl=1.9.4=py312h98912ed_0
   - yte=1.5.4=pyha770c72_0
   - zipp=3.17.0=pyhd8ed1ab_0
-  - pip:
-      - annotated-types==0.6.0
-      - blinker==1.7.0
-      - clewsy==0.2.2
-      - click==8.1.7
-      - dash==2.15.0
-      - dash-core-components==2.0.0
-      - dash-html-components==2.0.0
-      - dash-table==5.0.0
-      - dnspython==2.6.1
-      - et-xmlfile==1.1.0
-      - flask==3.0.2
-      - flatten-dict==0.4.2
-      - importlib-metadata==7.0.1
-      - itsdangerous==2.1.2
-      - nest-asyncio==1.6.0
-      - networkx==3.2.1
-      - openpyxl==3.1.2
-      - otoole==1.1.2
-      - pandas==2.0.3
-      - plotly==5.19.0
-      - pydantic==2.6.3
-      - pydantic-core==2.16.3
-      - pydot==2.0.0
-      - pymongo==4.6.2
-      - retrying==1.3.4
-      - tenacity==8.2.3
-      - werkzeug==3.0.1
-      - xlrd==2.0.1
 prefix: /home/eliasinul/miniconda3/envs/bc_nexus
