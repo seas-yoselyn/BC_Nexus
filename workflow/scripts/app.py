@@ -20,7 +20,7 @@ legend_labels = dash_configs['legend_labels']
 
 # Initialize Dash app
 app = Dash(__name__)
-
+server = app.server
 # Define layout
 app.layout = html.Div([
     html.H1(children=dash_configs['title'], style={'textAlign': 'center', 'fontSize': dash_configs['font_size'], 'color': dash_configs['font_color']}),
