@@ -134,6 +134,7 @@ def update_tab_content(selected_tab, selected_scenario, *selected_filenames):
     print("Selected tab:", selected_tab)
     print("Selected filenames:", selected_filenames)
     print("Filtered filenames:", selected_filenames_filtered)
+    print('you can check the public dashboard : https://bc-clews-model.onrender.com/')
     return graphs
 
 # Define a route to serve the exported HTML
