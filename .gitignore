@@ -24,3 +24,4 @@ workflow/ModeList.txt
 ModeList.txt
 .snakemake/*
 workflow/BCNexus_Scenarios/scenario_files/Sample
+osemosys/osemosys-cloud-visualization
