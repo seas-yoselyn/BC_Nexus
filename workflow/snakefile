@@ -180,7 +180,7 @@ rule Output_Data_Interfacing_otoole:
     #     'envs/otoole.yml'
     shell:
         '''
-        otoole results cbc csv {input.solution_file} results csv data {params.otoole_config}
+        otoole results cbc csv {input.solution_file} results datafile workflow/data.txt {params.otoole_config}
         touch {output.check_flag_otoole_results}
         '''
 
