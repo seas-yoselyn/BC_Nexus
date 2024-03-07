@@ -2,7 +2,7 @@
 SCENARIOS: {'REF','AGG','100-ELC','100-ELC-CO2reduction','100-ELC-NoGeo','100-ELC-Nuc(10GW)'}
 
 info_SCENARIOS: {
-  'Sample' : 'Sample Scenario',
+  'Test_EL_1.1' : 'New Solar Cluster (1 GW, 2025) added',
   'REF': V1.1.7_reTest-BC_CLEWS_Model-REF Scenario-LND intensity Ave.,
   'AGG': V1.1.8_BC_CLEWS_Model-AGG scenario-LND intensity Ave. NoNGS-no caps on solar or nuclear,
   '100-ELC': V1.1.9_reTest-BC_CLEWS_Model-NET scenario- Annual Emission Limit- fossil fuel demand decrease from 2025 except IND, aviation and HF-LND intensity Ave.,
