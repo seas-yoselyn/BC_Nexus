@@ -2,7 +2,7 @@
 
 import os
 from snakemake.utils import min_version
-min_version("8.5")
+min_version("6.0")
 from pathlib import Path
 import scripts.utilities as utils
 import shutil
@@ -40,18 +40,39 @@ rule make_graphs:
 # Generating the MODEL SHELL (i.e. SETS) with clewsy tool
 rule Model_Shell:
     message:
-        'Collecting the data files...'
+        'Preparing the Model Shell (SETS and Activity Ratio files) ...'
     input:
         Input_files = 'user_inputs',
         CLEWsy_Config_file = 'config/BCNexus_CLEWsy.yaml'
     output:
-        CLEWsy_outputs=directory((config['otooleOutputDirectory']).lstrip('./')),
+        CLEWsy_outputs=directory(config['otooleOutputDirectory']),
         check_flag_model_shell='workflow/check_flags/Model_shell_complete.check'
     shell:
         '''
         clewsy build {input.CLEWsy_Config_file}
         [ -d {output.CLEWsy_outputs} ] && echo "BC NEXUS - SETS files Created Successfully." || echo "Model Shell Creation failed !!!"
         touch {output.check_flag_model_shell}
+        '''
+
+rule prepare_input_data_CSV_files:
+    message:
+        'Collecting the CSV data files...'
+    input:
+        check_flag_model_shell='workflow/check_flags/Model_shell_complete.check',
+        script = 'workflow/scripts/organize_files.py',
+        sets_CSV_files=config['otooleOutputDirectory'],
+        params_CSV_files='datapackage/Params',
+        CLEWs_model_input_data_direc='workflow/data',
+    output:
+        check_flag_all_csv_files_collection='workflow/check_flags/check_flag_collected_all_csv_files.check'
+    shell:
+        '''
+        cp -f {input.sets_CSV_files}/*.csv {input.CLEWs_model_input_data_direc}
+        cp -f {input.params_CSV_files}/*.csv {input.CLEWs_model_input_data_direc}
+        if [ -f "{input.CLEWs_model_input_data_direc}/COMMODITY.csv" ]; then
+            mv "{input.CLEWs_model_input_data_direc}/COMMODITY.csv" "{input.CLEWs_model_input_data_direc}/FUEL.csv"
+        fi
+        touch {output.check_flag_all_csv_files_collection}
         '''
 
 # Rule for Converting CSV files to datafile "data.txt"
@@ -63,7 +84,8 @@ rule Input_Data_Interfacing_otoole:
         'Creating data file...'
     input:
         check_flag_model_shell='workflow/check_flags/Model_shell_complete.check',
-        CLEWs_model_input_data_direc='data',
+        check_flag_all_csv_files_collection='workflow/check_flags/check_flag_collected_all_csv_files.check',
+        CLEWs_model_input_data_direc='workflow/data',
     output:
         CLEWs_model_input_datafile='workflow/data.txt',
         check_flag_input_datafile='workflow/check_flags/otoole_datafile_prepared.check'
@@ -73,9 +95,6 @@ rule Input_Data_Interfacing_otoole:
         log='workflow/logs/otoole_convert.log'
     # conda:
     #     'envs/otoole.yml'
-    # if [ -f data/.snakemake_timestamp ]; then
-    #     rm data/.snakemake_timestamp
-    # fi
     shell:
         '''
         otoole convert csv datafile {input.CLEWs_model_input_data_direc} {output.CLEWs_model_input_datafile} {params} 2> {log}
@@ -257,10 +276,7 @@ rule clean:
 
             # Deletes all files/specific extension under directories
             rm -rf workflow/logs/* workflow/docs/*.sol workflow/LP_file/*.svg results/* user_inputs/Sets/clewsy_output/*.csv workflow/check_flags/*
-            
-            # Remove entire folder
-            # rm -rf workflow/data
-            
+
             echo "Existing results cleaned."
         else
             echo "No cleaning operation performed."

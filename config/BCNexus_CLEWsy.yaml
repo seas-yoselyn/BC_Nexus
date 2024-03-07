@@ -11,11 +11,11 @@
 # It is suggested that the empty shell be uploaded first, and the model in the shell renamed to match the model name here.
 Model: V1.1.7_BC_CLEWS_Model-REF Scenario-LND intensity Ave
 
-SCENARIO_name: 'Sample'
+SCENARIO_name: 'Test_EL_1.1'
 
 # Either otoole or MoManI (capitalization matters)
 OutputFormat: otoole
-otooleOutputDirectory: ./user_inputs/Sets/CLEWsy_outputs
+otooleOutputDirectory: 'datapackage/SETS/CLEWsy_outputs'
 
 # The OSeMOSYS regions in the model.  For most models, leave this as REGION1 as CLEWs regions are
 # built with technologies and commodities rather than OSeMOSYS regions.
@@ -71,7 +71,7 @@ LandToGridMap: {
 # Data directory and file names for the land use data for the model.
 
 # The data for region RG1 will be in file data/clustering_results_RG1.csv
-DataDirectoryName: "./user_inputs/Sets/ClusterDataSet"
+DataDirectoryName: "./datapackage/SETS/ClusterDataSet"
 ClusterBaseFileName: clustering_results_
 PrecipitationClusterBaseFileName: clustering_results_prc_
 EvapotranspirationClusterBaseFileName: clustering_results_evt_
@@ -207,17 +207,30 @@ TransformationTechnologies: [
  ['PWRHYDB11', 'LND4PWR', '0.022', '', '', '', '1'],
  ['PWRHYDB12', 'LND4PWR', '0.022', '', '', '', '1'],
 
+#_________________________________________________________________________________________
 # Technologies for future expansions
+#_________________________________________________________________________________________
+## Geothermal
  ['PWRGEOB01', 'LND4PWR', '0.00054', '', '', '', '1'],
  ['PWRGEOB02', 'LND4PWR', '0.00054', '', '', '', '1'],
  ['PWRGEOB03', 'LND4PWR', '0.00054', '', '', '', '1'],
+
+## Nuclear
  ['PWRURNB01', 'LND4PWR', '0.00003', '', '', '', '1'],
+
+## Wind
  ['PWRWNDB09', 'LND4PWR', '0.00038', '', '', '', '1'],
  ['PWRWNDB10', 'LND4PWR', '0.00038', '', '', '', '1'],
  ['PWRWNDB11', 'LND4PWR', '0.00038', '', '', '', '1'],
+
+## Biofuel
  ['PWRBIOB06', 'LND4PWR', '0.293', '', '', '', '1'],
+
+## Hydro
  ['PWRHYDB13', 'LND4PWR', '0.022', '', '', '', '1'],
 
+## Solar
+ ['PWRSOLB02', 'LND4PWR', '0.0044', '', '', '', '1'],
 
 # Example of a crude oil refinery that produces a number of output products.
 # ['UPSCRU001', 'CRU', '1.0', 'LPG', '0.0081', 'Crude oil refinery', '1'],
@@ -261,7 +274,7 @@ PowerPlants: {
   PWRBIOB04:  ['Bio plant on B grid, K-SE Region (270 MW).', 2.85, 0.0291, 0.0288], 
   PWRBIOB05:  ['Bio plant on B grid, LM Region (160 MW).', 2.85, 0.0291, 0.0288],
 
-  PWRSOLB01:  ['Solar plant on B grid, K-Se Region (1 MW).', 2.85, 0, 0],
+  PWRSOLB01:  ['Solar plant on B grid, K-Se Region (1 MW).', 4.34, 0, 0],
   
  
   PWRHYDB01:  ['Large hydro plant on B grid, PR Region (2730 MW).', 1.05, 0, 0], 
@@ -282,13 +295,20 @@ PowerPlants: {
   PWRGEOB01:  ['Geothermal plant (Steam technology) on B grid, (? MW).', 6.67, 0.0021, 0.0006],
   PWRGEOB02:  ['Geothermal plant (Steam technology) on B grid, (? MW).', 6.67, 0.0021, 0.0006],
   PWRGEOB03:  ['Geothermal plant (Steam technology) on B grid, (? MW).', 6.67, 0.0021, 0.0006],
+
   PWRURNB01:  ['Nuclear plant (OT technology) on B grid, (? MW).', 3.0, 0.0378, 0.0375],
+
   PWRWNDB09:  ['Wind plant on B grid for future expansions, (? MW).', 3.33, 0, 0],
   PWRWNDB10:  ['Wind plant on B grid for future expansions, (? MW).', 3.33, 0, 0], 
   PWRWNDB11:  ['Wind plant on B grid for future expansions, (? MW).', 3.33, 0, 0],
+
   PWRBIOB06:  ['Bio plant on B grid for future expansions, (? MW).', 2.85, 0.0291, 0.0288],
+
   PWRHYDB13:  ['Hydro plants on B grid for future expansions, (? MW).', 1.25, 0, 0],
-    
+
+  PWRSOLB02:  ['Solar plant on B grid, K-Se Region (1 MW).', 4.34, 0, 0],
+
+
 }
 
 # Emissions to be tracked in the model.
