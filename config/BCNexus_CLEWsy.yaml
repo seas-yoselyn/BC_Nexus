@@ -379,7 +379,7 @@ NamingConvention: {
   WHE: 'Wheat',
   RAP: 'Rapeseed',
   OAT: 'Oat',
-  BAR: 'Barley',
+  BRL: 'Barley',
   #corrected from 'BRL'
   PEA: 'Dry pea',
   MAI: 'Maize',
