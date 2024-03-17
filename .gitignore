@@ -27,3 +27,4 @@ workflow/BCNexus_Scenarios/scenario_files/Sample
 osemosys/osemosys-cloud-visualization
 osemosys/osemosys-cloud-visualization
 osemosys/osemosys-cloud-visualization
+from_linking_tool/*csv
