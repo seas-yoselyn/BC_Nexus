@@ -1,4 +1,9 @@
-# last modification: Feb 28, 2023 by M Eliasinul Islam
+# last modification: June 23, 2024 by M Eliasinul Islam
+
+### Changelog
+# 20240623 : Added a new key 'COD_PowerPlants' to automate new Powerplant's startyear datafield across all input files.
+
+
 # ____________________________________________
 # This file defines the input variables for the clewsy model building script.
 # Based on the data in this file, clewsy builds the SETS, InputActivityRatio and OutputActivityRatio
@@ -307,9 +312,20 @@ PowerPlants: {
   PWRHYDB13:  ['Hydro plants on B grid for future expansions, (? MW).', 1.25, 0, 0],
 
   PWRSOLB02:  ['Solar plant on B grid, K-Se Region (1 MW).', 4.34, 0, 0],
-
+  PWRSOLB03:  ['Solar plant on B grid, K-Se Region (1 MW).', 4.34, 0, 0],
 
 }
+
+# Define Start Year (CODs) for Technology Expansions
+COD_PowerPlants:
+  PWRSOLB02 : 2025
+  PWRSOLB03 : 2025
+  PWRWNDB09 : 2025
+  PWRWNDB10 : 2025
+  PWRWNDB11 : 2025
+  PWRWNDB12 : 2025
+
+
 
 # Emissions to be tracked in the model.
 Emissions: {
