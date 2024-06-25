@@ -504,6 +504,8 @@ UseByTechnology:
     dtype: float
     default: 0
     calculated: False
+
+# CLEWs Parameters
 TechnologyActivityIncreaseByModeLimit:
     short_name: TechnActivityIncreaseByModeLim
     indices: [REGION, TECHNOLOGY, MODE_OF_OPERATION, YEAR]

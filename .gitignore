@@ -28,3 +28,8 @@ osemosys/osemosys-cloud-visualization
 osemosys/osemosys-cloud-visualization
 osemosys/osemosys-cloud-visualization
 from_linking_tool/*csv
+.snakemake/metadata/*
+.snakemake/metadata/d29ya2Zsb3cvTFBfZmlsZS9CQ05leHVzLmxw
+.snakemake/metadata/d29ya2Zsb3cvY2hlY2tfZmxhZ3MvY2hlY2tfZmxhZ19tb2RlbF9ydW4uY2hlY2s=
+.snakemake/metadata/d29ya2Zsb3cvY2hlY2tfZmxhZ3MvY2hlY2tfZmxhZ19zY2VuYXJpb19maWxlX2R1bXAuY2hlY2s=
+.snakemake/metadata/d29ya2Zsb3cvZG9jcy9DQkNfc29sdXRpb24uc29s
