@@ -10,10 +10,11 @@ Decarbonizing B.C.’s energy system
 - [Md Eliasinul Islam](https://www.linkedin.com/in/eliasinul/)
      - Model<sub>v1</sub> workflow automation, visualization, bug-fixes, otoole user-interface based data intake and result processing, model version control and git management, git-wiki 
      - PICS project data schema, project data sync automation
+     - Data automation, timeslice downscaling automation of Model<sub>v2</sub> developemnt
 - Bruno Borba
-     - Developing storage, timeslice-aggregation, H<sub>2</sub> inclusion in model
+     - Developing storage, timeslice-aggregation, H<sub>2</sub> inclusion in Model<sub>v2</sub>
 - [Pierre McWhannelView](https://www.linkedin.com/in/pierre-mcwhannel/)
-     - coordination and development of dataschema, conceptualization and implementation of storage and time-slice aggreagtion,datasync and model version control.
+     - coordination and development of dataschema, conceptualization and implementation of storage and time-slice aggreagtion, datasync of Model<sub>v2</sub>
 - [Taco Niet](https://www.sfu.ca/see/research/delta-e/people/taco-niet.html?cq_ck=1647992649531)
       - Principal investigator (PI),supervision, conceptualization and review of the scientific articles, model results validation
 - [Andrew S. Wright](https://www.linkedin.com/in/andrew-wright-6197a3125/) 
