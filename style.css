@@ -1,13 +1,13 @@
 
     .container {
-        max-width: calc(auto * 6 + 12px);
+        max-width: calc(32 * 6 + 12px);
         display: grid;
-        grid-template-columns: repeat(1, auto);
+        grid-template-columns: repeat(1, 32);
         grid-gap: 1px; /* Adjust as needed */
     }
 
     .subplot {
-        width: auto;
+        width: 32;
         height: auto;
         padding: 2px;
         border: 1px solid #ccc;
