@@ -317,14 +317,15 @@ PowerPlants: {
 }
 
 # Define Start Year (CODs) for Technology Expansions
-COD_PowerPlants:
+COD_new_PowerPlants:
+# solar
   PWRSOLB02 : 2025
   PWRSOLB03 : 2025
+# wind
   PWRWNDB09 : 2025
   PWRWNDB10 : 2025
   PWRWNDB11 : 2025
   PWRWNDB12 : 2025
-
 
 
 # Emissions to be tracked in the model.
