@@ -5,7 +5,6 @@ The objective of this project is to develop a model that integrates water, food,
 
 The repository is broken into several main folders. The [__Wiki__](https://github.com/DeltaE/BC-CLEWS-Model/wiki) associated with this repository provides detailed information on the the model structure and the modelling methodology. Check the [__Public Dashboard__](https://deltae.github.io/BC-CLEWS-Model/).
 
-
 # Project Description
 Decarbonizing B.C.’s energy system
 - [Brief descristion about the project](https://pics.uvic.ca/projects/decarbonizing-b-c-s-energy-system/)
