@@ -42,7 +42,7 @@ rule Model_Shell:
     message:
         'Preparing the Model Shell (SETS and Activity Ratio files) ...'
     input:
-        Input_files = 'user_inputs',
+        Input_files = 'user_inputs', # dummy
         CLEWsy_Config_file = 'config/BCNexus_CLEWsy.yaml'
     output:
         CLEWsy_outputs=directory(config['otooleOutputDirectory']),
@@ -59,7 +59,7 @@ rule prepare_input_data_CSV_files:
         'Collecting the CSV data files...'
     input:
         check_flag_model_shell='workflow/check_flags/Model_shell_complete.check',
-        script = 'workflow/scripts/organize_files.py',
+        # script = 'workflow/scripts/organize_files.py',
         sets_CSV_files=config['otooleOutputDirectory'],
         params_CSV_files='datapackage/Params',
         CLEWs_model_input_data_direc='workflow/data',
@@ -153,15 +153,15 @@ rule RUN_MODEL:
     threads: 8
     shell:
         '''
-        if test -d "{output.LP_file}" && ! test -d "{output.solution_file}"; then
-            cbc "{output.LP_file}" solve -solu "{output.solution_file}"
-        else
-            glpsol -m "{input.CLEWs_model_otoole_processed}" -d "{input.CLEWs_model_input_datafile_toole_processed}" --wlp "{output.LP_file}" --check
-            cbc "{output.LP_file}" solve -solu "{output.solution_file}"
-        fi
+        glpsol -m "{input.CLEWs_model_otoole_processed}" -d "{input.CLEWs_model_input_datafile_toole_processed}" --wlp "{output.LP_file}" --check
+        cbc "{output.LP_file}" solve -solu "{output.solution_file}"
         touch {output.check_flag_model_run}
         '''
-
+# if test -d "{output.LP_file}" && ! test -d "{output.solution_file}"; then
+        #     cbc "{output.LP_file}" solve -solu "{output.solution_file}"
+        # else
+# fi
+        
 if not os.path.isdir('results'):
     os.makedirs('results')
     
