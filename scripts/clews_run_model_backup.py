@@ -89,7 +89,8 @@ def main(
         ### UPDATING CAPACITY FACTOR AND SPECIFIED DEMAND PROFILE
         
         output_CF_csv_file = case_input_csvs/'CapacityFactor.csv' # config['FILES']['capacity_factor_file']
-        # """ 
+        output_CF_csv_file.parent.mkdir(parents=True,exist_ok=True)
+        
         # Updating capacity factor (averaging the values)
         clews_builder.CFandSDP(input_CF_csv_file, 
                                 representative_days, 
@@ -116,7 +117,7 @@ def main(
                                   group_by='FUEL')
 
         
-
+        # """
         # ### Skip if case_name is 'Niet'
         # if case_name == 'Niet':
         #     continue
@@ -127,7 +128,6 @@ def main(
         print(f"Updating case: {case_name}")
 
 
-        
         ### UPDATING TIMESLICE AND DAYTYPE
         # Updating timeslice
     
@@ -156,11 +156,11 @@ def main(
         # Updating conversionldc
         output_conversionldc_csv_file =  case_input_csvs/'Conversionldc.csv' # case_info['input_otoole_csv']['conversionldc']
         clews_builder.conversion(chronological_sequence, representative_days, days_in_year, output_conversionldc_csv_file)
-        # """
+        
         # Updating day split in yaml file
         otoole_yaml_file = Path (f'models/BC_Nexus/Model_{case_name}/otoole_config_{case_name}.yaml') #case_info['otoole_config']
         clews_builder.new_yaml_param(otoole_yaml_file, 'DaySplit', day_split)
-
+        
 ### Updating otoole yaml file
         clews_builder.new_yaml_param(otoole_yaml_file, 'StorageMaxCapacity', StorageMaxCapacity)
         clews_builder.new_yaml_param(otoole_yaml_file, 'ResidualStorageCapacity', ResidualStorageCapacity)

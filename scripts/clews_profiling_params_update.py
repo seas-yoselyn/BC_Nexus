@@ -130,8 +130,8 @@ def main(
     #step 2: Load the updated CLEWS BUILDER CONFIG
     print(f"\n>> Loading the updated CLEWS Builder config...")
     # config=utils.load_config(config_file_path)
-    clews_builder_config:dict=utils.load_config(clews_builder_config_path)
-    combined_model_config:dict=utils.load_config(clews_builder_config_path)
+    # clews_builder_config:dict=utils.load_config(clews_builder_config_path)
+    # combined_model_config:dict=utils.load_config(clews_builder_config_path)
     
     #step 3: Update CAPACITY FACTOR
     print(f"\n>> Updating CAPACITY FACTOR...")

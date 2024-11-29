@@ -7,7 +7,6 @@ AccumulatedAnnualDemand:
   - YEAR
   type: param
 AccumulatedNewCapacity:
-  calculated: true
   default: 0
   dtype: float
   indices:
@@ -24,7 +23,6 @@ AnnualEmissionLimit:
   - YEAR
   type: param
 AnnualEmissions:
-  calculated: true
   default: 0
   dtype: float
   indices:
@@ -41,7 +39,6 @@ AnnualExogenousEmission:
   - YEAR
   type: param
 AnnualFixedOperatingCost:
-  calculated: true
   default: 0
   dtype: float
   indices:
@@ -50,7 +47,6 @@ AnnualFixedOperatingCost:
   - YEAR
   type: result
 AnnualTechnologyEmission:
-  calculated: true
   default: 0
   dtype: float
   indices:
@@ -60,7 +56,6 @@ AnnualTechnologyEmission:
   - YEAR
   type: result
 AnnualTechnologyEmissionByMode:
-  calculated: true
   default: 0
   dtype: float
   indices:
@@ -71,7 +66,6 @@ AnnualTechnologyEmissionByMode:
   - YEAR
   type: result
 AnnualVariableOperatingCost:
-  calculated: true
   default: 0
   dtype: float
   indices:
@@ -128,7 +122,6 @@ CapitalCostStorage:
   - YEAR
   type: param
 CapitalInvestment:
-  calculated: true
   default: 0
   dtype: float
   indices:
@@ -174,7 +167,7 @@ DAYTYPE:
   dtype: int
   type: set
 DaySplit:
-  default: 0.00022831050228310502
+  default: 0.0013698630136986301
   dtype: float
   indices:
   - DAILYTIMEBRACKET
@@ -189,7 +182,6 @@ DaysInDayType:
   - YEAR
   type: param
 Demand:
-  calculated: true
   default: 0
   dtype: float
   indices:
@@ -347,7 +339,6 @@ OutputActivityRatio:
   - YEAR
   type: param
 ProductionByTechnology:
-  calculated: true
   default: 0
   dtype: float
   indices:
@@ -358,7 +349,6 @@ ProductionByTechnology:
   - YEAR
   type: result
 ProductionByTechnologyAnnual:
-  calculated: true
   default: 0
   dtype: float
   indices:
@@ -405,7 +395,6 @@ RateOfActivity:
   - YEAR
   type: result
 RateOfProductionByTechnology:
-  calculated: true
   default: 0
   dtype: float
   indices:
@@ -416,7 +405,6 @@ RateOfProductionByTechnology:
   - YEAR
   type: result
 RateOfProductionByTechnologyByMode:
-  calculated: true
   default: 0
   dtype: float
   indices:
@@ -429,7 +417,6 @@ RateOfProductionByTechnologyByMode:
   short_name: RateOfProductionByTechByMode
   type: result
 RateOfUseByTechnology:
-  calculated: true
   default: 0
   dtype: float
   indices:
@@ -440,7 +427,6 @@ RateOfUseByTechnology:
   - YEAR
   type: result
 RateOfUseByTechnologyByMode:
-  calculated: true
   default: 0
   dtype: float
   indices:
@@ -701,7 +687,6 @@ TotalAnnualMinCapacityInvestment:
   short_name: TotalAnnualMinCapacityInvestmen
   type: param
 TotalAnnualTechnologyActivityByMode:
-  calculated: true
   default: 0
   dtype: float
   indices:
@@ -712,7 +697,6 @@ TotalAnnualTechnologyActivityByMode:
   short_name: TotalAnnualTechActivityByMode
   type: result
 TotalCapacityAnnual:
-  calculated: true
   default: 0
   dtype: float
   indices:
@@ -721,7 +705,6 @@ TotalCapacityAnnual:
   - YEAR
   type: result
 TotalTechnologyAnnualActivity:
-  calculated: true
   default: 0
   dtype: float
   indices:
@@ -748,7 +731,6 @@ TotalTechnologyAnnualActivityUpperLimit:
   short_name: TotalTechnologyAnnualActivityUp
   type: param
 TotalTechnologyModelPeriodActivity:
-  calculated: true
   default: 0
   dtype: float
   indices:
