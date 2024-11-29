@@ -1,0 +1,1 @@
+The Model Kotzur is an modified version of the Original BC Clews Model to include storage algorithms.
