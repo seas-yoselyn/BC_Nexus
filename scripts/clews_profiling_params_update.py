@@ -31,9 +31,11 @@ def prepare_capacity_factor_data(
     start_year = cm_config['clews']['GENERAL']['start_year']
     last_year = cm_config['clews']['GENERAL']['last_year']
     wind_ts_file_path =  cm_config['pypsa']['output']['create_ext_wind_ts'] ['fname']  # config['FILES']['DATA']['data_8760']['CF_wind']
-    wind_future_ts_file_path = Path (cm_config['results']['linking']['root'])/ cm_config['results']['linking']['clusters_CFts_topSites']['wind'] # config['FILES']['DATA']['data_8760']['CF_wind_future']
+    # wind_future_ts_file_path = Path (cm_config['results']['linking']['root'])/ cm_config['results']['linking']['clusters_CFts_topSites']['wind'] # config['FILES']['DATA']['data_8760']['CF_wind_future']
+    wind_future_ts_file_path=Path ('results/linking/resource_options_wind_timeseries.csv')
     solar_ts_file_path =  cm_config['pypsa']['output']['create_ext_solar_ts'] ['fname'] # config['FILES']['DATA']['data_8760']['CF_solar']
-    solar_future_ts_file_path = Path (cm_config['results']['linking']['root'])/ cm_config['results']['linking']['clusters_CFts_topSites']['solar'] #config['FILES']['DATA']['data_8760']['CF_solar_future']
+    # solar_future_ts_file_path = Path (cm_config['results']['linking']['root'])/ cm_config['results']['linking']['clusters_CFts_topSites']['solar'] #config['FILES']['DATA']['data_8760']['CF_solar_future']
+    solar_future_ts_file_path=Path ('results/linking/resource_options_solar_timeseries.csv')
     hydro_reservoir_ts_file_path = cm_config['pypsa']['output']['reservoir_inflows'] ['fname']  #  config['FILES']['DATA']['data_8760']['CF_hydro_reservoir']
     hydro_ror_ts_file_path = cm_config['pypsa']['output']['ror_ps'] ['fname']  # config['FILES']['DATA']['data_8760']['CF_hydro_ror']
     
@@ -45,9 +47,9 @@ def prepare_capacity_factor_data(
 
     # Read time series data
     wind_ts_df = pd.read_csv(wind_ts_file_path)
-    wind_future_ts_df = pd.read_pickle(wind_future_ts_file_path)
+    wind_future_ts_df = pd.read_csv(wind_future_ts_file_path) # pd.read_pickle(wind_future_ts_file_path)
     solar_ts_df = pd.read_csv(solar_ts_file_path)
-    solar_future_ts_df = pd.read_pickle(solar_future_ts_file_path)
+    solar_future_ts_df =  pd.read_csv(solar_future_ts_file_path) # pd.read_pickle(solar_future_ts_file_path)
     hydro_reservoir_ts_df = pd.read_csv(hydro_reservoir_ts_file_path)
     hydro_ror_ts_df = pd.read_csv(hydro_ror_ts_file_path)
 

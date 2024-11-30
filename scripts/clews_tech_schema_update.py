@@ -38,9 +38,11 @@ def update_clews_builder_config(combined_model_config_path:Path,
 
     # Read the CSV files
     wind_df = pd.read_csv(wind_csv_file_path)
-    wind_future_df = pd.read_pickle(wind_future_pkl_file_path)
+    wind_future_df =  pd.read_csv(Path('results/linking/resource_options_wind.csv')) # pd.read_pickle(wind_future_pkl_file_path)
+    wind_future_df=wind_future_df.head(5) # temp
     solar_df = pd.read_csv(solar_csv_file_path)
-    solar_future_df = pd.read_pickle(solar_future_pkl_file_path)
+    solar_future_df =  pd.read_csv(Path('results/linking/resource_options_solar.csv')) # pd.read_pickle(solar_future_pkl_file_path)
+    solar_future_df=solar_future_df.head(1) # temp
     tpp_df = pd.read_csv(tpp_csv_file_path)
     hydro_generation_df = pd.read_csv(hydro_generation_csv_file_path)
     hydro_resevoir_df = pd.read_csv(hydro_resevoir_csv_file_path)

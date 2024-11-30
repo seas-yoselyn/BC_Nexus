@@ -28,7 +28,7 @@ def update_residual_capacity(
     # Add the new technologies
     for category, tech_details in techs.items():
         for tech_key, tech_info in tech_details.items():
-            df_filtered = clews_builder.add_technologies_residual_cap(df_filtered, tech_key, tech_info, start_year, region)
+            df_filtered = clews_builder.add_technologies_residual_cap(df_filtered, tech_key, tech_info, start_year, last_year, region)
             
     residual_capacity_out=Path(f'data/clews_data/inputs_csv/ResidualCapacity.csv')
     # Save the file with updated technologies

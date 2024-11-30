@@ -167,7 +167,7 @@ DAYTYPE:
   dtype: int
   type: set
 DaySplit:
-  default: 0.0013698630136986301
+  default: 0.00011415525114155251
   dtype: float
   indices:
   - DAILYTIMEBRACKET

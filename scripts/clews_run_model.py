@@ -73,8 +73,9 @@ def main(
     ### Run the Prerequisites to update params
         cmd_schema_params_update = (  # developed CLI cmds to include multiple scripts
             "bccm clews update_tech_schema && " # Updates 'clews_builder_config'
-            "bccm clews update_profiling_params && " # Creates 'input_CF_csv_file' , 'input_SDP_csv_file'
-            "bccm clews update_yearly_params" # Updates yearly params for new techs inside 'input_csv_case_dir'
+            "bccm clews update_yearly_params && " # Updates yearly params for new techs inside 'input_csv_case_dir'
+            "bccm clews update_profiling_params " # Creates 'input_CF_csv_file' , 'input_SDP_csv_file'
+
         )
         try:
         # Run the command
@@ -218,7 +219,11 @@ def main(
         otoole_results_cmd= f"otoole results gurobi csv {data_sol_path} {otoole_results_dir} datafile {output_txt_file} {otoole_yaml_file}"
         print(otoole_results_cmd)
         subprocess.run(otoole_results_cmd, shell=True, text=True)
-        print(f"Result extraction completed.")
+        
+        command = f"cut -d' ' -f1-5 gurobi.log > {otoole_results_dir}/gurobi.log"
+        # Run the command
+        subprocess.run(command, shell=True, check=True)      
+        print(f"Result extraction completed and saved to {otoole_results_dir}")
     # """
     
     return
