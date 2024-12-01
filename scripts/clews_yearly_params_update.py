@@ -6,6 +6,35 @@ from bc_combined_modelling import clews_builder
 from pathlib import Path
 from bc_combined_modelling.AttributesParser_cm import AttributesParserExtended
 
+def update_TotalAnnualMaxCapacity(
+    combined_model_config_path:Path,
+    clews_builder_config_path:Path,
+):
+    ### UPDATE RESIDUAL CAPACITY
+    ##################################################################################################
+    cb_config:dict=utils.load_config(clews_builder_config_path)
+    cm_config:dict=utils.load_config(combined_model_config_path)
+    
+    total_max_capacity_file = Path ('data/clews_data/inputs_csv/TotalAnnualMaxCapacity.csv') # config['FILES']['residual_capacity_file']
+    techs = cb_config['TECHNOLOGIES']
+    
+    region = cm_config['clews']['GENERAL']['region']
+    start_year = cm_config['clews']['GENERAL']['start_year']
+    last_year = cm_config['clews']['GENERAL']['last_year']
+
+    df_filtered = clews_builder.delete_technologies(total_max_capacity_file, techs)
+
+    # Add the new technologies
+    for category, tech_details in techs.items():
+        for tech_key, tech_info in tech_details.items():
+            df_filtered = clews_builder.add_technologies_max_cap(df_filtered, tech_key, tech_info, start_year, last_year, region)
+            
+    residual_capacity_out=Path(f'data/clews_data/inputs_csv/TotalAnnualMaxCapacity.csv')
+    # Save the file with updated technologies
+    df_filtered.to_csv(residual_capacity_out, index=False)
+
+    print(f"Total Annual Max Capacity CSV file saved at: {total_max_capacity_file}")
+    return df_filtered
 
 def update_residual_capacity(
     combined_model_config_path:Path,
@@ -241,7 +270,7 @@ def update_technology_from_to_storage(
     df_filtered.to_csv(technology_from_storage_out, index=False)
 
     print(f"Technology from storage CSV file saved at: {technology_from_storage_out}")
-    
+
 def main(
     combined_model_config_path:Path,
     clews_builder_config_path:Path
@@ -274,6 +303,11 @@ def main(
     #step 9: Update TECHNOLOGY from/to STORAGE
     print(f"\n>> Updating TECHNOLOGY FROM STORAGE...")
     update_technology_from_to_storage(combined_model_config_path,
+                             clews_builder_config_path)
+    
+    #step 10: Update TOTAL ANNUAL MAX CAP
+    print(f"\n>> Updating TOTAL ANNUAL MAX CAPACITY...")
+    update_TotalAnnualMaxCapacity(combined_model_config_path,
                              clews_builder_config_path)
     
     print(f"CLEWs yearly Parameters updated.")
