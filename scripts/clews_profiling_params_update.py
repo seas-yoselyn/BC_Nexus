@@ -101,7 +101,7 @@ def update_specified_demand_profile(
     df_filtered.loc[:, 'demand_MWh'] = df_filtered['demand_MWh'] / df_filtered['demand_MWh'].sum()
 
     # Define demands
-    demands = ['AGRELCB02', 'COMELCB02', 'INDELCB02', 'RESELCB02', 'TRAELCB02']
+    demands = ['COMELCB02', 'INDELCB02', 'RESELCB02', 'TRAELCB02'] # don't have data for 'AGRELCB02'
 
     # Generate demand profile rows
     demand_rows = clews_builder.generate_demand_profile(demands, df_filtered, region, start_year)
