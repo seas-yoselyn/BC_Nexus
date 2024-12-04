@@ -1,35 +1,10 @@
-# Build and Release Folders
-bin-debug/
-bin-release/
-[Oo]bj/
-[Bb]in/
-results/*
-# Other files and folders
-.settings/
-workflow/.snakemake
-# Executables
-*.swf
-*.air
-*.ipa
-*.apk
-
-note_accessing_git_through_linux.txt
-workflow/LP_file/*
-workflow/.snakemake/*
-workflow/processed_data.txt
-workflow/processed_model_BCNexus.txt
-workflow/ModeList.txt
-.snakemake/locks/0.output.lock
-.snakemake/log
-ModeList.txt
-.snakemake/*
-workflow/BCNexus_Scenarios/scenario_files/Sample
-osemosys/osemosys-cloud-visualization
-osemosys/osemosys-cloud-visualization
-osemosys/osemosys-cloud-visualization
-from_linking_tool/*csv
-.snakemake/metadata/*
-.snakemake/metadata/d29ya2Zsb3cvTFBfZmlsZS9CQ05leHVzLmxw
-.snakemake/metadata/d29ya2Zsb3cvY2hlY2tfZmxhZ3MvY2hlY2tfZmxhZ19tb2RlbF9ydW4uY2hlY2s=
-.snakemake/metadata/d29ya2Zsb3cvY2hlY2tfZmxhZ3MvY2hlY2tfZmxhZ19zY2VuYXJpb19maWxlX2R1bXAuY2hlY2s=
-.snakemake/metadata/d29ya2Zsb3cvZG9jcy9DQkNfc29sdXRpb24uc29s
+.snakemake
+archive
+check_flags
+clewsy_test
+log
+scripts/archive
+scripts/__pycache__
+workflow/__pycache__
+workflow/BCNexus_Scenarios/scenario_files
+workflow/logs
