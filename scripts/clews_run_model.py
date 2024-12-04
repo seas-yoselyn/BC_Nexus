@@ -6,6 +6,8 @@ import argparse,yaml
 import subprocess
 from bc_combined_modelling import linking_utility as utils
 from bc_combined_modelling import clews_builder
+from bc_combined_modelling import clews_datapackage as clews_data_module
+
 from pathlib import Path 
 # %%
 def main(
@@ -184,8 +186,11 @@ def main(
         print(f"Preprocessing case: {case_name}")
         command_preprocess = f"python {otoole_preprocessing_script} {output_txt_file} {output_txt_file_preprocessed} {org_model_file} {output_model_file_preprocessed}"
         subprocess.run(command_preprocess, shell=True, text=True)
-    
+
+
+        
 ### Running model
+    #### Define result and LP file directories
         otoole_results_dir= Path(f'results/clews/Model_{case_name}_{timeslices}ts')
         otoole_results_dir.parent.mkdir(parents=True,exist_ok=True)
         
@@ -195,8 +200,18 @@ def main(
         LP_file = Path(f'data/clews_data/Model_{case_name}/BCNexus_{case_name}.lp')
         
         print(f"Running case: Model {case_name}")
+
+    ####  Input Checker
+        # Create an instance of the class with the directory containing CSV files
+        data_package = clews_data_module.GetDataPackage(case_input_csvs)
+
+        # Get all DataFrames in the dictionary
+        SETS_dfs,Params_dfs = data_package.load_data()
+
+        checker=clews_data_module.Checker(SETS_dfs,Params_dfs)
+        checker.get_summary_report(f'data/clews_data/Model_{case_name}/Input_checker_summary_report.txt')
          
-### Write LP with GLPSOL
+    #### Write LP with GLPSOL
         # command_run = f"glpsol -m {output_model_file_preprocessed} -d {output_txt_file_preprocessed} --wglp {data_glp_path} --write {data_sol_path}"  
         # subprocess.run(command_run, shell=True, text=True)
         
@@ -208,7 +223,7 @@ def main(
         # cmd_cbc_model_run= f"cbc {LP_file} solve -solu {data_sol_cbc_path}"
         # subprocess.run(cmd_cbc_model_run, shell=True, text=True)
         
-### Solve the LP with GUROBI Solver
+    #### Solve the LP with GUROBI Solver
         print(f"Running Gurobi Solver with LP file: {LP_file} and the targeted ResultFile: {data_sol_path}")
         cmd_solve_model_gurobi= f"gurobi_cl ResultFile={data_sol_path} {LP_file}"
         subprocess.run(cmd_solve_model_gurobi, shell=True, text=True)
