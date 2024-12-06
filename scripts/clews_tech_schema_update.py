@@ -122,7 +122,7 @@ def main(
     #  new_pwrsol_future_structure,
     #  new_inflow_structure,
     #  new_hydro_structure) =update_clews_builder_config(combined_model_config,clews_builder_config)
-    
+    clews_builder.build_yaml_skeleton(clews_builder_config,)
     update_clews_builder_config(combined_model_config,clews_builder_config)
     
     print(f" CLEWS technology data schema updated.")
