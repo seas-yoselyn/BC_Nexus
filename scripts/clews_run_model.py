@@ -186,8 +186,6 @@ def main(
         print(f"Preprocessing case: {case_name}")
         command_preprocess = f"python {otoole_preprocessing_script} {output_txt_file} {output_txt_file_preprocessed} {org_model_file} {output_model_file_preprocessed}"
         subprocess.run(command_preprocess, shell=True, text=True)
-
-
         
 ### Running model
     #### Define result and LP file directories
