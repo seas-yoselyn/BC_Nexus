@@ -14,6 +14,9 @@ def main(
     combined_model_config_path:Path, # Not in use, future scope standardized
     clews_builder_config_path:Path
 ):  
+    if not Path(clews_builder_config_path).exists():
+        subprocess.run("bccm clews update_tech_schema", shell=True, text=True, check=True)
+    
     clewsb_config=utils.load_config(clews_builder_config_path)
     
     # Combined Model Config
