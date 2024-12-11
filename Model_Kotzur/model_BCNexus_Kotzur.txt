@@ -266,7 +266,7 @@ var ProductionByTechnologyAnnual{r in REGION, t in TECHNOLOGY, f in FUEL, y in Y
 #var RateOfUse{r in REGION, l in TIMESLICE, f in FUEL, y in YEAR}>= 0;
 #var Use{r in REGION, l in TIMESLICE, f in FUEL, y in YEAR}>= 0;
 #var TradeAnnual{r in REGION, rr in REGION, f in FUEL, y in YEAR};
-#var ProductionAnnual{r in REGION, f in FUEL, y in YEAR}>= 0;
+var ProductionAnnual{r in REGION, f in FUEL, y in YEAR}>= 0;
 #
 #########                    Costing Variables                         #############
 #
@@ -351,7 +351,7 @@ s.t. EBa11_EnergyBalanceEachTS5{r in REGION, l in TIMESLICE, f in FUEL, y in YEA
 #
 #########                Energy Balance B                         #############
 #
-#s.t. EBb1_EnergyBalanceEachYear1{r in REGION, f in FUEL, y in YEAR}: sum{(m,t) in MODExTECHNOLOGYperFUELout[f], l in TIMESLICE} RateOfActivity[r,l,t,m,y]*OutputActivityRatio[r,t,f,m,y]*YearSplit[l,y] = ProductionAnnual[r,f,y];
+s.t. EBb1_EnergyBalanceEachYear1{r in REGION, f in FUEL, y in YEAR}: sum{(m,t) in MODExTECHNOLOGYperFUELout[f], l in TIMESLICE} RateOfActivity[r,l,t,m,y]*OutputActivityRatio[r,t,f,m,y]*YearSplit[l,y] = ProductionAnnual[r,f,y];
 #s.t. EBb2_EnergyBalanceEachYear2{r in REGION, f in FUEL, y in YEAR}: sum{(m,t) in MODExTECHNOLOGYperFUELin[f], l in TIMESLICE} RateOfActivity[r,l,t,m,y]*InputActivityRatio[r,t,f,m,y]*YearSplit[l,y] = UseAnnual[r,f,y];
 #s.t. EBb3_EnergyBalanceEachYear3{r in REGION, rr in REGION, f in FUEL, y in YEAR}: sum{l in TIMESLICE} Trade[r,rr,l,f,y] = TradeAnnual[r,rr,f,y];
 s.t. EBb4_EnergyBalanceEachYear4{r in REGION, f in FUEL, y in YEAR}: sum{(m,t) in MODExTECHNOLOGYperFUELout[f], l in TIMESLICE} RateOfActivity[r,l,t,m,y]*OutputActivityRatio[r,t,f,m,y]*YearSplit[l,y] >= sum{(m,t) in MODExTECHNOLOGYperFUELin[f], l in TIMESLICE} RateOfActivity[r,l,t,m,y]*InputActivityRatio[r,t,f,m,y]*YearSplit[l,y] + sum{l in TIMESLICE, rr in REGION} Trade[r,rr,l,f,y]*TradeRoute[r,rr,f,y] + AccumulatedAnnualDemand[r,f,y];
