@@ -162,12 +162,12 @@ def main(
         # Updating conversionldc
         output_conversionldc_csv_file =  case_input_csvs/'Conversionldc.csv' # case_info['input_otoole_csv']['conversionldc']
         clews_builder.conversion(chronological_sequence, representative_days, days_in_year, output_conversionldc_csv_file)
-        # """
+    ### Updating otoole yaml file
         # Updating day split in yaml file
         otoole_yaml_file = Path (f'models/BC_Nexus/Model_{case_name}/otoole_config_{case_name}.yaml') #case_info['otoole_config']
         clews_builder.new_yaml_param(otoole_yaml_file, 'DaySplit', day_split)
 
-### Updating otoole yaml file
+
         clews_builder.new_yaml_param(otoole_yaml_file, 'StorageMaxCapacity', StorageMaxCapacity)
         clews_builder.new_yaml_param(otoole_yaml_file, 'ResidualStorageCapacity', ResidualStorageCapacity)
 
