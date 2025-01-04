@@ -4,7 +4,7 @@
 # %%
 import argparse,yaml
 import subprocess
-from bc_combined_modelling import linking_utility as utils
+from archive import linking_utility as utils
 from bc_combined_modelling import clews_builder
 from pathlib import Path 
 # %%

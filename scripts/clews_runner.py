@@ -6,23 +6,23 @@ import yaml
 from bc_combined_modelling import utils
 from bc_combined_modelling import clews_builder
 from pathlib import Path
-from bc_combined_modelling.AttributesParser_cm import AttributesParserExtended
+from bc_combined_modelling.attributesParser_bccm import AttributesParser
 import subprocess
 import argparse,yaml
 import subprocess
-from bc_combined_modelling import linking_utility as utils
+from archive import linking_utility as utils
 from bc_combined_modelling import clews_builder
 from bc_combined_modelling import clews_datapackage as clews_data_module
 from pathlib import Path 
-from bc_combined_modelling import solver
+from bc_combined_modelling.clews import solver
 import gurobipy as gp
 
 class build_model:
-    def __init__(self, 
-            clews_builder_config_path:str|Path,
-            combined_model_config_path:str|Path):
+    def __init__(self,
+                combined_model_config_path:str|Path):
+        
         self.combined_model_config_path:Path=Path(combined_model_config_path)
-        self.clews_builder_config_path:Path=Path(clews_builder_config_path)
+        self.aparser=AttributesParser(self.combined_model_config_path)
         
     def build_skeleton_config(self):
         clews_builder.build_yaml_skeleton(self.clews_builder_config_path)

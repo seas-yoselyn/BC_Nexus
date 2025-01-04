@@ -4,7 +4,7 @@ import yaml
 from bc_combined_modelling import utils
 from bc_combined_modelling import clews_builder
 from pathlib import Path
-from bc_combined_modelling.AttributesParser_cm import AttributesParserExtended
+from bc_combined_modelling.attributesParser_bccm import AttributesParserExtended
 
    
 def update_clews_builder_config(combined_model_config_path:Path,

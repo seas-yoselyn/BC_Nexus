@@ -4,7 +4,7 @@
 # %%
 import argparse,yaml
 import subprocess
-from bc_combined_modelling import linking_utility as utils
+from archive import linking_utility as utils
 from bc_combined_modelling import clews_builder
 from bc_combined_modelling import clews_datapackage as clews_data_module
 

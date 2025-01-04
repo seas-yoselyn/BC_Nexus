@@ -1,10 +1,11 @@
+
 STORAGE:
   BATTERY:
     capital_cost_storage: 100000
     mode_of_operation_charge: 1
     mode_of_operation_discharge: 57
     operational_life_storage: 25
-    residual_storage_capacity: 0.05
+    residual_storage_capacity: 0
     status: future
     storage_max_capacity: 99999
     technology_from_storage: BATTERY_STORAGE
@@ -21,22 +22,32 @@ STORAGE:
     technology_to_storage: INFLOW01
 STORAGE_TECHNOLOGY:
   BATTERY_STORAGE:
-    capital_cost: 1.0
+    capital_cost: 100000
     operational_life: 25
-    variable_cost: 0.0
+    variable_cost: 100000
 TECHNOLOGIES:
+  PWRURN:
+    PWRURNB01: {}
+  CCS:
+    CCS01: {}
+  HDG:  
+    HDG02: {}
+    HDG02: {}
+  PWRGEO:
+    PWRGEOB01: {}
   INFLOW:
     INFLOW01:
-      capacity: 13.80168961708861
-      capacity_storage: 68.94037623826668
+      capacity: 13.96124326899024
+      capacity_storage: 69.39855405618714
       capital_cost: 0
       closure_year: 2050
       name:
       - BC_ALH_RES
       - BC_ALU_RES
-      - BC_BR1_RES
+      - BC_BR0_RES
       - BC_GMS_RES
       - BC_JHT_RES
+      - BC_LAJ_RES
       - BC_LDR_RES
       - BC_MCA_RES
       - BC_PCN_RES
@@ -51,68 +62,93 @@ TECHNOLOGIES:
       operational_life: 99
   PWRBIO:
     PWRBIOB01:
-      availability_factor: 0.8497798971482001
-      capacity: '[0.00103, 0.00103, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+      availability_factor: 0.8495454545454544
+      capacity: '[0.022000000000000002, 0.022000000000000002, 0.022000000000000002,
+        0.022000000000000002, 0.022000000000000002, 0.021, 0.021, 0.021, 0.021, 0.02,
         0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-        0.0, 0.0, 0.0, 0.0]'
+        0.0, 0.0, 0.0, 0.0, 0.0, 0.0]'
       capital_cost: 2076.52
-      efficiency: 0.40081541585023794
-      operational_life: 8
+      efficiency: 0.40095671388167753
+      operational_life: 15
       variable_cost: 8.1
     PWRBIOB02:
-      availability_factor: 0.44328429640844474
-      capacity: '[0.1109, 0.1109, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-        0.0, 0.0, 0.0, 0.0]'
-      capital_cost: 6000.15
+      availability_factor: 0.5039091806515301
+      capacity: '[1.0130000000000001, 1.0130000000000001, 1.0130000000000001, 1.0130000000000001,
+        0.9450000000000001, 0.9450000000000001, 0.9450000000000001, 0.9450000000000001,
+        0.9450000000000001, 0.9450000000000001, 0.9430000000000001, 0.9430000000000001,
+        0.9430000000000001, 0.9430000000000001, 0.921, 0.921, 0.919, 0.919, 0.919,
+        0.906, 0.8170000000000001, 0.7240000000000001, 0.604, 0.40499999999999997,
+        0.34900000000000003, 0.22899999999999998, 0.057, 0.057, 0.057, 0.057, 0.057]'
+      capital_cost: 5299.51
       efficiency: 0.2527512322320797
       operational_life: 30
-      variable_cost: 6.58
+      variable_cost: 6.31
   PWRHYD:
     PWRHYDB01:
-      capacity: 12.41801
-      capital_cost: 4007.9
+      capacity: 12.424000000000003
+      capital_cost: 3599.7
       closure_year: 2050
       input ratio: 1
-      operational_life: 100
+      operational_life: 40
       status: existing
       type: reservoir
     PWRHYDB02:
-      capacity: 5.314639999999999
-      capital_cost: 4007.9
+      capacity: 5.303
+      capital_cost: 3599.7
       closure_year: 2050
-      operational_life: 100
+      operational_life: 40
       status: existing
       type: ror
-  PWRNGS: {}
+  PWRNGS:
+    PWRNGSB01:
+      availability_factor: 0.8905405405405405
+      capacity: '[0.37, 0.37, 0.37, 0.37, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.0,
+        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0, 0.0, 0.0]'
+      capital_cost: 1356.32
+      efficiency: 0.5331471304895431
+      operational_life: 30
+      variable_cost: 2.44
+    PWRNGSB02:
+      availability_factor: 0.8700000000000001
+      capacity: '[0.11, 0.11, 0.11, 0.11, 0.11, 0.11, 0.11, 0.11, 0.11, 0.11, 0.11,
+        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0, 0.0, 0.0]'
+      capital_cost: 1356.32
+      efficiency: 0.4531396593802225
+      operational_life: 37
+      variable_cost: 7.63
+    PWRNGSB03:
+      availability_factor: 0.2700000000000001
+      capacity: '[0.046, 0.046, 0.046, 0.046, 0.046, 0.046, 0.046, 0.046, 0.046, 0.046,
+        0.046, 0.046, 0.046, 0.046, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]'
+      capital_cost: 1238.83
+      efficiency: 0.35841823898456676
+      operational_life: 60
+      variable_cost: 6.14
   PWRSOL:
     PWRSOLB01:
-      capacity: 0.0011
-      capital_cost: 1759.6
-      closure_year: 2040
+      capacity: 0.001
+      capital_cost: 1756.95
+      closure_year: 2030
       name: BC_SNM00_GEN
-      operational_life: 30
+      operational_life: 20
       status: existing
       variable_cost: 0.0
-    PWRSOLB02:
-      capital_cost: 3209.402094837186
-      name: GreaterVancouver_1
-      operational_life: 25
-      potential: 871.7157748186453
-      status: future
-      variable_cost: 0
+
   PWRWND:
     PWRWNDB01:
-      capacity: 0.102
-      capital_cost: 2278.07
-      closure_year: 2034
+      capacity: 0.103
+      capital_cost: 1970.44
+      closure_year: 2029
       name: BC_BMW00_GEN
-      operational_life: 25
+      operational_life: 20
       status: existing
       variable_cost: 0.0
     PWRWNDB02:
-      capacity: 0.0992
-      capital_cost: 2278.07
+      capacity: 0.099
+      capital_cost: 1970.44
       closure_year: 2033
       name: BC_CSS00_GEN
       operational_life: 20
@@ -120,101 +156,49 @@ TECHNOLOGIES:
       variable_cost: 0.0
     PWRWNDB03:
       capacity: 0.144
-      capital_cost: 2278.07
-      closure_year: 2036
+      capital_cost: 1970.44
+      closure_year: 2031
       name: BC_DKW00_GEN
-      operational_life: 25
+      operational_life: 20
       status: existing
       variable_cost: 0.0
     PWRWNDB04:
-      capacity: 0.1846
-      capital_cost: 2278.07
-      closure_year: 2040
+      capacity: 0.195
+      capital_cost: 1970.44
+      closure_year: 2035
       name: BC_MKL00_GEN
-      operational_life: 25
+      operational_life: 20
       status: existing
       variable_cost: 0.0
     PWRWNDB05:
       capacity: 0.015
-      capital_cost: 2278.07
-      closure_year: 2059
+      capital_cost: 1970.44
+      closure_year: 2039
       name: BC_MLW00_GEN
-      operational_life: 40
+      operational_life: 20
       status: existing
       variable_cost: 0.0
     PWRWNDB06:
       capacity: 0.015
-      capital_cost: 2278.07
-      closure_year: 2050
+      capital_cost: 1970.44
+      closure_year: 2030
       name: BC_PSW00_GEN
-      operational_life: 40
+      operational_life: 20
       status: existing
       variable_cost: 0.0
     PWRWNDB07:
-      capacity: 0.1422
-      capital_cost: 2278.07
-      closure_year: 2037
+      capacity: 0.142
+      capital_cost: 1970.44
+      closure_year: 2032
       name: BC_QTY00_GEN
-      operational_life: 25
+      operational_life: 20
       status: existing
       variable_cost: 0.0
     PWRWNDB08:
       capacity: 0.015
-      capital_cost: 2278.07
-      closure_year: 2050
+      capital_cost: 1970.44
+      closure_year: 2030
       name: BC_SHC00_GEN
-      operational_life: 40
+      operational_life: 20
       status: existing
       variable_cost: 0.0
-    PWRWNDB09:
-      capacity: 0.015
-      capital_cost: 2278.07
-      closure_year: 2061
-      name: BC_SUK00_GEN
-      operational_life: 40
-      status: existing
-      variable_cost: 0.0
-    PWRWNDB10:
-      capacity: 0.015
-      capital_cost: 2278.07
-      closure_year: 2061
-      name: BC_ZBK00_GEN
-      operational_life: 40
-      status: existing
-      variable_cost: 0.0
-    PWRWNDB11:
-      capital_cost: 3209.402094837186
-      name: Capital_1
-      operational_life: 20
-      potential: 6.928866841079052
-      status: future
-      variable_cost: 0
-    PWRWNDB12:
-      capital_cost: 3209.402094837186
-      name: GreaterVancouver_1
-      operational_life: 20
-      potential: 115.44805215270242
-      status: future
-      variable_cost: 0
-    PWRWNDB13:
-      capital_cost: 3209.402094837186
-      name: MountWaddington_1
-      operational_life: 20
-      potential: 1098.9201904394238
-      status: future
-      variable_cost: 0
-    PWRWNDB14:
-      capital_cost: 3209.402094837186
-      name: Nanaimo_1
-      operational_life: 20
-      potential: 485.93355113910616
-      status: future
-      variable_cost: 0
-    PWRWNDB15:
-      capital_cost: 3209.402094837186
-      name: Alberni-Clayoquot_1
-      operational_life: 20
-      potential: 115.32233793021796
-      status: future
-      variable_cost: 0
-clews_datapackage_template: models/BC_Nexus/csv_template
