@@ -211,7 +211,6 @@ DiscountRateStorage:
   - STORAGE
   type: param
 DiscountedSalvageValue:
-  calculated: false
   default: 0
   dtype: float
   indices:
@@ -220,7 +219,6 @@ DiscountedSalvageValue:
   - YEAR
   type: result
 DiscountedTechnologyEmissionsPenalty:
-  calculated: false
   default: 0
   dtype: float
   indices:
@@ -297,7 +295,6 @@ ModelPeriodExogenousEmission:
   - EMISSION
   type: param
 NewCapacity:
-  calculated: false
   default: 0
   dtype: float
   indices:
@@ -306,7 +303,6 @@ NewCapacity:
   - YEAR
   type: result
 NewStorageCapacity:
-  calculated: false
   default: 0
   dtype: float
   indices:
@@ -384,7 +380,6 @@ RETagTechnology:
   - YEAR
   type: param
 RateOfActivity:
-  calculated: false
   default: 0
   dtype: float
   indices:
@@ -483,7 +478,6 @@ STORAGE:
   dtype: str
   type: set
 SalvageValue:
-  calculated: false
   default: 0
   dtype: float
   indices:
@@ -492,7 +486,6 @@ SalvageValue:
   - YEAR
   type: result
 SalvageValueStorage:
-  calculated: false
   default: 0
   dtype: float
   indices:
@@ -527,7 +520,6 @@ StorageLevelChronoDayStart:
   - YEAR
   type: result
 StorageLevelDayTypeFinish:
-  calculated: false
   default: 0
   dtype: float
   indices:
@@ -537,7 +529,6 @@ StorageLevelDayTypeFinish:
   - YEAR
   type: result
 StorageLevelDayTypeStart:
-  calculated: false
   default: 0
   dtype: float
   indices:
@@ -547,7 +538,6 @@ StorageLevelDayTypeStart:
   - YEAR
   type: result
 StorageLevelSeasonStart:
-  calculated: false
   default: 0
   dtype: float
   indices:
@@ -557,7 +547,6 @@ StorageLevelSeasonStart:
   - YEAR
   type: result
 StorageLevelYearFinish:
-  calculated: false
   default: 0
   dtype: float
   indices:
@@ -566,7 +555,6 @@ StorageLevelYearFinish:
   - YEAR
   type: result
 StorageLevelYearStart:
-  calculated: false
   default: 0
   dtype: float
   indices:
@@ -755,7 +743,6 @@ TotalTechnologyModelPeriodActivityUpperLimit:
   short_name: TotalTechnologyModelPeriodActUp
   type: param
 Trade:
-  calculated: false
   default: 0
   dtype: float
   indices:
@@ -774,7 +761,6 @@ TradeRoute:
   - YEAR
   type: param
 UseByTechnology:
-  calculated: false
   default: 0
   dtype: float
   indices:
