@@ -1,0 +1,507 @@
+,scenario,variable,year,value,unit
+1012,Global Net-zero,Agriculture,2005,63.60714,Megatonnes
+1013,Global Net-zero,Agriculture,2006,62.26741,Megatonnes
+1014,Global Net-zero,Agriculture,2007,62.44206,Megatonnes
+1015,Global Net-zero,Agriculture,2008,61.91207,Megatonnes
+1016,Global Net-zero,Agriculture,2009,59.17146,Megatonnes
+1017,Global Net-zero,Agriculture,2010,59.36927,Megatonnes
+1018,Global Net-zero,Agriculture,2011,60.20408,Megatonnes
+1019,Global Net-zero,Agriculture,2012,62.48385,Megatonnes
+1020,Global Net-zero,Agriculture,2013,64.37824,Megatonnes
+1021,Global Net-zero,Agriculture,2014,63.39121,Megatonnes
+1022,Global Net-zero,Agriculture,2015,65.01731,Megatonnes
+1023,Global Net-zero,Agriculture,2016,66.02384,Megatonnes
+1024,Global Net-zero,Agriculture,2017,66.50717,Megatonnes
+1025,Global Net-zero,Agriculture,2018,68.53742,Megatonnes
+1026,Global Net-zero,Agriculture,2019,68.96267,Megatonnes
+1027,Global Net-zero,Agriculture,2020,69.77846,Megatonnes
+1028,Global Net-zero,Agriculture,2021,68.51682,Megatonnes
+1029,Global Net-zero,Agriculture,2022,70.79153,Megatonnes
+1030,Global Net-zero,Agriculture,2023,71.01914,Megatonnes
+1031,Global Net-zero,Agriculture,2024,69.47696,Megatonnes
+1032,Global Net-zero,Agriculture,2025,68.45615,Megatonnes
+1033,Global Net-zero,Agriculture,2026,68.12026,Megatonnes
+1034,Global Net-zero,Agriculture,2027,67.66610,Megatonnes
+1035,Global Net-zero,Agriculture,2028,67.42764,Megatonnes
+1036,Global Net-zero,Agriculture,2029,67.27028,Megatonnes
+1037,Global Net-zero,Agriculture,2030,66.99065,Megatonnes
+1038,Global Net-zero,Agriculture,2031,66.76800,Megatonnes
+1039,Global Net-zero,Agriculture,2032,66.43419,Megatonnes
+1040,Global Net-zero,Agriculture,2033,65.95603,Megatonnes
+1041,Global Net-zero,Agriculture,2034,65.25356,Megatonnes
+1042,Global Net-zero,Agriculture,2035,64.36445,Megatonnes
+1043,Global Net-zero,Agriculture,2036,63.28840,Megatonnes
+1044,Global Net-zero,Agriculture,2037,62.11271,Megatonnes
+1045,Global Net-zero,Agriculture,2038,60.90145,Megatonnes
+1046,Global Net-zero,Agriculture,2039,59.72341,Megatonnes
+1047,Global Net-zero,Agriculture,2040,58.59871,Megatonnes
+1048,Global Net-zero,Agriculture,2041,57.51627,Megatonnes
+1049,Global Net-zero,Agriculture,2042,56.50295,Megatonnes
+1050,Global Net-zero,Agriculture,2043,55.54536,Megatonnes
+1051,Global Net-zero,Agriculture,2044,54.66489,Megatonnes
+1052,Global Net-zero,Agriculture,2045,53.77716,Megatonnes
+1053,Global Net-zero,Agriculture,2046,52.91835,Megatonnes
+1054,Global Net-zero,Agriculture,2047,52.15400,Megatonnes
+1055,Global Net-zero,Agriculture,2048,51.45543,Megatonnes
+1056,Global Net-zero,Agriculture,2049,50.81687,Megatonnes
+1057,Global Net-zero,Agriculture,2050,50.19673,Megatonnes
+1058,Global Net-zero,Buildings,2005,84.84944,Megatonnes
+1059,Global Net-zero,Buildings,2006,79.66271,Megatonnes
+1060,Global Net-zero,Buildings,2007,85.52041,Megatonnes
+1061,Global Net-zero,Buildings,2008,85.43251,Megatonnes
+1062,Global Net-zero,Buildings,2009,83.86526,Megatonnes
+1063,Global Net-zero,Buildings,2010,81.50537,Megatonnes
+1064,Global Net-zero,Buildings,2011,86.01484,Megatonnes
+1065,Global Net-zero,Buildings,2012,84.53496,Megatonnes
+1066,Global Net-zero,Buildings,2013,85.65905,Megatonnes
+1067,Global Net-zero,Buildings,2014,86.23596,Megatonnes
+1068,Global Net-zero,Buildings,2015,85.29422,Megatonnes
+1069,Global Net-zero,Buildings,2016,84.85454,Megatonnes
+1070,Global Net-zero,Buildings,2017,87.70961,Megatonnes
+1071,Global Net-zero,Buildings,2018,92.36804,Megatonnes
+1072,Global Net-zero,Buildings,2019,93.27410,Megatonnes
+1073,Global Net-zero,Buildings,2020,89.11787,Megatonnes
+1074,Global Net-zero,Buildings,2021,87.16960,Megatonnes
+1075,Global Net-zero,Buildings,2022,81.92832,Megatonnes
+1076,Global Net-zero,Buildings,2023,81.03312,Megatonnes
+1077,Global Net-zero,Buildings,2024,79.21236,Megatonnes
+1078,Global Net-zero,Buildings,2025,76.95326,Megatonnes
+1079,Global Net-zero,Buildings,2026,74.91248,Megatonnes
+1080,Global Net-zero,Buildings,2027,72.75644,Megatonnes
+1081,Global Net-zero,Buildings,2028,70.63300,Megatonnes
+1082,Global Net-zero,Buildings,2029,68.43217,Megatonnes
+1083,Global Net-zero,Buildings,2030,66.11846,Megatonnes
+1084,Global Net-zero,Buildings,2031,63.87326,Megatonnes
+1085,Global Net-zero,Buildings,2032,61.23749,Megatonnes
+1086,Global Net-zero,Buildings,2033,58.66491,Megatonnes
+1087,Global Net-zero,Buildings,2034,55.95781,Megatonnes
+1088,Global Net-zero,Buildings,2035,53.00615,Megatonnes
+1089,Global Net-zero,Buildings,2036,50.20819,Megatonnes
+1090,Global Net-zero,Buildings,2037,47.95113,Megatonnes
+1091,Global Net-zero,Buildings,2038,45.63921,Megatonnes
+1092,Global Net-zero,Buildings,2039,43.42399,Megatonnes
+1093,Global Net-zero,Buildings,2040,41.28624,Megatonnes
+1094,Global Net-zero,Buildings,2041,39.14772,Megatonnes
+1095,Global Net-zero,Buildings,2042,37.11798,Megatonnes
+1096,Global Net-zero,Buildings,2043,35.14836,Megatonnes
+1097,Global Net-zero,Buildings,2044,33.33793,Megatonnes
+1098,Global Net-zero,Buildings,2045,31.65429,Megatonnes
+1099,Global Net-zero,Buildings,2046,30.19869,Megatonnes
+1100,Global Net-zero,Buildings,2047,28.54857,Megatonnes
+1101,Global Net-zero,Buildings,2048,27.17991,Megatonnes
+1102,Global Net-zero,Buildings,2049,25.96320,Megatonnes
+1103,Global Net-zero,Buildings,2050,24.88166,Megatonnes
+1104,Global Net-zero,Direct Air Capture,2005,0.00000,Megatonnes
+1105,Global Net-zero,Direct Air Capture,2006,0.00000,Megatonnes
+1106,Global Net-zero,Direct Air Capture,2007,0.00000,Megatonnes
+1107,Global Net-zero,Direct Air Capture,2008,0.00000,Megatonnes
+1108,Global Net-zero,Direct Air Capture,2009,0.00000,Megatonnes
+1109,Global Net-zero,Direct Air Capture,2010,0.00000,Megatonnes
+1110,Global Net-zero,Direct Air Capture,2011,0.00000,Megatonnes
+1111,Global Net-zero,Direct Air Capture,2012,0.00000,Megatonnes
+1112,Global Net-zero,Direct Air Capture,2013,0.00000,Megatonnes
+1113,Global Net-zero,Direct Air Capture,2014,0.00000,Megatonnes
+1114,Global Net-zero,Direct Air Capture,2015,0.00000,Megatonnes
+1115,Global Net-zero,Direct Air Capture,2016,0.00000,Megatonnes
+1116,Global Net-zero,Direct Air Capture,2017,0.00000,Megatonnes
+1117,Global Net-zero,Direct Air Capture,2018,0.00000,Megatonnes
+1118,Global Net-zero,Direct Air Capture,2019,0.00000,Megatonnes
+1119,Global Net-zero,Direct Air Capture,2020,0.00000,Megatonnes
+1120,Global Net-zero,Direct Air Capture,2021,0.00000,Megatonnes
+1121,Global Net-zero,Direct Air Capture,2022,0.00000,Megatonnes
+1122,Global Net-zero,Direct Air Capture,2023,0.00000,Megatonnes
+1123,Global Net-zero,Direct Air Capture,2024,0.00000,Megatonnes
+1124,Global Net-zero,Direct Air Capture,2025,0.00000,Megatonnes
+1125,Global Net-zero,Direct Air Capture,2026,0.00000,Megatonnes
+1126,Global Net-zero,Direct Air Capture,2027,0.00000,Megatonnes
+1127,Global Net-zero,Direct Air Capture,2028,-0.00003,Megatonnes
+1128,Global Net-zero,Direct Air Capture,2029,-0.00015,Megatonnes
+1129,Global Net-zero,Direct Air Capture,2030,-0.00054,Megatonnes
+1130,Global Net-zero,Direct Air Capture,2031,-0.00250,Megatonnes
+1131,Global Net-zero,Direct Air Capture,2032,-0.00975,Megatonnes
+1132,Global Net-zero,Direct Air Capture,2033,-0.03136,Megatonnes
+1133,Global Net-zero,Direct Air Capture,2034,-0.08573,Megatonnes
+1134,Global Net-zero,Direct Air Capture,2035,-0.20522,Megatonnes
+1135,Global Net-zero,Direct Air Capture,2036,-0.43534,Megatonnes
+1136,Global Net-zero,Direct Air Capture,2037,-0.84042,Megatonnes
+1137,Global Net-zero,Direct Air Capture,2038,-1.50041,Megatonnes
+1138,Global Net-zero,Direct Air Capture,2039,-2.50522,Megatonnes
+1139,Global Net-zero,Direct Air Capture,2040,-3.94572,Megatonnes
+1140,Global Net-zero,Direct Air Capture,2041,-5.82388,Megatonnes
+1141,Global Net-zero,Direct Air Capture,2042,-8.19074,Megatonnes
+1142,Global Net-zero,Direct Air Capture,2043,-11.08262,Megatonnes
+1143,Global Net-zero,Direct Air Capture,2044,-14.51900,Megatonnes
+1144,Global Net-zero,Direct Air Capture,2045,-18.50257,Megatonnes
+1145,Global Net-zero,Direct Air Capture,2046,-23.02118,Megatonnes
+1146,Global Net-zero,Direct Air Capture,2047,-28.05083,Megatonnes
+1147,Global Net-zero,Direct Air Capture,2048,-33.55923,Megatonnes
+1148,Global Net-zero,Direct Air Capture,2049,-39.50910,Megatonnes
+1149,Global Net-zero,Direct Air Capture,2050,-45.86102,Megatonnes
+1150,Global Net-zero,Electricity,2005,117.58324,Megatonnes
+1151,Global Net-zero,Electricity,2006,111.62447,Megatonnes
+1152,Global Net-zero,Electricity,2007,119.65740,Megatonnes
+1153,Global Net-zero,Electricity,2008,108.88686,Megatonnes
+1154,Global Net-zero,Electricity,2009,93.77054,Megatonnes
+1155,Global Net-zero,Electricity,2010,94.59983,Megatonnes
+1156,Global Net-zero,Electricity,2011,86.87367,Megatonnes
+1157,Global Net-zero,Electricity,2012,83.30406,Megatonnes
+1158,Global Net-zero,Electricity,2013,79.70096,Megatonnes
+1159,Global Net-zero,Electricity,2014,76.28778,Megatonnes
+1160,Global Net-zero,Electricity,2015,78.94859,Megatonnes
+1161,Global Net-zero,Electricity,2016,74.25675,Megatonnes
+1162,Global Net-zero,Electricity,2017,72.60570,Megatonnes
+1163,Global Net-zero,Electricity,2018,62.74140,Megatonnes
+1164,Global Net-zero,Electricity,2019,61.60667,Megatonnes
+1165,Global Net-zero,Electricity,2020,53.68446,Megatonnes
+1166,Global Net-zero,Electricity,2021,51.67781,Megatonnes
+1167,Global Net-zero,Electricity,2022,55.39504,Megatonnes
+1168,Global Net-zero,Electricity,2023,53.10614,Megatonnes
+1169,Global Net-zero,Electricity,2024,44.41750,Megatonnes
+1170,Global Net-zero,Electricity,2025,35.19421,Megatonnes
+1171,Global Net-zero,Electricity,2026,36.04149,Megatonnes
+1172,Global Net-zero,Electricity,2027,37.36465,Megatonnes
+1173,Global Net-zero,Electricity,2028,37.70936,Megatonnes
+1174,Global Net-zero,Electricity,2029,35.18560,Megatonnes
+1175,Global Net-zero,Electricity,2030,28.89183,Megatonnes
+1176,Global Net-zero,Electricity,2031,18.51727,Megatonnes
+1177,Global Net-zero,Electricity,2032,9.59944,Megatonnes
+1178,Global Net-zero,Electricity,2033,7.08271,Megatonnes
+1179,Global Net-zero,Electricity,2034,1.55258,Megatonnes
+1180,Global Net-zero,Electricity,2035,-5.68443,Megatonnes
+1181,Global Net-zero,Electricity,2036,-8.14664,Megatonnes
+1182,Global Net-zero,Electricity,2037,-10.56466,Megatonnes
+1183,Global Net-zero,Electricity,2038,-12.89311,Megatonnes
+1184,Global Net-zero,Electricity,2039,-15.02770,Megatonnes
+1185,Global Net-zero,Electricity,2040,-16.81622,Megatonnes
+1186,Global Net-zero,Electricity,2041,-19.07661,Megatonnes
+1187,Global Net-zero,Electricity,2042,-20.90917,Megatonnes
+1188,Global Net-zero,Electricity,2043,-22.88513,Megatonnes
+1189,Global Net-zero,Electricity,2044,-25.07218,Megatonnes
+1190,Global Net-zero,Electricity,2045,-27.17090,Megatonnes
+1191,Global Net-zero,Electricity,2046,-29.06184,Megatonnes
+1192,Global Net-zero,Electricity,2047,-30.81684,Megatonnes
+1193,Global Net-zero,Electricity,2048,-32.47990,Megatonnes
+1194,Global Net-zero,Electricity,2049,-34.07794,Megatonnes
+1195,Global Net-zero,Electricity,2050,-36.01529,Megatonnes
+1196,Global Net-zero,Heavy Industry,2005,88.98923,Megatonnes
+1197,Global Net-zero,Heavy Industry,2006,88.74131,Megatonnes
+1198,Global Net-zero,Heavy Industry,2007,87.40888,Megatonnes
+1199,Global Net-zero,Heavy Industry,2008,85.85882,Megatonnes
+1200,Global Net-zero,Heavy Industry,2009,72.53000,Megatonnes
+1201,Global Net-zero,Heavy Industry,2010,75.68698,Megatonnes
+1202,Global Net-zero,Heavy Industry,2011,81.77988,Megatonnes
+1203,Global Net-zero,Heavy Industry,2012,81.82683,Megatonnes
+1204,Global Net-zero,Heavy Industry,2013,80.51321,Megatonnes
+1205,Global Net-zero,Heavy Industry,2014,80.86144,Megatonnes
+1206,Global Net-zero,Heavy Industry,2015,80.55737,Megatonnes
+1207,Global Net-zero,Heavy Industry,2016,77.97963,Megatonnes
+1208,Global Net-zero,Heavy Industry,2017,77.31527,Megatonnes
+1209,Global Net-zero,Heavy Industry,2018,79.56423,Megatonnes
+1210,Global Net-zero,Heavy Industry,2019,78.78807,Megatonnes
+1211,Global Net-zero,Heavy Industry,2020,73.57588,Megatonnes
+1212,Global Net-zero,Heavy Industry,2021,76.81255,Megatonnes
+1213,Global Net-zero,Heavy Industry,2022,74.20667,Megatonnes
+1214,Global Net-zero,Heavy Industry,2023,75.92864,Megatonnes
+1215,Global Net-zero,Heavy Industry,2024,74.52502,Megatonnes
+1216,Global Net-zero,Heavy Industry,2025,72.07338,Megatonnes
+1217,Global Net-zero,Heavy Industry,2026,69.68119,Megatonnes
+1218,Global Net-zero,Heavy Industry,2027,68.24044,Megatonnes
+1219,Global Net-zero,Heavy Industry,2028,65.91188,Megatonnes
+1220,Global Net-zero,Heavy Industry,2029,61.58942,Megatonnes
+1221,Global Net-zero,Heavy Industry,2030,57.12518,Megatonnes
+1222,Global Net-zero,Heavy Industry,2031,54.97100,Megatonnes
+1223,Global Net-zero,Heavy Industry,2032,52.09757,Megatonnes
+1224,Global Net-zero,Heavy Industry,2033,48.93422,Megatonnes
+1225,Global Net-zero,Heavy Industry,2034,45.32865,Megatonnes
+1226,Global Net-zero,Heavy Industry,2035,43.76225,Megatonnes
+1227,Global Net-zero,Heavy Industry,2036,40.64819,Megatonnes
+1228,Global Net-zero,Heavy Industry,2037,37.47832,Megatonnes
+1229,Global Net-zero,Heavy Industry,2038,33.99895,Megatonnes
+1230,Global Net-zero,Heavy Industry,2039,30.89854,Megatonnes
+1231,Global Net-zero,Heavy Industry,2040,28.38329,Megatonnes
+1232,Global Net-zero,Heavy Industry,2041,26.32049,Megatonnes
+1233,Global Net-zero,Heavy Industry,2042,25.16538,Megatonnes
+1234,Global Net-zero,Heavy Industry,2043,23.99289,Megatonnes
+1235,Global Net-zero,Heavy Industry,2044,23.11092,Megatonnes
+1236,Global Net-zero,Heavy Industry,2045,22.34053,Megatonnes
+1237,Global Net-zero,Heavy Industry,2046,21.50987,Megatonnes
+1238,Global Net-zero,Heavy Industry,2047,20.91647,Megatonnes
+1239,Global Net-zero,Heavy Industry,2048,20.24503,Megatonnes
+1240,Global Net-zero,Heavy Industry,2049,19.81224,Megatonnes
+1241,Global Net-zero,Heavy Industry,2050,19.37596,Megatonnes
+1242,Global Net-zero,"Land Use, Land Use Change and Forestry",2005,-5.54240,Megatonnes
+1243,Global Net-zero,"Land Use, Land Use Change and Forestry",2006,-19.33271,Megatonnes
+1244,Global Net-zero,"Land Use, Land Use Change and Forestry",2007,-16.87649,Megatonnes
+1245,Global Net-zero,"Land Use, Land Use Change and Forestry",2008,-21.37597,Megatonnes
+1246,Global Net-zero,"Land Use, Land Use Change and Forestry",2009,-48.79511,Megatonnes
+1247,Global Net-zero,"Land Use, Land Use Change and Forestry",2010,-18.17300,Megatonnes
+1248,Global Net-zero,"Land Use, Land Use Change and Forestry",2011,-11.95000,Megatonnes
+1249,Global Net-zero,"Land Use, Land Use Change and Forestry",2012,-21.18648,Megatonnes
+1250,Global Net-zero,"Land Use, Land Use Change and Forestry",2013,-19.73320,Megatonnes
+1251,Global Net-zero,"Land Use, Land Use Change and Forestry",2014,-39.31597,Megatonnes
+1252,Global Net-zero,"Land Use, Land Use Change and Forestry",2015,0.02390,Megatonnes
+1253,Global Net-zero,"Land Use, Land Use Change and Forestry",2016,-10.95583,Megatonnes
+1254,Global Net-zero,"Land Use, Land Use Change and Forestry",2017,-16.22661,Megatonnes
+1255,Global Net-zero,"Land Use, Land Use Change and Forestry",2018,-11.29365,Megatonnes
+1256,Global Net-zero,"Land Use, Land Use Change and Forestry",2019,-18.82111,Megatonnes
+1257,Global Net-zero,"Land Use, Land Use Change and Forestry",2020,-13.38768,Megatonnes
+1258,Global Net-zero,"Land Use, Land Use Change and Forestry",2021,-17.30257,Megatonnes
+1259,Global Net-zero,"Land Use, Land Use Change and Forestry",2022,-15.40633,Megatonnes
+1260,Global Net-zero,"Land Use, Land Use Change and Forestry",2023,-17.23054,Megatonnes
+1261,Global Net-zero,"Land Use, Land Use Change and Forestry",2024,-19.05474,Megatonnes
+1262,Global Net-zero,"Land Use, Land Use Change and Forestry",2025,-20.87895,Megatonnes
+1263,Global Net-zero,"Land Use, Land Use Change and Forestry",2026,-22.70316,Megatonnes
+1264,Global Net-zero,"Land Use, Land Use Change and Forestry",2027,-24.52737,Megatonnes
+1265,Global Net-zero,"Land Use, Land Use Change and Forestry",2028,-26.35158,Megatonnes
+1266,Global Net-zero,"Land Use, Land Use Change and Forestry",2029,-28.17579,Megatonnes
+1267,Global Net-zero,"Land Use, Land Use Change and Forestry",2030,-30.00000,Megatonnes
+1268,Global Net-zero,"Land Use, Land Use Change and Forestry",2031,-31.00000,Megatonnes
+1269,Global Net-zero,"Land Use, Land Use Change and Forestry",2032,-32.00000,Megatonnes
+1270,Global Net-zero,"Land Use, Land Use Change and Forestry",2033,-33.00000,Megatonnes
+1271,Global Net-zero,"Land Use, Land Use Change and Forestry",2034,-34.00000,Megatonnes
+1272,Global Net-zero,"Land Use, Land Use Change and Forestry",2035,-35.00000,Megatonnes
+1273,Global Net-zero,"Land Use, Land Use Change and Forestry",2036,-36.00000,Megatonnes
+1274,Global Net-zero,"Land Use, Land Use Change and Forestry",2037,-37.00000,Megatonnes
+1275,Global Net-zero,"Land Use, Land Use Change and Forestry",2038,-38.00000,Megatonnes
+1276,Global Net-zero,"Land Use, Land Use Change and Forestry",2039,-39.00000,Megatonnes
+1277,Global Net-zero,"Land Use, Land Use Change and Forestry",2040,-40.00000,Megatonnes
+1278,Global Net-zero,"Land Use, Land Use Change and Forestry",2041,-41.00000,Megatonnes
+1279,Global Net-zero,"Land Use, Land Use Change and Forestry",2042,-42.00000,Megatonnes
+1280,Global Net-zero,"Land Use, Land Use Change and Forestry",2043,-43.00000,Megatonnes
+1281,Global Net-zero,"Land Use, Land Use Change and Forestry",2044,-44.00000,Megatonnes
+1282,Global Net-zero,"Land Use, Land Use Change and Forestry",2045,-45.00000,Megatonnes
+1283,Global Net-zero,"Land Use, Land Use Change and Forestry",2046,-46.00000,Megatonnes
+1284,Global Net-zero,"Land Use, Land Use Change and Forestry",2047,-47.00000,Megatonnes
+1285,Global Net-zero,"Land Use, Land Use Change and Forestry",2048,-48.00000,Megatonnes
+1286,Global Net-zero,"Land Use, Land Use Change and Forestry",2049,-49.00000,Megatonnes
+1287,Global Net-zero,"Land Use, Land Use Change and Forestry",2050,-50.00000,Megatonnes
+1288,Global Net-zero,Low or Non-emitting Hydrogen Production,2005,0.00000,Megatonnes
+1289,Global Net-zero,Low or Non-emitting Hydrogen Production,2006,0.00000,Megatonnes
+1290,Global Net-zero,Low or Non-emitting Hydrogen Production,2007,0.00000,Megatonnes
+1291,Global Net-zero,Low or Non-emitting Hydrogen Production,2008,0.00000,Megatonnes
+1292,Global Net-zero,Low or Non-emitting Hydrogen Production,2009,0.00000,Megatonnes
+1293,Global Net-zero,Low or Non-emitting Hydrogen Production,2010,0.00000,Megatonnes
+1294,Global Net-zero,Low or Non-emitting Hydrogen Production,2011,0.00000,Megatonnes
+1295,Global Net-zero,Low or Non-emitting Hydrogen Production,2012,0.00000,Megatonnes
+1296,Global Net-zero,Low or Non-emitting Hydrogen Production,2013,0.00000,Megatonnes
+1297,Global Net-zero,Low or Non-emitting Hydrogen Production,2014,0.00000,Megatonnes
+1298,Global Net-zero,Low or Non-emitting Hydrogen Production,2015,0.00000,Megatonnes
+1299,Global Net-zero,Low or Non-emitting Hydrogen Production,2016,0.00000,Megatonnes
+1300,Global Net-zero,Low or Non-emitting Hydrogen Production,2017,0.00000,Megatonnes
+1301,Global Net-zero,Low or Non-emitting Hydrogen Production,2018,0.00000,Megatonnes
+1302,Global Net-zero,Low or Non-emitting Hydrogen Production,2019,0.00000,Megatonnes
+1303,Global Net-zero,Low or Non-emitting Hydrogen Production,2020,0.00000,Megatonnes
+1304,Global Net-zero,Low or Non-emitting Hydrogen Production,2021,0.00000,Megatonnes
+1305,Global Net-zero,Low or Non-emitting Hydrogen Production,2022,0.00113,Megatonnes
+1306,Global Net-zero,Low or Non-emitting Hydrogen Production,2023,0.00031,Megatonnes
+1307,Global Net-zero,Low or Non-emitting Hydrogen Production,2024,0.06731,Megatonnes
+1308,Global Net-zero,Low or Non-emitting Hydrogen Production,2025,0.16426,Megatonnes
+1309,Global Net-zero,Low or Non-emitting Hydrogen Production,2026,0.24486,Megatonnes
+1310,Global Net-zero,Low or Non-emitting Hydrogen Production,2027,0.30381,Megatonnes
+1311,Global Net-zero,Low or Non-emitting Hydrogen Production,2028,0.34479,Megatonnes
+1312,Global Net-zero,Low or Non-emitting Hydrogen Production,2029,0.41454,Megatonnes
+1313,Global Net-zero,Low or Non-emitting Hydrogen Production,2030,0.52949,Megatonnes
+1314,Global Net-zero,Low or Non-emitting Hydrogen Production,2031,0.42611,Megatonnes
+1315,Global Net-zero,Low or Non-emitting Hydrogen Production,2032,0.20055,Megatonnes
+1316,Global Net-zero,Low or Non-emitting Hydrogen Production,2033,-0.01255,Megatonnes
+1317,Global Net-zero,Low or Non-emitting Hydrogen Production,2034,-0.29885,Megatonnes
+1318,Global Net-zero,Low or Non-emitting Hydrogen Production,2035,-1.03990,Megatonnes
+1319,Global Net-zero,Low or Non-emitting Hydrogen Production,2036,-2.12870,Megatonnes
+1320,Global Net-zero,Low or Non-emitting Hydrogen Production,2037,-3.08271,Megatonnes
+1321,Global Net-zero,Low or Non-emitting Hydrogen Production,2038,-4.18354,Megatonnes
+1322,Global Net-zero,Low or Non-emitting Hydrogen Production,2039,-5.39476,Megatonnes
+1323,Global Net-zero,Low or Non-emitting Hydrogen Production,2040,-6.70950,Megatonnes
+1324,Global Net-zero,Low or Non-emitting Hydrogen Production,2041,-8.26630,Megatonnes
+1325,Global Net-zero,Low or Non-emitting Hydrogen Production,2042,-9.94092,Megatonnes
+1326,Global Net-zero,Low or Non-emitting Hydrogen Production,2043,-11.04216,Megatonnes
+1327,Global Net-zero,Low or Non-emitting Hydrogen Production,2044,-12.12208,Megatonnes
+1328,Global Net-zero,Low or Non-emitting Hydrogen Production,2045,-13.16583,Megatonnes
+1329,Global Net-zero,Low or Non-emitting Hydrogen Production,2046,-14.58673,Megatonnes
+1330,Global Net-zero,Low or Non-emitting Hydrogen Production,2047,-16.07081,Megatonnes
+1331,Global Net-zero,Low or Non-emitting Hydrogen Production,2048,-17.60142,Megatonnes
+1332,Global Net-zero,Low or Non-emitting Hydrogen Production,2049,-19.19615,Megatonnes
+1333,Global Net-zero,Low or Non-emitting Hydrogen Production,2050,-20.75785,Megatonnes
+1334,Global Net-zero,Oil and Gas,2005,168.33487,Megatonnes
+1335,Global Net-zero,Oil and Gas,2006,174.64954,Megatonnes
+1336,Global Net-zero,Oil and Gas,2007,179.81939,Megatonnes
+1337,Global Net-zero,Oil and Gas,2008,176.54913,Megatonnes
+1338,Global Net-zero,Oil and Gas,2009,173.77629,Megatonnes
+1339,Global Net-zero,Oil and Gas,2010,179.32107,Megatonnes
+1340,Global Net-zero,Oil and Gas,2011,184.79889,Megatonnes
+1341,Global Net-zero,Oil and Gas,2012,192.14209,Megatonnes
+1342,Global Net-zero,Oil and Gas,2013,196.83233,Megatonnes
+1343,Global Net-zero,Oil and Gas,2014,202.38086,Megatonnes
+1344,Global Net-zero,Oil and Gas,2015,203.05497,Megatonnes
+1345,Global Net-zero,Oil and Gas,2016,191.45773,Megatonnes
+1346,Global Net-zero,Oil and Gas,2017,194.02058,Megatonnes
+1347,Global Net-zero,Oil and Gas,2018,202.49321,Megatonnes
+1348,Global Net-zero,Oil and Gas,2019,201.31724,Megatonnes
+1349,Global Net-zero,Oil and Gas,2020,183.35403,Megatonnes
+1350,Global Net-zero,Oil and Gas,2021,189.15235,Megatonnes
+1351,Global Net-zero,Oil and Gas,2022,191.42341,Megatonnes
+1352,Global Net-zero,Oil and Gas,2023,188.99217,Megatonnes
+1353,Global Net-zero,Oil and Gas,2024,182.83817,Megatonnes
+1354,Global Net-zero,Oil and Gas,2025,175.98473,Megatonnes
+1355,Global Net-zero,Oil and Gas,2026,170.47123,Megatonnes
+1356,Global Net-zero,Oil and Gas,2027,161.76022,Megatonnes
+1357,Global Net-zero,Oil and Gas,2028,151.19345,Megatonnes
+1358,Global Net-zero,Oil and Gas,2029,139.06229,Megatonnes
+1359,Global Net-zero,Oil and Gas,2030,126.28422,Megatonnes
+1360,Global Net-zero,Oil and Gas,2031,115.17495,Megatonnes
+1361,Global Net-zero,Oil and Gas,2032,104.47172,Megatonnes
+1362,Global Net-zero,Oil and Gas,2033,92.41114,Megatonnes
+1363,Global Net-zero,Oil and Gas,2034,80.54819,Megatonnes
+1364,Global Net-zero,Oil and Gas,2035,70.82485,Megatonnes
+1365,Global Net-zero,Oil and Gas,2036,62.17482,Megatonnes
+1366,Global Net-zero,Oil and Gas,2037,53.96610,Megatonnes
+1367,Global Net-zero,Oil and Gas,2038,48.34006,Megatonnes
+1368,Global Net-zero,Oil and Gas,2039,44.97557,Megatonnes
+1369,Global Net-zero,Oil and Gas,2040,41.27974,Megatonnes
+1370,Global Net-zero,Oil and Gas,2041,37.13640,Megatonnes
+1371,Global Net-zero,Oil and Gas,2042,34.53693,Megatonnes
+1372,Global Net-zero,Oil and Gas,2043,32.13085,Megatonnes
+1373,Global Net-zero,Oil and Gas,2044,29.99184,Megatonnes
+1374,Global Net-zero,Oil and Gas,2045,26.98649,Megatonnes
+1375,Global Net-zero,Oil and Gas,2046,23.70647,Megatonnes
+1376,Global Net-zero,Oil and Gas,2047,21.98621,Megatonnes
+1377,Global Net-zero,Oil and Gas,2048,20.35039,Megatonnes
+1378,Global Net-zero,Oil and Gas,2049,18.85442,Megatonnes
+1379,Global Net-zero,Oil and Gas,2050,17.35522,Megatonnes
+1380,Global Net-zero,Total,2005,726.67639,Megatonnes
+1381,Global Net-zero,Total,2006,705.95366,Megatonnes
+1382,Global Net-zero,Total,2007,731.19360,Megatonnes
+1383,Global Net-zero,Total,2008,709.42526,Megatonnes
+1384,Global Net-zero,Total,2009,640.75421,Megatonnes
+1385,Global Net-zero,Total,2010,683.69454,Megatonnes
+1386,Global Net-zero,Total,2011,699.36207,Megatonnes
+1387,Global Net-zero,Total,2012,695.18280,Megatonnes
+1388,Global Net-zero,Total,2013,703.36311,Megatonnes
+1389,Global Net-zero,Total,2014,680.87949,Megatonnes
+1390,Global Net-zero,Total,2015,722.94032,Megatonnes
+1391,Global Net-zero,Total,2016,693.96994,Megatonnes
+1392,Global Net-zero,Total,2017,696.00553,Megatonnes
+1393,Global Net-zero,Total,2018,713.32133,Megatonnes
+1394,Global Net-zero,Total,2019,704.85819,Megatonnes
+1395,Global Net-zero,Total,2020,645.40050,Megatonnes
+1396,Global Net-zero,Total,2021,653.12511,Megatonnes
+1397,Global Net-zero,Total,2022,672.92449,Megatonnes
+1398,Global Net-zero,Total,2023,670.10701,Megatonnes
+1399,Global Net-zero,Total,2024,645.85991,Megatonnes
+1400,Global Net-zero,Total,2025,619.99963,Megatonnes
+1401,Global Net-zero,Total,2026,605.78798,Megatonnes
+1402,Global Net-zero,Total,2027,588.88762,Megatonnes
+1403,Global Net-zero,Total,2028,566.30530,Megatonnes
+1404,Global Net-zero,Total,2029,537.23856,Megatonnes
+1405,Global Net-zero,Total,2030,502.38792,Megatonnes
+1406,Global Net-zero,Total,2031,468.00066,Megatonnes
+1407,Global Net-zero,Total,2032,433.70498,Megatonnes
+1408,Global Net-zero,Total,2033,403.57412,Megatonnes
+1409,Global Net-zero,Total,2034,369.34791,Megatonnes
+1410,Global Net-zero,Total,2035,336.21291,Megatonnes
+1411,Global Net-zero,Total,2036,306.43774,Megatonnes
+1412,Global Net-zero,Total,2037,277.72401,Megatonnes
+1413,Global Net-zero,Total,2038,251.19789,Megatonnes
+1414,Global Net-zero,Total,2039,227.56188,Megatonnes
+1415,Global Net-zero,Total,2040,204.23838,Megatonnes
+1416,Global Net-zero,Total,2041,179.94054,Megatonnes
+1417,Global Net-zero,Total,2042,158.60836,Megatonnes
+1418,Global Net-zero,Total,2043,138.02767,Megatonnes
+1419,Global Net-zero,Total,2044,117.95091,Megatonnes
+1420,Global Net-zero,Total,2045,97.26412,Megatonnes
+1421,Global Net-zero,Total,2046,76.14346,Megatonnes
+1422,Global Net-zero,Total,2047,56.62945,Megatonnes
+1423,Global Net-zero,Total,2048,37.41353,Megatonnes
+1424,Global Net-zero,Total,2049,18.78031,Megatonnes
+1425,Global Net-zero,Total,2050,0.00000,Megatonnes
+1426,Global Net-zero,Transportation,2005,156.78923,Megatonnes
+1427,Global Net-zero,Transportation,2006,157.66182,Megatonnes
+1428,Global Net-zero,Transportation,2007,162.65285,Megatonnes
+1429,Global Net-zero,Transportation,2008,163.22526,Megatonnes
+1430,Global Net-zero,Transportation,2009,162.03289,Megatonnes
+1431,Global Net-zero,Transportation,2010,165.50358,Megatonnes
+1432,Global Net-zero,Transportation,2011,164.42336,Megatonnes
+1433,Global Net-zero,Transportation,2012,164.61839,Megatonnes
+1434,Global Net-zero,Transportation,2013,167.10580,Megatonnes
+1435,Global Net-zero,Transportation,2014,164.70716,Megatonnes
+1436,Global Net-zero,Transportation,2015,162.59078,Megatonnes
+1437,Global Net-zero,Transportation,2016,162.36484,Megatonnes
+1438,Global Net-zero,Transportation,2017,165.37102,Megatonnes
+1439,Global Net-zero,Transportation,2018,169.31698,Megatonnes
+1440,Global Net-zero,Transportation,2019,170.16312,Megatonnes
+1441,Global Net-zero,Transportation,2020,143.22023,Megatonnes
+1442,Global Net-zero,Transportation,2021,150.11474,Megatonnes
+1443,Global Net-zero,Transportation,2022,168.65092,Megatonnes
+1444,Global Net-zero,Transportation,2023,172.35512,Megatonnes
+1445,Global Net-zero,Transportation,2024,170.31297,Megatonnes
+1446,Global Net-zero,Transportation,2025,169.71530,Megatonnes
+1447,Global Net-zero,Transportation,2026,167.68366,Megatonnes
+1448,Global Net-zero,Transportation,2027,164.96478,Megatonnes
+1449,Global Net-zero,Transportation,2028,160.29145,Megatonnes
+1450,Global Net-zero,Transportation,2029,155.50014,Megatonnes
+1451,Global Net-zero,Transportation,2030,149.80222,Megatonnes
+1452,Global Net-zero,Transportation,2031,143.03771,Megatonnes
+1453,Global Net-zero,Transportation,2032,135.82206,Megatonnes
+1454,Global Net-zero,Transportation,2033,128.15414,Megatonnes
+1455,Global Net-zero,Transportation,2034,120.23933,Megatonnes
+1456,Global Net-zero,Transportation,2035,111.85439,Megatonnes
+1457,Global Net-zero,Transportation,2036,103.05273,Megatonnes
+1458,Global Net-zero,Transportation,2037,94.51432,Megatonnes
+1459,Global Net-zero,Transportation,2038,86.33994,Megatonnes
+1460,Global Net-zero,Transportation,2039,78.51311,Megatonnes
+1461,Global Net-zero,Transportation,2040,70.79311,Megatonnes
+1462,Global Net-zero,Transportation,2041,63.35552,Megatonnes
+1463,Global Net-zero,Transportation,2042,56.32653,Megatonnes
+1464,Global Net-zero,Transportation,2043,49.80553,Megatonnes
+1465,Global Net-zero,Transportation,2044,43.68606,Megatonnes
+1466,Global Net-zero,Transportation,2045,37.99399,Megatonnes
+1467,Global Net-zero,Transportation,2046,32.64912,Megatonnes
+1468,Global Net-zero,Transportation,2047,27.61852,Megatonnes
+1469,Global Net-zero,Transportation,2048,22.92479,Megatonnes
+1470,Global Net-zero,Transportation,2049,18.57980,Megatonnes
+1471,Global Net-zero,Transportation,2050,14.76673,Megatonnes
+1472,Global Net-zero,Waste and Others,2005,52.06563,Megatonnes
+1473,Global Net-zero,Waste and Others,2006,50.67911,Megatonnes
+1474,Global Net-zero,Waste and Others,2007,50.56911,Megatonnes
+1475,Global Net-zero,Waste and Others,2008,48.93659,Megatonnes
+1476,Global Net-zero,Waste and Others,2009,44.40289,Megatonnes
+1477,Global Net-zero,Waste and Others,2010,45.88144,Megatonnes
+1478,Global Net-zero,Waste and Others,2011,47.21734,Megatonnes
+1479,Global Net-zero,Waste and Others,2012,47.45911,Megatonnes
+1480,Global Net-zero,Waste and Others,2013,48.90671,Megatonnes
+1481,Global Net-zero,Waste and Others,2014,46.33105,Megatonnes
+1482,Global Net-zero,Waste and Others,2015,47.45318,Megatonnes
+1483,Global Net-zero,Waste and Others,2016,47.98844,Megatonnes
+1484,Global Net-zero,Waste and Others,2017,48.70280,Megatonnes
+1485,Global Net-zero,Waste and Others,2018,49.59370,Megatonnes
+1486,Global Net-zero,Waste and Others,2019,49.56743,Megatonnes
+1487,Global Net-zero,Waste and Others,2020,46.05725,Megatonnes
+1488,Global Net-zero,Waste and Others,2021,46.98380,Megatonnes
+1489,Global Net-zero,Waste and Others,2022,45.93380,Megatonnes
+1490,Global Net-zero,Waste and Others,2023,44.90290,Megatonnes
+1491,Global Net-zero,Waste and Others,2024,44.06437,Megatonnes
+1492,Global Net-zero,Waste and Others,2025,42.33729,Megatonnes
+1493,Global Net-zero,Waste and Others,2026,41.33597,Megatonnes
+1494,Global Net-zero,Waste and Others,2027,40.35854,Megatonnes
+1495,Global Net-zero,Waste and Others,2028,39.14535,Megatonnes
+1496,Global Net-zero,Waste and Others,2029,37.96006,Megatonnes
+1497,Global Net-zero,Waste and Others,2030,36.64642,Megatonnes
+1498,Global Net-zero,Waste and Others,2031,36.23487,Megatonnes
+1499,Global Net-zero,Waste and Others,2032,35.85173,Megatonnes
+1500,Global Net-zero,Waste and Others,2033,35.41488,Megatonnes
+1501,Global Net-zero,Waste and Others,2034,34.85237,Megatonnes
+1502,Global Net-zero,Waste and Others,2035,34.33036,Megatonnes
+1503,Global Net-zero,Waste and Others,2036,33.77610,Megatonnes
+1504,Global Net-zero,Waste and Others,2037,33.18921,Megatonnes
+1505,Global Net-zero,Waste and Others,2038,32.55535,Megatonnes
+1506,Global Net-zero,Waste and Others,2039,31.95494,Megatonnes
+1507,Global Net-zero,Waste and Others,2040,31.36872,Megatonnes
+1508,Global Net-zero,Waste and Others,2041,30.63092,Megatonnes
+1509,Global Net-zero,Waste and Others,2042,29.99942,Megatonnes
+1510,Global Net-zero,Waste and Others,2043,29.41458,Megatonnes
+1511,Global Net-zero,Waste and Others,2044,28.87253,Megatonnes
+1512,Global Net-zero,Waste and Others,2045,28.35097,Megatonnes
+1513,Global Net-zero,Waste and Others,2046,27.83071,Megatonnes
+1514,Global Net-zero,Waste and Others,2047,27.34417,Megatonnes
+1515,Global Net-zero,Waste and Others,2048,26.89853,Megatonnes
+1516,Global Net-zero,Waste and Others,2049,26.53697,Megatonnes
+1517,Global Net-zero,Waste and Others,2050,26.20109,Megatonnes

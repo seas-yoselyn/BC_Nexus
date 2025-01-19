@@ -1,6 +1,6 @@
 
-SCENARIOS: ['Test_EL_1.1','REF','AGG','100-ELC','100-ELC-CO2reduction','100-ELC-NoGeo','100-ELC-Nuc(10GW)']
-scenario_files_root: 'workflow/BCNexus_Scenarios/scenario_files'
+SCENARIOS: ['Base','Elias'] #,'REF','AGG','100-ELC','100-ELC-CO2reduction','100-ELC-NoGeo','100-ELC-Nuc(10GW)'
+
 result_type:
   otoole:
    'year': 'YEAR'
@@ -10,31 +10,34 @@ result_type:
     'technology' : 't'
 
 info_SCENARIOS: {
-  'Test_EL_1.1' : 'New Solar Cluster (1 GW, 2025) added',
-  'REF': V1.1.7_reTest-BC_CLEWS_Model-REF Scenario-LND intensity Ave.,
-  'AGG': V1.1.8_BC_CLEWS_Model-AGG scenario-LND intensity Ave. NoNGS-no caps on solar or nuclear,
-  '100-ELC': V1.1.9_reTest-BC_CLEWS_Model-NET scenario- Annual Emission Limit- fossil fuel demand decrease from 2025 except IND, aviation and HF-LND intensity Ave.,
-  '100-ELC-CO2reduction': V1.1.9_BC_CLEWS_Model-NET scenario- Annual Emission Limit zero for 2050- fossil fuel demand decrease from 2025 except IND, aviation and HF-LND intensity Ave.,
-  '100-ELC-Nuc(10GW)': V1.1.9_BC_CLEWS_Model-100-ELC- 10GW limit Nu,
-  '100-ELC-NoGeo': V1.1.9_BC_CLEWS_Model-100-ELC-NoGEO 
+  'Model_Kotzur_Base' : 'Baseline scenario with Canada Energy Futures 2023 report''s Current Measures Demand. Call for Power 2024 sites fitted as committed plants. Potential resource options for Solar (5GW) and Wind (10GW) modeled. Hourly profiles absorbed from 2021 historical data.',
+  'Elias': 'xxxxx',
+  # 'AGG': V1.1.8_BC_CLEWS_Model-AGG scenario-LND intensity Ave. NoNGS-no caps on solar or nuclear,
+  # '100-ELC': V1.1.9_reTest-BC_CLEWS_Model-NET scenario- Annual Emission Limit- fossil fuel demand decrease from 2025 except IND, aviation and HF-LND intensity Ave.,
+  # '100-ELC-CO2reduction': V1.1.9_BC_CLEWS_Model-NET scenario- Annual Emission Limit zero for 2050- fossil fuel demand decrease from 2025 except IND, aviation and HF-LND intensity Ave.,
+  # '100-ELC-Nuc(10GW)': V1.1.9_BC_CLEWS_Model-100-ELC- 10GW limit Nu,
+  # '100-ELC-NoGeo': V1.1.9_BC_CLEWS_Model-100-ELC-NoGEO 
     }
 
-title : "CLEWs-BC Results"
-font_size : "26px"
-font_color : "#00008B"
+title : "BCNexus Results"
+demand_data: 'data/downloaded_data/CODERS/data-pull/demand'
 
-result_files:
+plot_files:
+  demand: ["BC_sectoral_end_use_demand_Current Measures.csv","BC_sectoral_end_use_demand_Canada Net-zero.csv","BC_sectoral_end_use_demand_Global Net-zero.csv"]
   capacity : ["NewCapacity.csv","TotalCapacityAnnual.csv"]
   emission : ["AnnualEmissions.csv", "AnnualTechnologyEmission.csv"]
   energy : ["TotalTechnologyAnnualActivity.csv"]
   landuse: ["TotalAnnualTechnologyActivityByMode.csv"]
+
 
 units_mapping: {
   capacity: 'Capacity (GW)',
   energy: 'Generation (Pj)',
   emission: "Millon Tonnes of CO2",
   landuse: "Thousand Sq. Km per Pj",
+  CEF2023: "Pj"
     }
+
 technologies:
   capacity: ['PWRWND','PWRNGS','PWRBIO', 'PWRHYD', 'PWRSOL', 'PWRGEO', 'PWRURN']
   emission: ['DEMAGR', 'DEMCOM', 'DEMIND', 'DEMRES', 'DEMTRA']
@@ -47,7 +50,10 @@ filenames_mapping: {
   "AnnualEmissions.csv": "System Emission", 
   "AnnualTechnologyEmission.csv" : "Sectoral Emission",
   'TotalTechnologyAnnualActivity.csv' : 'Generation',
-  "TotalAnnualTechnologyActivityByMode.csv" : "Landuse"
+  "TotalAnnualTechnologyActivityByMode.csv" : "Land-use (clusters of BC)",
+  "BC_sectoral_end_use_demand_Current Measures.csv" : "Current Measures",
+  "BC_sectoral_end_use_demand_Canada Net-zero.csv" : "Canada Net-zero",
+  "BC_sectoral_end_use_demand_Global Net-zero.csv" : "Global Net-zero",
   }
 
 custom_colors : {

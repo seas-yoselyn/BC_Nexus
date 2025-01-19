@@ -1,0 +1,11 @@
+province,winter_wind,winter_solar,summer_wind,summer_solar
+Alberta,0.45,0.03,0.25,0.41
+British Columbia,0.42,0.02,0.25,0.36
+Saskatchewan,0.4,0.05,0.32,0.44
+Manitoba,0.35,0.03,0.35,0.39
+Ontario,0.42,0.03,0.25,0.37
+Quebec,0.41,0.01,0.25,0.31
+New Brunswick,0.42,0.02,0.25,0.35
+Prince Edward Island,0.5,0.02,0.25,0.36
+Nova Scotia,0.45,0.02,0.28,0.35
+Newfoundland and Labrador,0.52,0.01,0.35,0.29

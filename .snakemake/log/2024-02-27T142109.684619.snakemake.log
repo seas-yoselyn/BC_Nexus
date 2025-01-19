@@ -1,7 +1,0 @@
-Building DAG of jobs...
-MissingInputException in rule Results in file /home/eliasinul/repositories/BC-CLEWS-Model/workflow/snakefile, line 11:
-Missing input files for rule Results:
-    affected files:
-        workflow/check_flags/interactive_Plots_generated.check
-        workflow/check_flags/static_Plots_generated.check
-        workflow/check_flags/otoole_ResultsFile_genrated.check

@@ -1,8 +1,0 @@
-dash
-Jinja2
-matplotlib==3.8.3
-numpy==1.26.4
-pandas==2.0.3
-plotly==5.19.0
-PyYAML==6.0.1
-gunicorn

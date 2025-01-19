@@ -1,0 +1,231 @@
+,scenario,variable,year,value,region
+0,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2005,1.21100,Canada
+1,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2006,1.13400,Canada
+2,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2007,1.07400,Canada
+3,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2008,1.06700,Canada
+4,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2009,1.14200,Canada
+5,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2010,1.03000,Canada
+6,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2011,0.98900,Canada
+7,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2012,0.99900,Canada
+8,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2013,1.03000,Canada
+9,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2014,1.10500,Canada
+10,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2015,1.27900,Canada
+11,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2016,1.32600,Canada
+12,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2017,1.29800,Canada
+13,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2018,1.29600,Canada
+14,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2019,1.32700,Canada
+15,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2020,1.34100,Canada
+16,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2021,1.25400,Canada
+17,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2022,1.30200,Canada
+18,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2023,1.34500,Canada
+19,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2024,1.30500,Canada
+20,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2025,1.29600,Canada
+21,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2026,1.28700,Canada
+22,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2027,1.28500,Canada
+23,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2028,1.28400,Canada
+24,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2029,1.29000,Canada
+25,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2030,1.29200,Canada
+26,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2031,1.29100,Canada
+27,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2032,1.29200,Canada
+28,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2033,1.29800,Canada
+29,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2034,1.30300,Canada
+30,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2035,1.30900,Canada
+31,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2036,1.31600,Canada
+32,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2037,1.32100,Canada
+33,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2038,1.32500,Canada
+34,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2039,1.33000,Canada
+35,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2040,1.33300,Canada
+36,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2041,1.33500,Canada
+37,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2042,1.33800,Canada
+38,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2043,1.33900,Canada
+39,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2044,1.34000,Canada
+40,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2045,1.34000,Canada
+41,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2046,1.33800,Canada
+42,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2047,1.33600,Canada
+43,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2048,1.33200,Canada
+44,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2049,1.32800,Canada
+45,Canada Net-zero,Canada-US Exchange Rate (C$/US$),2050,1.32300,Canada
+46,Canada Net-zero,Consumer Price Index (2002=100),2005,107.00000,Canada
+47,Canada Net-zero,Consumer Price Index (2002=100),2006,109.10000,Canada
+48,Canada Net-zero,Consumer Price Index (2002=100),2007,111.50000,Canada
+49,Canada Net-zero,Consumer Price Index (2002=100),2008,114.10000,Canada
+50,Canada Net-zero,Consumer Price Index (2002=100),2009,114.40000,Canada
+51,Canada Net-zero,Consumer Price Index (2002=100),2010,116.50000,Canada
+52,Canada Net-zero,Consumer Price Index (2002=100),2011,119.90000,Canada
+53,Canada Net-zero,Consumer Price Index (2002=100),2012,121.70000,Canada
+54,Canada Net-zero,Consumer Price Index (2002=100),2013,122.80000,Canada
+55,Canada Net-zero,Consumer Price Index (2002=100),2014,125.20000,Canada
+56,Canada Net-zero,Consumer Price Index (2002=100),2015,126.60000,Canada
+57,Canada Net-zero,Consumer Price Index (2002=100),2016,128.40000,Canada
+58,Canada Net-zero,Consumer Price Index (2002=100),2017,130.40000,Canada
+59,Canada Net-zero,Consumer Price Index (2002=100),2018,133.40000,Canada
+60,Canada Net-zero,Consumer Price Index (2002=100),2019,136.00000,Canada
+61,Canada Net-zero,Consumer Price Index (2002=100),2020,137.00000,Canada
+62,Canada Net-zero,Consumer Price Index (2002=100),2021,141.60000,Canada
+63,Canada Net-zero,Consumer Price Index (2002=100),2022,151.20000,Canada
+64,Canada Net-zero,Consumer Price Index (2002=100),2023,156.40000,Canada
+65,Canada Net-zero,Consumer Price Index (2002=100),2024,160.70000,Canada
+66,Canada Net-zero,Consumer Price Index (2002=100),2025,164.30000,Canada
+67,Canada Net-zero,Consumer Price Index (2002=100),2026,167.90000,Canada
+68,Canada Net-zero,Consumer Price Index (2002=100),2027,171.70000,Canada
+69,Canada Net-zero,Consumer Price Index (2002=100),2028,175.50000,Canada
+70,Canada Net-zero,Consumer Price Index (2002=100),2029,179.40000,Canada
+71,Canada Net-zero,Consumer Price Index (2002=100),2030,183.30000,Canada
+72,Canada Net-zero,Consumer Price Index (2002=100),2031,187.40000,Canada
+73,Canada Net-zero,Consumer Price Index (2002=100),2032,191.60000,Canada
+74,Canada Net-zero,Consumer Price Index (2002=100),2033,196.00000,Canada
+75,Canada Net-zero,Consumer Price Index (2002=100),2034,200.60000,Canada
+76,Canada Net-zero,Consumer Price Index (2002=100),2035,205.30000,Canada
+77,Canada Net-zero,Consumer Price Index (2002=100),2036,210.20000,Canada
+78,Canada Net-zero,Consumer Price Index (2002=100),2037,215.10000,Canada
+79,Canada Net-zero,Consumer Price Index (2002=100),2038,220.20000,Canada
+80,Canada Net-zero,Consumer Price Index (2002=100),2039,225.30000,Canada
+81,Canada Net-zero,Consumer Price Index (2002=100),2040,230.40000,Canada
+82,Canada Net-zero,Consumer Price Index (2002=100),2041,235.60000,Canada
+83,Canada Net-zero,Consumer Price Index (2002=100),2042,240.70000,Canada
+84,Canada Net-zero,Consumer Price Index (2002=100),2043,245.80000,Canada
+85,Canada Net-zero,Consumer Price Index (2002=100),2044,250.90000,Canada
+86,Canada Net-zero,Consumer Price Index (2002=100),2045,256.00000,Canada
+87,Canada Net-zero,Consumer Price Index (2002=100),2046,261.10000,Canada
+88,Canada Net-zero,Consumer Price Index (2002=100),2047,266.30000,Canada
+89,Canada Net-zero,Consumer Price Index (2002=100),2048,271.50000,Canada
+90,Canada Net-zero,Consumer Price Index (2002=100),2049,276.80000,Canada
+91,Canada Net-zero,Consumer Price Index (2002=100),2050,282.30000,Canada
+92,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2005,86.50000,Canada
+93,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2006,88.70000,Canada
+94,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2007,91.60000,Canada
+95,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2008,95.30000,Canada
+96,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2009,93.10000,Canada
+97,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2010,95.70000,Canada
+98,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2011,98.80000,Canada
+99,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2012,100.00000,Canada
+100,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2013,101.70000,Canada
+101,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2014,103.70000,Canada
+102,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2015,102.80000,Canada
+103,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2016,103.60000,Canada
+104,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2017,106.20000,Canada
+105,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2018,108.00000,Canada
+106,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2019,109.60000,Canada
+107,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2020,110.30000,Canada
+108,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2021,119.30000,Canada
+109,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2022,128.40000,Canada
+110,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2023,130.70000,Canada
+111,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2024,134.30000,Canada
+112,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2025,137.90000,Canada
+113,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2026,141.10000,Canada
+114,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2027,144.00000,Canada
+115,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2028,146.80000,Canada
+116,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2029,149.70000,Canada
+117,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2030,152.60000,Canada
+118,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2031,155.90000,Canada
+119,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2032,159.30000,Canada
+120,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2033,162.80000,Canada
+121,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2034,166.40000,Canada
+122,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2035,170.20000,Canada
+123,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2036,174.00000,Canada
+124,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2037,177.90000,Canada
+125,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2038,181.90000,Canada
+126,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2039,185.90000,Canada
+127,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2040,190.00000,Canada
+128,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2041,194.10000,Canada
+129,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2042,198.20000,Canada
+130,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2043,202.20000,Canada
+131,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2044,206.20000,Canada
+132,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2045,210.30000,Canada
+133,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2046,214.30000,Canada
+134,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2047,218.40000,Canada
+135,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2048,222.60000,Canada
+136,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2049,226.80000,Canada
+137,Canada Net-zero,Gross Domestic Product Deflator (2012=100),2050,231.10000,Canada
+138,Canada Net-zero,Population (thousands),2005,32243.80000,Canada
+139,Canada Net-zero,Population (thousands),2006,32571.20000,Canada
+140,Canada Net-zero,Population (thousands),2007,32889.00000,Canada
+141,Canada Net-zero,Population (thousands),2008,33247.10000,Canada
+142,Canada Net-zero,Population (thousands),2009,33628.90000,Canada
+143,Canada Net-zero,Population (thousands),2010,34004.90000,Canada
+144,Canada Net-zero,Population (thousands),2011,34339.30000,Canada
+145,Canada Net-zero,Population (thousands),2012,34714.20000,Canada
+146,Canada Net-zero,Population (thousands),2013,35083.00000,Canada
+147,Canada Net-zero,Population (thousands),2014,35437.40000,Canada
+148,Canada Net-zero,Population (thousands),2015,35702.90000,Canada
+149,Canada Net-zero,Population (thousands),2016,36109.50000,Canada
+150,Canada Net-zero,Population (thousands),2017,36545.20000,Canada
+151,Canada Net-zero,Population (thousands),2018,37065.10000,Canada
+152,Canada Net-zero,Population (thousands),2019,37601.20000,Canada
+153,Canada Net-zero,Population (thousands),2020,38007.20000,Canada
+154,Canada Net-zero,Population (thousands),2021,38226.50000,Canada
+155,Canada Net-zero,Population (thousands),2022,38929.90000,Canada
+156,Canada Net-zero,Population (thousands),2023,39695.70000,Canada
+157,Canada Net-zero,Population (thousands),2024,40312.70000,Canada
+158,Canada Net-zero,Population (thousands),2025,40908.80000,Canada
+159,Canada Net-zero,Population (thousands),2026,41440.20000,Canada
+160,Canada Net-zero,Population (thousands),2027,41946.10000,Canada
+161,Canada Net-zero,Population (thousands),2028,42433.80000,Canada
+162,Canada Net-zero,Population (thousands),2029,42902.60000,Canada
+163,Canada Net-zero,Population (thousands),2030,43345.50000,Canada
+164,Canada Net-zero,Population (thousands),2031,43772.70000,Canada
+165,Canada Net-zero,Population (thousands),2032,44195.80000,Canada
+166,Canada Net-zero,Population (thousands),2033,44598.60000,Canada
+167,Canada Net-zero,Population (thousands),2034,44982.50000,Canada
+168,Canada Net-zero,Population (thousands),2035,45340.60000,Canada
+169,Canada Net-zero,Population (thousands),2036,45683.20000,Canada
+170,Canada Net-zero,Population (thousands),2037,46014.20000,Canada
+171,Canada Net-zero,Population (thousands),2038,46334.00000,Canada
+172,Canada Net-zero,Population (thousands),2039,46642.80000,Canada
+173,Canada Net-zero,Population (thousands),2040,46941.00000,Canada
+174,Canada Net-zero,Population (thousands),2041,47229.00000,Canada
+175,Canada Net-zero,Population (thousands),2042,47507.90000,Canada
+176,Canada Net-zero,Population (thousands),2043,47778.10000,Canada
+177,Canada Net-zero,Population (thousands),2044,48040.40000,Canada
+178,Canada Net-zero,Population (thousands),2045,48295.80000,Canada
+179,Canada Net-zero,Population (thousands),2046,48546.60000,Canada
+180,Canada Net-zero,Population (thousands),2047,48795.30000,Canada
+181,Canada Net-zero,Population (thousands),2048,49043.00000,Canada
+182,Canada Net-zero,Population (thousands),2049,49290.40000,Canada
+183,Canada Net-zero,Population (thousands),2050,49538.00000,Canada
+184,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2005,1643973.00000,Canada
+185,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2006,1687280.00000,Canada
+186,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2007,1722238.00000,Canada
+187,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2008,1739534.00000,Canada
+188,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2009,1688636.00000,Canada
+189,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2010,1740814.00000,Canada
+190,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2011,1795582.00000,Canada
+191,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2012,1827201.00000,Canada
+192,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2013,1869759.00000,Canada
+193,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2014,1923422.00000,Canada
+194,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2015,1936100.00000,Canada
+195,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2016,1955488.00000,Canada
+196,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2017,2014933.00000,Canada
+197,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2018,2070888.00000,Canada
+198,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2019,2109991.00000,Canada
+199,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2020,2002923.00000,Canada
+200,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2021,2103305.00000,Canada
+201,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2022,2181797.00000,Canada
+202,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2023,2199582.00000,Canada
+203,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2024,2237538.00000,Canada
+204,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2025,2286188.00000,Canada
+205,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2026,2344156.00000,Canada
+206,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2027,2399369.00000,Canada
+207,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2028,2445667.00000,Canada
+208,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2029,2497193.00000,Canada
+209,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2030,2541626.00000,Canada
+210,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2031,2584822.00000,Canada
+211,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2032,2626742.00000,Canada
+212,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2033,2665295.00000,Canada
+213,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2034,2701015.00000,Canada
+214,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2035,2741114.00000,Canada
+215,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2036,2774195.00000,Canada
+216,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2037,2808424.00000,Canada
+217,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2038,2840480.00000,Canada
+218,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2039,2872046.00000,Canada
+219,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2040,2904032.00000,Canada
+220,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2041,2935457.00000,Canada
+221,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2042,2964811.00000,Canada
+222,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2043,2995366.00000,Canada
+223,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2044,3026808.00000,Canada
+224,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2045,3060263.00000,Canada
+225,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2046,3095914.00000,Canada
+226,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2047,3130813.00000,Canada
+227,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2048,3165736.00000,Canada
+228,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2049,3202909.00000,Canada
+229,Canada Net-zero,Real Gross Domestic Product ($2012 Millions),2050,3242562.00000,Canada

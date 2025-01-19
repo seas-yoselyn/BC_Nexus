@@ -1,0 +1,507 @@
+,scenario,variable,year,value,unit
+506,Current Measures,Agriculture,2005,63.60714,Megatonnes
+507,Current Measures,Agriculture,2006,62.26741,Megatonnes
+508,Current Measures,Agriculture,2007,62.44206,Megatonnes
+509,Current Measures,Agriculture,2008,61.91207,Megatonnes
+510,Current Measures,Agriculture,2009,59.17146,Megatonnes
+511,Current Measures,Agriculture,2010,59.36927,Megatonnes
+512,Current Measures,Agriculture,2011,60.20408,Megatonnes
+513,Current Measures,Agriculture,2012,62.48385,Megatonnes
+514,Current Measures,Agriculture,2013,64.37824,Megatonnes
+515,Current Measures,Agriculture,2014,63.39121,Megatonnes
+516,Current Measures,Agriculture,2015,65.01731,Megatonnes
+517,Current Measures,Agriculture,2016,66.02384,Megatonnes
+518,Current Measures,Agriculture,2017,66.50717,Megatonnes
+519,Current Measures,Agriculture,2018,68.53742,Megatonnes
+520,Current Measures,Agriculture,2019,68.96267,Megatonnes
+521,Current Measures,Agriculture,2020,69.77846,Megatonnes
+522,Current Measures,Agriculture,2021,68.51682,Megatonnes
+523,Current Measures,Agriculture,2022,70.79153,Megatonnes
+524,Current Measures,Agriculture,2023,71.42571,Megatonnes
+525,Current Measures,Agriculture,2024,70.63022,Megatonnes
+526,Current Measures,Agriculture,2025,70.35660,Megatonnes
+527,Current Measures,Agriculture,2026,70.58203,Megatonnes
+528,Current Measures,Agriculture,2027,70.60525,Megatonnes
+529,Current Measures,Agriculture,2028,70.81375,Megatonnes
+530,Current Measures,Agriculture,2029,71.23482,Megatonnes
+531,Current Measures,Agriculture,2030,71.40479,Megatonnes
+532,Current Measures,Agriculture,2031,71.50821,Megatonnes
+533,Current Measures,Agriculture,2032,71.62167,Megatonnes
+534,Current Measures,Agriculture,2033,71.98806,Megatonnes
+535,Current Measures,Agriculture,2034,72.51443,Megatonnes
+536,Current Measures,Agriculture,2035,73.11523,Megatonnes
+537,Current Measures,Agriculture,2036,73.52802,Megatonnes
+538,Current Measures,Agriculture,2037,73.85562,Megatonnes
+539,Current Measures,Agriculture,2038,74.15073,Megatonnes
+540,Current Measures,Agriculture,2039,74.48676,Megatonnes
+541,Current Measures,Agriculture,2040,74.89246,Megatonnes
+542,Current Measures,Agriculture,2041,75.24210,Megatonnes
+543,Current Measures,Agriculture,2042,75.59255,Megatonnes
+544,Current Measures,Agriculture,2043,75.90630,Megatonnes
+545,Current Measures,Agriculture,2044,76.22620,Megatonnes
+546,Current Measures,Agriculture,2045,76.59101,Megatonnes
+547,Current Measures,Agriculture,2046,76.95577,Megatonnes
+548,Current Measures,Agriculture,2047,77.26756,Megatonnes
+549,Current Measures,Agriculture,2048,77.57765,Megatonnes
+550,Current Measures,Agriculture,2049,77.96159,Megatonnes
+551,Current Measures,Agriculture,2050,78.38869,Megatonnes
+552,Current Measures,Buildings,2005,84.84944,Megatonnes
+553,Current Measures,Buildings,2006,79.66271,Megatonnes
+554,Current Measures,Buildings,2007,85.52041,Megatonnes
+555,Current Measures,Buildings,2008,85.43251,Megatonnes
+556,Current Measures,Buildings,2009,83.86526,Megatonnes
+557,Current Measures,Buildings,2010,81.50537,Megatonnes
+558,Current Measures,Buildings,2011,86.01484,Megatonnes
+559,Current Measures,Buildings,2012,84.53496,Megatonnes
+560,Current Measures,Buildings,2013,85.65905,Megatonnes
+561,Current Measures,Buildings,2014,86.23596,Megatonnes
+562,Current Measures,Buildings,2015,85.29422,Megatonnes
+563,Current Measures,Buildings,2016,84.85454,Megatonnes
+564,Current Measures,Buildings,2017,87.70961,Megatonnes
+565,Current Measures,Buildings,2018,92.36804,Megatonnes
+566,Current Measures,Buildings,2019,93.27410,Megatonnes
+567,Current Measures,Buildings,2020,89.11787,Megatonnes
+568,Current Measures,Buildings,2021,87.16960,Megatonnes
+569,Current Measures,Buildings,2022,81.92832,Megatonnes
+570,Current Measures,Buildings,2023,81.22738,Megatonnes
+571,Current Measures,Buildings,2024,79.75232,Megatonnes
+572,Current Measures,Buildings,2025,78.01463,Megatonnes
+573,Current Measures,Buildings,2026,76.60995,Megatonnes
+574,Current Measures,Buildings,2027,75.14657,Megatonnes
+575,Current Measures,Buildings,2028,73.77341,Megatonnes
+576,Current Measures,Buildings,2029,72.37667,Megatonnes
+577,Current Measures,Buildings,2030,70.93888,Megatonnes
+578,Current Measures,Buildings,2031,70.01651,Megatonnes
+579,Current Measures,Buildings,2032,68.89611,Megatonnes
+580,Current Measures,Buildings,2033,67.96475,Megatonnes
+581,Current Measures,Buildings,2034,66.99500,Megatonnes
+582,Current Measures,Buildings,2035,65.84794,Megatonnes
+583,Current Measures,Buildings,2036,64.96512,Megatonnes
+584,Current Measures,Buildings,2037,64.58100,Megatonnes
+585,Current Measures,Buildings,2038,64.20964,Megatonnes
+586,Current Measures,Buildings,2039,63.94935,Megatonnes
+587,Current Measures,Buildings,2040,63.74532,Megatonnes
+588,Current Measures,Buildings,2041,63.60617,Megatonnes
+589,Current Measures,Buildings,2042,63.52358,Megatonnes
+590,Current Measures,Buildings,2043,63.47627,Megatonnes
+591,Current Measures,Buildings,2044,63.45424,Megatonnes
+592,Current Measures,Buildings,2045,63.48335,Megatonnes
+593,Current Measures,Buildings,2046,63.54980,Megatonnes
+594,Current Measures,Buildings,2047,63.40926,Megatonnes
+595,Current Measures,Buildings,2048,63.54572,Megatonnes
+596,Current Measures,Buildings,2049,63.71653,Megatonnes
+597,Current Measures,Buildings,2050,63.89709,Megatonnes
+598,Current Measures,Direct Air Capture,2005,0.00000,Megatonnes
+599,Current Measures,Direct Air Capture,2006,0.00000,Megatonnes
+600,Current Measures,Direct Air Capture,2007,0.00000,Megatonnes
+601,Current Measures,Direct Air Capture,2008,0.00000,Megatonnes
+602,Current Measures,Direct Air Capture,2009,0.00000,Megatonnes
+603,Current Measures,Direct Air Capture,2010,0.00000,Megatonnes
+604,Current Measures,Direct Air Capture,2011,0.00000,Megatonnes
+605,Current Measures,Direct Air Capture,2012,0.00000,Megatonnes
+606,Current Measures,Direct Air Capture,2013,0.00000,Megatonnes
+607,Current Measures,Direct Air Capture,2014,0.00000,Megatonnes
+608,Current Measures,Direct Air Capture,2015,0.00000,Megatonnes
+609,Current Measures,Direct Air Capture,2016,0.00000,Megatonnes
+610,Current Measures,Direct Air Capture,2017,0.00000,Megatonnes
+611,Current Measures,Direct Air Capture,2018,0.00000,Megatonnes
+612,Current Measures,Direct Air Capture,2019,0.00000,Megatonnes
+613,Current Measures,Direct Air Capture,2020,0.00000,Megatonnes
+614,Current Measures,Direct Air Capture,2021,0.00000,Megatonnes
+615,Current Measures,Direct Air Capture,2022,0.00000,Megatonnes
+616,Current Measures,Direct Air Capture,2023,0.00000,Megatonnes
+617,Current Measures,Direct Air Capture,2024,0.00000,Megatonnes
+618,Current Measures,Direct Air Capture,2025,0.00000,Megatonnes
+619,Current Measures,Direct Air Capture,2026,0.00000,Megatonnes
+620,Current Measures,Direct Air Capture,2027,0.00000,Megatonnes
+621,Current Measures,Direct Air Capture,2028,0.00000,Megatonnes
+622,Current Measures,Direct Air Capture,2029,0.00000,Megatonnes
+623,Current Measures,Direct Air Capture,2030,0.00000,Megatonnes
+624,Current Measures,Direct Air Capture,2031,0.00000,Megatonnes
+625,Current Measures,Direct Air Capture,2032,0.00000,Megatonnes
+626,Current Measures,Direct Air Capture,2033,0.00000,Megatonnes
+627,Current Measures,Direct Air Capture,2034,0.00000,Megatonnes
+628,Current Measures,Direct Air Capture,2035,0.00000,Megatonnes
+629,Current Measures,Direct Air Capture,2036,0.00000,Megatonnes
+630,Current Measures,Direct Air Capture,2037,0.00000,Megatonnes
+631,Current Measures,Direct Air Capture,2038,0.00000,Megatonnes
+632,Current Measures,Direct Air Capture,2039,0.00000,Megatonnes
+633,Current Measures,Direct Air Capture,2040,0.00000,Megatonnes
+634,Current Measures,Direct Air Capture,2041,0.00000,Megatonnes
+635,Current Measures,Direct Air Capture,2042,0.00000,Megatonnes
+636,Current Measures,Direct Air Capture,2043,0.00000,Megatonnes
+637,Current Measures,Direct Air Capture,2044,0.00000,Megatonnes
+638,Current Measures,Direct Air Capture,2045,0.00000,Megatonnes
+639,Current Measures,Direct Air Capture,2046,0.00000,Megatonnes
+640,Current Measures,Direct Air Capture,2047,0.00000,Megatonnes
+641,Current Measures,Direct Air Capture,2048,0.00000,Megatonnes
+642,Current Measures,Direct Air Capture,2049,0.00000,Megatonnes
+643,Current Measures,Direct Air Capture,2050,0.00000,Megatonnes
+644,Current Measures,Electricity,2005,117.58324,Megatonnes
+645,Current Measures,Electricity,2006,111.62447,Megatonnes
+646,Current Measures,Electricity,2007,119.65740,Megatonnes
+647,Current Measures,Electricity,2008,108.88686,Megatonnes
+648,Current Measures,Electricity,2009,93.77054,Megatonnes
+649,Current Measures,Electricity,2010,94.59983,Megatonnes
+650,Current Measures,Electricity,2011,86.87367,Megatonnes
+651,Current Measures,Electricity,2012,83.30406,Megatonnes
+652,Current Measures,Electricity,2013,79.70096,Megatonnes
+653,Current Measures,Electricity,2014,76.28778,Megatonnes
+654,Current Measures,Electricity,2015,78.94859,Megatonnes
+655,Current Measures,Electricity,2016,74.25675,Megatonnes
+656,Current Measures,Electricity,2017,72.60570,Megatonnes
+657,Current Measures,Electricity,2018,62.74140,Megatonnes
+658,Current Measures,Electricity,2019,61.60667,Megatonnes
+659,Current Measures,Electricity,2020,53.68446,Megatonnes
+660,Current Measures,Electricity,2021,51.67781,Megatonnes
+661,Current Measures,Electricity,2022,54.33385,Megatonnes
+662,Current Measures,Electricity,2023,52.20147,Megatonnes
+663,Current Measures,Electricity,2024,47.25851,Megatonnes
+664,Current Measures,Electricity,2025,38.30157,Megatonnes
+665,Current Measures,Electricity,2026,39.19468,Megatonnes
+666,Current Measures,Electricity,2027,40.00306,Megatonnes
+667,Current Measures,Electricity,2028,38.60403,Megatonnes
+668,Current Measures,Electricity,2029,35.91492,Megatonnes
+669,Current Measures,Electricity,2030,31.09049,Megatonnes
+670,Current Measures,Electricity,2031,31.61160,Megatonnes
+671,Current Measures,Electricity,2032,32.34686,Megatonnes
+672,Current Measures,Electricity,2033,32.55671,Megatonnes
+673,Current Measures,Electricity,2034,31.34168,Megatonnes
+674,Current Measures,Electricity,2035,30.76194,Megatonnes
+675,Current Measures,Electricity,2036,30.03051,Megatonnes
+676,Current Measures,Electricity,2037,29.45124,Megatonnes
+677,Current Measures,Electricity,2038,29.00283,Megatonnes
+678,Current Measures,Electricity,2039,27.85421,Megatonnes
+679,Current Measures,Electricity,2040,26.76718,Megatonnes
+680,Current Measures,Electricity,2041,24.57727,Megatonnes
+681,Current Measures,Electricity,2042,23.40149,Megatonnes
+682,Current Measures,Electricity,2043,21.56910,Megatonnes
+683,Current Measures,Electricity,2044,19.51974,Megatonnes
+684,Current Measures,Electricity,2045,18.00871,Megatonnes
+685,Current Measures,Electricity,2046,17.79539,Megatonnes
+686,Current Measures,Electricity,2047,17.93758,Megatonnes
+687,Current Measures,Electricity,2048,17.87747,Megatonnes
+688,Current Measures,Electricity,2049,17.94103,Megatonnes
+689,Current Measures,Electricity,2050,18.03427,Megatonnes
+690,Current Measures,Heavy Industry,2005,88.98923,Megatonnes
+691,Current Measures,Heavy Industry,2006,88.74131,Megatonnes
+692,Current Measures,Heavy Industry,2007,87.40888,Megatonnes
+693,Current Measures,Heavy Industry,2008,85.85882,Megatonnes
+694,Current Measures,Heavy Industry,2009,72.53000,Megatonnes
+695,Current Measures,Heavy Industry,2010,75.68698,Megatonnes
+696,Current Measures,Heavy Industry,2011,81.77988,Megatonnes
+697,Current Measures,Heavy Industry,2012,81.82683,Megatonnes
+698,Current Measures,Heavy Industry,2013,80.51321,Megatonnes
+699,Current Measures,Heavy Industry,2014,80.86144,Megatonnes
+700,Current Measures,Heavy Industry,2015,80.55737,Megatonnes
+701,Current Measures,Heavy Industry,2016,77.97963,Megatonnes
+702,Current Measures,Heavy Industry,2017,77.31527,Megatonnes
+703,Current Measures,Heavy Industry,2018,79.56423,Megatonnes
+704,Current Measures,Heavy Industry,2019,78.78807,Megatonnes
+705,Current Measures,Heavy Industry,2020,73.57588,Megatonnes
+706,Current Measures,Heavy Industry,2021,76.81255,Megatonnes
+707,Current Measures,Heavy Industry,2022,74.20667,Megatonnes
+708,Current Measures,Heavy Industry,2023,77.12179,Megatonnes
+709,Current Measures,Heavy Industry,2024,76.81440,Megatonnes
+710,Current Measures,Heavy Industry,2025,74.63399,Megatonnes
+711,Current Measures,Heavy Industry,2026,71.18045,Megatonnes
+712,Current Measures,Heavy Industry,2027,71.05931,Megatonnes
+713,Current Measures,Heavy Industry,2028,69.53537,Megatonnes
+714,Current Measures,Heavy Industry,2029,66.51258,Megatonnes
+715,Current Measures,Heavy Industry,2030,63.77177,Megatonnes
+716,Current Measures,Heavy Industry,2031,63.61248,Megatonnes
+717,Current Measures,Heavy Industry,2032,61.31158,Megatonnes
+718,Current Measures,Heavy Industry,2033,59.83665,Megatonnes
+719,Current Measures,Heavy Industry,2034,58.42899,Megatonnes
+720,Current Measures,Heavy Industry,2035,58.33267,Megatonnes
+721,Current Measures,Heavy Industry,2036,58.31143,Megatonnes
+722,Current Measures,Heavy Industry,2037,58.55055,Megatonnes
+723,Current Measures,Heavy Industry,2038,58.75997,Megatonnes
+724,Current Measures,Heavy Industry,2039,59.03229,Megatonnes
+725,Current Measures,Heavy Industry,2040,59.36878,Megatonnes
+726,Current Measures,Heavy Industry,2041,59.66500,Megatonnes
+727,Current Measures,Heavy Industry,2042,60.00625,Megatonnes
+728,Current Measures,Heavy Industry,2043,60.37771,Megatonnes
+729,Current Measures,Heavy Industry,2044,60.77677,Megatonnes
+730,Current Measures,Heavy Industry,2045,61.27200,Megatonnes
+731,Current Measures,Heavy Industry,2046,61.82863,Megatonnes
+732,Current Measures,Heavy Industry,2047,62.34073,Megatonnes
+733,Current Measures,Heavy Industry,2048,62.86823,Megatonnes
+734,Current Measures,Heavy Industry,2049,63.46993,Megatonnes
+735,Current Measures,Heavy Industry,2050,64.11285,Megatonnes
+736,Current Measures,"Land Use, Land Use Change and Forestry",2005,-5.54240,Megatonnes
+737,Current Measures,"Land Use, Land Use Change and Forestry",2006,-19.33271,Megatonnes
+738,Current Measures,"Land Use, Land Use Change and Forestry",2007,-16.87649,Megatonnes
+739,Current Measures,"Land Use, Land Use Change and Forestry",2008,-21.37597,Megatonnes
+740,Current Measures,"Land Use, Land Use Change and Forestry",2009,-48.79511,Megatonnes
+741,Current Measures,"Land Use, Land Use Change and Forestry",2010,-18.17300,Megatonnes
+742,Current Measures,"Land Use, Land Use Change and Forestry",2011,-11.95000,Megatonnes
+743,Current Measures,"Land Use, Land Use Change and Forestry",2012,-21.18648,Megatonnes
+744,Current Measures,"Land Use, Land Use Change and Forestry",2013,-19.73320,Megatonnes
+745,Current Measures,"Land Use, Land Use Change and Forestry",2014,-39.31597,Megatonnes
+746,Current Measures,"Land Use, Land Use Change and Forestry",2015,0.02390,Megatonnes
+747,Current Measures,"Land Use, Land Use Change and Forestry",2016,-10.95583,Megatonnes
+748,Current Measures,"Land Use, Land Use Change and Forestry",2017,-16.22661,Megatonnes
+749,Current Measures,"Land Use, Land Use Change and Forestry",2018,-11.29365,Megatonnes
+750,Current Measures,"Land Use, Land Use Change and Forestry",2019,-18.82111,Megatonnes
+751,Current Measures,"Land Use, Land Use Change and Forestry",2020,-13.38768,Megatonnes
+752,Current Measures,"Land Use, Land Use Change and Forestry",2021,-17.30257,Megatonnes
+753,Current Measures,"Land Use, Land Use Change and Forestry",2022,-15.40633,Megatonnes
+754,Current Measures,"Land Use, Land Use Change and Forestry",2023,-15.04304,Megatonnes
+755,Current Measures,"Land Use, Land Use Change and Forestry",2024,-14.67974,Megatonnes
+756,Current Measures,"Land Use, Land Use Change and Forestry",2025,-14.31645,Megatonnes
+757,Current Measures,"Land Use, Land Use Change and Forestry",2026,-13.95316,Megatonnes
+758,Current Measures,"Land Use, Land Use Change and Forestry",2027,-13.58987,Megatonnes
+759,Current Measures,"Land Use, Land Use Change and Forestry",2028,-13.22658,Megatonnes
+760,Current Measures,"Land Use, Land Use Change and Forestry",2029,-12.86329,Megatonnes
+761,Current Measures,"Land Use, Land Use Change and Forestry",2030,-12.50000,Megatonnes
+762,Current Measures,"Land Use, Land Use Change and Forestry",2031,-12.50000,Megatonnes
+763,Current Measures,"Land Use, Land Use Change and Forestry",2032,-12.50000,Megatonnes
+764,Current Measures,"Land Use, Land Use Change and Forestry",2033,-12.50000,Megatonnes
+765,Current Measures,"Land Use, Land Use Change and Forestry",2034,-12.50000,Megatonnes
+766,Current Measures,"Land Use, Land Use Change and Forestry",2035,-12.50000,Megatonnes
+767,Current Measures,"Land Use, Land Use Change and Forestry",2036,-12.50000,Megatonnes
+768,Current Measures,"Land Use, Land Use Change and Forestry",2037,-12.50000,Megatonnes
+769,Current Measures,"Land Use, Land Use Change and Forestry",2038,-12.50000,Megatonnes
+770,Current Measures,"Land Use, Land Use Change and Forestry",2039,-12.50000,Megatonnes
+771,Current Measures,"Land Use, Land Use Change and Forestry",2040,-12.50000,Megatonnes
+772,Current Measures,"Land Use, Land Use Change and Forestry",2041,-12.50000,Megatonnes
+773,Current Measures,"Land Use, Land Use Change and Forestry",2042,-12.50000,Megatonnes
+774,Current Measures,"Land Use, Land Use Change and Forestry",2043,-12.50000,Megatonnes
+775,Current Measures,"Land Use, Land Use Change and Forestry",2044,-12.50000,Megatonnes
+776,Current Measures,"Land Use, Land Use Change and Forestry",2045,-12.50000,Megatonnes
+777,Current Measures,"Land Use, Land Use Change and Forestry",2046,-12.50000,Megatonnes
+778,Current Measures,"Land Use, Land Use Change and Forestry",2047,-12.50000,Megatonnes
+779,Current Measures,"Land Use, Land Use Change and Forestry",2048,-12.50000,Megatonnes
+780,Current Measures,"Land Use, Land Use Change and Forestry",2049,-12.50000,Megatonnes
+781,Current Measures,"Land Use, Land Use Change and Forestry",2050,-12.50000,Megatonnes
+782,Current Measures,Low or Non-emitting Hydrogen Production,2005,0.00000,Megatonnes
+783,Current Measures,Low or Non-emitting Hydrogen Production,2006,0.00000,Megatonnes
+784,Current Measures,Low or Non-emitting Hydrogen Production,2007,0.00000,Megatonnes
+785,Current Measures,Low or Non-emitting Hydrogen Production,2008,0.00000,Megatonnes
+786,Current Measures,Low or Non-emitting Hydrogen Production,2009,0.00000,Megatonnes
+787,Current Measures,Low or Non-emitting Hydrogen Production,2010,0.00000,Megatonnes
+788,Current Measures,Low or Non-emitting Hydrogen Production,2011,0.00000,Megatonnes
+789,Current Measures,Low or Non-emitting Hydrogen Production,2012,0.00000,Megatonnes
+790,Current Measures,Low or Non-emitting Hydrogen Production,2013,0.00000,Megatonnes
+791,Current Measures,Low or Non-emitting Hydrogen Production,2014,0.00000,Megatonnes
+792,Current Measures,Low or Non-emitting Hydrogen Production,2015,0.00000,Megatonnes
+793,Current Measures,Low or Non-emitting Hydrogen Production,2016,0.00000,Megatonnes
+794,Current Measures,Low or Non-emitting Hydrogen Production,2017,0.00000,Megatonnes
+795,Current Measures,Low or Non-emitting Hydrogen Production,2018,0.00000,Megatonnes
+796,Current Measures,Low or Non-emitting Hydrogen Production,2019,0.00000,Megatonnes
+797,Current Measures,Low or Non-emitting Hydrogen Production,2020,0.00000,Megatonnes
+798,Current Measures,Low or Non-emitting Hydrogen Production,2021,0.00000,Megatonnes
+799,Current Measures,Low or Non-emitting Hydrogen Production,2022,0.00113,Megatonnes
+800,Current Measures,Low or Non-emitting Hydrogen Production,2023,0.00135,Megatonnes
+801,Current Measures,Low or Non-emitting Hydrogen Production,2024,0.08229,Megatonnes
+802,Current Measures,Low or Non-emitting Hydrogen Production,2025,0.23199,Megatonnes
+803,Current Measures,Low or Non-emitting Hydrogen Production,2026,0.38596,Megatonnes
+804,Current Measures,Low or Non-emitting Hydrogen Production,2027,0.47229,Megatonnes
+805,Current Measures,Low or Non-emitting Hydrogen Production,2028,0.52276,Megatonnes
+806,Current Measures,Low or Non-emitting Hydrogen Production,2029,0.60892,Megatonnes
+807,Current Measures,Low or Non-emitting Hydrogen Production,2030,0.65935,Megatonnes
+808,Current Measures,Low or Non-emitting Hydrogen Production,2031,0.69999,Megatonnes
+809,Current Measures,Low or Non-emitting Hydrogen Production,2032,0.73345,Megatonnes
+810,Current Measures,Low or Non-emitting Hydrogen Production,2033,0.75964,Megatonnes
+811,Current Measures,Low or Non-emitting Hydrogen Production,2034,0.78117,Megatonnes
+812,Current Measures,Low or Non-emitting Hydrogen Production,2035,0.79977,Megatonnes
+813,Current Measures,Low or Non-emitting Hydrogen Production,2036,0.81845,Megatonnes
+814,Current Measures,Low or Non-emitting Hydrogen Production,2037,0.83640,Megatonnes
+815,Current Measures,Low or Non-emitting Hydrogen Production,2038,0.85505,Megatonnes
+816,Current Measures,Low or Non-emitting Hydrogen Production,2039,0.87299,Megatonnes
+817,Current Measures,Low or Non-emitting Hydrogen Production,2040,0.88538,Megatonnes
+818,Current Measures,Low or Non-emitting Hydrogen Production,2041,0.89752,Megatonnes
+819,Current Measures,Low or Non-emitting Hydrogen Production,2042,0.91064,Megatonnes
+820,Current Measures,Low or Non-emitting Hydrogen Production,2043,0.92435,Megatonnes
+821,Current Measures,Low or Non-emitting Hydrogen Production,2044,0.93725,Megatonnes
+822,Current Measures,Low or Non-emitting Hydrogen Production,2045,0.95113,Megatonnes
+823,Current Measures,Low or Non-emitting Hydrogen Production,2046,0.96526,Megatonnes
+824,Current Measures,Low or Non-emitting Hydrogen Production,2047,0.97958,Megatonnes
+825,Current Measures,Low or Non-emitting Hydrogen Production,2048,0.99298,Megatonnes
+826,Current Measures,Low or Non-emitting Hydrogen Production,2049,1.00721,Megatonnes
+827,Current Measures,Low or Non-emitting Hydrogen Production,2050,1.03057,Megatonnes
+828,Current Measures,Oil and Gas,2005,168.33487,Megatonnes
+829,Current Measures,Oil and Gas,2006,174.64954,Megatonnes
+830,Current Measures,Oil and Gas,2007,179.81939,Megatonnes
+831,Current Measures,Oil and Gas,2008,176.54913,Megatonnes
+832,Current Measures,Oil and Gas,2009,173.77629,Megatonnes
+833,Current Measures,Oil and Gas,2010,179.32107,Megatonnes
+834,Current Measures,Oil and Gas,2011,184.79889,Megatonnes
+835,Current Measures,Oil and Gas,2012,192.14209,Megatonnes
+836,Current Measures,Oil and Gas,2013,196.83233,Megatonnes
+837,Current Measures,Oil and Gas,2014,202.38086,Megatonnes
+838,Current Measures,Oil and Gas,2015,203.05497,Megatonnes
+839,Current Measures,Oil and Gas,2016,191.45773,Megatonnes
+840,Current Measures,Oil and Gas,2017,194.02058,Megatonnes
+841,Current Measures,Oil and Gas,2018,202.49321,Megatonnes
+842,Current Measures,Oil and Gas,2019,201.31724,Megatonnes
+843,Current Measures,Oil and Gas,2020,183.35403,Megatonnes
+844,Current Measures,Oil and Gas,2021,189.15235,Megatonnes
+845,Current Measures,Oil and Gas,2022,191.42341,Megatonnes
+846,Current Measures,Oil and Gas,2023,192.62908,Megatonnes
+847,Current Measures,Oil and Gas,2024,188.03231,Megatonnes
+848,Current Measures,Oil and Gas,2025,187.38063,Megatonnes
+849,Current Measures,Oil and Gas,2026,186.50619,Megatonnes
+850,Current Measures,Oil and Gas,2027,183.29879,Megatonnes
+851,Current Measures,Oil and Gas,2028,180.58102,Megatonnes
+852,Current Measures,Oil and Gas,2029,176.80893,Megatonnes
+853,Current Measures,Oil and Gas,2030,174.36260,Megatonnes
+854,Current Measures,Oil and Gas,2031,170.80996,Megatonnes
+855,Current Measures,Oil and Gas,2032,167.98858,Megatonnes
+856,Current Measures,Oil and Gas,2033,166.12023,Megatonnes
+857,Current Measures,Oil and Gas,2034,160.09813,Megatonnes
+858,Current Measures,Oil and Gas,2035,159.32449,Megatonnes
+859,Current Measures,Oil and Gas,2036,158.03824,Megatonnes
+860,Current Measures,Oil and Gas,2037,156.79022,Megatonnes
+861,Current Measures,Oil and Gas,2038,155.78337,Megatonnes
+862,Current Measures,Oil and Gas,2039,155.22552,Megatonnes
+863,Current Measures,Oil and Gas,2040,154.80977,Megatonnes
+864,Current Measures,Oil and Gas,2041,154.13952,Megatonnes
+865,Current Measures,Oil and Gas,2042,153.34935,Megatonnes
+866,Current Measures,Oil and Gas,2043,152.22904,Megatonnes
+867,Current Measures,Oil and Gas,2044,151.52516,Megatonnes
+868,Current Measures,Oil and Gas,2045,150.58681,Megatonnes
+869,Current Measures,Oil and Gas,2046,150.07171,Megatonnes
+870,Current Measures,Oil and Gas,2047,149.62425,Megatonnes
+871,Current Measures,Oil and Gas,2048,149.26452,Megatonnes
+872,Current Measures,Oil and Gas,2049,149.13984,Megatonnes
+873,Current Measures,Oil and Gas,2050,148.82712,Megatonnes
+874,Current Measures,Total,2005,726.67639,Megatonnes
+875,Current Measures,Total,2006,705.95366,Megatonnes
+876,Current Measures,Total,2007,731.19360,Megatonnes
+877,Current Measures,Total,2008,709.42526,Megatonnes
+878,Current Measures,Total,2009,640.75421,Megatonnes
+879,Current Measures,Total,2010,683.69454,Megatonnes
+880,Current Measures,Total,2011,699.36207,Megatonnes
+881,Current Measures,Total,2012,695.18280,Megatonnes
+882,Current Measures,Total,2013,703.36311,Megatonnes
+883,Current Measures,Total,2014,680.87949,Megatonnes
+884,Current Measures,Total,2015,722.94032,Megatonnes
+885,Current Measures,Total,2016,693.96994,Megatonnes
+886,Current Measures,Total,2017,696.00553,Megatonnes
+887,Current Measures,Total,2018,713.32133,Megatonnes
+888,Current Measures,Total,2019,704.85819,Megatonnes
+889,Current Measures,Total,2020,645.40050,Megatonnes
+890,Current Measures,Total,2021,653.12511,Megatonnes
+891,Current Measures,Total,2022,671.86331,Megatonnes
+892,Current Measures,Total,2023,679.15665,Megatonnes
+893,Current Measures,Total,2024,667.19013,Megatonnes
+894,Current Measures,Total,2025,653.62961,Megatonnes
+895,Current Measures,Total,2026,648.95614,Megatonnes
+896,Current Measures,Total,2027,645.07892,Megatonnes
+897,Current Measures,Total,2028,636.72062,Megatonnes
+898,Current Measures,Total,2029,625.40810,Megatonnes
+899,Current Measures,Total,2030,612.56679,Megatonnes
+900,Current Measures,Total,2031,607.08960,Megatonnes
+901,Current Measures,Total,2032,600.46561,Megatonnes
+902,Current Measures,Total,2033,595.52771,Megatonnes
+903,Current Measures,Total,2034,585.20989,Megatonnes
+904,Current Measures,Total,2035,582.17817,Megatonnes
+905,Current Measures,Total,2036,578.63850,Megatonnes
+906,Current Measures,Total,2037,576.15622,Megatonnes
+907,Current Measures,Total,2038,573.98658,Megatonnes
+908,Current Measures,Total,2039,571.88297,Megatonnes
+909,Current Measures,Total,2040,570.31287,Megatonnes
+910,Current Measures,Total,2041,567.43097,Megatonnes
+911,Current Measures,Total,2042,565.67856,Megatonnes
+912,Current Measures,Total,2043,563.12248,Megatonnes
+913,Current Measures,Total,2044,561.03555,Megatonnes
+914,Current Measures,Total,2045,559.65475,Megatonnes
+915,Current Measures,Total,2046,560.30022,Megatonnes
+916,Current Measures,Total,2047,561.16968,Megatonnes
+917,Current Measures,Total,2048,562.36323,Megatonnes
+918,Current Measures,Total,2049,564.34573,Megatonnes
+919,Current Measures,Total,2050,566.44713,Megatonnes
+920,Current Measures,Transportation,2005,156.78923,Megatonnes
+921,Current Measures,Transportation,2006,157.66182,Megatonnes
+922,Current Measures,Transportation,2007,162.65285,Megatonnes
+923,Current Measures,Transportation,2008,163.22526,Megatonnes
+924,Current Measures,Transportation,2009,162.03289,Megatonnes
+925,Current Measures,Transportation,2010,165.50358,Megatonnes
+926,Current Measures,Transportation,2011,164.42336,Megatonnes
+927,Current Measures,Transportation,2012,164.61839,Megatonnes
+928,Current Measures,Transportation,2013,167.10580,Megatonnes
+929,Current Measures,Transportation,2014,164.70716,Megatonnes
+930,Current Measures,Transportation,2015,162.59078,Megatonnes
+931,Current Measures,Transportation,2016,162.36484,Megatonnes
+932,Current Measures,Transportation,2017,165.37102,Megatonnes
+933,Current Measures,Transportation,2018,169.31698,Megatonnes
+934,Current Measures,Transportation,2019,170.16312,Megatonnes
+935,Current Measures,Transportation,2020,143.22023,Megatonnes
+936,Current Measures,Transportation,2021,150.11474,Megatonnes
+937,Current Measures,Transportation,2022,168.65092,Megatonnes
+938,Current Measures,Transportation,2023,173.56610,Megatonnes
+939,Current Measures,Transportation,2024,172.88076,Megatonnes
+940,Current Measures,Transportation,2025,172.39662,Megatonnes
+941,Current Measures,Transportation,2026,171.54013,Megatonnes
+942,Current Measures,Transportation,2027,170.92744,Megatonnes
+943,Current Measures,Transportation,2028,169.04149,Megatonnes
+944,Current Measures,Transportation,2029,167.73420,Megatonnes
+945,Current Measures,Transportation,2030,165.86282,Megatonnes
+946,Current Measures,Transportation,2031,164.31526,Megatonnes
+947,Current Measures,Transportation,2032,163.02207,Megatonnes
+948,Current Measures,Transportation,2033,161.73077,Megatonnes
+949,Current Measures,Transportation,2034,160.48240,Megatonnes
+950,Current Measures,Transportation,2035,159.30188,Megatonnes
+951,Current Measures,Transportation,2036,158.11231,Megatonnes
+952,Current Measures,Transportation,2037,157.07612,Megatonnes
+953,Current Measures,Transportation,2038,156.05795,Megatonnes
+954,Current Measures,Transportation,2039,155.10117,Megatonnes
+955,Current Measures,Transportation,2040,154.25044,Megatonnes
+956,Current Measures,Transportation,2041,153.48626,Megatonnes
+957,Current Measures,Transportation,2042,152.84174,Megatonnes
+958,Current Measures,Transportation,2043,152.32238,Megatonnes
+959,Current Measures,Transportation,2044,151.98755,Megatonnes
+960,Current Measures,Transportation,2045,151.82322,Megatonnes
+961,Current Measures,Transportation,2046,151.84361,Megatonnes
+962,Current Measures,Transportation,2047,151.95469,Megatonnes
+963,Current Measures,Transportation,2048,152.18729,Megatonnes
+964,Current Measures,Transportation,2049,152.61196,Megatonnes
+965,Current Measures,Transportation,2050,153.17542,Megatonnes
+966,Current Measures,Waste and Others,2005,52.06563,Megatonnes
+967,Current Measures,Waste and Others,2006,50.67911,Megatonnes
+968,Current Measures,Waste and Others,2007,50.56911,Megatonnes
+969,Current Measures,Waste and Others,2008,48.93659,Megatonnes
+970,Current Measures,Waste and Others,2009,44.40289,Megatonnes
+971,Current Measures,Waste and Others,2010,45.88144,Megatonnes
+972,Current Measures,Waste and Others,2011,47.21734,Megatonnes
+973,Current Measures,Waste and Others,2012,47.45911,Megatonnes
+974,Current Measures,Waste and Others,2013,48.90671,Megatonnes
+975,Current Measures,Waste and Others,2014,46.33105,Megatonnes
+976,Current Measures,Waste and Others,2015,47.45318,Megatonnes
+977,Current Measures,Waste and Others,2016,47.98844,Megatonnes
+978,Current Measures,Waste and Others,2017,48.70280,Megatonnes
+979,Current Measures,Waste and Others,2018,49.59370,Megatonnes
+980,Current Measures,Waste and Others,2019,49.56743,Megatonnes
+981,Current Measures,Waste and Others,2020,46.05725,Megatonnes
+982,Current Measures,Waste and Others,2021,46.98380,Megatonnes
+983,Current Measures,Waste and Others,2022,45.93380,Megatonnes
+984,Current Measures,Waste and Others,2023,46.02680,Megatonnes
+985,Current Measures,Waste and Others,2024,46.41907,Megatonnes
+986,Current Measures,Waste and Others,2025,46.63003,Megatonnes
+987,Current Measures,Waste and Others,2026,46.90992,Megatonnes
+988,Current Measures,Waste and Others,2027,47.15609,Megatonnes
+989,Current Measures,Waste and Others,2028,47.07537,Megatonnes
+990,Current Measures,Waste and Others,2029,47.08036,Megatonnes
+991,Current Measures,Waste and Others,2030,46.97609,Megatonnes
+992,Current Measures,Waste and Others,2031,47.01558,Megatonnes
+993,Current Measures,Waste and Others,2032,47.04529,Megatonnes
+994,Current Measures,Waste and Others,2033,47.07089,Megatonnes
+995,Current Measures,Waste and Others,2034,47.06811,Megatonnes
+996,Current Measures,Waste and Others,2035,47.19426,Megatonnes
+997,Current Measures,Waste and Others,2036,47.33442,Megatonnes
+998,Current Measures,Waste and Others,2037,47.51508,Megatonnes
+999,Current Measures,Waste and Others,2038,47.66705,Megatonnes
+1000,Current Measures,Waste and Others,2039,47.86068,Megatonnes
+1001,Current Measures,Waste and Others,2040,48.09355,Megatonnes
+1002,Current Measures,Waste and Others,2041,48.31715,Megatonnes
+1003,Current Measures,Waste and Others,2042,48.55296,Megatonnes
+1004,Current Measures,Waste and Others,2043,48.81732,Megatonnes
+1005,Current Measures,Waste and Others,2044,49.10864,Megatonnes
+1006,Current Measures,Waste and Others,2045,49.43852,Megatonnes
+1007,Current Measures,Waste and Others,2046,49.79005,Megatonnes
+1008,Current Measures,Waste and Others,2047,50.15603,Megatonnes
+1009,Current Measures,Waste and Others,2048,50.54937,Megatonnes
+1010,Current Measures,Waste and Others,2049,50.99763,Megatonnes
+1011,Current Measures,Waste and Others,2050,51.48112,Megatonnes

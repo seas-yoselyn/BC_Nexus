@@ -1,20 +1,13 @@
-.snakemake
+.vscode
 archive
-*/archive
-*/*/archive
-*/.snakemake_timestamp
-datapackage/SETS/Sets- Not in use
+bcnexus.egg-info
 
-check_flags
-clewsy_test
-log
+data/clews_data/Model_Kotzur
+data/clews_data/Model_Niet
+results/clews/*
 
-datapackage/Params
+dev_resources
 
-scripts/__pycache__
-workflow/scripts/__pycache__
-
-workflow/__pycache__
-workflow/BCNexus_Scenarios
-workflow/check_flags
-workflow/logs
+*/*/__pycache__
+*/__pycache__
+__pycache__

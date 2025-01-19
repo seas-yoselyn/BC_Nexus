@@ -1,0 +1,1795 @@
+,scenario,variable,year,value,region,sector
+50243,Global Net-zero,Aviation Fuel,2005,57.03700,British Columbia,"Transportation"
+50256,Global Net-zero,Aviation Fuel,2006,57.70700,British Columbia,"Transportation"
+50270,Global Net-zero,Aviation Fuel,2007,56.81800,British Columbia,"Transportation"
+50285,Global Net-zero,Aviation Fuel,2008,60.31100,British Columbia,"Transportation"
+50299,Global Net-zero,Aviation Fuel,2009,55.02700,British Columbia,"Transportation"
+50314,Global Net-zero,Aviation Fuel,2010,62.21490,British Columbia,"Transportation"
+50328,Global Net-zero,Aviation Fuel,2011,64.87100,British Columbia,"Transportation"
+50340,Global Net-zero,Aviation Fuel,2012,57.55100,British Columbia,"Transportation"
+50354,Global Net-zero,Aviation Fuel,2013,59.69800,British Columbia,"Transportation"
+50368,Global Net-zero,Aviation Fuel,2014,55.14000,British Columbia,"Transportation"
+50382,Global Net-zero,Aviation Fuel,2015,46.03600,British Columbia,"Transportation"
+50396,Global Net-zero,Aviation Fuel,2016,44.85900,British Columbia,"Transportation"
+50410,Global Net-zero,Aviation Fuel,2017,56.18200,British Columbia,"Transportation"
+50424,Global Net-zero,Aviation Fuel,2018,77.17300,British Columbia,"Transportation"
+50438,Global Net-zero,Aviation Fuel,2019,77.53500,British Columbia,"Transportation"
+50453,Global Net-zero,Aviation Fuel,2020,41.41420,British Columbia,"Transportation"
+50466,Global Net-zero,Aviation Fuel,2021,39.93640,British Columbia,"Transportation"
+50480,Global Net-zero,Aviation Fuel,2022,72.29140,British Columbia,"Transportation"
+50494,Global Net-zero,Aviation Fuel,2023,76.38560,British Columbia,"Transportation"
+50508,Global Net-zero,Aviation Fuel,2024,77.11180,British Columbia,"Transportation"
+50522,Global Net-zero,Aviation Fuel,2025,78.14760,British Columbia,"Transportation"
+50536,Global Net-zero,Aviation Fuel,2026,78.07880,British Columbia,"Transportation"
+50550,Global Net-zero,Aviation Fuel,2027,77.77530,British Columbia,"Transportation"
+50564,Global Net-zero,Aviation Fuel,2028,77.33800,British Columbia,"Transportation"
+50578,Global Net-zero,Aviation Fuel,2029,76.85150,British Columbia,"Transportation"
+50592,Global Net-zero,Aviation Fuel,2030,76.18690,British Columbia,"Transportation"
+50606,Global Net-zero,Aviation Fuel,2031,75.63020,British Columbia,"Transportation"
+50620,Global Net-zero,Aviation Fuel,2032,75.15880,British Columbia,"Transportation"
+50634,Global Net-zero,Aviation Fuel,2033,74.72260,British Columbia,"Transportation"
+50648,Global Net-zero,Aviation Fuel,2034,74.41850,British Columbia,"Transportation"
+50662,Global Net-zero,Aviation Fuel,2035,73.37700,British Columbia,"Transportation"
+50676,Global Net-zero,Aviation Fuel,2036,71.13340,British Columbia,"Transportation"
+50690,Global Net-zero,Aviation Fuel,2037,68.86960,British Columbia,"Transportation"
+50704,Global Net-zero,Aviation Fuel,2038,66.48270,British Columbia,"Transportation"
+50718,Global Net-zero,Aviation Fuel,2039,63.98220,British Columbia,"Transportation"
+50732,Global Net-zero,Aviation Fuel,2040,59.84830,British Columbia,"Transportation"
+50746,Global Net-zero,Aviation Fuel,2041,55.66160,British Columbia,"Transportation"
+50760,Global Net-zero,Aviation Fuel,2042,51.47570,British Columbia,"Transportation"
+50774,Global Net-zero,Aviation Fuel,2043,47.34110,British Columbia,"Transportation"
+50788,Global Net-zero,Aviation Fuel,2044,43.28660,British Columbia,"Transportation"
+50802,Global Net-zero,Aviation Fuel,2045,39.18310,British Columbia,"Transportation"
+50816,Global Net-zero,Aviation Fuel,2046,35.13010,British Columbia,"Transportation"
+50830,Global Net-zero,Aviation Fuel,2047,31.28570,British Columbia,"Transportation"
+50844,Global Net-zero,Aviation Fuel,2048,27.61610,British Columbia,"Transportation"
+50858,Global Net-zero,Aviation Fuel,2049,24.13510,British Columbia,"Transportation"
+50872,Global Net-zero,Aviation Fuel,2050,20.83410,British Columbia,"Transportation"
+50883,Global Net-zero,Biofuels,2005,0.08040,British Columbia,"Transportation"
+50899,Global Net-zero,Biofuels,2006,0.51090,British Columbia,"Transportation"
+50913,Global Net-zero,Biofuels,2007,0.71780,British Columbia,"Transportation"
+50925,Global Net-zero,Biofuels,2008,1.33030,British Columbia,"Transportation"
+50940,Global Net-zero,Biofuels,2009,1.77080,British Columbia,"Transportation"
+50957,Global Net-zero,Biofuels,2010,9.20260,British Columbia,"Transportation"
+50970,Global Net-zero,Biofuels,2011,11.59370,British Columbia,"Transportation"
+50984,Global Net-zero,Biofuels,2012,12.01190,British Columbia,"Transportation"
+50997,Global Net-zero,Biofuels,2013,14.01920,British Columbia,"Transportation"
+51011,Global Net-zero,Biofuels,2014,15.30550,British Columbia,"Transportation"
+51027,Global Net-zero,Biofuels,2015,16.95640,British Columbia,"Transportation"
+51040,Global Net-zero,Biofuels,2016,17.58430,British Columbia,"Transportation"
+51055,Global Net-zero,Biofuels,2017,18.40190,British Columbia,"Transportation"
+51069,Global Net-zero,Biofuels,2018,19.67000,British Columbia,"Transportation"
+51083,Global Net-zero,Biofuels,2019,21.33750,British Columbia,"Transportation"
+51097,Global Net-zero,Biofuels,2020,20.01770,British Columbia,"Transportation"
+51111,Global Net-zero,Biofuels,2021,30.52430,British Columbia,"Transportation"
+51125,Global Net-zero,Biofuels,2022,34.10100,British Columbia,"Transportation"
+51139,Global Net-zero,Biofuels,2023,35.78030,British Columbia,"Transportation"
+51153,Global Net-zero,Biofuels,2024,39.77460,British Columbia,"Transportation"
+51167,Global Net-zero,Biofuels,2025,41.50230,British Columbia,"Transportation"
+51181,Global Net-zero,Biofuels,2026,44.79680,British Columbia,"Transportation"
+51195,Global Net-zero,Biofuels,2027,47.57030,British Columbia,"Transportation"
+51209,Global Net-zero,Biofuels,2028,49.21180,British Columbia,"Transportation"
+51223,Global Net-zero,Biofuels,2029,48.85320,British Columbia,"Transportation"
+51237,Global Net-zero,Biofuels,2030,49.83380,British Columbia,"Transportation"
+51251,Global Net-zero,Biofuels,2031,48.76710,British Columbia,"Transportation"
+51265,Global Net-zero,Biofuels,2032,47.79370,British Columbia,"Transportation"
+51279,Global Net-zero,Biofuels,2033,46.89500,British Columbia,"Transportation"
+51293,Global Net-zero,Biofuels,2034,46.17130,British Columbia,"Transportation"
+51307,Global Net-zero,Biofuels,2035,45.41570,British Columbia,"Transportation"
+51321,Global Net-zero,Biofuels,2036,45.12080,British Columbia,"Transportation"
+51335,Global Net-zero,Biofuels,2037,44.92160,British Columbia,"Transportation"
+51349,Global Net-zero,Biofuels,2038,44.69460,British Columbia,"Transportation"
+51363,Global Net-zero,Biofuels,2039,44.43450,British Columbia,"Transportation"
+51377,Global Net-zero,Biofuels,2040,45.72750,British Columbia,"Transportation"
+51391,Global Net-zero,Biofuels,2041,47.14810,British Columbia,"Transportation"
+51405,Global Net-zero,Biofuels,2042,48.58270,British Columbia,"Transportation"
+51419,Global Net-zero,Biofuels,2043,49.98860,British Columbia,"Transportation"
+51433,Global Net-zero,Biofuels,2044,51.47950,British Columbia,"Transportation"
+51446,Global Net-zero,Biofuels,2045,52.70640,British Columbia,"Transportation"
+51460,Global Net-zero,Biofuels,2046,54.23370,British Columbia,"Transportation"
+51475,Global Net-zero,Biofuels,2047,56.64770,British Columbia,"Transportation"
+51489,Global Net-zero,Biofuels,2048,59.20920,British Columbia,"Transportation"
+51503,Global Net-zero,Biofuels,2049,62.21220,British Columbia,"Transportation"
+51517,Global Net-zero,Biofuels,2050,65.25660,British Columbia,"Transportation"
+51521,Global Net-zero,Biofuels & Emerging Energy,2005,0.00000,British Columbia,"Commercial"
+51558,Global Net-zero,Biofuels & Emerging Energy,2005,15.00000,British Columbia,"Residential"
+51572,Global Net-zero,Biofuels & Emerging Energy,2005,213.98490,British Columbia,"Industrial"
+51573,Global Net-zero,Biofuels & Emerging Energy,2005,229.06530,British Columbia,"Total End-Use"
+51577,Global Net-zero,Biofuels & Emerging Energy,2006,0.00000,British Columbia,"Commercial"
+51614,Global Net-zero,Biofuels & Emerging Energy,2006,13.79990,British Columbia,"Residential"
+51628,Global Net-zero,Biofuels & Emerging Energy,2006,208.43990,British Columbia,"Industrial"
+51629,Global Net-zero,Biofuels & Emerging Energy,2006,222.75070,British Columbia,"Total End-Use"
+51633,Global Net-zero,Biofuels & Emerging Energy,2007,0.00000,British Columbia,"Commercial"
+51670,Global Net-zero,Biofuels & Emerging Energy,2007,14.40000,British Columbia,"Residential"
+51684,Global Net-zero,Biofuels & Emerging Energy,2007,196.94820,British Columbia,"Industrial"
+51685,Global Net-zero,Biofuels & Emerging Energy,2007,212.06600,British Columbia,"Total End-Use"
+51702,Global Net-zero,Biofuels & Emerging Energy,2008,0.00070,British Columbia,"Commercial"
+51725,Global Net-zero,Biofuels & Emerging Energy,2008,14.70000,British Columbia,"Residential"
+51738,Global Net-zero,Biofuels & Emerging Energy,2008,154.63290,British Columbia,"Industrial"
+51741,Global Net-zero,Biofuels & Emerging Energy,2008,170.66390,British Columbia,"Total End-Use"
+51758,Global Net-zero,Biofuels & Emerging Energy,2009,0.00090,British Columbia,"Commercial"
+51781,Global Net-zero,Biofuels & Emerging Energy,2009,13.80000,British Columbia,"Residential"
+51796,Global Net-zero,Biofuels & Emerging Energy,2009,168.69560,British Columbia,"Industrial"
+51797,Global Net-zero,Biofuels & Emerging Energy,2009,184.26730,British Columbia,"Total End-Use"
+51813,Global Net-zero,Biofuels & Emerging Energy,2010,0.00080,British Columbia,"Commercial"
+51837,Global Net-zero,Biofuels & Emerging Energy,2010,13.30000,British Columbia,"Residential"
+51852,Global Net-zero,Biofuels & Emerging Energy,2010,182.09170,British Columbia,"Industrial"
+51853,Global Net-zero,Biofuels & Emerging Energy,2010,204.59510,British Columbia,"Total End-Use"
+51869,Global Net-zero,Biofuels & Emerging Energy,2011,0.00090,British Columbia,"Commercial"
+51894,Global Net-zero,Biofuels & Emerging Energy,2011,13.10000,British Columbia,"Residential"
+51908,Global Net-zero,Biofuels & Emerging Energy,2011,177.48600,British Columbia,"Industrial"
+51909,Global Net-zero,Biofuels & Emerging Energy,2011,202.18060,British Columbia,"Total End-Use"
+51926,Global Net-zero,Biofuels & Emerging Energy,2012,0.00100,British Columbia,"Commercial"
+51949,Global Net-zero,Biofuels & Emerging Energy,2012,13.00000,British Columbia,"Residential"
+51964,Global Net-zero,Biofuels & Emerging Energy,2012,187.45860,British Columbia,"Industrial"
+51965,Global Net-zero,Biofuels & Emerging Energy,2012,212.47150,British Columbia,"Total End-Use"
+51982,Global Net-zero,Biofuels & Emerging Energy,2013,0.00170,British Columbia,"Commercial"
+52005,Global Net-zero,Biofuels & Emerging Energy,2013,12.80000,British Columbia,"Residential"
+52020,Global Net-zero,Biofuels & Emerging Energy,2013,180.53260,British Columbia,"Industrial"
+52021,Global Net-zero,Biofuels & Emerging Energy,2013,207.35350,British Columbia,"Total End-Use"
+52039,Global Net-zero,Biofuels & Emerging Energy,2014,0.00260,British Columbia,"Commercial"
+52061,Global Net-zero,Biofuels & Emerging Energy,2014,12.70000,British Columbia,"Residential"
+52075,Global Net-zero,Biofuels & Emerging Energy,2014,172.10250,British Columbia,"Industrial"
+52077,Global Net-zero,Biofuels & Emerging Energy,2014,200.11060,British Columbia,"Total End-Use"
+52097,Global Net-zero,Biofuels & Emerging Energy,2015,0.00250,British Columbia,"Commercial"
+52117,Global Net-zero,Biofuels & Emerging Energy,2015,12.49990,British Columbia,"Residential"
+52132,Global Net-zero,Biofuels & Emerging Energy,2015,187.47020,British Columbia,"Industrial"
+52133,Global Net-zero,Biofuels & Emerging Energy,2015,216.92900,British Columbia,"Total End-Use"
+52151,Global Net-zero,Biofuels & Emerging Energy,2016,0.00390,British Columbia,"Commercial"
+52173,Global Net-zero,Biofuels & Emerging Energy,2016,12.39990,British Columbia,"Residential"
+52188,Global Net-zero,Biofuels & Emerging Energy,2016,181.47950,British Columbia,"Industrial"
+52189,Global Net-zero,Biofuels & Emerging Energy,2016,211.46760,British Columbia,"Total End-Use"
+52206,Global Net-zero,Biofuels & Emerging Energy,2017,0.00350,British Columbia,"Commercial"
+52229,Global Net-zero,Biofuels & Emerging Energy,2017,12.30000,British Columbia,"Residential"
+52244,Global Net-zero,Biofuels & Emerging Energy,2017,193.54870,British Columbia,"Industrial"
+52245,Global Net-zero,Biofuels & Emerging Energy,2017,224.25410,British Columbia,"Total End-Use"
+52262,Global Net-zero,Biofuels & Emerging Energy,2018,0.00370,British Columbia,"Commercial"
+52285,Global Net-zero,Biofuels & Emerging Energy,2018,12.10010,British Columbia,"Residential"
+52300,Global Net-zero,Biofuels & Emerging Energy,2018,185.98260,British Columbia,"Industrial"
+52301,Global Net-zero,Biofuels & Emerging Energy,2018,217.75640,British Columbia,"Total End-Use"
+52321,Global Net-zero,Biofuels & Emerging Energy,2019,0.00640,British Columbia,"Commercial"
+52341,Global Net-zero,Biofuels & Emerging Energy,2019,12.47120,British Columbia,"Residential"
+52356,Global Net-zero,Biofuels & Emerging Energy,2019,192.93490,British Columbia,"Industrial"
+52357,Global Net-zero,Biofuels & Emerging Energy,2019,226.75000,British Columbia,"Total End-Use"
+52377,Global Net-zero,Biofuels & Emerging Energy,2020,0.00700,British Columbia,"Commercial"
+52398,Global Net-zero,Biofuels & Emerging Energy,2020,12.72700,British Columbia,"Residential"
+52412,Global Net-zero,Biofuels & Emerging Energy,2020,181.01870,British Columbia,"Industrial"
+52413,Global Net-zero,Biofuels & Emerging Energy,2020,213.77040,British Columbia,"Total End-Use"
+52438,Global Net-zero,Biofuels & Emerging Energy,2021,0.75590,British Columbia,"Commercial"
+52453,Global Net-zero,Biofuels & Emerging Energy,2021,11.81010,British Columbia,"Residential"
+52468,Global Net-zero,Biofuels & Emerging Energy,2021,185.82690,British Columbia,"Industrial"
+52469,Global Net-zero,Biofuels & Emerging Energy,2021,228.91720,British Columbia,"Total End-Use"
+52495,Global Net-zero,Biofuels & Emerging Energy,2022,1.19810,British Columbia,"Commercial"
+52509,Global Net-zero,Biofuels & Emerging Energy,2022,12.11510,British Columbia,"Residential"
+52524,Global Net-zero,Biofuels & Emerging Energy,2022,195.71080,British Columbia,"Industrial"
+52525,Global Net-zero,Biofuels & Emerging Energy,2022,243.12500,British Columbia,"Total End-Use"
+52551,Global Net-zero,Biofuels & Emerging Energy,2023,1.63590,British Columbia,"Commercial"
+52565,Global Net-zero,Biofuels & Emerging Energy,2023,12.40390,British Columbia,"Residential"
+52580,Global Net-zero,Biofuels & Emerging Energy,2023,193.24330,British Columbia,"Industrial"
+52581,Global Net-zero,Biofuels & Emerging Energy,2023,243.06340,British Columbia,"Total End-Use"
+52608,Global Net-zero,Biofuels & Emerging Energy,2024,2.41120,British Columbia,"Commercial"
+52621,Global Net-zero,Biofuels & Emerging Energy,2024,12.35600,British Columbia,"Residential"
+52635,Global Net-zero,Biofuels & Emerging Energy,2024,196.30370,British Columbia,"Industrial"
+52637,Global Net-zero,Biofuels & Emerging Energy,2024,250.84550,British Columbia,"Total End-Use"
+52665,Global Net-zero,Biofuels & Emerging Energy,2025,3.58540,British Columbia,"Commercial"
+52675,Global Net-zero,Biofuels & Emerging Energy,2025,12.65870,British Columbia,"Residential"
+52691,Global Net-zero,Biofuels & Emerging Energy,2025,199.40370,British Columbia,"Industrial"
+52693,Global Net-zero,Biofuels & Emerging Energy,2025,257.15010,British Columbia,"Total End-Use"
+52723,Global Net-zero,Biofuels & Emerging Energy,2026,4.73630,British Columbia,"Commercial"
+52730,Global Net-zero,Biofuels & Emerging Energy,2026,12.94140,British Columbia,"Residential"
+52748,Global Net-zero,Biofuels & Emerging Energy,2026,203.01410,British Columbia,"Industrial"
+52749,Global Net-zero,Biofuels & Emerging Energy,2026,265.48860,British Columbia,"Total End-Use"
+52781,Global Net-zero,Biofuels & Emerging Energy,2027,6.17110,British Columbia,"Commercial"
+52787,Global Net-zero,Biofuels & Emerging Energy,2027,13.52520,British Columbia,"Residential"
+52804,Global Net-zero,Biofuels & Emerging Energy,2027,209.49760,British Columbia,"Industrial"
+52805,Global Net-zero,Biofuels & Emerging Energy,2027,276.76420,British Columbia,"Total End-Use"
+52838,Global Net-zero,Biofuels & Emerging Energy,2028,7.47330,British Columbia,"Commercial"
+52843,Global Net-zero,Biofuels & Emerging Energy,2028,14.06160,British Columbia,"Residential"
+52860,Global Net-zero,Biofuels & Emerging Energy,2028,216.12330,British Columbia,"Industrial"
+52861,Global Net-zero,Biofuels & Emerging Energy,2028,286.87000,British Columbia,"Total End-Use"
+52895,Global Net-zero,Biofuels & Emerging Energy,2029,9.01050,British Columbia,"Commercial"
+52899,Global Net-zero,Biofuels & Emerging Energy,2029,14.84590,British Columbia,"Residential"
+52916,Global Net-zero,Biofuels & Emerging Energy,2029,224.30080,British Columbia,"Industrial"
+52917,Global Net-zero,Biofuels & Emerging Energy,2029,297.01040,British Columbia,"Total End-Use"
+52952,Global Net-zero,Biofuels & Emerging Energy,2030,10.37410,British Columbia,"Commercial"
+52956,Global Net-zero,Biofuels & Emerging Energy,2030,15.55310,British Columbia,"Residential"
+52972,Global Net-zero,Biofuels & Emerging Energy,2030,231.91280,British Columbia,"Industrial"
+52973,Global Net-zero,Biofuels & Emerging Energy,2030,307.67380,British Columbia,"Total End-Use"
+53008,Global Net-zero,Biofuels & Emerging Energy,2031,9.93200,British Columbia,"Commercial"
+53011,Global Net-zero,Biofuels & Emerging Energy,2031,14.85400,British Columbia,"Residential"
+53028,Global Net-zero,Biofuels & Emerging Energy,2031,235.11900,British Columbia,"Industrial"
+53029,Global Net-zero,Biofuels & Emerging Energy,2031,308.67210,British Columbia,"Total End-Use"
+53064,Global Net-zero,Biofuels & Emerging Energy,2032,9.48980,British Columbia,"Commercial"
+53067,Global Net-zero,Biofuels & Emerging Energy,2032,14.18650,British Columbia,"Residential"
+53084,Global Net-zero,Biofuels & Emerging Energy,2032,237.65300,British Columbia,"Industrial"
+53085,Global Net-zero,Biofuels & Emerging Energy,2032,309.12300,British Columbia,"Total End-Use"
+53120,Global Net-zero,Biofuels & Emerging Energy,2033,9.04780,British Columbia,"Commercial"
+53122,Global Net-zero,Biofuels & Emerging Energy,2033,13.54190,British Columbia,"Residential"
+53140,Global Net-zero,Biofuels & Emerging Energy,2033,239.26670,British Columbia,"Industrial"
+53141,Global Net-zero,Biofuels & Emerging Energy,2033,308.75140,British Columbia,"Total End-Use"
+53175,Global Net-zero,Biofuels & Emerging Energy,2034,8.61370,British Columbia,"Commercial"
+53178,Global Net-zero,Biofuels & Emerging Energy,2034,12.92450,British Columbia,"Residential"
+53196,Global Net-zero,Biofuels & Emerging Energy,2034,240.22700,British Columbia,"Industrial"
+53197,Global Net-zero,Biofuels & Emerging Energy,2034,307.93650,British Columbia,"Total End-Use"
+53231,Global Net-zero,Biofuels & Emerging Energy,2035,8.19910,British Columbia,"Commercial"
+53234,Global Net-zero,Biofuels & Emerging Energy,2035,12.33150,British Columbia,"Residential"
+53252,Global Net-zero,Biofuels & Emerging Energy,2035,240.68390,British Columbia,"Industrial"
+53253,Global Net-zero,Biofuels & Emerging Energy,2035,306.63020,British Columbia,"Total End-Use"
+53285,Global Net-zero,Biofuels & Emerging Energy,2036,7.77190,British Columbia,"Commercial"
+53290,Global Net-zero,Biofuels & Emerging Energy,2036,11.76180,British Columbia,"Residential"
+53308,Global Net-zero,Biofuels & Emerging Energy,2036,240.54880,British Columbia,"Industrial"
+53309,Global Net-zero,Biofuels & Emerging Energy,2036,305.20330,British Columbia,"Total End-Use"
+53341,Global Net-zero,Biofuels & Emerging Energy,2037,7.36920,British Columbia,"Commercial"
+53346,Global Net-zero,Biofuels & Emerging Energy,2037,11.21240,British Columbia,"Residential"
+53364,Global Net-zero,Biofuels & Emerging Energy,2037,240.33820,British Columbia,"Industrial"
+53365,Global Net-zero,Biofuels & Emerging Energy,2037,303.84140,British Columbia,"Total End-Use"
+53397,Global Net-zero,Biofuels & Emerging Energy,2038,6.99010,British Columbia,"Commercial"
+53401,Global Net-zero,Biofuels & Emerging Energy,2038,10.68160,British Columbia,"Residential"
+53420,Global Net-zero,Biofuels & Emerging Energy,2038,239.49640,British Columbia,"Industrial"
+53421,Global Net-zero,Biofuels & Emerging Energy,2038,301.86270,British Columbia,"Total End-Use"
+53452,Global Net-zero,Biofuels & Emerging Energy,2039,6.63320,British Columbia,"Commercial"
+53457,Global Net-zero,Biofuels & Emerging Energy,2039,10.16590,British Columbia,"Residential"
+53476,Global Net-zero,Biofuels & Emerging Energy,2039,238.27170,British Columbia,"Industrial"
+53477,Global Net-zero,Biofuels & Emerging Energy,2039,299.50530,British Columbia,"Total End-Use"
+53508,Global Net-zero,Biofuels & Emerging Energy,2040,6.29010,British Columbia,"Commercial"
+53513,Global Net-zero,Biofuels & Emerging Energy,2040,9.66810,British Columbia,"Residential"
+53532,Global Net-zero,Biofuels & Emerging Energy,2040,236.82200,British Columbia,"Industrial"
+53533,Global Net-zero,Biofuels & Emerging Energy,2040,298.50770,British Columbia,"Total End-Use"
+53563,Global Net-zero,Biofuels & Emerging Energy,2041,5.94390,British Columbia,"Commercial"
+53568,Global Net-zero,Biofuels & Emerging Energy,2041,9.18880,British Columbia,"Residential"
+53587,Global Net-zero,Biofuels & Emerging Energy,2041,234.95310,British Columbia,"Industrial"
+53589,Global Net-zero,Biofuels & Emerging Energy,2041,297.23390,British Columbia,"Total End-Use"
+53618,Global Net-zero,Biofuels & Emerging Energy,2042,5.59530,British Columbia,"Commercial"
+53624,Global Net-zero,Biofuels & Emerging Energy,2042,8.72850,British Columbia,"Residential"
+53643,Global Net-zero,Biofuels & Emerging Energy,2042,232.96670,British Columbia,"Industrial"
+53645,Global Net-zero,Biofuels & Emerging Energy,2042,295.87320,British Columbia,"Total End-Use"
+53674,Global Net-zero,Biofuels & Emerging Energy,2043,5.26870,British Columbia,"Commercial"
+53679,Global Net-zero,Biofuels & Emerging Energy,2043,8.28850,British Columbia,"Residential"
+53699,Global Net-zero,Biofuels & Emerging Energy,2043,231.23370,British Columbia,"Industrial"
+53701,Global Net-zero,Biofuels & Emerging Energy,2043,294.77950,British Columbia,"Total End-Use"
+53730,Global Net-zero,Biofuels & Emerging Energy,2044,4.96230,British Columbia,"Commercial"
+53734,Global Net-zero,Biofuels & Emerging Energy,2044,7.87090,British Columbia,"Residential"
+53755,Global Net-zero,Biofuels & Emerging Energy,2044,229.87790,British Columbia,"Industrial"
+53757,Global Net-zero,Biofuels & Emerging Energy,2044,294.19060,British Columbia,"Total End-Use"
+53786,Global Net-zero,Biofuels & Emerging Energy,2045,4.67840,British Columbia,"Commercial"
+53790,Global Net-zero,Biofuels & Emerging Energy,2045,7.47410,British Columbia,"Residential"
+53811,Global Net-zero,Biofuels & Emerging Energy,2045,228.46560,British Columbia,"Industrial"
+53813,Global Net-zero,Biofuels & Emerging Energy,2045,293.32450,British Columbia,"Total End-Use"
+53842,Global Net-zero,Biofuels & Emerging Energy,2046,4.41210,British Columbia,"Commercial"
+53846,Global Net-zero,Biofuels & Emerging Energy,2046,7.09560,British Columbia,"Residential"
+53867,Global Net-zero,Biofuels & Emerging Energy,2046,226.91930,British Columbia,"Industrial"
+53869,Global Net-zero,Biofuels & Emerging Energy,2046,292.66070,British Columbia,"Total End-Use"
+53898,Global Net-zero,Biofuels & Emerging Energy,2047,4.16560,British Columbia,"Commercial"
+53901,Global Net-zero,Biofuels & Emerging Energy,2047,6.73600,British Columbia,"Residential"
+53922,Global Net-zero,Biofuels & Emerging Energy,2047,225.81850,British Columbia,"Industrial"
+53925,Global Net-zero,Biofuels & Emerging Energy,2047,293.36780,British Columbia,"Total End-Use"
+53954,Global Net-zero,Biofuels & Emerging Energy,2048,3.93840,British Columbia,"Commercial"
+53957,Global Net-zero,Biofuels & Emerging Energy,2048,6.39910,British Columbia,"Residential"
+53978,Global Net-zero,Biofuels & Emerging Energy,2048,225.48360,British Columbia,"Industrial"
+53981,Global Net-zero,Biofuels & Emerging Energy,2048,295.03030,British Columbia,"Total End-Use"
+54010,Global Net-zero,Biofuels & Emerging Energy,2049,3.72860,British Columbia,"Commercial"
+54013,Global Net-zero,Biofuels & Emerging Energy,2049,6.08540,British Columbia,"Residential"
+54034,Global Net-zero,Biofuels & Emerging Energy,2049,226.00310,British Columbia,"Industrial"
+54037,Global Net-zero,Biofuels & Emerging Energy,2049,298.02930,British Columbia,"Total End-Use"
+54066,Global Net-zero,Biofuels & Emerging Energy,2050,3.53820,British Columbia,"Commercial"
+54068,Global Net-zero,Biofuels & Emerging Energy,2050,5.79470,British Columbia,"Residential"
+54090,Global Net-zero,Biofuels & Emerging Energy,2050,226.89220,British Columbia,"Industrial"
+54093,Global Net-zero,Biofuels & Emerging Energy,2050,301.48170,British Columbia,"Total End-Use"
+54105,Global Net-zero,Diesel,2005,92.06000,British Columbia,"Transportation"
+54119,Global Net-zero,Diesel,2006,88.91500,British Columbia,"Transportation"
+54133,Global Net-zero,Diesel,2007,89.57600,British Columbia,"Transportation"
+54147,Global Net-zero,Diesel,2008,100.01000,British Columbia,"Transportation"
+54161,Global Net-zero,Diesel,2009,85.35900,British Columbia,"Transportation"
+54175,Global Net-zero,Diesel,2010,90.61800,British Columbia,"Transportation"
+54189,Global Net-zero,Diesel,2011,87.11300,British Columbia,"Transportation"
+54203,Global Net-zero,Diesel,2012,91.45300,British Columbia,"Transportation"
+54217,Global Net-zero,Diesel,2013,98.28800,British Columbia,"Transportation"
+54231,Global Net-zero,Diesel,2014,97.19600,British Columbia,"Transportation"
+54245,Global Net-zero,Diesel,2015,95.21700,British Columbia,"Transportation"
+54259,Global Net-zero,Diesel,2016,98.52100,British Columbia,"Transportation"
+54273,Global Net-zero,Diesel,2017,104.09400,British Columbia,"Transportation"
+54287,Global Net-zero,Diesel,2018,112.34700,British Columbia,"Transportation"
+54301,Global Net-zero,Diesel,2019,117.54100,British Columbia,"Transportation"
+54315,Global Net-zero,Diesel,2020,102.23320,British Columbia,"Transportation"
+54329,Global Net-zero,Diesel,2021,97.10920,British Columbia,"Transportation"
+54343,Global Net-zero,Diesel,2022,96.19360,British Columbia,"Transportation"
+54357,Global Net-zero,Diesel,2023,97.80730,British Columbia,"Transportation"
+54371,Global Net-zero,Diesel,2024,93.99470,British Columbia,"Transportation"
+54385,Global Net-zero,Diesel,2025,93.81960,British Columbia,"Transportation"
+54399,Global Net-zero,Diesel,2026,91.26380,British Columbia,"Transportation"
+54413,Global Net-zero,Diesel,2027,87.48150,British Columbia,"Transportation"
+54427,Global Net-zero,Diesel,2028,83.64260,British Columbia,"Transportation"
+54441,Global Net-zero,Diesel,2029,81.17330,British Columbia,"Transportation"
+54455,Global Net-zero,Diesel,2030,76.70820,British Columbia,"Transportation"
+54469,Global Net-zero,Diesel,2031,73.38910,British Columbia,"Transportation"
+54483,Global Net-zero,Diesel,2032,69.94930,British Columbia,"Transportation"
+54497,Global Net-zero,Diesel,2033,66.56850,British Columbia,"Transportation"
+54511,Global Net-zero,Diesel,2034,63.41950,British Columbia,"Transportation"
+54525,Global Net-zero,Diesel,2035,60.04300,British Columbia,"Transportation"
+54539,Global Net-zero,Diesel,2036,56.84810,British Columbia,"Transportation"
+54553,Global Net-zero,Diesel,2037,53.91960,British Columbia,"Transportation"
+54567,Global Net-zero,Diesel,2038,51.12440,British Columbia,"Transportation"
+54581,Global Net-zero,Diesel,2039,48.47700,British Columbia,"Transportation"
+54595,Global Net-zero,Diesel,2040,45.99050,British Columbia,"Transportation"
+54609,Global Net-zero,Diesel,2041,42.66140,British Columbia,"Transportation"
+54623,Global Net-zero,Diesel,2042,39.55430,British Columbia,"Transportation"
+54637,Global Net-zero,Diesel,2043,36.68870,British Columbia,"Transportation"
+54652,Global Net-zero,Diesel,2044,34.05720,British Columbia,"Transportation"
+54667,Global Net-zero,Diesel,2045,31.46480,British Columbia,"Transportation"
+54681,Global Net-zero,Diesel,2046,28.78740,British Columbia,"Transportation"
+54695,Global Net-zero,Diesel,2047,26.05550,British Columbia,"Transportation"
+54709,Global Net-zero,Diesel,2048,23.59290,British Columbia,"Transportation"
+54723,Global Net-zero,Diesel,2049,21.27090,British Columbia,"Transportation"
+54737,Global Net-zero,Diesel,2050,19.24010,British Columbia,"Transportation"
+54756,Global Net-zero,Electricity,2005,0.50700,British Columbia,"Transportation"
+54789,Global Net-zero,Electricity,2005,52.68200,British Columbia,"Commercial"
+54792,Global Net-zero,Electricity,2005,63.41300,British Columbia,"Residential"
+54794,Global Net-zero,Electricity,2005,111.19650,British Columbia,"Industrial"
+54802,Global Net-zero,Electricity,2005,227.79850,British Columbia,"Total End-Use"
+54826,Global Net-zero,Electricity,2006,0.42400,British Columbia,"Transportation"
+54860,Global Net-zero,Electricity,2006,53.77380,British Columbia,"Commercial"
+54862,Global Net-zero,Electricity,2006,63.78310,British Columbia,"Residential"
+54864,Global Net-zero,Electricity,2006,100.68710,British Columbia,"Industrial"
+54871,Global Net-zero,Electricity,2006,218.66800,British Columbia,"Total End-Use"
+54897,Global Net-zero,Electricity,2007,0.51400,British Columbia,"Transportation"
+54930,Global Net-zero,Electricity,2007,54.70240,British Columbia,"Commercial"
+54932,Global Net-zero,Electricity,2007,66.11390,British Columbia,"Residential"
+54934,Global Net-zero,Electricity,2007,98.22370,British Columbia,"Industrial"
+54941,Global Net-zero,Electricity,2007,219.55400,British Columbia,"Total End-Use"
+54967,Global Net-zero,Electricity,2008,0.61100,British Columbia,"Transportation"
+55000,Global Net-zero,Electricity,2008,54.89130,British Columbia,"Commercial"
+55002,Global Net-zero,Electricity,2008,67.44240,British Columbia,"Residential"
+55004,Global Net-zero,Electricity,2008,90.91820,British Columbia,"Industrial"
+55010,Global Net-zero,Electricity,2008,213.86290,British Columbia,"Total End-Use"
+55039,Global Net-zero,Electricity,2009,0.67400,British Columbia,"Transportation"
+55070,Global Net-zero,Electricity,2009,53.94420,British Columbia,"Commercial"
+55072,Global Net-zero,Electricity,2009,69.40800,British Columbia,"Residential"
+55074,Global Net-zero,Electricity,2009,90.61990,British Columbia,"Industrial"
+55080,Global Net-zero,Electricity,2009,214.64610,British Columbia,"Total End-Use"
+55111,Global Net-zero,Electricity,2010,0.77400,British Columbia,"Transportation"
+55140,Global Net-zero,Electricity,2010,53.97120,British Columbia,"Commercial"
+55141,Global Net-zero,Electricity,2010,67.61520,British Columbia,"Residential"
+55144,Global Net-zero,Electricity,2010,87.89410,British Columbia,"Industrial"
+55150,Global Net-zero,Electricity,2010,210.25450,British Columbia,"Total End-Use"
+55181,Global Net-zero,Electricity,2011,0.73400,British Columbia,"Transportation"
+55210,Global Net-zero,Electricity,2011,54.50250,British Columbia,"Commercial"
+55211,Global Net-zero,Electricity,2011,70.47360,British Columbia,"Residential"
+55214,Global Net-zero,Electricity,2011,84.76390,British Columbia,"Industrial"
+55220,Global Net-zero,Electricity,2011,210.47400,British Columbia,"Total End-Use"
+55251,Global Net-zero,Electricity,2012,0.79700,British Columbia,"Transportation"
+55280,Global Net-zero,Electricity,2012,55.08970,British Columbia,"Commercial"
+55281,Global Net-zero,Electricity,2012,68.53680,British Columbia,"Residential"
+55284,Global Net-zero,Electricity,2012,84.77650,British Columbia,"Industrial"
+55290,Global Net-zero,Electricity,2012,209.20000,British Columbia,"Total End-Use"
+55321,Global Net-zero,Electricity,2013,0.75600,British Columbia,"Transportation"
+55349,Global Net-zero,Electricity,2013,53.35570,British Columbia,"Commercial"
+55351,Global Net-zero,Electricity,2013,69.62030,British Columbia,"Residential"
+55354,Global Net-zero,Electricity,2013,85.64710,British Columbia,"Industrial"
+55360,Global Net-zero,Electricity,2013,209.37910,British Columbia,"Total End-Use"
+55391,Global Net-zero,Electricity,2014,0.82000,British Columbia,"Transportation"
+55419,Global Net-zero,Electricity,2014,53.59110,British Columbia,"Commercial"
+55421,Global Net-zero,Electricity,2014,68.58360,British Columbia,"Residential"
+55424,Global Net-zero,Electricity,2014,81.08960,British Columbia,"Industrial"
+55430,Global Net-zero,Electricity,2014,204.08430,British Columbia,"Total End-Use"
+55460,Global Net-zero,Electricity,2015,0.73300,British Columbia,"Transportation"
+55489,Global Net-zero,Electricity,2015,53.95150,British Columbia,"Commercial"
+55491,Global Net-zero,Electricity,2015,66.03840,British Columbia,"Residential"
+55493,Global Net-zero,Electricity,2015,78.72500,British Columbia,"Industrial"
+55500,Global Net-zero,Electricity,2015,199.44790,British Columbia,"Total End-Use"
+55528,Global Net-zero,Electricity,2016,0.74300,British Columbia,"Transportation"
+55559,Global Net-zero,Electricity,2016,53.48350,British Columbia,"Commercial"
+55561,Global Net-zero,Electricity,2016,67.29480,British Columbia,"Residential"
+55564,Global Net-zero,Electricity,2016,93.44020,British Columbia,"Industrial"
+55570,Global Net-zero,Electricity,2016,214.96150,British Columbia,"Total End-Use"
+55599,Global Net-zero,Electricity,2017,0.76200,British Columbia,"Transportation"
+55629,Global Net-zero,Electricity,2017,54.12300,British Columbia,"Commercial"
+55631,Global Net-zero,Electricity,2017,71.16840,British Columbia,"Residential"
+55634,Global Net-zero,Electricity,2017,91.99660,British Columbia,"Industrial"
+55640,Global Net-zero,Electricity,2017,218.05000,British Columbia,"Total End-Use"
+55669,Global Net-zero,Electricity,2018,0.76300,British Columbia,"Transportation"
+55699,Global Net-zero,Electricity,2018,54.25920,British Columbia,"Commercial"
+55701,Global Net-zero,Electricity,2018,69.06960,British Columbia,"Residential"
+55704,Global Net-zero,Electricity,2018,92.97140,British Columbia,"Industrial"
+55710,Global Net-zero,Electricity,2018,217.06320,British Columbia,"Total End-Use"
+55739,Global Net-zero,Electricity,2019,0.77890,British Columbia,"Transportation"
+55769,Global Net-zero,Electricity,2019,54.41510,British Columbia,"Commercial"
+55771,Global Net-zero,Electricity,2019,67.22280,British Columbia,"Residential"
+55774,Global Net-zero,Electricity,2019,93.32310,British Columbia,"Industrial"
+55780,Global Net-zero,Electricity,2019,215.73990,British Columbia,"Total End-Use"
+55806,Global Net-zero,Electricity,2020,0.63250,British Columbia,"Transportation"
+55839,Global Net-zero,Electricity,2020,52.05340,British Columbia,"Commercial"
+55841,Global Net-zero,Electricity,2020,72.57600,British Columbia,"Residential"
+55844,Global Net-zero,Electricity,2020,83.75150,British Columbia,"Industrial"
+55850,Global Net-zero,Electricity,2020,209.01340,British Columbia,"Total End-Use"
+55876,Global Net-zero,Electricity,2021,0.67450,British Columbia,"Transportation"
+55909,Global Net-zero,Electricity,2021,53.03040,British Columbia,"Commercial"
+55911,Global Net-zero,Electricity,2021,65.72710,British Columbia,"Residential"
+55914,Global Net-zero,Electricity,2021,88.71660,British Columbia,"Industrial"
+55920,Global Net-zero,Electricity,2021,208.14860,British Columbia,"Total End-Use"
+55951,Global Net-zero,Electricity,2022,1.05730,British Columbia,"Transportation"
+55979,Global Net-zero,Electricity,2022,57.04890,British Columbia,"Commercial"
+55981,Global Net-zero,Electricity,2022,70.39260,British Columbia,"Residential"
+55984,Global Net-zero,Electricity,2022,93.62930,British Columbia,"Industrial"
+55990,Global Net-zero,Electricity,2022,222.12810,British Columbia,"Total End-Use"
+56022,Global Net-zero,Electricity,2023,2.21360,British Columbia,"Transportation"
+56049,Global Net-zero,Electricity,2023,59.44870,British Columbia,"Commercial"
+56051,Global Net-zero,Electricity,2023,73.57180,British Columbia,"Residential"
+56054,Global Net-zero,Electricity,2023,96.24150,British Columbia,"Industrial"
+56060,Global Net-zero,Electricity,2023,231.47560,British Columbia,"Total End-Use"
+56095,Global Net-zero,Electricity,2024,3.75430,British Columbia,"Transportation"
+56119,Global Net-zero,Electricity,2024,61.11790,British Columbia,"Commercial"
+56121,Global Net-zero,Electricity,2024,75.47630,British Columbia,"Residential"
+56124,Global Net-zero,Electricity,2024,98.51040,British Columbia,"Industrial"
+56130,Global Net-zero,Electricity,2024,238.85890,British Columbia,"Total End-Use"
+56165,Global Net-zero,Electricity,2025,5.61450,British Columbia,"Transportation"
+56189,Global Net-zero,Electricity,2025,62.62490,British Columbia,"Commercial"
+56191,Global Net-zero,Electricity,2025,77.33120,British Columbia,"Residential"
+56194,Global Net-zero,Electricity,2025,101.96800,British Columbia,"Industrial"
+56200,Global Net-zero,Electricity,2025,247.53860,British Columbia,"Total End-Use"
+56236,Global Net-zero,Electricity,2026,8.17570,British Columbia,"Transportation"
+56259,Global Net-zero,Electricity,2026,64.29470,British Columbia,"Commercial"
+56261,Global Net-zero,Electricity,2026,78.99750,British Columbia,"Residential"
+56264,Global Net-zero,Electricity,2026,104.67770,British Columbia,"Industrial"
+56270,Global Net-zero,Electricity,2026,256.14560,British Columbia,"Total End-Use"
+56308,Global Net-zero,Electricity,2027,11.53020,British Columbia,"Transportation"
+56329,Global Net-zero,Electricity,2027,65.96380,British Columbia,"Commercial"
+56331,Global Net-zero,Electricity,2027,80.49520,British Columbia,"Residential"
+56334,Global Net-zero,Electricity,2027,105.83570,British Columbia,"Industrial"
+56340,Global Net-zero,Electricity,2027,263.82490,British Columbia,"Total End-Use"
+56379,Global Net-zero,Electricity,2028,15.18400,British Columbia,"Transportation"
+56398,Global Net-zero,Electricity,2028,67.26530,British Columbia,"Commercial"
+56400,Global Net-zero,Electricity,2028,81.85820,British Columbia,"Residential"
+56404,Global Net-zero,Electricity,2028,109.11643,British Columbia,"Industrial"
+56411,Global Net-zero,Electricity,2028,273.42393,British Columbia,"Total End-Use"
+56454,Global Net-zero,Electricity,2029,19.01700,British Columbia,"Transportation"
+56468,Global Net-zero,Electricity,2029,68.37070,British Columbia,"Commercial"
+56470,Global Net-zero,Electricity,2029,83.02700,British Columbia,"Residential"
+56473,Global Net-zero,Electricity,2029,112.77433,British Columbia,"Industrial"
+56481,Global Net-zero,Electricity,2029,283.18903,British Columbia,"Total End-Use"
+56525,Global Net-zero,Electricity,2030,22.61040,British Columbia,"Transportation"
+56538,Global Net-zero,Electricity,2030,69.25770,British Columbia,"Commercial"
+56540,Global Net-zero,Electricity,2030,84.05050,British Columbia,"Residential"
+56543,Global Net-zero,Electricity,2030,114.72507,British Columbia,"Industrial"
+56551,Global Net-zero,Electricity,2030,290.64367,British Columbia,"Total End-Use"
+56597,Global Net-zero,Electricity,2031,26.41400,British Columbia,"Transportation"
+56608,Global Net-zero,Electricity,2031,70.17380,British Columbia,"Commercial"
+56610,Global Net-zero,Electricity,2031,85.42540,British Columbia,"Residential"
+56613,Global Net-zero,Electricity,2031,116.65786,British Columbia,"Industrial"
+56621,Global Net-zero,Electricity,2031,298.67106,British Columbia,"Total End-Use"
+56668,Global Net-zero,Electricity,2032,30.49260,British Columbia,"Transportation"
+56677,Global Net-zero,Electricity,2032,71.20590,British Columbia,"Commercial"
+56680,Global Net-zero,Electricity,2032,86.87090,British Columbia,"Residential"
+56683,Global Net-zero,Electricity,2032,118.29043,British Columbia,"Industrial"
+56691,Global Net-zero,Electricity,2032,306.85983,British Columbia,"Total End-Use"
+56738,Global Net-zero,Electricity,2033,34.75780,British Columbia,"Transportation"
+56747,Global Net-zero,Electricity,2033,72.13820,British Columbia,"Commercial"
+56749,Global Net-zero,Electricity,2033,88.37750,British Columbia,"Residential"
+56753,Global Net-zero,Electricity,2033,119.76582,British Columbia,"Industrial"
+56761,Global Net-zero,Electricity,2033,315.03932,British Columbia,"Total End-Use"
+56808,Global Net-zero,Electricity,2034,39.32750,British Columbia,"Transportation"
+56817,Global Net-zero,Electricity,2034,73.25450,British Columbia,"Commercial"
+56819,Global Net-zero,Electricity,2034,89.98500,British Columbia,"Residential"
+56823,Global Net-zero,Electricity,2034,120.62733,British Columbia,"Industrial"
+56831,Global Net-zero,Electricity,2034,323.19433,British Columbia,"Total End-Use"
+56879,Global Net-zero,Electricity,2035,43.69800,British Columbia,"Transportation"
+56887,Global Net-zero,Electricity,2035,74.53660,British Columbia,"Commercial"
+56889,Global Net-zero,Electricity,2035,91.64790,British Columbia,"Residential"
+56891,Global Net-zero,Electricity,2035,121.17425,British Columbia,"Industrial"
+56900,Global Net-zero,Electricity,2035,331.05675,British Columbia,"Total End-Use"
+56950,Global Net-zero,Electricity,2036,49.14030,British Columbia,"Transportation"
+56957,Global Net-zero,Electricity,2036,76.03480,British Columbia,"Commercial"
+56959,Global Net-zero,Electricity,2036,93.31900,British Columbia,"Residential"
+56961,Global Net-zero,Electricity,2036,121.82283,British Columbia,"Industrial"
+56970,Global Net-zero,Electricity,2036,340.31693,British Columbia,"Total End-Use"
+57021,Global Net-zero,Electricity,2037,54.61250,British Columbia,"Transportation"
+57027,Global Net-zero,Electricity,2037,77.56850,British Columbia,"Commercial"
+57029,Global Net-zero,Electricity,2037,94.96770,British Columbia,"Residential"
+57031,Global Net-zero,Electricity,2037,122.78660,British Columbia,"Industrial"
+57040,Global Net-zero,Electricity,2037,349.93530,British Columbia,"Total End-Use"
+57092,Global Net-zero,Electricity,2038,59.88560,British Columbia,"Transportation"
+57096,Global Net-zero,Electricity,2038,79.07360,British Columbia,"Commercial"
+57099,Global Net-zero,Electricity,2038,96.57810,British Columbia,"Residential"
+57101,Global Net-zero,Electricity,2038,123.79648,British Columbia,"Industrial"
+57110,Global Net-zero,Electricity,2038,359.33378,British Columbia,"Total End-Use"
+57162,Global Net-zero,Electricity,2039,64.91150,British Columbia,"Transportation"
+57166,Global Net-zero,Electricity,2039,80.39860,British Columbia,"Commercial"
+57169,Global Net-zero,Electricity,2039,98.08820,British Columbia,"Residential"
+57171,Global Net-zero,Electricity,2039,125.20652,British Columbia,"Industrial"
+57180,Global Net-zero,Electricity,2039,368.60482,British Columbia,"Total End-Use"
+57233,Global Net-zero,Electricity,2040,69.74220,British Columbia,"Transportation"
+57236,Global Net-zero,Electricity,2040,81.55610,British Columbia,"Commercial"
+57239,Global Net-zero,Electricity,2040,99.49490,British Columbia,"Residential"
+57241,Global Net-zero,Electricity,2040,127.00011,British Columbia,"Industrial"
+57250,Global Net-zero,Electricity,2040,377.79331,British Columbia,"Total End-Use"
+57304,Global Net-zero,Electricity,2041,74.41940,British Columbia,"Transportation"
+57306,Global Net-zero,Electricity,2041,82.52040,British Columbia,"Commercial"
+57309,Global Net-zero,Electricity,2041,100.84630,British Columbia,"Residential"
+57311,Global Net-zero,Electricity,2041,129.13422,British Columbia,"Industrial"
+57321,Global Net-zero,Electricity,2041,386.92032,British Columbia,"Total End-Use"
+57374,Global Net-zero,Electricity,2042,78.80620,British Columbia,"Transportation"
+57376,Global Net-zero,Electricity,2042,83.20940,British Columbia,"Commercial"
+57378,Global Net-zero,Electricity,2042,102.12430,British Columbia,"Residential"
+57381,Global Net-zero,Electricity,2042,131.72742,British Columbia,"Industrial"
+57391,Global Net-zero,Electricity,2042,395.86732,British Columbia,"Total End-Use"
+57444,Global Net-zero,Electricity,2043,83.02800,British Columbia,"Transportation"
+57445,Global Net-zero,Electricity,2043,83.78030,British Columbia,"Commercial"
+57448,Global Net-zero,Electricity,2043,103.35820,British Columbia,"Residential"
+57451,Global Net-zero,Electricity,2043,134.83019,British Columbia,"Industrial"
+57461,Global Net-zero,Electricity,2043,404.99669,British Columbia,"Total End-Use"
+57514,Global Net-zero,Electricity,2044,84.21040,British Columbia,"Commercial"
+57515,Global Net-zero,Electricity,2044,87.13370,British Columbia,"Transportation"
+57518,Global Net-zero,Electricity,2044,104.56630,British Columbia,"Residential"
+57521,Global Net-zero,Electricity,2044,138.46237,British Columbia,"Industrial"
+57531,Global Net-zero,Electricity,2044,414.37277,British Columbia,"Total End-Use"
+57584,Global Net-zero,Electricity,2045,84.63060,British Columbia,"Commercial"
+57585,Global Net-zero,Electricity,2045,90.53150,British Columbia,"Transportation"
+57588,Global Net-zero,Electricity,2045,105.75790,British Columbia,"Residential"
+57591,Global Net-zero,Electricity,2045,140.53341,British Columbia,"Industrial"
+57601,Global Net-zero,Electricity,2045,421.45341,British Columbia,"Total End-Use"
+57654,Global Net-zero,Electricity,2046,84.98570,British Columbia,"Commercial"
+57655,Global Net-zero,Electricity,2046,93.48960,British Columbia,"Transportation"
+57658,Global Net-zero,Electricity,2046,106.89110,British Columbia,"Residential"
+57661,Global Net-zero,Electricity,2046,142.87848,British Columbia,"Industrial"
+57671,Global Net-zero,Electricity,2046,428.24488,British Columbia,"Total End-Use"
+57724,Global Net-zero,Electricity,2047,85.34790,British Columbia,"Commercial"
+57726,Global Net-zero,Electricity,2047,96.77280,British Columbia,"Transportation"
+57728,Global Net-zero,Electricity,2047,108.03210,British Columbia,"Residential"
+57731,Global Net-zero,Electricity,2047,147.70175,British Columbia,"Industrial"
+57741,Global Net-zero,Electricity,2047,437.85455,British Columbia,"Total End-Use"
+57794,Global Net-zero,Electricity,2048,85.81260,British Columbia,"Commercial"
+57796,Global Net-zero,Electricity,2048,100.38890,British Columbia,"Transportation"
+57798,Global Net-zero,Electricity,2048,109.26460,British Columbia,"Residential"
+57801,Global Net-zero,Electricity,2048,153.45349,British Columbia,"Industrial"
+57811,Global Net-zero,Electricity,2048,448.91959,British Columbia,"Total End-Use"
+57864,Global Net-zero,Electricity,2049,86.40130,British Columbia,"Commercial"
+57866,Global Net-zero,Electricity,2049,104.32810,British Columbia,"Transportation"
+57868,Global Net-zero,Electricity,2049,110.62240,British Columbia,"Residential"
+57871,Global Net-zero,Electricity,2049,160.01996,British Columbia,"Industrial"
+57881,Global Net-zero,Electricity,2049,461.37176,British Columbia,"Total End-Use"
+57934,Global Net-zero,Electricity,2050,87.26050,British Columbia,"Commercial"
+57937,Global Net-zero,Electricity,2050,108.46760,British Columbia,"Transportation"
+57938,Global Net-zero,Electricity,2050,112.11000,British Columbia,"Residential"
+57941,Global Net-zero,Electricity,2050,166.69497,British Columbia,"Industrial"
+57951,Global Net-zero,Electricity,2050,474.53307,British Columbia,"Total End-Use"
+57972,Global Net-zero,Heavy Fuel Oil,2005,35.95300,British Columbia,"Transportation"
+57986,Global Net-zero,Heavy Fuel Oil,2006,34.96500,British Columbia,"Transportation"
+58000,Global Net-zero,Heavy Fuel Oil,2007,42.09700,British Columbia,"Transportation"
+58013,Global Net-zero,Heavy Fuel Oil,2008,34.73600,British Columbia,"Transportation"
+58028,Global Net-zero,Heavy Fuel Oil,2009,36.16800,British Columbia,"Transportation"
+58042,Global Net-zero,Heavy Fuel Oil,2010,37.63700,British Columbia,"Transportation"
+58056,Global Net-zero,Heavy Fuel Oil,2011,24.78200,British Columbia,"Transportation"
+58070,Global Net-zero,Heavy Fuel Oil,2012,25.87400,British Columbia,"Transportation"
+58084,Global Net-zero,Heavy Fuel Oil,2013,21.77100,British Columbia,"Transportation"
+58098,Global Net-zero,Heavy Fuel Oil,2014,17.79800,British Columbia,"Transportation"
+58111,Global Net-zero,Heavy Fuel Oil,2015,15.70300,British Columbia,"Transportation"
+58126,Global Net-zero,Heavy Fuel Oil,2016,21.33750,British Columbia,"Transportation"
+58140,Global Net-zero,Heavy Fuel Oil,2017,19.63100,British Columbia,"Transportation"
+58154,Global Net-zero,Heavy Fuel Oil,2018,21.66970,British Columbia,"Transportation"
+58167,Global Net-zero,Heavy Fuel Oil,2019,14.80800,British Columbia,"Transportation"
+58180,Global Net-zero,Heavy Fuel Oil,2020,8.81570,British Columbia,"Transportation"
+58194,Global Net-zero,Heavy Fuel Oil,2021,7.01840,British Columbia,"Transportation"
+58209,Global Net-zero,Heavy Fuel Oil,2022,7.96820,British Columbia,"Transportation"
+58223,Global Net-zero,Heavy Fuel Oil,2023,9.37200,British Columbia,"Transportation"
+58237,Global Net-zero,Heavy Fuel Oil,2024,10.58590,British Columbia,"Transportation"
+58251,Global Net-zero,Heavy Fuel Oil,2025,11.08730,British Columbia,"Transportation"
+58265,Global Net-zero,Heavy Fuel Oil,2026,10.46020,British Columbia,"Transportation"
+58279,Global Net-zero,Heavy Fuel Oil,2027,9.84160,British Columbia,"Transportation"
+58293,Global Net-zero,Heavy Fuel Oil,2028,9.24500,British Columbia,"Transportation"
+58307,Global Net-zero,Heavy Fuel Oil,2029,8.68040,British Columbia,"Transportation"
+58321,Global Net-zero,Heavy Fuel Oil,2030,8.09910,British Columbia,"Transportation"
+58335,Global Net-zero,Heavy Fuel Oil,2031,7.56230,British Columbia,"Transportation"
+58349,Global Net-zero,Heavy Fuel Oil,2032,7.02930,British Columbia,"Transportation"
+58363,Global Net-zero,Heavy Fuel Oil,2033,6.53640,British Columbia,"Transportation"
+58377,Global Net-zero,Heavy Fuel Oil,2034,6.08740,British Columbia,"Transportation"
+58391,Global Net-zero,Heavy Fuel Oil,2035,5.67580,British Columbia,"Transportation"
+58405,Global Net-zero,Heavy Fuel Oil,2036,5.29530,British Columbia,"Transportation"
+58419,Global Net-zero,Heavy Fuel Oil,2037,4.94660,British Columbia,"Transportation"
+58433,Global Net-zero,Heavy Fuel Oil,2038,4.62100,British Columbia,"Transportation"
+58447,Global Net-zero,Heavy Fuel Oil,2039,4.31780,British Columbia,"Transportation"
+58461,Global Net-zero,Heavy Fuel Oil,2040,4.03790,British Columbia,"Transportation"
+58475,Global Net-zero,Heavy Fuel Oil,2041,3.67310,British Columbia,"Transportation"
+58489,Global Net-zero,Heavy Fuel Oil,2042,3.34030,British Columbia,"Transportation"
+58503,Global Net-zero,Heavy Fuel Oil,2043,3.03880,British Columbia,"Transportation"
+58517,Global Net-zero,Heavy Fuel Oil,2044,2.76690,British Columbia,"Transportation"
+58531,Global Net-zero,Heavy Fuel Oil,2045,2.50910,British Columbia,"Transportation"
+58544,Global Net-zero,Heavy Fuel Oil,2046,2.27160,British Columbia,"Transportation"
+58558,Global Net-zero,Heavy Fuel Oil,2047,2.06470,British Columbia,"Transportation"
+58572,Global Net-zero,Heavy Fuel Oil,2048,1.87890,British Columbia,"Transportation"
+58586,Global Net-zero,Heavy Fuel Oil,2049,1.71160,British Columbia,"Transportation"
+58600,Global Net-zero,Heavy Fuel Oil,2050,1.55750,British Columbia,"Transportation"
+58609,Global Net-zero,Hydrogen,2005,0.00000,British Columbia,"Commercial"
+58610,Global Net-zero,Hydrogen,2005,0.00000,British Columbia,"Industrial"
+58611,Global Net-zero,Hydrogen,2005,0.00000,British Columbia,"Residential"
+58612,Global Net-zero,Hydrogen,2005,0.00000,British Columbia,"Total End-Use"
+58613,Global Net-zero,Hydrogen,2005,0.00000,British Columbia,"Transportation"
+58679,Global Net-zero,Hydrogen,2006,0.00000,British Columbia,"Commercial"
+58680,Global Net-zero,Hydrogen,2006,0.00000,British Columbia,"Industrial"
+58681,Global Net-zero,Hydrogen,2006,0.00000,British Columbia,"Residential"
+58682,Global Net-zero,Hydrogen,2006,0.00000,British Columbia,"Total End-Use"
+58683,Global Net-zero,Hydrogen,2006,0.00000,British Columbia,"Transportation"
+58749,Global Net-zero,Hydrogen,2007,0.00000,British Columbia,"Commercial"
+58750,Global Net-zero,Hydrogen,2007,0.00000,British Columbia,"Industrial"
+58751,Global Net-zero,Hydrogen,2007,0.00000,British Columbia,"Residential"
+58752,Global Net-zero,Hydrogen,2007,0.00000,British Columbia,"Total End-Use"
+58753,Global Net-zero,Hydrogen,2007,0.00000,British Columbia,"Transportation"
+58819,Global Net-zero,Hydrogen,2008,0.00000,British Columbia,"Commercial"
+58820,Global Net-zero,Hydrogen,2008,0.00000,British Columbia,"Industrial"
+58821,Global Net-zero,Hydrogen,2008,0.00000,British Columbia,"Residential"
+58822,Global Net-zero,Hydrogen,2008,0.00000,British Columbia,"Total End-Use"
+58823,Global Net-zero,Hydrogen,2008,0.00000,British Columbia,"Transportation"
+58889,Global Net-zero,Hydrogen,2009,0.00000,British Columbia,"Commercial"
+58890,Global Net-zero,Hydrogen,2009,0.00000,British Columbia,"Industrial"
+58891,Global Net-zero,Hydrogen,2009,0.00000,British Columbia,"Residential"
+58892,Global Net-zero,Hydrogen,2009,0.00000,British Columbia,"Total End-Use"
+58893,Global Net-zero,Hydrogen,2009,0.00000,British Columbia,"Transportation"
+58959,Global Net-zero,Hydrogen,2010,0.00000,British Columbia,"Commercial"
+58960,Global Net-zero,Hydrogen,2010,0.00000,British Columbia,"Industrial"
+58961,Global Net-zero,Hydrogen,2010,0.00000,British Columbia,"Residential"
+58962,Global Net-zero,Hydrogen,2010,0.00000,British Columbia,"Total End-Use"
+58963,Global Net-zero,Hydrogen,2010,0.00000,British Columbia,"Transportation"
+59029,Global Net-zero,Hydrogen,2011,0.00000,British Columbia,"Commercial"
+59030,Global Net-zero,Hydrogen,2011,0.00000,British Columbia,"Industrial"
+59031,Global Net-zero,Hydrogen,2011,0.00000,British Columbia,"Residential"
+59032,Global Net-zero,Hydrogen,2011,0.00000,British Columbia,"Total End-Use"
+59033,Global Net-zero,Hydrogen,2011,0.00000,British Columbia,"Transportation"
+59099,Global Net-zero,Hydrogen,2012,0.00000,British Columbia,"Commercial"
+59100,Global Net-zero,Hydrogen,2012,0.00000,British Columbia,"Industrial"
+59101,Global Net-zero,Hydrogen,2012,0.00000,British Columbia,"Residential"
+59102,Global Net-zero,Hydrogen,2012,0.00000,British Columbia,"Total End-Use"
+59103,Global Net-zero,Hydrogen,2012,0.00000,British Columbia,"Transportation"
+59169,Global Net-zero,Hydrogen,2013,0.00000,British Columbia,"Commercial"
+59170,Global Net-zero,Hydrogen,2013,0.00000,British Columbia,"Industrial"
+59171,Global Net-zero,Hydrogen,2013,0.00000,British Columbia,"Residential"
+59172,Global Net-zero,Hydrogen,2013,0.00000,British Columbia,"Total End-Use"
+59173,Global Net-zero,Hydrogen,2013,0.00000,British Columbia,"Transportation"
+59239,Global Net-zero,Hydrogen,2014,0.00000,British Columbia,"Commercial"
+59240,Global Net-zero,Hydrogen,2014,0.00000,British Columbia,"Industrial"
+59241,Global Net-zero,Hydrogen,2014,0.00000,British Columbia,"Residential"
+59242,Global Net-zero,Hydrogen,2014,0.00000,British Columbia,"Total End-Use"
+59243,Global Net-zero,Hydrogen,2014,0.00000,British Columbia,"Transportation"
+59309,Global Net-zero,Hydrogen,2015,0.00000,British Columbia,"Commercial"
+59310,Global Net-zero,Hydrogen,2015,0.00000,British Columbia,"Industrial"
+59311,Global Net-zero,Hydrogen,2015,0.00000,British Columbia,"Residential"
+59312,Global Net-zero,Hydrogen,2015,0.00000,British Columbia,"Total End-Use"
+59313,Global Net-zero,Hydrogen,2015,0.00000,British Columbia,"Transportation"
+59379,Global Net-zero,Hydrogen,2016,0.00000,British Columbia,"Commercial"
+59380,Global Net-zero,Hydrogen,2016,0.00000,British Columbia,"Industrial"
+59381,Global Net-zero,Hydrogen,2016,0.00000,British Columbia,"Residential"
+59382,Global Net-zero,Hydrogen,2016,0.00000,British Columbia,"Total End-Use"
+59383,Global Net-zero,Hydrogen,2016,0.00000,British Columbia,"Transportation"
+59449,Global Net-zero,Hydrogen,2017,0.00000,British Columbia,"Commercial"
+59450,Global Net-zero,Hydrogen,2017,0.00000,British Columbia,"Industrial"
+59451,Global Net-zero,Hydrogen,2017,0.00000,British Columbia,"Residential"
+59452,Global Net-zero,Hydrogen,2017,0.00000,British Columbia,"Total End-Use"
+59453,Global Net-zero,Hydrogen,2017,0.00000,British Columbia,"Transportation"
+59519,Global Net-zero,Hydrogen,2018,0.00000,British Columbia,"Commercial"
+59520,Global Net-zero,Hydrogen,2018,0.00000,British Columbia,"Industrial"
+59521,Global Net-zero,Hydrogen,2018,0.00000,British Columbia,"Residential"
+59522,Global Net-zero,Hydrogen,2018,0.00000,British Columbia,"Total End-Use"
+59523,Global Net-zero,Hydrogen,2018,0.00000,British Columbia,"Transportation"
+59589,Global Net-zero,Hydrogen,2019,0.00000,British Columbia,"Commercial"
+59590,Global Net-zero,Hydrogen,2019,0.00000,British Columbia,"Industrial"
+59591,Global Net-zero,Hydrogen,2019,0.00000,British Columbia,"Residential"
+59592,Global Net-zero,Hydrogen,2019,0.00000,British Columbia,"Total End-Use"
+59593,Global Net-zero,Hydrogen,2019,0.00000,British Columbia,"Transportation"
+59659,Global Net-zero,Hydrogen,2020,0.00000,British Columbia,"Commercial"
+59660,Global Net-zero,Hydrogen,2020,0.00000,British Columbia,"Industrial"
+59661,Global Net-zero,Hydrogen,2020,0.00000,British Columbia,"Residential"
+59662,Global Net-zero,Hydrogen,2020,0.00000,British Columbia,"Total End-Use"
+59663,Global Net-zero,Hydrogen,2020,0.00000,British Columbia,"Transportation"
+59725,Global Net-zero,Hydrogen,2021,0.00000,British Columbia,"Commercial"
+59759,Global Net-zero,Hydrogen,2021,0.00010,British Columbia,"Transportation"
+59778,Global Net-zero,Hydrogen,2021,0.00740,British Columbia,"Residential"
+59783,Global Net-zero,Hydrogen,2021,0.02160,British Columbia,"Industrial"
+59785,Global Net-zero,Hydrogen,2021,0.02910,British Columbia,"Total End-Use"
+59795,Global Net-zero,Hydrogen,2022,0.00000,British Columbia,"Commercial"
+59829,Global Net-zero,Hydrogen,2022,0.00010,British Columbia,"Transportation"
+59848,Global Net-zero,Hydrogen,2022,0.00740,British Columbia,"Residential"
+59854,Global Net-zero,Hydrogen,2022,0.02260,British Columbia,"Industrial"
+59855,Global Net-zero,Hydrogen,2022,0.03010,British Columbia,"Total End-Use"
+59867,Global Net-zero,Hydrogen,2023,0.00000,British Columbia,"Commercial"
+59868,Global Net-zero,Hydrogen,2023,0.00000,British Columbia,"Industrial"
+59869,Global Net-zero,Hydrogen,2023,0.00000,British Columbia,"Residential"
+59926,Global Net-zero,Hydrogen,2023,0.06550,British Columbia,"Total End-Use"
+59927,Global Net-zero,Hydrogen,2023,0.06550,British Columbia,"Transportation"
+59936,Global Net-zero,Hydrogen,2024,0.00000,British Columbia,"Commercial"
+59937,Global Net-zero,Hydrogen,2024,0.00000,British Columbia,"Industrial"
+59938,Global Net-zero,Hydrogen,2024,0.00000,British Columbia,"Residential"
+59992,Global Net-zero,Hydrogen,2024,0.17640,British Columbia,"Total End-Use"
+59993,Global Net-zero,Hydrogen,2024,0.17640,British Columbia,"Transportation"
+60006,Global Net-zero,Hydrogen,2025,0.00000,British Columbia,"Commercial"
+60007,Global Net-zero,Hydrogen,2025,0.00000,British Columbia,"Industrial"
+60008,Global Net-zero,Hydrogen,2025,0.00000,British Columbia,"Residential"
+60062,Global Net-zero,Hydrogen,2025,0.30630,British Columbia,"Total End-Use"
+60063,Global Net-zero,Hydrogen,2025,0.30630,British Columbia,"Transportation"
+60076,Global Net-zero,Hydrogen,2026,0.00000,British Columbia,"Commercial"
+60077,Global Net-zero,Hydrogen,2026,0.00000,British Columbia,"Industrial"
+60078,Global Net-zero,Hydrogen,2026,0.00000,British Columbia,"Residential"
+60132,Global Net-zero,Hydrogen,2026,0.78780,British Columbia,"Total End-Use"
+60133,Global Net-zero,Hydrogen,2026,0.78780,British Columbia,"Transportation"
+60146,Global Net-zero,Hydrogen,2027,0.00000,British Columbia,"Commercial"
+60147,Global Net-zero,Hydrogen,2027,0.00000,British Columbia,"Industrial"
+60148,Global Net-zero,Hydrogen,2027,0.00000,British Columbia,"Residential"
+60203,Global Net-zero,Hydrogen,2027,1.50740,British Columbia,"Total End-Use"
+60204,Global Net-zero,Hydrogen,2027,1.50740,British Columbia,"Transportation"
+60216,Global Net-zero,Hydrogen,2028,0.00000,British Columbia,"Commercial"
+60217,Global Net-zero,Hydrogen,2028,0.00000,British Columbia,"Industrial"
+60218,Global Net-zero,Hydrogen,2028,0.00000,British Columbia,"Residential"
+60272,Global Net-zero,Hydrogen,2028,2.44200,British Columbia,"Total End-Use"
+60273,Global Net-zero,Hydrogen,2028,2.44200,British Columbia,"Transportation"
+60286,Global Net-zero,Hydrogen,2029,0.00000,British Columbia,"Commercial"
+60287,Global Net-zero,Hydrogen,2029,0.00000,British Columbia,"Industrial"
+60288,Global Net-zero,Hydrogen,2029,0.00000,British Columbia,"Residential"
+60342,Global Net-zero,Hydrogen,2029,3.50530,British Columbia,"Total End-Use"
+60343,Global Net-zero,Hydrogen,2029,3.50530,British Columbia,"Transportation"
+60354,Global Net-zero,Hydrogen,2030,0.00000,British Columbia,"Commercial"
+60355,Global Net-zero,Hydrogen,2030,0.00000,British Columbia,"Residential"
+60399,Global Net-zero,Hydrogen,2030,0.14010,British Columbia,"Industrial"
+60412,Global Net-zero,Hydrogen,2030,4.83730,British Columbia,"Transportation"
+60413,Global Net-zero,Hydrogen,2030,4.97740,British Columbia,"Total End-Use"
+60444,Global Net-zero,Hydrogen,2031,0.00010,British Columbia,"Commercial"
+60445,Global Net-zero,Hydrogen,2031,0.00010,British Columbia,"Residential"
+60470,Global Net-zero,Hydrogen,2031,0.34760,British Columbia,"Industrial"
+60481,Global Net-zero,Hydrogen,2031,6.36960,British Columbia,"Transportation"
+60482,Global Net-zero,Hydrogen,2031,6.71740,British Columbia,"Total End-Use"
+60520,Global Net-zero,Hydrogen,2032,0.00030,British Columbia,"Residential"
+60521,Global Net-zero,Hydrogen,2032,0.00060,British Columbia,"Commercial"
+60540,Global Net-zero,Hydrogen,2032,0.56880,British Columbia,"Industrial"
+60550,Global Net-zero,Hydrogen,2032,8.24500,British Columbia,"Transportation"
+60552,Global Net-zero,Hydrogen,2032,8.81470,British Columbia,"Total End-Use"
+60588,Global Net-zero,Hydrogen,2033,0.00050,British Columbia,"Residential"
+60591,Global Net-zero,Hydrogen,2033,0.00070,British Columbia,"Commercial"
+60610,Global Net-zero,Hydrogen,2033,0.80240,British Columbia,"Industrial"
+60620,Global Net-zero,Hydrogen,2033,10.26710,British Columbia,"Transportation"
+60621,Global Net-zero,Hydrogen,2033,11.07070,British Columbia,"Total End-Use"
+60659,Global Net-zero,Hydrogen,2034,0.00080,British Columbia,"Residential"
+60661,Global Net-zero,Hydrogen,2034,0.00120,British Columbia,"Commercial"
+60681,Global Net-zero,Hydrogen,2034,1.06270,British Columbia,"Industrial"
+60690,Global Net-zero,Hydrogen,2034,12.49040,British Columbia,"Transportation"
+60691,Global Net-zero,Hydrogen,2034,13.55510,British Columbia,"Total End-Use"
+60728,Global Net-zero,Hydrogen,2035,0.00120,British Columbia,"Residential"
+60732,Global Net-zero,Hydrogen,2035,0.00180,British Columbia,"Commercial"
+60750,Global Net-zero,Hydrogen,2035,1.32700,British Columbia,"Industrial"
+60760,Global Net-zero,Hydrogen,2035,16.11170,British Columbia,"Transportation"
+60762,Global Net-zero,Hydrogen,2035,17.44170,British Columbia,"Total End-Use"
+60800,Global Net-zero,Hydrogen,2036,0.00190,British Columbia,"Residential"
+60802,Global Net-zero,Hydrogen,2036,0.00250,British Columbia,"Commercial"
+60820,Global Net-zero,Hydrogen,2036,1.57120,British Columbia,"Industrial"
+60831,Global Net-zero,Hydrogen,2036,20.46770,British Columbia,"Transportation"
+60832,Global Net-zero,Hydrogen,2036,22.04330,British Columbia,"Total End-Use"
+60869,Global Net-zero,Hydrogen,2037,0.00270,British Columbia,"Residential"
+60872,Global Net-zero,Hydrogen,2037,0.00330,British Columbia,"Commercial"
+60890,Global Net-zero,Hydrogen,2037,1.80700,British Columbia,"Industrial"
+60901,Global Net-zero,Hydrogen,2037,24.82470,British Columbia,"Transportation"
+60902,Global Net-zero,Hydrogen,2037,26.63770,British Columbia,"Total End-Use"
+60938,Global Net-zero,Hydrogen,2038,0.00370,British Columbia,"Residential"
+60942,Global Net-zero,Hydrogen,2038,0.00480,British Columbia,"Commercial"
+60958,Global Net-zero,Hydrogen,2038,2.01010,British Columbia,"Industrial"
+60971,Global Net-zero,Hydrogen,2038,29.00900,British Columbia,"Transportation"
+60972,Global Net-zero,Hydrogen,2038,31.02760,British Columbia,"Total End-Use"
+61008,Global Net-zero,Hydrogen,2039,0.00530,British Columbia,"Residential"
+61012,Global Net-zero,Hydrogen,2039,0.00670,British Columbia,"Commercial"
+61028,Global Net-zero,Hydrogen,2039,2.18730,British Columbia,"Industrial"
+61041,Global Net-zero,Hydrogen,2039,33.02390,British Columbia,"Transportation"
+61042,Global Net-zero,Hydrogen,2039,35.22320,British Columbia,"Total End-Use"
+61077,Global Net-zero,Hydrogen,2040,0.00730,British Columbia,"Residential"
+61080,Global Net-zero,Hydrogen,2040,0.00930,British Columbia,"Commercial"
+61097,Global Net-zero,Hydrogen,2040,2.35240,British Columbia,"Industrial"
+61111,Global Net-zero,Hydrogen,2040,36.93680,British Columbia,"Transportation"
+61112,Global Net-zero,Hydrogen,2040,39.30580,British Columbia,"Total End-Use"
+61147,Global Net-zero,Hydrogen,2041,0.01020,British Columbia,"Residential"
+61148,Global Net-zero,Hydrogen,2041,0.01280,British Columbia,"Commercial"
+61165,Global Net-zero,Hydrogen,2041,2.50420,British Columbia,"Industrial"
+61181,Global Net-zero,Hydrogen,2041,41.67520,British Columbia,"Transportation"
+61182,Global Net-zero,Hydrogen,2041,44.20240,British Columbia,"Total End-Use"
+61217,Global Net-zero,Hydrogen,2042,0.01420,British Columbia,"Residential"
+61218,Global Net-zero,Hydrogen,2042,0.01740,British Columbia,"Commercial"
+61233,Global Net-zero,Hydrogen,2042,2.64690,British Columbia,"Industrial"
+61251,Global Net-zero,Hydrogen,2042,46.24030,British Columbia,"Transportation"
+61252,Global Net-zero,Hydrogen,2042,48.91880,British Columbia,"Total End-Use"
+61287,Global Net-zero,Hydrogen,2043,0.02390,British Columbia,"Commercial"
+61296,Global Net-zero,Hydrogen,2043,0.36460,British Columbia,"Residential"
+61306,Global Net-zero,Hydrogen,2043,4.03070,British Columbia,"Industrial"
+61320,Global Net-zero,Hydrogen,2043,50.74570,British Columbia,"Transportation"
+61322,Global Net-zero,Hydrogen,2043,55.16490,British Columbia,"Total End-Use"
+61357,Global Net-zero,Hydrogen,2044,0.03240,British Columbia,"Commercial"
+61364,Global Net-zero,Hydrogen,2044,0.35630,British Columbia,"Residential"
+61375,Global Net-zero,Hydrogen,2044,4.10950,British Columbia,"Industrial"
+61390,Global Net-zero,Hydrogen,2044,55.26540,British Columbia,"Transportation"
+61392,Global Net-zero,Hydrogen,2044,59.76360,British Columbia,"Total End-Use"
+61427,Global Net-zero,Hydrogen,2045,0.04380,British Columbia,"Commercial"
+61436,Global Net-zero,Hydrogen,2045,0.66610,British Columbia,"Residential"
+61446,Global Net-zero,Hydrogen,2045,5.28630,British Columbia,"Industrial"
+61461,Global Net-zero,Hydrogen,2045,59.19460,British Columbia,"Transportation"
+61463,Global Net-zero,Hydrogen,2045,65.19080,British Columbia,"Total End-Use"
+61497,Global Net-zero,Hydrogen,2046,0.05980,British Columbia,"Commercial"
+61506,Global Net-zero,Hydrogen,2046,0.65220,British Columbia,"Residential"
+61516,Global Net-zero,Hydrogen,2046,5.27580,British Columbia,"Industrial"
+61531,Global Net-zero,Hydrogen,2046,62.89620,British Columbia,"Transportation"
+61532,Global Net-zero,Hydrogen,2046,68.88400,British Columbia,"Total End-Use"
+61571,Global Net-zero,Hydrogen,2047,0.35900,British Columbia,"Commercial"
+61576,Global Net-zero,Hydrogen,2047,0.93210,British Columbia,"Residential"
+61586,Global Net-zero,Hydrogen,2047,6.28270,British Columbia,"Industrial"
+61601,Global Net-zero,Hydrogen,2047,67.19080,British Columbia,"Transportation"
+61603,Global Net-zero,Hydrogen,2047,74.76460,British Columbia,"Total End-Use"
+61640,Global Net-zero,Hydrogen,2048,0.37390,British Columbia,"Commercial"
+61646,Global Net-zero,Hydrogen,2048,1.19810,British Columbia,"Residential"
+61657,Global Net-zero,Hydrogen,2048,7.24530,British Columbia,"Industrial"
+61671,Global Net-zero,Hydrogen,2048,71.81390,British Columbia,"Transportation"
+61673,Global Net-zero,Hydrogen,2048,80.63120,British Columbia,"Total End-Use"
+61713,Global Net-zero,Hydrogen,2049,0.65080,British Columbia,"Commercial"
+61717,Global Net-zero,Hydrogen,2049,1.45870,British Columbia,"Residential"
+61727,Global Net-zero,Hydrogen,2049,8.17830,British Columbia,"Industrial"
+61741,Global Net-zero,Hydrogen,2049,76.82400,British Columbia,"Transportation"
+61743,Global Net-zero,Hydrogen,2049,87.11180,British Columbia,"Total End-Use"
+61783,Global Net-zero,Hydrogen,2050,0.68610,British Columbia,"Commercial"
+61787,Global Net-zero,Hydrogen,2050,1.47670,British Columbia,"Residential"
+61797,Global Net-zero,Hydrogen,2050,8.19610,British Columbia,"Industrial"
+61811,Global Net-zero,Hydrogen,2050,82.00870,British Columbia,"Transportation"
+61813,Global Net-zero,Hydrogen,2050,92.36760,British Columbia,"Total End-Use"
+61835,Global Net-zero,LPG,2005,3.97900,British Columbia,"Transportation"
+61849,Global Net-zero,LPG,2006,3.03000,British Columbia,"Transportation"
+61863,Global Net-zero,LPG,2007,4.32000,British Columbia,"Transportation"
+61877,Global Net-zero,LPG,2008,5.25700,British Columbia,"Transportation"
+61891,Global Net-zero,LPG,2009,4.14300,British Columbia,"Transportation"
+61905,Global Net-zero,LPG,2010,4.31800,British Columbia,"Transportation"
+61919,Global Net-zero,LPG,2011,3.98100,British Columbia,"Transportation"
+61933,Global Net-zero,LPG,2012,3.69000,British Columbia,"Transportation"
+61947,Global Net-zero,LPG,2013,3.31800,British Columbia,"Transportation"
+61961,Global Net-zero,LPG,2014,2.76000,British Columbia,"Transportation"
+61975,Global Net-zero,LPG,2015,2.83800,British Columbia,"Transportation"
+61989,Global Net-zero,LPG,2016,2.37400,British Columbia,"Transportation"
+62003,Global Net-zero,LPG,2017,2.52500,British Columbia,"Transportation"
+62017,Global Net-zero,LPG,2018,4.12200,British Columbia,"Transportation"
+62031,Global Net-zero,LPG,2019,3.89590,British Columbia,"Transportation"
+62045,Global Net-zero,LPG,2020,2.88270,British Columbia,"Transportation"
+62059,Global Net-zero,LPG,2021,2.99680,British Columbia,"Transportation"
+62073,Global Net-zero,LPG,2022,3.05170,British Columbia,"Transportation"
+62087,Global Net-zero,LPG,2023,3.05820,British Columbia,"Transportation"
+62101,Global Net-zero,LPG,2024,2.95370,British Columbia,"Transportation"
+62115,Global Net-zero,LPG,2025,2.83080,British Columbia,"Transportation"
+62129,Global Net-zero,LPG,2026,2.70270,British Columbia,"Transportation"
+62143,Global Net-zero,LPG,2027,2.55860,British Columbia,"Transportation"
+62157,Global Net-zero,LPG,2028,2.40910,British Columbia,"Transportation"
+62171,Global Net-zero,LPG,2029,2.26040,British Columbia,"Transportation"
+62185,Global Net-zero,LPG,2030,2.11780,British Columbia,"Transportation"
+62199,Global Net-zero,LPG,2031,1.98330,British Columbia,"Transportation"
+62213,Global Net-zero,LPG,2032,1.85500,British Columbia,"Transportation"
+62227,Global Net-zero,LPG,2033,1.73320,British Columbia,"Transportation"
+62241,Global Net-zero,LPG,2034,1.61850,British Columbia,"Transportation"
+62255,Global Net-zero,LPG,2035,1.51100,British Columbia,"Transportation"
+62269,Global Net-zero,LPG,2036,1.40400,British Columbia,"Transportation"
+62283,Global Net-zero,LPG,2037,1.29750,British Columbia,"Transportation"
+62297,Global Net-zero,LPG,2038,1.19160,British Columbia,"Transportation"
+62311,Global Net-zero,LPG,2039,1.08620,British Columbia,"Transportation"
+62325,Global Net-zero,LPG,2040,0.98150,British Columbia,"Transportation"
+62339,Global Net-zero,LPG,2041,0.87740,British Columbia,"Transportation"
+62353,Global Net-zero,LPG,2042,0.77410,British Columbia,"Transportation"
+62367,Global Net-zero,LPG,2043,0.67160,British Columbia,"Transportation"
+62381,Global Net-zero,LPG,2044,0.57000,British Columbia,"Transportation"
+62395,Global Net-zero,LPG,2045,0.46940,British Columbia,"Transportation"
+62409,Global Net-zero,LPG,2046,0.37010,British Columbia,"Transportation"
+62423,Global Net-zero,LPG,2047,0.27230,British Columbia,"Transportation"
+62437,Global Net-zero,LPG,2048,0.17640,British Columbia,"Transportation"
+62451,Global Net-zero,LPG,2049,0.08340,British Columbia,"Transportation"
+62455,Global Net-zero,LPG,2050,0.00000,British Columbia,"Transportation"
+62479,Global Net-zero,Lubricants,2005,0.44250,British Columbia,"Transportation"
+62492,Global Net-zero,Lubricants,2006,0.39940,British Columbia,"Transportation"
+62505,Global Net-zero,Lubricants,2007,0.41500,British Columbia,"Transportation"
+62519,Global Net-zero,Lubricants,2008,0.45810,British Columbia,"Transportation"
+62533,Global Net-zero,Lubricants,2009,0.28590,British Columbia,"Transportation"
+62547,Global Net-zero,Lubricants,2010,0.28580,British Columbia,"Transportation"
+62562,Global Net-zero,Lubricants,2011,0.29730,British Columbia,"Transportation"
+62574,Global Net-zero,Lubricants,2012,0.17210,British Columbia,"Transportation"
+62591,Global Net-zero,Lubricants,2013,0.27000,British Columbia,"Transportation"
+62605,Global Net-zero,Lubricants,2014,0.21520,British Columbia,"Transportation"
+62620,Global Net-zero,Lubricants,2015,0.19170,British Columbia,"Transportation"
+62634,Global Net-zero,Lubricants,2016,0.26320,British Columbia,"Transportation"
+62647,Global Net-zero,Lubricants,2017,0.16420,British Columbia,"Transportation"
+62661,Global Net-zero,Lubricants,2018,0.17550,British Columbia,"Transportation"
+62672,Global Net-zero,Lubricants,2019,0.03430,British Columbia,"Transportation"
+62686,Global Net-zero,Lubricants,2020,0.04950,British Columbia,"Transportation"
+62701,Global Net-zero,Lubricants,2021,0.05160,British Columbia,"Transportation"
+62715,Global Net-zero,Lubricants,2022,0.05300,British Columbia,"Transportation"
+62729,Global Net-zero,Lubricants,2023,0.05360,British Columbia,"Transportation"
+62743,Global Net-zero,Lubricants,2024,0.05440,British Columbia,"Transportation"
+62757,Global Net-zero,Lubricants,2025,0.05570,British Columbia,"Transportation"
+62771,Global Net-zero,Lubricants,2026,0.05750,British Columbia,"Transportation"
+62785,Global Net-zero,Lubricants,2027,0.05860,British Columbia,"Transportation"
+62799,Global Net-zero,Lubricants,2028,0.05960,British Columbia,"Transportation"
+62813,Global Net-zero,Lubricants,2029,0.06070,British Columbia,"Transportation"
+62827,Global Net-zero,Lubricants,2030,0.06130,British Columbia,"Transportation"
+62841,Global Net-zero,Lubricants,2031,0.06230,British Columbia,"Transportation"
+62855,Global Net-zero,Lubricants,2032,0.06350,British Columbia,"Transportation"
+62869,Global Net-zero,Lubricants,2033,0.06470,British Columbia,"Transportation"
+62883,Global Net-zero,Lubricants,2034,0.06610,British Columbia,"Transportation"
+62897,Global Net-zero,Lubricants,2035,0.06750,British Columbia,"Transportation"
+62911,Global Net-zero,Lubricants,2036,0.06880,British Columbia,"Transportation"
+62925,Global Net-zero,Lubricants,2037,0.07020,British Columbia,"Transportation"
+62939,Global Net-zero,Lubricants,2038,0.07120,British Columbia,"Transportation"
+62953,Global Net-zero,Lubricants,2039,0.07220,British Columbia,"Transportation"
+62967,Global Net-zero,Lubricants,2040,0.07290,British Columbia,"Transportation"
+62981,Global Net-zero,Lubricants,2041,0.07350,British Columbia,"Transportation"
+62995,Global Net-zero,Lubricants,2042,0.07410,British Columbia,"Transportation"
+63009,Global Net-zero,Lubricants,2043,0.07480,British Columbia,"Transportation"
+63023,Global Net-zero,Lubricants,2044,0.07540,British Columbia,"Transportation"
+63037,Global Net-zero,Lubricants,2045,0.07580,British Columbia,"Transportation"
+63051,Global Net-zero,Lubricants,2046,0.07600,British Columbia,"Transportation"
+63065,Global Net-zero,Lubricants,2047,0.07690,British Columbia,"Transportation"
+63079,Global Net-zero,Lubricants,2048,0.07800,British Columbia,"Transportation"
+63093,Global Net-zero,Lubricants,2049,0.07950,British Columbia,"Transportation"
+63107,Global Net-zero,Lubricants,2050,0.08130,British Columbia,"Transportation"
+63121,Global Net-zero,Motor Gasoline,2005,158.41860,British Columbia,"Transportation"
+63135,Global Net-zero,Motor Gasoline,2006,156.03670,British Columbia,"Transportation"
+63149,Global Net-zero,Motor Gasoline,2007,157.57210,British Columbia,"Transportation"
+63163,Global Net-zero,Motor Gasoline,2008,153.60640,British Columbia,"Transportation"
+63177,Global Net-zero,Motor Gasoline,2009,157.74900,British Columbia,"Transportation"
+63191,Global Net-zero,Motor Gasoline,2010,147.95800,British Columbia,"Transportation"
+63205,Global Net-zero,Motor Gasoline,2011,136.87210,British Columbia,"Transportation"
+63219,Global Net-zero,Motor Gasoline,2012,140.63540,British Columbia,"Transportation"
+63233,Global Net-zero,Motor Gasoline,2013,143.72010,British Columbia,"Transportation"
+63247,Global Net-zero,Motor Gasoline,2014,146.87530,British Columbia,"Transportation"
+63261,Global Net-zero,Motor Gasoline,2015,151.05350,British Columbia,"Transportation"
+63275,Global Net-zero,Motor Gasoline,2016,164.98300,British Columbia,"Transportation"
+63289,Global Net-zero,Motor Gasoline,2017,165.34140,British Columbia,"Transportation"
+63303,Global Net-zero,Motor Gasoline,2018,168.52970,British Columbia,"Transportation"
+63317,Global Net-zero,Motor Gasoline,2019,167.02320,British Columbia,"Transportation"
+63331,Global Net-zero,Motor Gasoline,2020,139.21210,British Columbia,"Transportation"
+63345,Global Net-zero,Motor Gasoline,2021,142.92940,British Columbia,"Transportation"
+63359,Global Net-zero,Motor Gasoline,2022,146.11470,British Columbia,"Transportation"
+63373,Global Net-zero,Motor Gasoline,2023,146.33180,British Columbia,"Transportation"
+63387,Global Net-zero,Motor Gasoline,2024,141.16490,British Columbia,"Transportation"
+63401,Global Net-zero,Motor Gasoline,2025,135.75610,British Columbia,"Transportation"
+63415,Global Net-zero,Motor Gasoline,2026,129.66850,British Columbia,"Transportation"
+63429,Global Net-zero,Motor Gasoline,2027,122.15650,British Columbia,"Transportation"
+63443,Global Net-zero,Motor Gasoline,2028,114.43700,British Columbia,"Transportation"
+63457,Global Net-zero,Motor Gasoline,2029,106.88590,British Columbia,"Transportation"
+63471,Global Net-zero,Motor Gasoline,2030,98.97400,British Columbia,"Transportation"
+63485,Global Net-zero,Motor Gasoline,2031,92.70190,British Columbia,"Transportation"
+63499,Global Net-zero,Motor Gasoline,2032,86.72340,British Columbia,"Transportation"
+63513,Global Net-zero,Motor Gasoline,2033,81.03940,British Columbia,"Transportation"
+63527,Global Net-zero,Motor Gasoline,2034,75.72810,British Columbia,"Transportation"
+63541,Global Net-zero,Motor Gasoline,2035,70.71480,British Columbia,"Transportation"
+63555,Global Net-zero,Motor Gasoline,2036,64.78460,British Columbia,"Transportation"
+63569,Global Net-zero,Motor Gasoline,2037,58.96700,British Columbia,"Transportation"
+63583,Global Net-zero,Motor Gasoline,2038,53.23310,British Columbia,"Transportation"
+63597,Global Net-zero,Motor Gasoline,2039,47.62990,British Columbia,"Transportation"
+63611,Global Net-zero,Motor Gasoline,2040,42.21340,British Columbia,"Transportation"
+63625,Global Net-zero,Motor Gasoline,2041,36.90870,British Columbia,"Transportation"
+63639,Global Net-zero,Motor Gasoline,2042,31.86580,British Columbia,"Transportation"
+63653,Global Net-zero,Motor Gasoline,2043,27.16820,British Columbia,"Transportation"
+63667,Global Net-zero,Motor Gasoline,2044,22.77220,British Columbia,"Transportation"
+63681,Global Net-zero,Motor Gasoline,2045,18.67280,British Columbia,"Transportation"
+63695,Global Net-zero,Motor Gasoline,2046,14.80850,British Columbia,"Transportation"
+63709,Global Net-zero,Motor Gasoline,2047,11.18610,British Columbia,"Transportation"
+63723,Global Net-zero,Motor Gasoline,2048,7.84600,British Columbia,"Transportation"
+63737,Global Net-zero,Motor Gasoline,2049,4.73280,British Columbia,"Transportation"
+63750,Global Net-zero,Motor Gasoline,2050,2.02200,British Columbia,"Transportation"
+63778,Global Net-zero,Natural Gas,2005,0.16100,British Columbia,"Transportation"
+63804,Global Net-zero,Natural Gas,2005,72.18700,British Columbia,"Commercial"
+63806,Global Net-zero,Natural Gas,2005,79.05700,British Columbia,"Residential"
+63812,Global Net-zero,Natural Gas,2005,214.54210,British Columbia,"Industrial"
+63818,Global Net-zero,Natural Gas,2005,365.94710,British Columbia,"Total End-Use"
+63848,Global Net-zero,Natural Gas,2006,0.16100,British Columbia,"Transportation"
+63874,Global Net-zero,Natural Gas,2006,68.17100,British Columbia,"Commercial"
+63876,Global Net-zero,Natural Gas,2006,81.62000,British Columbia,"Residential"
+63880,Global Net-zero,Natural Gas,2006,160.11080,British Columbia,"Industrial"
+63887,Global Net-zero,Natural Gas,2006,310.06280,British Columbia,"Total End-Use"
+63918,Global Net-zero,Natural Gas,2007,0.16100,British Columbia,"Transportation"
+63944,Global Net-zero,Natural Gas,2007,70.68400,British Columbia,"Commercial"
+63946,Global Net-zero,Natural Gas,2007,80.61800,British Columbia,"Residential"
+63950,Global Net-zero,Natural Gas,2007,169.63590,British Columbia,"Industrial"
+63957,Global Net-zero,Natural Gas,2007,321.09890,British Columbia,"Total End-Use"
+63988,Global Net-zero,Natural Gas,2008,0.16100,British Columbia,"Transportation"
+64014,Global Net-zero,Natural Gas,2008,75.04910,British Columbia,"Commercial"
+64016,Global Net-zero,Natural Gas,2008,80.53390,British Columbia,"Residential"
+64020,Global Net-zero,Natural Gas,2008,165.45310,British Columbia,"Industrial"
+64026,Global Net-zero,Natural Gas,2008,321.19710,British Columbia,"Total End-Use"
+64059,Global Net-zero,Natural Gas,2009,0.27700,British Columbia,"Transportation"
+64083,Global Net-zero,Natural Gas,2009,68.60800,British Columbia,"Commercial"
+64085,Global Net-zero,Natural Gas,2009,81.02200,British Columbia,"Residential"
+64090,Global Net-zero,Natural Gas,2009,164.50920,British Columbia,"Industrial"
+64096,Global Net-zero,Natural Gas,2009,314.41620,British Columbia,"Total End-Use"
+64131,Global Net-zero,Natural Gas,2010,0.38900,British Columbia,"Transportation"
+64153,Global Net-zero,Natural Gas,2010,63.36210,British Columbia,"Commercial"
+64154,Global Net-zero,Natural Gas,2010,67.22100,British Columbia,"Residential"
+64161,Global Net-zero,Natural Gas,2010,174.54500,British Columbia,"Industrial"
+64166,Global Net-zero,Natural Gas,2010,305.51710,British Columbia,"Total End-Use"
+64201,Global Net-zero,Natural Gas,2011,0.57000,British Columbia,"Transportation"
+64224,Global Net-zero,Natural Gas,2011,69.44800,British Columbia,"Commercial"
+64226,Global Net-zero,Natural Gas,2011,83.73900,British Columbia,"Residential"
+64231,Global Net-zero,Natural Gas,2011,189.01560,British Columbia,"Industrial"
+64237,Global Net-zero,Natural Gas,2011,342.77260,British Columbia,"Total End-Use"
+64273,Global Net-zero,Natural Gas,2012,0.67600,British Columbia,"Transportation"
+64294,Global Net-zero,Natural Gas,2012,69.42510,British Columbia,"Commercial"
+64297,Global Net-zero,Natural Gas,2012,78.16410,British Columbia,"Residential"
+64302,Global Net-zero,Natural Gas,2012,210.63130,British Columbia,"Industrial"
+64308,Global Net-zero,Natural Gas,2012,358.89650,British Columbia,"Total End-Use"
+64342,Global Net-zero,Natural Gas,2013,0.52900,British Columbia,"Transportation"
+64365,Global Net-zero,Natural Gas,2013,69.71310,British Columbia,"Commercial"
+64366,Global Net-zero,Natural Gas,2013,77.84700,British Columbia,"Residential"
+64371,Global Net-zero,Natural Gas,2013,213.64730,British Columbia,"Industrial"
+64378,Global Net-zero,Natural Gas,2013,361.73640,British Columbia,"Total End-Use"
+64409,Global Net-zero,Natural Gas,2014,0.52600,British Columbia,"Transportation"
+64433,Global Net-zero,Natural Gas,2014,68.98890,British Columbia,"Commercial"
+64436,Global Net-zero,Natural Gas,2014,74.85800,British Columbia,"Residential"
+64441,Global Net-zero,Natural Gas,2014,194.78300,British Columbia,"Industrial"
+64446,Global Net-zero,Natural Gas,2014,339.15590,British Columbia,"Total End-Use"
+64479,Global Net-zero,Natural Gas,2015,0.56600,British Columbia,"Transportation"
+64504,Global Net-zero,Natural Gas,2015,69.94600,British Columbia,"Commercial"
+64505,Global Net-zero,Natural Gas,2015,72.87690,British Columbia,"Residential"
+64511,Global Net-zero,Natural Gas,2015,195.26300,British Columbia,"Industrial"
+64516,Global Net-zero,Natural Gas,2015,338.65190,British Columbia,"Total End-Use"
+64550,Global Net-zero,Natural Gas,2016,0.57300,British Columbia,"Transportation"
+64574,Global Net-zero,Natural Gas,2016,72.22960,British Columbia,"Commercial"
+64576,Global Net-zero,Natural Gas,2016,74.71590,British Columbia,"Residential"
+64581,Global Net-zero,Natural Gas,2016,207.21110,British Columbia,"Industrial"
+64588,Global Net-zero,Natural Gas,2016,354.72960,British Columbia,"Total End-Use"
+64621,Global Net-zero,Natural Gas,2017,0.66400,British Columbia,"Transportation"
+64644,Global Net-zero,Natural Gas,2017,76.83820,British Columbia,"Commercial"
+64646,Global Net-zero,Natural Gas,2017,81.81310,British Columbia,"Residential"
+64651,Global Net-zero,Natural Gas,2017,216.16930,British Columbia,"Industrial"
+64658,Global Net-zero,Natural Gas,2017,375.48460,British Columbia,"Total End-Use"
+64690,Global Net-zero,Natural Gas,2018,0.62900,British Columbia,"Transportation"
+64715,Global Net-zero,Natural Gas,2018,75.34280,British Columbia,"Commercial"
+64716,Global Net-zero,Natural Gas,2018,76.28200,British Columbia,"Residential"
+64720,Global Net-zero,Natural Gas,2018,217.28560,British Columbia,"Industrial"
+64727,Global Net-zero,Natural Gas,2018,369.53940,British Columbia,"Total End-Use"
+64760,Global Net-zero,Natural Gas,2019,0.67190,British Columbia,"Transportation"
+64785,Global Net-zero,Natural Gas,2019,75.88590,British Columbia,"Commercial"
+64786,Global Net-zero,Natural Gas,2019,79.78610,British Columbia,"Residential"
+64790,Global Net-zero,Natural Gas,2019,202.66210,British Columbia,"Industrial"
+64798,Global Net-zero,Natural Gas,2019,359.00600,British Columbia,"Total End-Use"
+64829,Global Net-zero,Natural Gas,2020,0.54230,British Columbia,"Transportation"
+64855,Global Net-zero,Natural Gas,2020,72.60580,British Columbia,"Commercial"
+64856,Global Net-zero,Natural Gas,2020,81.64900,British Columbia,"Residential"
+64861,Global Net-zero,Natural Gas,2020,207.40730,British Columbia,"Industrial"
+64868,Global Net-zero,Natural Gas,2020,362.20440,British Columbia,"Total End-Use"
+64899,Global Net-zero,Natural Gas,2021,0.56340,British Columbia,"Transportation"
+64925,Global Net-zero,Natural Gas,2021,73.26320,British Columbia,"Residential"
+64926,Global Net-zero,Natural Gas,2021,74.10380,British Columbia,"Commercial"
+64931,Global Net-zero,Natural Gas,2021,218.37000,British Columbia,"Industrial"
+64938,Global Net-zero,Natural Gas,2021,366.30040,British Columbia,"Total End-Use"
+64970,Global Net-zero,Natural Gas,2022,0.59120,British Columbia,"Transportation"
+64995,Global Net-zero,Natural Gas,2022,73.34220,British Columbia,"Residential"
+64996,Global Net-zero,Natural Gas,2022,78.14520,British Columbia,"Commercial"
+65001,Global Net-zero,Natural Gas,2022,229.17310,British Columbia,"Industrial"
+65008,Global Net-zero,Natural Gas,2022,381.25170,British Columbia,"Total End-Use"
+65040,Global Net-zero,Natural Gas,2023,0.62510,British Columbia,"Transportation"
+65064,Global Net-zero,Natural Gas,2023,72.12520,British Columbia,"Residential"
+65066,Global Net-zero,Natural Gas,2023,79.75600,British Columbia,"Commercial"
+65071,Global Net-zero,Natural Gas,2023,228.69040,British Columbia,"Industrial"
+65078,Global Net-zero,Natural Gas,2023,381.19670,British Columbia,"Total End-Use"
+65110,Global Net-zero,Natural Gas,2024,0.63230,British Columbia,"Transportation"
+65134,Global Net-zero,Natural Gas,2024,69.31980,British Columbia,"Residential"
+65136,Global Net-zero,Natural Gas,2024,77.69780,British Columbia,"Commercial"
+65140,Global Net-zero,Natural Gas,2024,221.60600,British Columbia,"Industrial"
+65148,Global Net-zero,Natural Gas,2024,369.25590,British Columbia,"Total End-Use"
+65180,Global Net-zero,Natural Gas,2025,0.63660,British Columbia,"Transportation"
+65204,Global Net-zero,Natural Gas,2025,66.14570,British Columbia,"Residential"
+65206,Global Net-zero,Natural Gas,2025,75.95150,British Columbia,"Commercial"
+65213,Global Net-zero,Natural Gas,2025,243.13460,British Columbia,"Industrial"
+65218,Global Net-zero,Natural Gas,2025,385.86840,British Columbia,"Total End-Use"
+65250,Global Net-zero,Natural Gas,2026,0.63970,British Columbia,"Transportation"
+65274,Global Net-zero,Natural Gas,2026,63.04920,British Columbia,"Residential"
+65276,Global Net-zero,Natural Gas,2026,74.13410,British Columbia,"Commercial"
+65284,Global Net-zero,Natural Gas,2026,265.36090,British Columbia,"Industrial"
+65288,Global Net-zero,Natural Gas,2026,403.18390,British Columbia,"Total End-Use"
+65320,Global Net-zero,Natural Gas,2027,0.64080,British Columbia,"Transportation"
+65344,Global Net-zero,Natural Gas,2027,59.70270,British Columbia,"Residential"
+65346,Global Net-zero,Natural Gas,2027,70.92990,British Columbia,"Commercial"
+65354,Global Net-zero,Natural Gas,2027,254.35262,British Columbia,"Industrial"
+65358,Global Net-zero,Natural Gas,2027,385.62602,British Columbia,"Total End-Use"
+65390,Global Net-zero,Natural Gas,2028,0.64030,British Columbia,"Transportation"
+65414,Global Net-zero,Natural Gas,2028,56.44600,British Columbia,"Residential"
+65416,Global Net-zero,Natural Gas,2028,67.24050,British Columbia,"Commercial"
+65424,Global Net-zero,Natural Gas,2028,241.85990,British Columbia,"Industrial"
+65428,Global Net-zero,Natural Gas,2028,366.18670,British Columbia,"Total End-Use"
+65460,Global Net-zero,Natural Gas,2029,0.63860,British Columbia,"Transportation"
+65483,Global Net-zero,Natural Gas,2029,52.94850,British Columbia,"Residential"
+65485,Global Net-zero,Natural Gas,2029,63.06330,British Columbia,"Commercial"
+65493,Global Net-zero,Natural Gas,2029,229.20197,British Columbia,"Industrial"
+65498,Global Net-zero,Natural Gas,2029,345.85237,British Columbia,"Total End-Use"
+65530,Global Net-zero,Natural Gas,2030,0.63610,British Columbia,"Transportation"
+65553,Global Net-zero,Natural Gas,2030,49.55700,British Columbia,"Residential"
+65555,Global Net-zero,Natural Gas,2030,58.78020,British Columbia,"Commercial"
+65563,Global Net-zero,Natural Gas,2030,216.36735,British Columbia,"Industrial"
+65568,Global Net-zero,Natural Gas,2030,325.34065,British Columbia,"Total End-Use"
+65600,Global Net-zero,Natural Gas,2031,0.63360,British Columbia,"Transportation"
+65623,Global Net-zero,Natural Gas,2031,47.90390,British Columbia,"Residential"
+65625,Global Net-zero,Natural Gas,2031,56.27500,British Columbia,"Commercial"
+65633,Global Net-zero,Natural Gas,2031,210.84167,British Columbia,"Industrial"
+65638,Global Net-zero,Natural Gas,2031,315.65417,British Columbia,"Total End-Use"
+65670,Global Net-zero,Natural Gas,2032,0.63190,British Columbia,"Transportation"
+65693,Global Net-zero,Natural Gas,2032,46.26970,British Columbia,"Residential"
+65695,Global Net-zero,Natural Gas,2032,53.77090,British Columbia,"Commercial"
+65703,Global Net-zero,Natural Gas,2032,205.59424,British Columbia,"Industrial"
+65708,Global Net-zero,Natural Gas,2032,306.26674,British Columbia,"Total End-Use"
+65740,Global Net-zero,Natural Gas,2033,0.63070,British Columbia,"Transportation"
+65763,Global Net-zero,Natural Gas,2033,44.62670,British Columbia,"Residential"
+65765,Global Net-zero,Natural Gas,2033,51.26490,British Columbia,"Commercial"
+65774,Global Net-zero,Natural Gas,2033,199.79828,British Columbia,"Industrial"
+65778,Global Net-zero,Natural Gas,2033,296.32058,British Columbia,"Total End-Use"
+65810,Global Net-zero,Natural Gas,2034,0.63040,British Columbia,"Transportation"
+65833,Global Net-zero,Natural Gas,2034,43.00790,British Columbia,"Residential"
+65835,Global Net-zero,Natural Gas,2034,48.80580,British Columbia,"Commercial"
+65843,Global Net-zero,Natural Gas,2034,194.10271,British Columbia,"Industrial"
+65848,Global Net-zero,Natural Gas,2034,286.54681,British Columbia,"Total End-Use"
+65880,Global Net-zero,Natural Gas,2035,0.63080,British Columbia,"Transportation"
+65904,Global Net-zero,Natural Gas,2035,41.40840,British Columbia,"Residential"
+65905,Global Net-zero,Natural Gas,2035,46.45740,British Columbia,"Commercial"
+65913,Global Net-zero,Natural Gas,2035,188.44522,British Columbia,"Industrial"
+65918,Global Net-zero,Natural Gas,2035,276.94182,British Columbia,"Total End-Use"
+65950,Global Net-zero,Natural Gas,2036,0.63150,British Columbia,"Transportation"
+65973,Global Net-zero,Natural Gas,2036,39.83130,British Columbia,"Residential"
+65975,Global Net-zero,Natural Gas,2036,44.03650,British Columbia,"Commercial"
+65983,Global Net-zero,Natural Gas,2036,183.51833,British Columbia,"Industrial"
+65988,Global Net-zero,Natural Gas,2036,268.01763,British Columbia,"Total End-Use"
+66020,Global Net-zero,Natural Gas,2037,0.63200,British Columbia,"Transportation"
+66043,Global Net-zero,Natural Gas,2037,38.27070,British Columbia,"Residential"
+66045,Global Net-zero,Natural Gas,2037,41.75500,British Columbia,"Commercial"
+66054,Global Net-zero,Natural Gas,2037,179.93506,British Columbia,"Industrial"
+66058,Global Net-zero,Natural Gas,2037,260.59276,British Columbia,"Total End-Use"
+66090,Global Net-zero,Natural Gas,2038,0.63230,British Columbia,"Transportation"
+66113,Global Net-zero,Natural Gas,2038,36.72480,British Columbia,"Residential"
+66115,Global Net-zero,Natural Gas,2038,39.60750,British Columbia,"Commercial"
+66124,Global Net-zero,Natural Gas,2038,177.18768,British Columbia,"Industrial"
+66128,Global Net-zero,Natural Gas,2038,254.15228,British Columbia,"Total End-Use"
+66160,Global Net-zero,Natural Gas,2039,0.63200,British Columbia,"Transportation"
+66183,Global Net-zero,Natural Gas,2039,35.18400,British Columbia,"Residential"
+66184,Global Net-zero,Natural Gas,2039,37.58480,British Columbia,"Commercial"
+66195,Global Net-zero,Natural Gas,2039,175.64616,British Columbia,"Industrial"
+66198,Global Net-zero,Natural Gas,2039,249.04696,British Columbia,"Total End-Use"
+66231,Global Net-zero,Natural Gas,2040,0.63150,British Columbia,"Transportation"
+66253,Global Net-zero,Natural Gas,2040,33.66650,British Columbia,"Residential"
+66254,Global Net-zero,Natural Gas,2040,35.64170,British Columbia,"Commercial"
+66265,Global Net-zero,Natural Gas,2040,175.55973,British Columbia,"Industrial"
+66268,Global Net-zero,Natural Gas,2040,245.49943,British Columbia,"Total End-Use"
+66301,Global Net-zero,Natural Gas,2041,0.63050,British Columbia,"Transportation"
+66323,Global Net-zero,Natural Gas,2041,32.18000,British Columbia,"Residential"
+66324,Global Net-zero,Natural Gas,2041,33.67960,British Columbia,"Commercial"
+66335,Global Net-zero,Natural Gas,2041,175.68480,British Columbia,"Industrial"
+66338,Global Net-zero,Natural Gas,2041,242.17490,British Columbia,"Total End-Use"
+66371,Global Net-zero,Natural Gas,2042,0.62920,British Columbia,"Transportation"
+66393,Global Net-zero,Natural Gas,2042,30.73070,British Columbia,"Residential"
+66394,Global Net-zero,Natural Gas,2042,31.70530,British Columbia,"Commercial"
+66405,Global Net-zero,Natural Gas,2042,176.10969,British Columbia,"Industrial"
+66408,Global Net-zero,Natural Gas,2042,239.17489,British Columbia,"Total End-Use"
+66441,Global Net-zero,Natural Gas,2043,0.62770,British Columbia,"Transportation"
+66463,Global Net-zero,Natural Gas,2043,28.98350,British Columbia,"Residential"
+66464,Global Net-zero,Natural Gas,2043,29.85490,British Columbia,"Commercial"
+66475,Global Net-zero,Natural Gas,2043,177.18510,British Columbia,"Industrial"
+66478,Global Net-zero,Natural Gas,2043,236.65120,British Columbia,"Total End-Use"
+66511,Global Net-zero,Natural Gas,2044,0.62630,British Columbia,"Transportation"
+66533,Global Net-zero,Natural Gas,2044,27.65750,British Columbia,"Residential"
+66535,Global Net-zero,Natural Gas,2044,28.11820,British Columbia,"Commercial"
+66545,Global Net-zero,Natural Gas,2044,181.80323,British Columbia,"Industrial"
+66548,Global Net-zero,Natural Gas,2044,238.20523,British Columbia,"Total End-Use"
+66581,Global Net-zero,Natural Gas,2045,0.62480,British Columbia,"Transportation"
+66604,Global Net-zero,Natural Gas,2045,26.07500,British Columbia,"Residential"
+66605,Global Net-zero,Natural Gas,2045,26.50980,British Columbia,"Commercial"
+66615,Global Net-zero,Natural Gas,2045,172.01144,British Columbia,"Industrial"
+66618,Global Net-zero,Natural Gas,2045,225.22104,British Columbia,"Total End-Use"
+66651,Global Net-zero,Natural Gas,2046,0.62310,British Columbia,"Transportation"
+66674,Global Net-zero,Natural Gas,2046,24.86890,British Columbia,"Residential"
+66675,Global Net-zero,Natural Gas,2046,25.00080,British Columbia,"Commercial"
+66685,Global Net-zero,Natural Gas,2046,165.64346,British Columbia,"Industrial"
+66688,Global Net-zero,Natural Gas,2046,216.13626,British Columbia,"Total End-Use"
+66721,Global Net-zero,Natural Gas,2047,0.62170,British Columbia,"Transportation"
+66744,Global Net-zero,Natural Gas,2047,23.32530,British Columbia,"Commercial"
+66745,Global Net-zero,Natural Gas,2047,23.43100,British Columbia,"Residential"
+66756,Global Net-zero,Natural Gas,2047,176.17958,British Columbia,"Industrial"
+66760,Global Net-zero,Natural Gas,2047,223.55758,British Columbia,"Total End-Use"
+66791,Global Net-zero,Natural Gas,2048,0.62080,British Columbia,"Transportation"
+66814,Global Net-zero,Natural Gas,2048,22.05530,British Columbia,"Commercial"
+66815,Global Net-zero,Natural Gas,2048,22.09350,British Columbia,"Residential"
+66826,Global Net-zero,Natural Gas,2048,188.82909,British Columbia,"Industrial"
+66830,Global Net-zero,Natural Gas,2048,233.59869,British Columbia,"Total End-Use"
+66861,Global Net-zero,Natural Gas,2049,0.62100,British Columbia,"Transportation"
+66884,Global Net-zero,Natural Gas,2049,20.63160,British Columbia,"Commercial"
+66885,Global Net-zero,Natural Gas,2049,20.85810,British Columbia,"Residential"
+66899,Global Net-zero,Natural Gas,2049,203.47027,British Columbia,"Industrial"
+66900,Global Net-zero,Natural Gas,2049,245.58097,British Columbia,"Total End-Use"
+66931,Global Net-zero,Natural Gas,2050,0.62230,British Columbia,"Transportation"
+66954,Global Net-zero,Natural Gas,2050,19.57630,British Columbia,"Commercial"
+66955,Global Net-zero,Natural Gas,2050,19.97340,British Columbia,"Residential"
+66969,Global Net-zero,Natural Gas,2050,220.65247,British Columbia,"Industrial"
+66970,Global Net-zero,Natural Gas,2050,260.82447,British Columbia,"Total End-Use"
+66978,Global Net-zero,Other,2005,0.00000,British Columbia,"Commercial"
+67009,Global Net-zero,Other,2005,0.52400,British Columbia,"Residential"
+67024,Global Net-zero,Other,2005,12.30390,British Columbia,"Industrial"
+67025,Global Net-zero,Other,2005,12.82790,British Columbia,"Total End-Use"
+67034,Global Net-zero,Other,2006,0.00000,British Columbia,"Commercial"
+67065,Global Net-zero,Other,2006,0.20610,British Columbia,"Residential"
+67080,Global Net-zero,Other,2006,14.16490,British Columbia,"Industrial"
+67081,Global Net-zero,Other,2006,14.37100,British Columbia,"Total End-Use"
+67089,Global Net-zero,Other,2007,0.00000,British Columbia,"Commercial"
+67120,Global Net-zero,Other,2007,0.07400,British Columbia,"Residential"
+67136,Global Net-zero,Other,2007,15.34490,British Columbia,"Industrial"
+67137,Global Net-zero,Other,2007,15.41890,British Columbia,"Total End-Use"
+67145,Global Net-zero,Other,2008,0.00000,British Columbia,"Commercial"
+67146,Global Net-zero,Other,2008,0.00000,British Columbia,"Residential"
+67192,Global Net-zero,Other,2008,14.61290,British Columbia,"Industrial"
+67193,Global Net-zero,Other,2008,14.61290,British Columbia,"Total End-Use"
+67201,Global Net-zero,Other,2009,0.00000,British Columbia,"Commercial"
+67202,Global Net-zero,Other,2009,0.00000,British Columbia,"Residential"
+67248,Global Net-zero,Other,2009,11.30300,British Columbia,"Industrial"
+67249,Global Net-zero,Other,2009,11.30300,British Columbia,"Total End-Use"
+67257,Global Net-zero,Other,2010,0.00000,British Columbia,"Commercial"
+67258,Global Net-zero,Other,2010,0.00000,British Columbia,"Residential"
+67304,Global Net-zero,Other,2010,11.32100,British Columbia,"Industrial"
+67305,Global Net-zero,Other,2010,11.32100,British Columbia,"Total End-Use"
+67312,Global Net-zero,Other,2011,0.00000,British Columbia,"Commercial"
+67313,Global Net-zero,Other,2011,0.00000,British Columbia,"Residential"
+67360,Global Net-zero,Other,2011,11.33900,British Columbia,"Industrial"
+67361,Global Net-zero,Other,2011,11.33900,British Columbia,"Total End-Use"
+67368,Global Net-zero,Other,2012,0.00000,British Columbia,"Commercial"
+67369,Global Net-zero,Other,2012,0.00000,British Columbia,"Residential"
+67416,Global Net-zero,Other,2012,7.73100,British Columbia,"Industrial"
+67417,Global Net-zero,Other,2012,7.73100,British Columbia,"Total End-Use"
+67424,Global Net-zero,Other,2013,0.00000,British Columbia,"Commercial"
+67425,Global Net-zero,Other,2013,0.00000,British Columbia,"Residential"
+67471,Global Net-zero,Other,2013,5.44000,British Columbia,"Industrial"
+67472,Global Net-zero,Other,2013,5.44000,British Columbia,"Total End-Use"
+67481,Global Net-zero,Other,2014,0.00000,British Columbia,"Commercial"
+67482,Global Net-zero,Other,2014,0.00000,British Columbia,"Residential"
+67528,Global Net-zero,Other,2014,6.69100,British Columbia,"Industrial"
+67529,Global Net-zero,Other,2014,6.69100,British Columbia,"Total End-Use"
+67537,Global Net-zero,Other,2015,0.00000,British Columbia,"Commercial"
+67538,Global Net-zero,Other,2015,0.00000,British Columbia,"Residential"
+67584,Global Net-zero,Other,2015,6.50200,British Columbia,"Industrial"
+67585,Global Net-zero,Other,2015,6.50200,British Columbia,"Total End-Use"
+67593,Global Net-zero,Other,2016,0.00000,British Columbia,"Commercial"
+67594,Global Net-zero,Other,2016,0.00000,British Columbia,"Residential"
+67640,Global Net-zero,Other,2016,6.40600,British Columbia,"Industrial"
+67641,Global Net-zero,Other,2016,6.40600,British Columbia,"Total End-Use"
+67650,Global Net-zero,Other,2017,0.00000,British Columbia,"Commercial"
+67651,Global Net-zero,Other,2017,0.00000,British Columbia,"Residential"
+67696,Global Net-zero,Other,2017,6.27300,British Columbia,"Industrial"
+67697,Global Net-zero,Other,2017,6.27300,British Columbia,"Total End-Use"
+67706,Global Net-zero,Other,2018,0.00000,British Columbia,"Commercial"
+67707,Global Net-zero,Other,2018,0.00000,British Columbia,"Residential"
+67752,Global Net-zero,Other,2018,5.72500,British Columbia,"Industrial"
+67753,Global Net-zero,Other,2018,5.72500,British Columbia,"Total End-Use"
+67762,Global Net-zero,Other,2019,0.00000,British Columbia,"Commercial"
+67763,Global Net-zero,Other,2019,0.00000,British Columbia,"Residential"
+67808,Global Net-zero,Other,2019,6.58500,British Columbia,"Industrial"
+67809,Global Net-zero,Other,2019,6.58500,British Columbia,"Total End-Use"
+67818,Global Net-zero,Other,2020,0.00000,British Columbia,"Commercial"
+67819,Global Net-zero,Other,2020,0.00000,British Columbia,"Residential"
+67864,Global Net-zero,Other,2020,4.25800,British Columbia,"Industrial"
+67865,Global Net-zero,Other,2020,4.25800,British Columbia,"Total End-Use"
+67874,Global Net-zero,Other,2021,0.00000,British Columbia,"Commercial"
+67875,Global Net-zero,Other,2021,0.00000,British Columbia,"Residential"
+67920,Global Net-zero,Other,2021,8.15430,British Columbia,"Industrial"
+67921,Global Net-zero,Other,2021,8.15430,British Columbia,"Total End-Use"
+67930,Global Net-zero,Other,2022,0.00000,British Columbia,"Commercial"
+67931,Global Net-zero,Other,2022,0.00000,British Columbia,"Residential"
+67976,Global Net-zero,Other,2022,9.09210,British Columbia,"Industrial"
+67977,Global Net-zero,Other,2022,9.09210,British Columbia,"Total End-Use"
+67986,Global Net-zero,Other,2023,0.00000,British Columbia,"Commercial"
+67987,Global Net-zero,Other,2023,0.00000,British Columbia,"Residential"
+68032,Global Net-zero,Other,2023,6.53200,British Columbia,"Industrial"
+68033,Global Net-zero,Other,2023,6.53200,British Columbia,"Total End-Use"
+68042,Global Net-zero,Other,2024,0.00000,British Columbia,"Commercial"
+68043,Global Net-zero,Other,2024,0.00000,British Columbia,"Residential"
+68088,Global Net-zero,Other,2024,4.34900,British Columbia,"Industrial"
+68089,Global Net-zero,Other,2024,4.34900,British Columbia,"Total End-Use"
+68098,Global Net-zero,Other,2025,0.00000,British Columbia,"Commercial"
+68099,Global Net-zero,Other,2025,0.00000,British Columbia,"Residential"
+68144,Global Net-zero,Other,2025,3.26520,British Columbia,"Industrial"
+68145,Global Net-zero,Other,2025,3.26520,British Columbia,"Total End-Use"
+68154,Global Net-zero,Other,2026,0.00000,British Columbia,"Commercial"
+68155,Global Net-zero,Other,2026,0.00000,British Columbia,"Residential"
+68198,Global Net-zero,Other,2026,2.71820,British Columbia,"Industrial"
+68199,Global Net-zero,Other,2026,2.71820,British Columbia,"Total End-Use"
+68210,Global Net-zero,Other,2027,0.00000,British Columbia,"Commercial"
+68211,Global Net-zero,Other,2027,0.00000,British Columbia,"Residential"
+68254,Global Net-zero,Other,2027,2.42760,British Columbia,"Industrial"
+68255,Global Net-zero,Other,2027,2.42760,British Columbia,"Total End-Use"
+68266,Global Net-zero,Other,2028,0.00000,British Columbia,"Commercial"
+68267,Global Net-zero,Other,2028,0.00000,British Columbia,"Residential"
+68310,Global Net-zero,Other,2028,2.08880,British Columbia,"Industrial"
+68311,Global Net-zero,Other,2028,2.08880,British Columbia,"Total End-Use"
+68322,Global Net-zero,Other,2029,0.00000,British Columbia,"Commercial"
+68323,Global Net-zero,Other,2029,0.00000,British Columbia,"Residential"
+68366,Global Net-zero,Other,2029,1.91070,British Columbia,"Industrial"
+68367,Global Net-zero,Other,2029,1.91070,British Columbia,"Total End-Use"
+68378,Global Net-zero,Other,2030,0.00000,British Columbia,"Commercial"
+68379,Global Net-zero,Other,2030,0.00000,British Columbia,"Residential"
+68422,Global Net-zero,Other,2030,1.72390,British Columbia,"Industrial"
+68423,Global Net-zero,Other,2030,1.72390,British Columbia,"Total End-Use"
+68434,Global Net-zero,Other,2031,0.00000,British Columbia,"Commercial"
+68435,Global Net-zero,Other,2031,0.00000,British Columbia,"Residential"
+68478,Global Net-zero,Other,2031,1.71230,British Columbia,"Industrial"
+68479,Global Net-zero,Other,2031,1.71230,British Columbia,"Total End-Use"
+68490,Global Net-zero,Other,2032,0.00000,British Columbia,"Commercial"
+68491,Global Net-zero,Other,2032,0.00000,British Columbia,"Residential"
+68534,Global Net-zero,Other,2032,1.73030,British Columbia,"Industrial"
+68535,Global Net-zero,Other,2032,1.73030,British Columbia,"Total End-Use"
+68546,Global Net-zero,Other,2033,0.00000,British Columbia,"Commercial"
+68547,Global Net-zero,Other,2033,0.00000,British Columbia,"Residential"
+68590,Global Net-zero,Other,2033,1.70810,British Columbia,"Industrial"
+68591,Global Net-zero,Other,2033,1.70810,British Columbia,"Total End-Use"
+68602,Global Net-zero,Other,2034,0.00000,British Columbia,"Commercial"
+68603,Global Net-zero,Other,2034,0.00000,British Columbia,"Residential"
+68646,Global Net-zero,Other,2034,1.68600,British Columbia,"Industrial"
+68647,Global Net-zero,Other,2034,1.68600,British Columbia,"Total End-Use"
+68658,Global Net-zero,Other,2035,0.00000,British Columbia,"Commercial"
+68659,Global Net-zero,Other,2035,0.00000,British Columbia,"Residential"
+68702,Global Net-zero,Other,2035,1.71320,British Columbia,"Industrial"
+68703,Global Net-zero,Other,2035,1.71320,British Columbia,"Total End-Use"
+68714,Global Net-zero,Other,2036,0.00000,British Columbia,"Commercial"
+68715,Global Net-zero,Other,2036,0.00000,British Columbia,"Residential"
+68758,Global Net-zero,Other,2036,1.73630,British Columbia,"Industrial"
+68759,Global Net-zero,Other,2036,1.73630,British Columbia,"Total End-Use"
+68770,Global Net-zero,Other,2037,0.00000,British Columbia,"Commercial"
+68771,Global Net-zero,Other,2037,0.00000,British Columbia,"Residential"
+68814,Global Net-zero,Other,2037,1.80110,British Columbia,"Industrial"
+68815,Global Net-zero,Other,2037,1.80110,British Columbia,"Total End-Use"
+68826,Global Net-zero,Other,2038,0.00000,British Columbia,"Commercial"
+68827,Global Net-zero,Other,2038,0.00000,British Columbia,"Residential"
+68870,Global Net-zero,Other,2038,1.83610,British Columbia,"Industrial"
+68871,Global Net-zero,Other,2038,1.83610,British Columbia,"Total End-Use"
+68882,Global Net-zero,Other,2039,0.00000,British Columbia,"Commercial"
+68883,Global Net-zero,Other,2039,0.00000,British Columbia,"Residential"
+68926,Global Net-zero,Other,2039,1.84310,British Columbia,"Industrial"
+68927,Global Net-zero,Other,2039,1.84310,British Columbia,"Total End-Use"
+68938,Global Net-zero,Other,2040,0.00000,British Columbia,"Commercial"
+68939,Global Net-zero,Other,2040,0.00000,British Columbia,"Residential"
+68982,Global Net-zero,Other,2040,1.82910,British Columbia,"Industrial"
+68983,Global Net-zero,Other,2040,1.82910,British Columbia,"Total End-Use"
+68994,Global Net-zero,Other,2041,0.00000,British Columbia,"Commercial"
+68995,Global Net-zero,Other,2041,0.00000,British Columbia,"Residential"
+69038,Global Net-zero,Other,2041,1.72740,British Columbia,"Industrial"
+69039,Global Net-zero,Other,2041,1.72740,British Columbia,"Total End-Use"
+69050,Global Net-zero,Other,2042,0.00000,British Columbia,"Commercial"
+69051,Global Net-zero,Other,2042,0.00000,British Columbia,"Residential"
+69094,Global Net-zero,Other,2042,1.63430,British Columbia,"Industrial"
+69095,Global Net-zero,Other,2042,1.63430,British Columbia,"Total End-Use"
+69106,Global Net-zero,Other,2043,0.00000,British Columbia,"Commercial"
+69107,Global Net-zero,Other,2043,0.00000,British Columbia,"Residential"
+69150,Global Net-zero,Other,2043,1.55410,British Columbia,"Industrial"
+69151,Global Net-zero,Other,2043,1.55410,British Columbia,"Total End-Use"
+69162,Global Net-zero,Other,2044,0.00000,British Columbia,"Commercial"
+69163,Global Net-zero,Other,2044,0.00000,British Columbia,"Residential"
+69206,Global Net-zero,Other,2044,1.49000,British Columbia,"Industrial"
+69207,Global Net-zero,Other,2044,1.49000,British Columbia,"Total End-Use"
+69218,Global Net-zero,Other,2045,0.00000,British Columbia,"Commercial"
+69219,Global Net-zero,Other,2045,0.00000,British Columbia,"Residential"
+69262,Global Net-zero,Other,2045,1.39920,British Columbia,"Industrial"
+69263,Global Net-zero,Other,2045,1.39920,British Columbia,"Total End-Use"
+69274,Global Net-zero,Other,2046,0.00000,British Columbia,"Commercial"
+69275,Global Net-zero,Other,2046,0.00000,British Columbia,"Residential"
+69318,Global Net-zero,Other,2046,1.27210,British Columbia,"Industrial"
+69319,Global Net-zero,Other,2046,1.27210,British Columbia,"Total End-Use"
+69330,Global Net-zero,Other,2047,0.00000,British Columbia,"Commercial"
+69331,Global Net-zero,Other,2047,0.00000,British Columbia,"Residential"
+69374,Global Net-zero,Other,2047,1.19850,British Columbia,"Industrial"
+69375,Global Net-zero,Other,2047,1.19850,British Columbia,"Total End-Use"
+69386,Global Net-zero,Other,2048,0.00000,British Columbia,"Commercial"
+69387,Global Net-zero,Other,2048,0.00000,British Columbia,"Residential"
+69430,Global Net-zero,Other,2048,1.22460,British Columbia,"Industrial"
+69431,Global Net-zero,Other,2048,1.22460,British Columbia,"Total End-Use"
+69442,Global Net-zero,Other,2049,0.00000,British Columbia,"Commercial"
+69443,Global Net-zero,Other,2049,0.00000,British Columbia,"Residential"
+69486,Global Net-zero,Other,2049,1.30280,British Columbia,"Industrial"
+69487,Global Net-zero,Other,2049,1.30280,British Columbia,"Total End-Use"
+69498,Global Net-zero,Other,2050,0.00000,British Columbia,"Commercial"
+69499,Global Net-zero,Other,2050,0.00000,British Columbia,"Residential"
+69542,Global Net-zero,Other,2050,1.35630,British Columbia,"Industrial"
+69543,Global Net-zero,Other,2050,1.35630,British Columbia,"Total End-Use"
+69569,Global Net-zero,RPP,2005,4.35600,British Columbia,"Residential"
+69576,Global Net-zero,RPP,2005,12.28620,British Columbia,"Commercial"
+69591,Global Net-zero,RPP,2005,88.86630,British Columbia,"Industrial"
+69601,Global Net-zero,RPP,2005,453.39860,British Columbia,"Total End-Use"
+69625,Global Net-zero,RPP,2006,4.45700,British Columbia,"Residential"
+69631,Global Net-zero,RPP,2006,7.81390,British Columbia,"Commercial"
+69648,Global Net-zero,RPP,2006,103.76480,British Columbia,"Industrial"
+69656,Global Net-zero,RPP,2006,457.08880,British Columbia,"Total End-Use"
+69679,Global Net-zero,RPP,2007,4.72000,British Columbia,"Residential"
+69685,Global Net-zero,RPP,2007,7.66760,British Columbia,"Commercial"
+69704,Global Net-zero,RPP,2007,103.75720,British Columbia,"Industrial"
+69712,Global Net-zero,RPP,2007,466.94290,British Columbia,"Total End-Use"
+69734,Global Net-zero,RPP,2008,3.69790,British Columbia,"Residential"
+69742,Global Net-zero,RPP,2008,7.83840,British Columbia,"Commercial"
+69758,Global Net-zero,RPP,2008,95.59790,British Columbia,"Industrial"
+69768,Global Net-zero,RPP,2008,461.51270,British Columbia,"Total End-Use"
+69789,Global Net-zero,RPP,2009,3.28090,British Columbia,"Residential"
+69799,Global Net-zero,RPP,2009,7.95440,British Columbia,"Commercial"
+69814,Global Net-zero,RPP,2009,80.87930,British Columbia,"Industrial"
+69825,Global Net-zero,RPP,2009,430.84650,British Columbia,"Total End-Use"
+69845,Global Net-zero,RPP,2010,2.67290,British Columbia,"Residential"
+69857,Global Net-zero,RPP,2010,10.90830,British Columbia,"Commercial"
+69869,Global Net-zero,RPP,2010,88.24000,British Columbia,"Industrial"
+69880,Global Net-zero,RPP,2010,444.85290,British Columbia,"Total End-Use"
+69900,Global Net-zero,RPP,2011,2.04680,British Columbia,"Residential"
+69904,Global Net-zero,RPP,2011,4.93750,British Columbia,"Commercial"
+69924,Global Net-zero,RPP,2011,91.75450,British Columbia,"Industrial"
+69936,Global Net-zero,RPP,2011,416.65520,British Columbia,"Total End-Use"
+69953,Global Net-zero,RPP,2012,1.73100,British Columbia,"Residential"
+69964,Global Net-zero,RPP,2012,6.12550,British Columbia,"Commercial"
+69980,Global Net-zero,RPP,2012,82.88990,British Columbia,"Industrial"
+69992,Global Net-zero,RPP,2012,410.12190,British Columbia,"Total End-Use"
+70010,Global Net-zero,RPP,2013,1.44690,British Columbia,"Residential"
+70022,Global Net-zero,RPP,2013,7.80670,British Columbia,"Commercial"
+70036,Global Net-zero,RPP,2013,86.31220,British Columbia,"Industrial"
+70048,Global Net-zero,RPP,2013,422.63090,British Columbia,"Total End-Use"
+70065,Global Net-zero,RPP,2014,1.15710,British Columbia,"Residential"
+70081,Global Net-zero,RPP,2014,9.38920,British Columbia,"Commercial"
+70094,Global Net-zero,RPP,2014,90.50150,British Columbia,"Industrial"
+70104,Global Net-zero,RPP,2014,421.03230,British Columbia,"Total End-Use"
+70121,Global Net-zero,RPP,2015,1.05300,British Columbia,"Residential"
+70132,Global Net-zero,RPP,2015,7.00590,British Columbia,"Commercial"
+70150,Global Net-zero,RPP,2015,100.34390,British Columbia,"Industrial"
+70160,Global Net-zero,RPP,2015,419.44200,British Columbia,"Total End-Use"
+70178,Global Net-zero,RPP,2016,1.00690,British Columbia,"Residential"
+70192,Global Net-zero,RPP,2016,8.21380,British Columbia,"Commercial"
+70208,Global Net-zero,RPP,2016,108.89980,British Columbia,"Industrial"
+70216,Global Net-zero,RPP,2016,450.45820,British Columbia,"Total End-Use"
+70234,Global Net-zero,RPP,2017,0.97800,British Columbia,"Residential"
+70249,Global Net-zero,RPP,2017,10.14790,British Columbia,"Commercial"
+70265,Global Net-zero,RPP,2017,106.40790,British Columbia,"Industrial"
+70273,Global Net-zero,RPP,2017,465.47140,British Columbia,"Total End-Use"
+70290,Global Net-zero,RPP,2018,1.57300,British Columbia,"Residential"
+70305,Global Net-zero,RPP,2018,8.33300,British Columbia,"Commercial"
+70321,Global Net-zero,RPP,2018,114.73310,British Columbia,"Industrial"
+70329,Global Net-zero,RPP,2018,508.65600,British Columbia,"Total End-Use"
+70346,Global Net-zero,RPP,2019,1.30800,British Columbia,"Residential"
+70361,Global Net-zero,RPP,2019,8.90850,British Columbia,"Commercial"
+70375,Global Net-zero,RPP,2019,104.49420,British Columbia,"Industrial"
+70385,Global Net-zero,RPP,2019,495.54810,British Columbia,"Total End-Use"
+70401,Global Net-zero,RPP,2020,1.01600,British Columbia,"Residential"
+70416,Global Net-zero,RPP,2020,6.27580,British Columbia,"Commercial"
+70433,Global Net-zero,RPP,2020,95.84720,British Columbia,"Industrial"
+70440,Global Net-zero,RPP,2020,397.74640,British Columbia,"Total End-Use"
+70457,Global Net-zero,RPP,2021,1.02150,British Columbia,"Residential"
+70472,Global Net-zero,RPP,2021,6.29180,British Columbia,"Commercial"
+70490,Global Net-zero,RPP,2021,96.39240,British Columbia,"Industrial"
+70496,Global Net-zero,RPP,2021,393.74750,British Columbia,"Total End-Use"
+70513,Global Net-zero,RPP,2022,1.00090,British Columbia,"Residential"
+70528,Global Net-zero,RPP,2022,6.40970,British Columbia,"Commercial"
+70544,Global Net-zero,RPP,2022,95.76790,British Columbia,"Industrial"
+70553,Global Net-zero,RPP,2022,428.85110,British Columbia,"Total End-Use"
+70569,Global Net-zero,RPP,2023,0.94600,British Columbia,"Residential"
+70584,Global Net-zero,RPP,2023,6.35440,British Columbia,"Commercial"
+70600,Global Net-zero,RPP,2023,94.02140,British Columbia,"Industrial"
+70609,Global Net-zero,RPP,2023,434.33030,British Columbia,"Total End-Use"
+70625,Global Net-zero,RPP,2024,0.88470,British Columbia,"Residential"
+70640,Global Net-zero,RPP,2024,6.35490,British Columbia,"Commercial"
+70656,Global Net-zero,RPP,2024,93.26210,British Columbia,"Industrial"
+70665,Global Net-zero,RPP,2024,426.36710,British Columbia,"Total End-Use"
+70681,Global Net-zero,RPP,2025,0.82570,British Columbia,"Residential"
+70696,Global Net-zero,RPP,2025,6.34290,British Columbia,"Commercial"
+70714,Global Net-zero,RPP,2025,97.96260,British Columbia,"Industrial"
+70721,Global Net-zero,RPP,2025,426.82830,British Columbia,"Total End-Use"
+70737,Global Net-zero,RPP,2026,0.76880,British Columbia,"Residential"
+70752,Global Net-zero,RPP,2026,6.35380,British Columbia,"Commercial"
+70770,Global Net-zero,RPP,2026,98.57010,British Columbia,"Industrial"
+70776,Global Net-zero,RPP,2026,417.92420,British Columbia,"Total End-Use"
+70793,Global Net-zero,RPP,2027,0.71460,British Columbia,"Residential"
+70808,Global Net-zero,RPP,2027,6.37940,British Columbia,"Commercial"
+70826,Global Net-zero,RPP,2027,96.71810,British Columbia,"Industrial"
+70832,Global Net-zero,RPP,2027,403.68420,British Columbia,"Total End-Use"
+70849,Global Net-zero,RPP,2028,0.66260,British Columbia,"Residential"
+70864,Global Net-zero,RPP,2028,6.38570,British Columbia,"Commercial"
+70882,Global Net-zero,RPP,2028,94.67840,British Columbia,"Industrial"
+70888,Global Net-zero,RPP,2028,388.85800,British Columbia,"Total End-Use"
+70904,Global Net-zero,RPP,2029,0.61340,British Columbia,"Residential"
+70920,Global Net-zero,RPP,2029,6.38500,British Columbia,"Commercial"
+70938,Global Net-zero,RPP,2029,93.02860,British Columbia,"Industrial"
+70944,Global Net-zero,RPP,2029,375.93920,British Columbia,"Total End-Use"
+70960,Global Net-zero,RPP,2030,0.56690,British Columbia,"Residential"
+70977,Global Net-zero,RPP,2030,6.37650,British Columbia,"Commercial"
+70994,Global Net-zero,RPP,2030,91.01510,British Columbia,"Industrial"
+71000,Global Net-zero,RPP,2030,360.10580,British Columbia,"Total End-Use"
+71016,Global Net-zero,RPP,2031,0.52370,British Columbia,"Residential"
+71033,Global Net-zero,RPP,2031,6.36170,British Columbia,"Commercial"
+71049,Global Net-zero,RPP,2031,89.14740,British Columbia,"Industrial"
+71056,Global Net-zero,RPP,2031,347.36190,British Columbia,"Total End-Use"
+71072,Global Net-zero,RPP,2032,0.48290,British Columbia,"Residential"
+71089,Global Net-zero,RPP,2032,6.35470,British Columbia,"Commercial"
+71105,Global Net-zero,RPP,2032,87.81230,British Columbia,"Industrial"
+71112,Global Net-zero,RPP,2032,335.42920,British Columbia,"Total End-Use"
+71128,Global Net-zero,RPP,2033,0.44450,British Columbia,"Residential"
+71146,Global Net-zero,RPP,2033,6.34060,British Columbia,"Commercial"
+71161,Global Net-zero,RPP,2033,86.86630,British Columbia,"Industrial"
+71168,Global Net-zero,RPP,2033,324.31620,British Columbia,"Total End-Use"
+71184,Global Net-zero,RPP,2034,0.40870,British Columbia,"Residential"
+71202,Global Net-zero,RPP,2034,6.34610,British Columbia,"Commercial"
+71217,Global Net-zero,RPP,2034,86.14310,British Columbia,"Industrial"
+71224,Global Net-zero,RPP,2034,314.23600,British Columbia,"Total End-Use"
+71240,Global Net-zero,RPP,2035,0.37540,British Columbia,"Residential"
+71258,Global Net-zero,RPP,2035,6.37100,British Columbia,"Commercial"
+71273,Global Net-zero,RPP,2035,85.34510,British Columbia,"Industrial"
+71280,Global Net-zero,RPP,2035,303.48060,British Columbia,"Total End-Use"
+71296,Global Net-zero,RPP,2036,0.34440,British Columbia,"Residential"
+71315,Global Net-zero,RPP,2036,6.41180,British Columbia,"Commercial"
+71329,Global Net-zero,RPP,2036,84.61180,British Columbia,"Industrial"
+71336,Global Net-zero,RPP,2036,290.90220,British Columbia,"Total End-Use"
+71352,Global Net-zero,RPP,2037,0.31570,British Columbia,"Residential"
+71371,Global Net-zero,RPP,2037,6.46320,British Columbia,"Commercial"
+71385,Global Net-zero,RPP,2037,83.97170,British Columbia,"Industrial"
+71392,Global Net-zero,RPP,2037,278.82110,British Columbia,"Total End-Use"
+71406,Global Net-zero,RPP,2038,0.28910,British Columbia,"Residential"
+71427,Global Net-zero,RPP,2038,6.52110,British Columbia,"Commercial"
+71441,Global Net-zero,RPP,2038,83.16460,British Columbia,"Industrial"
+71448,Global Net-zero,RPP,2038,266.69880,British Columbia,"Total End-Use"
+71462,Global Net-zero,RPP,2039,0.26480,British Columbia,"Residential"
+71483,Global Net-zero,RPP,2039,6.57170,British Columbia,"Commercial"
+71498,Global Net-zero,RPP,2039,82.34340,British Columbia,"Industrial"
+71504,Global Net-zero,RPP,2039,254.74520,British Columbia,"Total End-Use"
+71518,Global Net-zero,RPP,2040,0.24210,British Columbia,"Residential"
+71539,Global Net-zero,RPP,2040,6.61560,British Columbia,"Commercial"
+71554,Global Net-zero,RPP,2040,81.54750,British Columbia,"Industrial"
+71560,Global Net-zero,RPP,2040,241.54970,British Columbia,"Total End-Use"
+71574,Global Net-zero,RPP,2041,0.22140,British Columbia,"Residential"
+71595,Global Net-zero,RPP,2041,6.65040,British Columbia,"Commercial"
+71610,Global Net-zero,RPP,2041,80.66180,British Columbia,"Industrial"
+71616,Global Net-zero,RPP,2041,227.38930,British Columbia,"Total End-Use"
+71630,Global Net-zero,RPP,2042,0.20220,British Columbia,"Residential"
+71651,Global Net-zero,RPP,2042,6.67100,British Columbia,"Commercial"
+71666,Global Net-zero,RPP,2042,79.65960,British Columbia,"Industrial"
+71672,Global Net-zero,RPP,2042,213.61710,British Columbia,"Total End-Use"
+71686,Global Net-zero,RPP,2043,0.18460,British Columbia,"Residential"
+71709,Global Net-zero,RPP,2043,6.68870,British Columbia,"Commercial"
+71722,Global Net-zero,RPP,2043,78.84070,British Columbia,"Industrial"
+71728,Global Net-zero,RPP,2043,200.69720,British Columbia,"Total End-Use"
+71742,Global Net-zero,RPP,2044,0.16850,British Columbia,"Residential"
+71765,Global Net-zero,RPP,2044,6.70380,British Columbia,"Commercial"
+71778,Global Net-zero,RPP,2044,78.29560,British Columbia,"Industrial"
+71784,Global Net-zero,RPP,2044,188.69620,British Columbia,"Total End-Use"
+71798,Global Net-zero,RPP,2045,0.15380,British Columbia,"Residential"
+71821,Global Net-zero,RPP,2045,6.72570,British Columbia,"Commercial"
+71834,Global Net-zero,RPP,2045,77.80130,British Columbia,"Industrial"
+71839,Global Net-zero,RPP,2045,177.05580,British Columbia,"Total End-Use"
+71854,Global Net-zero,RPP,2046,0.14010,British Columbia,"Residential"
+71877,Global Net-zero,RPP,2046,6.74790,British Columbia,"Commercial"
+71890,Global Net-zero,RPP,2046,77.65440,British Columbia,"Industrial"
+71895,Global Net-zero,RPP,2046,165.98610,British Columbia,"Total End-Use"
+71910,Global Net-zero,RPP,2047,0.12770,British Columbia,"Residential"
+71933,Global Net-zero,RPP,2047,6.77310,British Columbia,"Commercial"
+71946,Global Net-zero,RPP,2047,77.86800,British Columbia,"Industrial"
+71951,Global Net-zero,RPP,2047,155.71000,British Columbia,"Total End-Use"
+71966,Global Net-zero,RPP,2048,0.11630,British Columbia,"Residential"
+71989,Global Net-zero,RPP,2048,6.81120,British Columbia,"Commercial"
+72002,Global Net-zero,RPP,2048,78.11250,British Columbia,"Industrial"
+72007,Global Net-zero,RPP,2048,146.22830,British Columbia,"Total End-Use"
+72022,Global Net-zero,RPP,2049,0.10570,British Columbia,"Residential"
+72045,Global Net-zero,RPP,2049,6.86450,British Columbia,"Commercial"
+72058,Global Net-zero,RPP,2049,78.47270,British Columbia,"Industrial"
+72063,Global Net-zero,RPP,2049,137.45620,British Columbia,"Total End-Use"
+72078,Global Net-zero,RPP,2050,0.09630,British Columbia,"Residential"
+72101,Global Net-zero,RPP,2050,6.94710,British Columbia,"Commercial"
+72114,Global Net-zero,RPP,2050,78.97430,British Columbia,"Industrial"
+72119,Global Net-zero,RPP,2050,129.75270,British Columbia,"Total End-Use"
+72167,Global Net-zero,Total End-Use,2005,137.15520,British Columbia,"Commercial"
+72168,Global Net-zero,Total End-Use,2005,162.35000,British Columbia,"Residential"
+72177,Global Net-zero,Total End-Use,2005,348.63850,British Columbia,"Transportation"
+72184,Global Net-zero,Total End-Use,2005,640.89370,British Columbia,"Industrial"
+72188,Global Net-zero,Total End-Use,2005,1289.03740,British Columbia,"Total End-Use"
+72236,Global Net-zero,Total End-Use,2006,129.75870,British Columbia,"Commercial"
+72238,Global Net-zero,Total End-Use,2006,163.86610,British Columbia,"Residential"
+72247,Global Net-zero,Total End-Use,2006,342.14900,British Columbia,"Transportation"
+72254,Global Net-zero,Total End-Use,2006,587.16750,British Columbia,"Industrial"
+72258,Global Net-zero,Total End-Use,2006,1222.94130,British Columbia,"Total End-Use"
+72306,Global Net-zero,Total End-Use,2007,133.05400,British Columbia,"Commercial"
+72308,Global Net-zero,Total End-Use,2007,165.92590,British Columbia,"Residential"
+72317,Global Net-zero,Total End-Use,2007,352.19090,British Columbia,"Transportation"
+72322,Global Net-zero,Total End-Use,2007,583.90990,British Columbia,"Industrial"
+72328,Global Net-zero,Total End-Use,2007,1235.08070,British Columbia,"Total End-Use"
+72377,Global Net-zero,Total End-Use,2008,137.77950,British Columbia,"Commercial"
+72378,Global Net-zero,Total End-Use,2008,166.37420,British Columbia,"Residential"
+72387,Global Net-zero,Total End-Use,2008,356.48080,British Columbia,"Transportation"
+72392,Global Net-zero,Total End-Use,2008,521.21500,British Columbia,"Industrial"
+72397,Global Net-zero,Total End-Use,2008,1181.84950,British Columbia,"Total End-Use"
+72447,Global Net-zero,Total End-Use,2009,130.50750,British Columbia,"Commercial"
+72448,Global Net-zero,Total End-Use,2009,167.51090,British Columbia,"Residential"
+72457,Global Net-zero,Total End-Use,2009,341.45370,British Columbia,"Transportation"
+72462,Global Net-zero,Total End-Use,2009,516.00700,British Columbia,"Industrial"
+72468,Global Net-zero,Total End-Use,2009,1155.47910,British Columbia,"Total End-Use"
+72515,Global Net-zero,Total End-Use,2010,128.24240,British Columbia,"Commercial"
+72517,Global Net-zero,Total End-Use,2010,150.80910,British Columbia,"Residential"
+72528,Global Net-zero,Total End-Use,2010,353.39730,British Columbia,"Transportation"
+72532,Global Net-zero,Total End-Use,2010,544.09180,British Columbia,"Industrial"
+72538,Global Net-zero,Total End-Use,2010,1176.54060,British Columbia,"Total End-Use"
+72586,Global Net-zero,Total End-Use,2011,128.88890,British Columbia,"Commercial"
+72588,Global Net-zero,Total End-Use,2011,169.35940,British Columbia,"Residential"
+72596,Global Net-zero,Total End-Use,2011,330.81410,British Columbia,"Transportation"
+72602,Global Net-zero,Total End-Use,2011,554.35900,British Columbia,"Industrial"
+72608,Global Net-zero,Total End-Use,2011,1183.42140,British Columbia,"Total End-Use"
+72656,Global Net-zero,Total End-Use,2012,130.64130,British Columbia,"Commercial"
+72658,Global Net-zero,Total End-Use,2012,161.43190,British Columbia,"Residential"
+72665,Global Net-zero,Total End-Use,2012,332.86040,British Columbia,"Transportation"
+72673,Global Net-zero,Total End-Use,2012,573.48730,British Columbia,"Industrial"
+72678,Global Net-zero,Total End-Use,2012,1198.42090,British Columbia,"Total End-Use"
+72725,Global Net-zero,Total End-Use,2013,130.87720,British Columbia,"Commercial"
+72728,Global Net-zero,Total End-Use,2013,161.71420,British Columbia,"Residential"
+72736,Global Net-zero,Total End-Use,2013,342.36930,British Columbia,"Transportation"
+72742,Global Net-zero,Total End-Use,2013,571.57920,British Columbia,"Industrial"
+72748,Global Net-zero,Total End-Use,2013,1206.53990,British Columbia,"Total End-Use"
+72796,Global Net-zero,Total End-Use,2014,131.97180,British Columbia,"Commercial"
+72798,Global Net-zero,Total End-Use,2014,157.29870,British Columbia,"Residential"
+72806,Global Net-zero,Total End-Use,2014,336.63600,British Columbia,"Transportation"
+72812,Global Net-zero,Total End-Use,2014,545.16760,British Columbia,"Industrial"
+72818,Global Net-zero,Total End-Use,2014,1171.07410,British Columbia,"Total End-Use"
+72866,Global Net-zero,Total End-Use,2015,130.90590,British Columbia,"Commercial"
+72868,Global Net-zero,Total End-Use,2015,152.46820,British Columbia,"Residential"
+72876,Global Net-zero,Total End-Use,2015,329.29460,British Columbia,"Transportation"
+72882,Global Net-zero,Total End-Use,2015,568.30410,British Columbia,"Industrial"
+72888,Global Net-zero,Total End-Use,2015,1180.97280,British Columbia,"Total End-Use"
+72936,Global Net-zero,Total End-Use,2016,133.93080,British Columbia,"Commercial"
+72938,Global Net-zero,Total End-Use,2016,155.41750,British Columbia,"Residential"
+72946,Global Net-zero,Total End-Use,2016,351.23800,British Columbia,"Transportation"
+72953,Global Net-zero,Total End-Use,2016,597.43660,British Columbia,"Industrial"
+72958,Global Net-zero,Total End-Use,2016,1238.02290,British Columbia,"Total End-Use"
+73006,Global Net-zero,Total End-Use,2017,141.11260,British Columbia,"Commercial"
+73008,Global Net-zero,Total End-Use,2017,166.25950,British Columbia,"Residential"
+73017,Global Net-zero,Total End-Use,2017,367.76550,British Columbia,"Transportation"
+73023,Global Net-zero,Total End-Use,2017,614.39550,British Columbia,"Industrial"
+73028,Global Net-zero,Total End-Use,2017,1289.53310,British Columbia,"Total End-Use"
+73076,Global Net-zero,Total End-Use,2018,137.93870,British Columbia,"Commercial"
+73078,Global Net-zero,Total End-Use,2018,159.02470,British Columbia,"Residential"
+73087,Global Net-zero,Total End-Use,2018,405.07890,British Columbia,"Transportation"
+73092,Global Net-zero,Total End-Use,2018,616.69770,British Columbia,"Industrial"
+73098,Global Net-zero,Total End-Use,2018,1318.74000,British Columbia,"Total End-Use"
+73146,Global Net-zero,Total End-Use,2019,139.21590,British Columbia,"Commercial"
+73148,Global Net-zero,Total End-Use,2019,160.78810,British Columbia,"Residential"
+73157,Global Net-zero,Total End-Use,2019,403.62570,British Columbia,"Transportation"
+73163,Global Net-zero,Total End-Use,2019,599.99930,British Columbia,"Industrial"
+73168,Global Net-zero,Total End-Use,2019,1303.62900,British Columbia,"Total End-Use"
+73217,Global Net-zero,Total End-Use,2020,130.94200,British Columbia,"Commercial"
+73220,Global Net-zero,Total End-Use,2020,167.96800,British Columbia,"Residential"
+73225,Global Net-zero,Total End-Use,2020,315.79990,British Columbia,"Transportation"
+73233,Global Net-zero,Total End-Use,2020,572.28270,British Columbia,"Industrial"
+73238,Global Net-zero,Total End-Use,2020,1186.99260,British Columbia,"Total End-Use"
+73287,Global Net-zero,Total End-Use,2021,134.18190,British Columbia,"Commercial"
+73288,Global Net-zero,Total End-Use,2021,151.82930,British Columbia,"Residential"
+73295,Global Net-zero,Total End-Use,2021,321.80410,British Columbia,"Transportation"
+73303,Global Net-zero,Total End-Use,2021,597.48180,British Columbia,"Industrial"
+73308,Global Net-zero,Total End-Use,2021,1205.29710,British Columbia,"Total End-Use"
+73357,Global Net-zero,Total End-Use,2022,142.80190,British Columbia,"Commercial"
+73358,Global Net-zero,Total End-Use,2022,156.85820,British Columbia,"Residential"
+73365,Global Net-zero,Total End-Use,2022,361.42220,British Columbia,"Transportation"
+73373,Global Net-zero,Total End-Use,2022,623.39580,British Columbia,"Industrial"
+73378,Global Net-zero,Total End-Use,2022,1284.47810,British Columbia,"Total End-Use"
+73427,Global Net-zero,Total End-Use,2023,147.19500,British Columbia,"Commercial"
+73428,Global Net-zero,Total End-Use,2023,159.04690,British Columbia,"Residential"
+73435,Global Net-zero,Total End-Use,2023,371.69300,British Columbia,"Transportation"
+73443,Global Net-zero,Total End-Use,2023,618.72860,British Columbia,"Industrial"
+73448,Global Net-zero,Total End-Use,2023,1296.66350,British Columbia,"Total End-Use"
+73497,Global Net-zero,Total End-Use,2024,147.58180,British Columbia,"Commercial"
+73498,Global Net-zero,Total End-Use,2024,158.03680,British Columbia,"Residential"
+73505,Global Net-zero,Total End-Use,2024,370.20300,British Columbia,"Transportation"
+73513,Global Net-zero,Total End-Use,2024,614.03120,British Columbia,"Industrial"
+73518,Global Net-zero,Total End-Use,2024,1289.85280,British Columbia,"Total End-Use"
+73567,Global Net-zero,Total End-Use,2025,148.50470,British Columbia,"Commercial"
+73568,Global Net-zero,Total End-Use,2025,156.96130,British Columbia,"Residential"
+73575,Global Net-zero,Total End-Use,2025,369.75680,British Columbia,"Transportation"
+73583,Global Net-zero,Total End-Use,2025,645.73410,British Columbia,"Industrial"
+73588,Global Net-zero,Total End-Use,2025,1320.95690,British Columbia,"Total End-Use"
+73636,Global Net-zero,Total End-Use,2026,149.51890,British Columbia,"Commercial"
+73638,Global Net-zero,Total End-Use,2026,155.75690,British Columbia,"Residential"
+73645,Global Net-zero,Total End-Use,2026,366.63150,British Columbia,"Transportation"
+73653,Global Net-zero,Total End-Use,2026,674.34100,British Columbia,"Industrial"
+73658,Global Net-zero,Total End-Use,2026,1346.24830,British Columbia,"Total End-Use"
+73706,Global Net-zero,Total End-Use,2027,149.44420,British Columbia,"Commercial"
+73708,Global Net-zero,Total End-Use,2027,154.43770,British Columbia,"Residential"
+73715,Global Net-zero,Total End-Use,2027,361.12080,British Columbia,"Transportation"
+73723,Global Net-zero,Total End-Use,2027,668.83162,British Columbia,"Industrial"
+73728,Global Net-zero,Total End-Use,2027,1333.83432,British Columbia,"Total End-Use"
+73776,Global Net-zero,Total End-Use,2028,148.36480,British Columbia,"Commercial"
+73778,Global Net-zero,Total End-Use,2028,153.02840,British Columbia,"Residential"
+73785,Global Net-zero,Total End-Use,2028,354.60940,British Columbia,"Transportation"
+73793,Global Net-zero,Total End-Use,2028,663.86683,British Columbia,"Industrial"
+73798,Global Net-zero,Total End-Use,2028,1319.86943,British Columbia,"Total End-Use"
+73846,Global Net-zero,Total End-Use,2029,146.82950,British Columbia,"Commercial"
+73847,Global Net-zero,Total End-Use,2029,151.43480,British Columbia,"Residential"
+73855,Global Net-zero,Total End-Use,2029,347.92630,British Columbia,"Transportation"
+73863,Global Net-zero,Total End-Use,2029,661.21640,British Columbia,"Industrial"
+73868,Global Net-zero,Total End-Use,2029,1307.40700,British Columbia,"Total End-Use"
+73916,Global Net-zero,Total End-Use,2030,144.78850,British Columbia,"Commercial"
+73917,Global Net-zero,Total End-Use,2030,149.72750,British Columbia,"Residential"
+73925,Global Net-zero,Total End-Use,2030,340.06490,British Columbia,"Transportation"
+73933,Global Net-zero,Total End-Use,2030,655.88431,British Columbia,"Industrial"
+73938,Global Net-zero,Total End-Use,2030,1290.46521,British Columbia,"Total End-Use"
+73986,Global Net-zero,Total End-Use,2031,142.74260,British Columbia,"Commercial"
+73987,Global Net-zero,Total End-Use,2031,148.70710,British Columbia,"Residential"
+73995,Global Net-zero,Total End-Use,2031,333.51340,British Columbia,"Transportation"
+74003,Global Net-zero,Total End-Use,2031,653.82583,British Columbia,"Industrial"
+74008,Global Net-zero,Total End-Use,2031,1278.78893,British Columbia,"Total End-Use"
+74056,Global Net-zero,Total End-Use,2032,140.82190,British Columbia,"Commercial"
+74057,Global Net-zero,Total End-Use,2032,147.81030,British Columbia,"Residential"
+74064,Global Net-zero,Total End-Use,2032,327.94250,British Columbia,"Transportation"
+74073,Global Net-zero,Total End-Use,2032,651.64907,British Columbia,"Industrial"
+74078,Global Net-zero,Total End-Use,2032,1268.22377,British Columbia,"Total End-Use"
+74126,Global Net-zero,Total End-Use,2033,138.79220,British Columbia,"Commercial"
+74127,Global Net-zero,Total End-Use,2033,146.99110,British Columbia,"Residential"
+74134,Global Net-zero,Total End-Use,2033,323.21540,British Columbia,"Transportation"
+74143,Global Net-zero,Total End-Use,2033,648.20759,British Columbia,"Industrial"
+74148,Global Net-zero,Total End-Use,2033,1257.20629,British Columbia,"Total End-Use"
+74196,Global Net-zero,Total End-Use,2034,137.02130,British Columbia,"Commercial"
+74198,Global Net-zero,Total End-Use,2034,146.32690,British Columbia,"Residential"
+74204,Global Net-zero,Total End-Use,2034,319.95770,British Columbia,"Transportation"
+74213,Global Net-zero,Total End-Use,2034,643.84884,British Columbia,"Industrial"
+74218,Global Net-zero,Total End-Use,2034,1247.15474,British Columbia,"Total End-Use"
+74266,Global Net-zero,Total End-Use,2035,135.56590,British Columbia,"Commercial"
+74268,Global Net-zero,Total End-Use,2035,145.76440,British Columbia,"Residential"
+74274,Global Net-zero,Total End-Use,2035,317.24530,British Columbia,"Transportation"
+74283,Global Net-zero,Total End-Use,2035,638.68867,British Columbia,"Industrial"
+74288,Global Net-zero,Total End-Use,2035,1237.26427,British Columbia,"Total End-Use"
+74337,Global Net-zero,Total End-Use,2036,134.25750,British Columbia,"Commercial"
+74338,Global Net-zero,Total End-Use,2036,145.25840,British Columbia,"Residential"
+74345,Global Net-zero,Total End-Use,2036,314.89450,British Columbia,"Transportation"
+74353,Global Net-zero,Total End-Use,2036,633.80926,British Columbia,"Industrial"
+74358,Global Net-zero,Total End-Use,2036,1228.21966,British Columbia,"Total End-Use"
+74407,Global Net-zero,Total End-Use,2037,133.15920,British Columbia,"Commercial"
+74409,Global Net-zero,Total End-Use,2037,144.76920,British Columbia,"Residential"
+74415,Global Net-zero,Total End-Use,2037,313.06130,British Columbia,"Transportation"
+74423,Global Net-zero,Total End-Use,2037,630.63965,British Columbia,"Industrial"
+74428,Global Net-zero,Total End-Use,2037,1221.62935,British Columbia,"Total End-Use"
+74477,Global Net-zero,Total End-Use,2038,132.19710,British Columbia,"Commercial"
+74479,Global Net-zero,Total End-Use,2038,144.27730,British Columbia,"Residential"
+74486,Global Net-zero,Total End-Use,2038,310.94550,British Columbia,"Transportation"
+74493,Global Net-zero,Total End-Use,2038,627.49136,British Columbia,"Industrial"
+74498,Global Net-zero,Total End-Use,2038,1214.91126,British Columbia,"Total End-Use"
+74547,Global Net-zero,Total End-Use,2039,131.19500,British Columbia,"Commercial"
+74549,Global Net-zero,Total End-Use,2039,143.70820,British Columbia,"Residential"
+74556,Global Net-zero,Total End-Use,2039,308.56720,British Columbia,"Transportation"
+74563,Global Net-zero,Total End-Use,2039,625.49819,British Columbia,"Industrial"
+74568,Global Net-zero,Total End-Use,2039,1208.96859,British Columbia,"Total End-Use"
+74617,Global Net-zero,Total End-Use,2040,130.11280,British Columbia,"Commercial"
+74619,Global Net-zero,Total End-Use,2040,143.07890,British Columbia,"Residential"
+74626,Global Net-zero,Total End-Use,2040,306.18250,British Columbia,"Transportation"
+74634,Global Net-zero,Total End-Use,2040,625.11084,British Columbia,"Industrial"
+74638,Global Net-zero,Total End-Use,2040,1204.48504,British Columbia,"Total End-Use"
+74687,Global Net-zero,Total End-Use,2041,128.80710,British Columbia,"Commercial"
+74689,Global Net-zero,Total End-Use,2041,142.44670,British Columbia,"Residential"
+74696,Global Net-zero,Total End-Use,2041,303.72890,British Columbia,"Transportation"
+74704,Global Net-zero,Total End-Use,2041,624.66553,British Columbia,"Industrial"
+74708,Global Net-zero,Total End-Use,2041,1199.64823,British Columbia,"Total End-Use"
+74757,Global Net-zero,Total End-Use,2042,127.19840,British Columbia,"Commercial"
+74759,Global Net-zero,Total End-Use,2042,141.79990,British Columbia,"Residential"
+74767,Global Net-zero,Total End-Use,2042,301.34270,British Columbia,"Transportation"
+74774,Global Net-zero,Total End-Use,2042,624.74461,British Columbia,"Industrial"
+74778,Global Net-zero,Total End-Use,2042,1195.08561,British Columbia,"Total End-Use"
+74827,Global Net-zero,Total End-Use,2043,125.61650,British Columbia,"Commercial"
+74829,Global Net-zero,Total End-Use,2043,141.17940,British Columbia,"Residential"
+74837,Global Net-zero,Total End-Use,2043,299.37320,British Columbia,"Transportation"
+74844,Global Net-zero,Total End-Use,2043,627.67448,British Columbia,"Industrial"
+74848,Global Net-zero,Total End-Use,2043,1193.84358,British Columbia,"Total End-Use"
+74897,Global Net-zero,Total End-Use,2044,124.02710,British Columbia,"Commercial"
+74899,Global Net-zero,Total End-Use,2044,140.61950,British Columbia,"Residential"
+74907,Global Net-zero,Total End-Use,2044,298.03320,British Columbia,"Transportation"
+74914,Global Net-zero,Total End-Use,2044,634.03861,British Columbia,"Industrial"
+74918,Global Net-zero,Total End-Use,2044,1196.71841,British Columbia,"Total End-Use"
+74967,Global Net-zero,Total End-Use,2045,122.58830,British Columbia,"Commercial"
+74970,Global Net-zero,Total End-Use,2045,140.12690,British Columbia,"Residential"
+74977,Global Net-zero,Total End-Use,2045,295.43230,British Columbia,"Transportation"
+74984,Global Net-zero,Total End-Use,2045,625.49726,British Columbia,"Industrial"
+74988,Global Net-zero,Total End-Use,2045,1183.64476,British Columbia,"Total End-Use"
+75037,Global Net-zero,Total End-Use,2046,121.20630,British Columbia,"Commercial"
+75040,Global Net-zero,Total End-Use,2046,139.64790,British Columbia,"Residential"
+75047,Global Net-zero,Total End-Use,2046,292.68630,British Columbia,"Transportation"
+75054,Global Net-zero,Total End-Use,2046,619.64354,British Columbia,"Industrial"
+75058,Global Net-zero,Total End-Use,2046,1173.18404,British Columbia,"Total End-Use"
+75107,Global Net-zero,Total End-Use,2047,119.97090,British Columbia,"Commercial"
+75110,Global Net-zero,Total End-Use,2047,139.25890,British Columbia,"Residential"
+75117,Global Net-zero,Total End-Use,2047,292.17420,British Columbia,"Transportation"
+75124,Global Net-zero,Total End-Use,2047,635.04903,British Columbia,"Industrial"
+75129,Global Net-zero,Total End-Use,2047,1186.45303,British Columbia,"Total End-Use"
+75177,Global Net-zero,Total End-Use,2048,118.99140,British Columbia,"Commercial"
+75180,Global Net-zero,Total End-Use,2048,139.07160,British Columbia,"Residential"
+75187,Global Net-zero,Total End-Use,2048,293.22110,British Columbia,"Transportation"
+75194,Global Net-zero,Total End-Use,2048,654.34858,British Columbia,"Industrial"
+75199,Global Net-zero,Total End-Use,2048,1205.63268,British Columbia,"Total End-Use"
+75247,Global Net-zero,Total End-Use,2049,118.27680,British Columbia,"Commercial"
+75250,Global Net-zero,Total End-Use,2049,139.13030,British Columbia,"Residential"
+75257,Global Net-zero,Total End-Use,2049,295.99860,British Columbia,"Transportation"
+75264,Global Net-zero,Total End-Use,2049,677.44713,British Columbia,"Industrial"
+75269,Global Net-zero,Total End-Use,2049,1230.85283,British Columbia,"Total End-Use"
+75317,Global Net-zero,Total End-Use,2050,118.00820,British Columbia,"Commercial"
+75320,Global Net-zero,Total End-Use,2050,139.45110,British Columbia,"Residential"
+75327,Global Net-zero,Total End-Use,2050,300.09020,British Columbia,"Transportation"
+75334,Global Net-zero,Total End-Use,2050,702.76634,British Columbia,"Industrial"
+75340,Global Net-zero,Total End-Use,2050,1260.31584,British Columbia,"Total End-Use"

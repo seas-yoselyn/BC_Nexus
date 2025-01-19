@@ -1,0 +1,507 @@
+,scenario,variable,year,value,unit
+0,Canada Net-zero,Agriculture,2005,63.60714,Megatonnes
+1,Canada Net-zero,Agriculture,2006,62.26741,Megatonnes
+2,Canada Net-zero,Agriculture,2007,62.44206,Megatonnes
+3,Canada Net-zero,Agriculture,2008,61.91207,Megatonnes
+4,Canada Net-zero,Agriculture,2009,59.17146,Megatonnes
+5,Canada Net-zero,Agriculture,2010,59.36927,Megatonnes
+6,Canada Net-zero,Agriculture,2011,60.20408,Megatonnes
+7,Canada Net-zero,Agriculture,2012,62.48385,Megatonnes
+8,Canada Net-zero,Agriculture,2013,64.37824,Megatonnes
+9,Canada Net-zero,Agriculture,2014,63.39121,Megatonnes
+10,Canada Net-zero,Agriculture,2015,65.01731,Megatonnes
+11,Canada Net-zero,Agriculture,2016,66.02384,Megatonnes
+12,Canada Net-zero,Agriculture,2017,66.50717,Megatonnes
+13,Canada Net-zero,Agriculture,2018,68.53742,Megatonnes
+14,Canada Net-zero,Agriculture,2019,68.96267,Megatonnes
+15,Canada Net-zero,Agriculture,2020,69.77846,Megatonnes
+16,Canada Net-zero,Agriculture,2021,68.51682,Megatonnes
+17,Canada Net-zero,Agriculture,2022,70.79153,Megatonnes
+18,Canada Net-zero,Agriculture,2023,71.00242,Megatonnes
+19,Canada Net-zero,Agriculture,2024,69.50506,Megatonnes
+20,Canada Net-zero,Agriculture,2025,68.42110,Megatonnes
+21,Canada Net-zero,Agriculture,2026,67.91271,Megatonnes
+22,Canada Net-zero,Agriculture,2027,67.18963,Megatonnes
+23,Canada Net-zero,Agriculture,2028,66.55900,Megatonnes
+24,Canada Net-zero,Agriculture,2029,65.95558,Megatonnes
+25,Canada Net-zero,Agriculture,2030,65.14509,Megatonnes
+26,Canada Net-zero,Agriculture,2031,64.49197,Megatonnes
+27,Canada Net-zero,Agriculture,2032,63.91375,Megatonnes
+28,Canada Net-zero,Agriculture,2033,63.34833,Megatonnes
+29,Canada Net-zero,Agriculture,2034,62.79254,Megatonnes
+30,Canada Net-zero,Agriculture,2035,62.22420,Megatonnes
+31,Canada Net-zero,Agriculture,2036,61.51529,Megatonnes
+32,Canada Net-zero,Agriculture,2037,60.67002,Megatonnes
+33,Canada Net-zero,Agriculture,2038,59.78392,Megatonnes
+34,Canada Net-zero,Agriculture,2039,58.88154,Megatonnes
+35,Canada Net-zero,Agriculture,2040,57.97955,Megatonnes
+36,Canada Net-zero,Agriculture,2041,57.05977,Megatonnes
+37,Canada Net-zero,Agriculture,2042,56.14351,Megatonnes
+38,Canada Net-zero,Agriculture,2043,55.21808,Megatonnes
+39,Canada Net-zero,Agriculture,2044,54.31547,Megatonnes
+40,Canada Net-zero,Agriculture,2045,53.44139,Megatonnes
+41,Canada Net-zero,Agriculture,2046,52.57801,Megatonnes
+42,Canada Net-zero,Agriculture,2047,51.72407,Megatonnes
+43,Canada Net-zero,Agriculture,2048,50.89428,Megatonnes
+44,Canada Net-zero,Agriculture,2049,50.09599,Megatonnes
+45,Canada Net-zero,Agriculture,2050,49.34236,Megatonnes
+46,Canada Net-zero,Buildings,2005,84.84944,Megatonnes
+47,Canada Net-zero,Buildings,2006,79.66271,Megatonnes
+48,Canada Net-zero,Buildings,2007,85.52041,Megatonnes
+49,Canada Net-zero,Buildings,2008,85.43251,Megatonnes
+50,Canada Net-zero,Buildings,2009,83.86526,Megatonnes
+51,Canada Net-zero,Buildings,2010,81.50537,Megatonnes
+52,Canada Net-zero,Buildings,2011,86.01484,Megatonnes
+53,Canada Net-zero,Buildings,2012,84.53496,Megatonnes
+54,Canada Net-zero,Buildings,2013,85.65905,Megatonnes
+55,Canada Net-zero,Buildings,2014,86.23596,Megatonnes
+56,Canada Net-zero,Buildings,2015,85.29422,Megatonnes
+57,Canada Net-zero,Buildings,2016,84.85454,Megatonnes
+58,Canada Net-zero,Buildings,2017,87.70961,Megatonnes
+59,Canada Net-zero,Buildings,2018,92.36804,Megatonnes
+60,Canada Net-zero,Buildings,2019,93.27410,Megatonnes
+61,Canada Net-zero,Buildings,2020,89.11787,Megatonnes
+62,Canada Net-zero,Buildings,2021,87.16960,Megatonnes
+63,Canada Net-zero,Buildings,2022,81.92832,Megatonnes
+64,Canada Net-zero,Buildings,2023,81.07533,Megatonnes
+65,Canada Net-zero,Buildings,2024,79.26947,Megatonnes
+66,Canada Net-zero,Buildings,2025,77.01488,Megatonnes
+67,Canada Net-zero,Buildings,2026,74.93176,Megatonnes
+68,Canada Net-zero,Buildings,2027,72.69290,Megatonnes
+69,Canada Net-zero,Buildings,2028,70.44737,Megatonnes
+70,Canada Net-zero,Buildings,2029,68.09759,Megatonnes
+71,Canada Net-zero,Buildings,2030,65.62529,Megatonnes
+72,Canada Net-zero,Buildings,2031,63.29540,Megatonnes
+73,Canada Net-zero,Buildings,2032,60.60698,Megatonnes
+74,Canada Net-zero,Buildings,2033,58.01266,Megatonnes
+75,Canada Net-zero,Buildings,2034,55.30797,Megatonnes
+76,Canada Net-zero,Buildings,2035,52.31787,Megatonnes
+77,Canada Net-zero,Buildings,2036,49.58550,Megatonnes
+78,Canada Net-zero,Buildings,2037,47.30206,Megatonnes
+79,Canada Net-zero,Buildings,2038,45.09009,Megatonnes
+80,Canada Net-zero,Buildings,2039,42.94548,Megatonnes
+81,Canada Net-zero,Buildings,2040,40.87894,Megatonnes
+82,Canada Net-zero,Buildings,2041,38.61117,Megatonnes
+83,Canada Net-zero,Buildings,2042,36.63461,Megatonnes
+84,Canada Net-zero,Buildings,2043,34.80322,Megatonnes
+85,Canada Net-zero,Buildings,2044,33.14331,Megatonnes
+86,Canada Net-zero,Buildings,2045,31.56185,Megatonnes
+87,Canada Net-zero,Buildings,2046,30.08749,Megatonnes
+88,Canada Net-zero,Buildings,2047,28.48503,Megatonnes
+89,Canada Net-zero,Buildings,2048,27.22932,Megatonnes
+90,Canada Net-zero,Buildings,2049,26.03845,Megatonnes
+91,Canada Net-zero,Buildings,2050,24.95054,Megatonnes
+92,Canada Net-zero,Direct Air Capture,2005,0.00000,Megatonnes
+93,Canada Net-zero,Direct Air Capture,2006,0.00000,Megatonnes
+94,Canada Net-zero,Direct Air Capture,2007,0.00000,Megatonnes
+95,Canada Net-zero,Direct Air Capture,2008,0.00000,Megatonnes
+96,Canada Net-zero,Direct Air Capture,2009,0.00000,Megatonnes
+97,Canada Net-zero,Direct Air Capture,2010,0.00000,Megatonnes
+98,Canada Net-zero,Direct Air Capture,2011,0.00000,Megatonnes
+99,Canada Net-zero,Direct Air Capture,2012,0.00000,Megatonnes
+100,Canada Net-zero,Direct Air Capture,2013,0.00000,Megatonnes
+101,Canada Net-zero,Direct Air Capture,2014,0.00000,Megatonnes
+102,Canada Net-zero,Direct Air Capture,2015,0.00000,Megatonnes
+103,Canada Net-zero,Direct Air Capture,2016,0.00000,Megatonnes
+104,Canada Net-zero,Direct Air Capture,2017,0.00000,Megatonnes
+105,Canada Net-zero,Direct Air Capture,2018,0.00000,Megatonnes
+106,Canada Net-zero,Direct Air Capture,2019,0.00000,Megatonnes
+107,Canada Net-zero,Direct Air Capture,2020,0.00000,Megatonnes
+108,Canada Net-zero,Direct Air Capture,2021,0.00000,Megatonnes
+109,Canada Net-zero,Direct Air Capture,2022,0.00000,Megatonnes
+110,Canada Net-zero,Direct Air Capture,2023,0.00000,Megatonnes
+111,Canada Net-zero,Direct Air Capture,2024,0.00000,Megatonnes
+112,Canada Net-zero,Direct Air Capture,2025,0.00000,Megatonnes
+113,Canada Net-zero,Direct Air Capture,2026,0.00000,Megatonnes
+114,Canada Net-zero,Direct Air Capture,2027,0.00000,Megatonnes
+115,Canada Net-zero,Direct Air Capture,2028,-0.00003,Megatonnes
+116,Canada Net-zero,Direct Air Capture,2029,-0.00013,Megatonnes
+117,Canada Net-zero,Direct Air Capture,2030,-0.00054,Megatonnes
+118,Canada Net-zero,Direct Air Capture,2031,-0.00228,Megatonnes
+119,Canada Net-zero,Direct Air Capture,2032,-0.00819,Megatonnes
+120,Canada Net-zero,Direct Air Capture,2033,-0.02482,Megatonnes
+121,Canada Net-zero,Direct Air Capture,2034,-0.06524,Megatonnes
+122,Canada Net-zero,Direct Air Capture,2035,-0.15244,Megatonnes
+123,Canada Net-zero,Direct Air Capture,2036,-0.32645,Megatonnes
+124,Canada Net-zero,Direct Air Capture,2037,-0.64555,Megatonnes
+125,Canada Net-zero,Direct Air Capture,2038,-1.19000,Megatonnes
+126,Canada Net-zero,Direct Air Capture,2039,-2.06235,Megatonnes
+127,Canada Net-zero,Direct Air Capture,2040,-2.42905,Megatonnes
+128,Canada Net-zero,Direct Air Capture,2041,-4.33027,Megatonnes
+129,Canada Net-zero,Direct Air Capture,2042,-6.16127,Megatonnes
+130,Canada Net-zero,Direct Air Capture,2043,-10.50763,Megatonnes
+131,Canada Net-zero,Direct Air Capture,2044,-15.43375,Megatonnes
+132,Canada Net-zero,Direct Air Capture,2045,-20.97672,Megatonnes
+133,Canada Net-zero,Direct Air Capture,2046,-26.64548,Megatonnes
+134,Canada Net-zero,Direct Air Capture,2047,-32.92458,Megatonnes
+135,Canada Net-zero,Direct Air Capture,2048,-39.78041,Megatonnes
+136,Canada Net-zero,Direct Air Capture,2049,-47.16789,Megatonnes
+137,Canada Net-zero,Direct Air Capture,2050,-55.03648,Megatonnes
+138,Canada Net-zero,Electricity,2005,117.58324,Megatonnes
+139,Canada Net-zero,Electricity,2006,111.62447,Megatonnes
+140,Canada Net-zero,Electricity,2007,119.65740,Megatonnes
+141,Canada Net-zero,Electricity,2008,108.88686,Megatonnes
+142,Canada Net-zero,Electricity,2009,93.77054,Megatonnes
+143,Canada Net-zero,Electricity,2010,94.59983,Megatonnes
+144,Canada Net-zero,Electricity,2011,86.87367,Megatonnes
+145,Canada Net-zero,Electricity,2012,83.30406,Megatonnes
+146,Canada Net-zero,Electricity,2013,79.70096,Megatonnes
+147,Canada Net-zero,Electricity,2014,76.28778,Megatonnes
+148,Canada Net-zero,Electricity,2015,78.94859,Megatonnes
+149,Canada Net-zero,Electricity,2016,74.25675,Megatonnes
+150,Canada Net-zero,Electricity,2017,72.60570,Megatonnes
+151,Canada Net-zero,Electricity,2018,62.74140,Megatonnes
+152,Canada Net-zero,Electricity,2019,61.60667,Megatonnes
+153,Canada Net-zero,Electricity,2020,53.68446,Megatonnes
+154,Canada Net-zero,Electricity,2021,51.67781,Megatonnes
+155,Canada Net-zero,Electricity,2022,55.39504,Megatonnes
+156,Canada Net-zero,Electricity,2023,53.10614,Megatonnes
+157,Canada Net-zero,Electricity,2024,45.36502,Megatonnes
+158,Canada Net-zero,Electricity,2025,34.97721,Megatonnes
+159,Canada Net-zero,Electricity,2026,35.19417,Megatonnes
+160,Canada Net-zero,Electricity,2027,35.83091,Megatonnes
+161,Canada Net-zero,Electricity,2028,36.18662,Megatonnes
+162,Canada Net-zero,Electricity,2029,33.30849,Megatonnes
+163,Canada Net-zero,Electricity,2030,27.55049,Megatonnes
+164,Canada Net-zero,Electricity,2031,17.02596,Megatonnes
+165,Canada Net-zero,Electricity,2032,7.51253,Megatonnes
+166,Canada Net-zero,Electricity,2033,5.96065,Megatonnes
+167,Canada Net-zero,Electricity,2034,0.79119,Megatonnes
+168,Canada Net-zero,Electricity,2035,-6.18021,Megatonnes
+169,Canada Net-zero,Electricity,2036,-8.37706,Megatonnes
+170,Canada Net-zero,Electricity,2037,-10.61958,Megatonnes
+171,Canada Net-zero,Electricity,2038,-12.81215,Megatonnes
+172,Canada Net-zero,Electricity,2039,-14.87106,Megatonnes
+173,Canada Net-zero,Electricity,2040,-16.47959,Megatonnes
+174,Canada Net-zero,Electricity,2041,-18.44728,Megatonnes
+175,Canada Net-zero,Electricity,2042,-20.20072,Megatonnes
+176,Canada Net-zero,Electricity,2043,-22.15722,Megatonnes
+177,Canada Net-zero,Electricity,2044,-24.34975,Megatonnes
+178,Canada Net-zero,Electricity,2045,-26.46567,Megatonnes
+179,Canada Net-zero,Electricity,2046,-28.28177,Megatonnes
+180,Canada Net-zero,Electricity,2047,-30.10376,Megatonnes
+181,Canada Net-zero,Electricity,2048,-31.88350,Megatonnes
+182,Canada Net-zero,Electricity,2049,-33.64222,Megatonnes
+183,Canada Net-zero,Electricity,2050,-35.44024,Megatonnes
+184,Canada Net-zero,Heavy Industry,2005,88.98923,Megatonnes
+185,Canada Net-zero,Heavy Industry,2006,88.74131,Megatonnes
+186,Canada Net-zero,Heavy Industry,2007,87.40888,Megatonnes
+187,Canada Net-zero,Heavy Industry,2008,85.85882,Megatonnes
+188,Canada Net-zero,Heavy Industry,2009,72.53000,Megatonnes
+189,Canada Net-zero,Heavy Industry,2010,75.68698,Megatonnes
+190,Canada Net-zero,Heavy Industry,2011,81.77988,Megatonnes
+191,Canada Net-zero,Heavy Industry,2012,81.82683,Megatonnes
+192,Canada Net-zero,Heavy Industry,2013,80.51321,Megatonnes
+193,Canada Net-zero,Heavy Industry,2014,80.86144,Megatonnes
+194,Canada Net-zero,Heavy Industry,2015,80.55737,Megatonnes
+195,Canada Net-zero,Heavy Industry,2016,77.97963,Megatonnes
+196,Canada Net-zero,Heavy Industry,2017,77.31527,Megatonnes
+197,Canada Net-zero,Heavy Industry,2018,79.56423,Megatonnes
+198,Canada Net-zero,Heavy Industry,2019,78.78807,Megatonnes
+199,Canada Net-zero,Heavy Industry,2020,73.57588,Megatonnes
+200,Canada Net-zero,Heavy Industry,2021,76.81255,Megatonnes
+201,Canada Net-zero,Heavy Industry,2022,74.20667,Megatonnes
+202,Canada Net-zero,Heavy Industry,2023,75.91318,Megatonnes
+203,Canada Net-zero,Heavy Industry,2024,74.57509,Megatonnes
+204,Canada Net-zero,Heavy Industry,2025,72.15814,Megatonnes
+205,Canada Net-zero,Heavy Industry,2026,69.65448,Megatonnes
+206,Canada Net-zero,Heavy Industry,2027,68.02326,Megatonnes
+207,Canada Net-zero,Heavy Industry,2028,65.38544,Megatonnes
+208,Canada Net-zero,Heavy Industry,2029,60.96121,Megatonnes
+209,Canada Net-zero,Heavy Industry,2030,56.54267,Megatonnes
+210,Canada Net-zero,Heavy Industry,2031,54.46292,Megatonnes
+211,Canada Net-zero,Heavy Industry,2032,51.61646,Megatonnes
+212,Canada Net-zero,Heavy Industry,2033,49.26306,Megatonnes
+213,Canada Net-zero,Heavy Industry,2034,46.83002,Megatonnes
+214,Canada Net-zero,Heavy Industry,2035,45.43781,Megatonnes
+215,Canada Net-zero,Heavy Industry,2036,42.39814,Megatonnes
+216,Canada Net-zero,Heavy Industry,2037,39.54132,Megatonnes
+217,Canada Net-zero,Heavy Industry,2038,36.58258,Megatonnes
+218,Canada Net-zero,Heavy Industry,2039,33.68633,Megatonnes
+219,Canada Net-zero,Heavy Industry,2040,30.06667,Megatonnes
+220,Canada Net-zero,Heavy Industry,2041,27.05425,Megatonnes
+221,Canada Net-zero,Heavy Industry,2042,25.50652,Megatonnes
+222,Canada Net-zero,Heavy Industry,2043,24.38824,Megatonnes
+223,Canada Net-zero,Heavy Industry,2044,23.24362,Megatonnes
+224,Canada Net-zero,Heavy Industry,2045,22.52632,Megatonnes
+225,Canada Net-zero,Heavy Industry,2046,21.67823,Megatonnes
+226,Canada Net-zero,Heavy Industry,2047,20.82485,Megatonnes
+227,Canada Net-zero,Heavy Industry,2048,20.20543,Megatonnes
+228,Canada Net-zero,Heavy Industry,2049,19.54219,Megatonnes
+229,Canada Net-zero,Heavy Industry,2050,19.10080,Megatonnes
+230,Canada Net-zero,"Land Use, Land Use Change and Forestry",2005,-5.54240,Megatonnes
+231,Canada Net-zero,"Land Use, Land Use Change and Forestry",2006,-19.33271,Megatonnes
+232,Canada Net-zero,"Land Use, Land Use Change and Forestry",2007,-16.87649,Megatonnes
+233,Canada Net-zero,"Land Use, Land Use Change and Forestry",2008,-21.37597,Megatonnes
+234,Canada Net-zero,"Land Use, Land Use Change and Forestry",2009,-48.79511,Megatonnes
+235,Canada Net-zero,"Land Use, Land Use Change and Forestry",2010,-18.17300,Megatonnes
+236,Canada Net-zero,"Land Use, Land Use Change and Forestry",2011,-11.95000,Megatonnes
+237,Canada Net-zero,"Land Use, Land Use Change and Forestry",2012,-21.18648,Megatonnes
+238,Canada Net-zero,"Land Use, Land Use Change and Forestry",2013,-19.73320,Megatonnes
+239,Canada Net-zero,"Land Use, Land Use Change and Forestry",2014,-39.31597,Megatonnes
+240,Canada Net-zero,"Land Use, Land Use Change and Forestry",2015,0.02390,Megatonnes
+241,Canada Net-zero,"Land Use, Land Use Change and Forestry",2016,-10.95583,Megatonnes
+242,Canada Net-zero,"Land Use, Land Use Change and Forestry",2017,-16.22661,Megatonnes
+243,Canada Net-zero,"Land Use, Land Use Change and Forestry",2018,-11.29365,Megatonnes
+244,Canada Net-zero,"Land Use, Land Use Change and Forestry",2019,-18.82111,Megatonnes
+245,Canada Net-zero,"Land Use, Land Use Change and Forestry",2020,-13.38768,Megatonnes
+246,Canada Net-zero,"Land Use, Land Use Change and Forestry",2021,-17.30257,Megatonnes
+247,Canada Net-zero,"Land Use, Land Use Change and Forestry",2022,-15.40633,Megatonnes
+248,Canada Net-zero,"Land Use, Land Use Change and Forestry",2023,-17.23054,Megatonnes
+249,Canada Net-zero,"Land Use, Land Use Change and Forestry",2024,-19.05474,Megatonnes
+250,Canada Net-zero,"Land Use, Land Use Change and Forestry",2025,-20.87895,Megatonnes
+251,Canada Net-zero,"Land Use, Land Use Change and Forestry",2026,-22.70316,Megatonnes
+252,Canada Net-zero,"Land Use, Land Use Change and Forestry",2027,-24.52737,Megatonnes
+253,Canada Net-zero,"Land Use, Land Use Change and Forestry",2028,-26.35158,Megatonnes
+254,Canada Net-zero,"Land Use, Land Use Change and Forestry",2029,-28.17579,Megatonnes
+255,Canada Net-zero,"Land Use, Land Use Change and Forestry",2030,-30.00000,Megatonnes
+256,Canada Net-zero,"Land Use, Land Use Change and Forestry",2031,-31.00000,Megatonnes
+257,Canada Net-zero,"Land Use, Land Use Change and Forestry",2032,-32.00000,Megatonnes
+258,Canada Net-zero,"Land Use, Land Use Change and Forestry",2033,-33.00000,Megatonnes
+259,Canada Net-zero,"Land Use, Land Use Change and Forestry",2034,-34.00000,Megatonnes
+260,Canada Net-zero,"Land Use, Land Use Change and Forestry",2035,-35.00000,Megatonnes
+261,Canada Net-zero,"Land Use, Land Use Change and Forestry",2036,-36.00000,Megatonnes
+262,Canada Net-zero,"Land Use, Land Use Change and Forestry",2037,-37.00000,Megatonnes
+263,Canada Net-zero,"Land Use, Land Use Change and Forestry",2038,-38.00000,Megatonnes
+264,Canada Net-zero,"Land Use, Land Use Change and Forestry",2039,-39.00000,Megatonnes
+265,Canada Net-zero,"Land Use, Land Use Change and Forestry",2040,-40.00000,Megatonnes
+266,Canada Net-zero,"Land Use, Land Use Change and Forestry",2041,-41.00000,Megatonnes
+267,Canada Net-zero,"Land Use, Land Use Change and Forestry",2042,-42.00000,Megatonnes
+268,Canada Net-zero,"Land Use, Land Use Change and Forestry",2043,-43.00000,Megatonnes
+269,Canada Net-zero,"Land Use, Land Use Change and Forestry",2044,-44.00000,Megatonnes
+270,Canada Net-zero,"Land Use, Land Use Change and Forestry",2045,-45.00000,Megatonnes
+271,Canada Net-zero,"Land Use, Land Use Change and Forestry",2046,-46.00000,Megatonnes
+272,Canada Net-zero,"Land Use, Land Use Change and Forestry",2047,-47.00000,Megatonnes
+273,Canada Net-zero,"Land Use, Land Use Change and Forestry",2048,-48.00000,Megatonnes
+274,Canada Net-zero,"Land Use, Land Use Change and Forestry",2049,-49.00000,Megatonnes
+275,Canada Net-zero,"Land Use, Land Use Change and Forestry",2050,-50.00000,Megatonnes
+276,Canada Net-zero,Low or Non-emitting Hydrogen Production,2005,0.00000,Megatonnes
+277,Canada Net-zero,Low or Non-emitting Hydrogen Production,2006,0.00000,Megatonnes
+278,Canada Net-zero,Low or Non-emitting Hydrogen Production,2007,0.00000,Megatonnes
+279,Canada Net-zero,Low or Non-emitting Hydrogen Production,2008,0.00000,Megatonnes
+280,Canada Net-zero,Low or Non-emitting Hydrogen Production,2009,0.00000,Megatonnes
+281,Canada Net-zero,Low or Non-emitting Hydrogen Production,2010,0.00000,Megatonnes
+282,Canada Net-zero,Low or Non-emitting Hydrogen Production,2011,0.00000,Megatonnes
+283,Canada Net-zero,Low or Non-emitting Hydrogen Production,2012,0.00000,Megatonnes
+284,Canada Net-zero,Low or Non-emitting Hydrogen Production,2013,0.00000,Megatonnes
+285,Canada Net-zero,Low or Non-emitting Hydrogen Production,2014,0.00000,Megatonnes
+286,Canada Net-zero,Low or Non-emitting Hydrogen Production,2015,0.00000,Megatonnes
+287,Canada Net-zero,Low or Non-emitting Hydrogen Production,2016,0.00000,Megatonnes
+288,Canada Net-zero,Low or Non-emitting Hydrogen Production,2017,0.00000,Megatonnes
+289,Canada Net-zero,Low or Non-emitting Hydrogen Production,2018,0.00000,Megatonnes
+290,Canada Net-zero,Low or Non-emitting Hydrogen Production,2019,0.00000,Megatonnes
+291,Canada Net-zero,Low or Non-emitting Hydrogen Production,2020,0.00000,Megatonnes
+292,Canada Net-zero,Low or Non-emitting Hydrogen Production,2021,0.00000,Megatonnes
+293,Canada Net-zero,Low or Non-emitting Hydrogen Production,2022,0.00113,Megatonnes
+294,Canada Net-zero,Low or Non-emitting Hydrogen Production,2023,0.00031,Megatonnes
+295,Canada Net-zero,Low or Non-emitting Hydrogen Production,2024,0.06733,Megatonnes
+296,Canada Net-zero,Low or Non-emitting Hydrogen Production,2025,0.16433,Megatonnes
+297,Canada Net-zero,Low or Non-emitting Hydrogen Production,2026,0.24489,Megatonnes
+298,Canada Net-zero,Low or Non-emitting Hydrogen Production,2027,0.30369,Megatonnes
+299,Canada Net-zero,Low or Non-emitting Hydrogen Production,2028,0.34459,Megatonnes
+300,Canada Net-zero,Low or Non-emitting Hydrogen Production,2029,0.44982,Megatonnes
+301,Canada Net-zero,Low or Non-emitting Hydrogen Production,2030,0.54414,Megatonnes
+302,Canada Net-zero,Low or Non-emitting Hydrogen Production,2031,0.41984,Megatonnes
+303,Canada Net-zero,Low or Non-emitting Hydrogen Production,2032,0.13216,Megatonnes
+304,Canada Net-zero,Low or Non-emitting Hydrogen Production,2033,-0.13411,Megatonnes
+305,Canada Net-zero,Low or Non-emitting Hydrogen Production,2034,-0.51011,Megatonnes
+306,Canada Net-zero,Low or Non-emitting Hydrogen Production,2035,-1.40241,Megatonnes
+307,Canada Net-zero,Low or Non-emitting Hydrogen Production,2036,-2.63578,Megatonnes
+308,Canada Net-zero,Low or Non-emitting Hydrogen Production,2037,-3.72482,Megatonnes
+309,Canada Net-zero,Low or Non-emitting Hydrogen Production,2038,-5.02459,Megatonnes
+310,Canada Net-zero,Low or Non-emitting Hydrogen Production,2039,-6.49060,Megatonnes
+311,Canada Net-zero,Low or Non-emitting Hydrogen Production,2040,-8.23607,Megatonnes
+312,Canada Net-zero,Low or Non-emitting Hydrogen Production,2041,-10.15292,Megatonnes
+313,Canada Net-zero,Low or Non-emitting Hydrogen Production,2042,-12.32206,Megatonnes
+314,Canada Net-zero,Low or Non-emitting Hydrogen Production,2043,-13.73172,Megatonnes
+315,Canada Net-zero,Low or Non-emitting Hydrogen Production,2044,-15.13510,Megatonnes
+316,Canada Net-zero,Low or Non-emitting Hydrogen Production,2045,-16.42175,Megatonnes
+317,Canada Net-zero,Low or Non-emitting Hydrogen Production,2046,-18.23905,Megatonnes
+318,Canada Net-zero,Low or Non-emitting Hydrogen Production,2047,-20.01555,Megatonnes
+319,Canada Net-zero,Low or Non-emitting Hydrogen Production,2048,-21.74926,Megatonnes
+320,Canada Net-zero,Low or Non-emitting Hydrogen Production,2049,-23.46095,Megatonnes
+321,Canada Net-zero,Low or Non-emitting Hydrogen Production,2050,-25.10058,Megatonnes
+322,Canada Net-zero,Oil and Gas,2005,168.33487,Megatonnes
+323,Canada Net-zero,Oil and Gas,2006,174.64954,Megatonnes
+324,Canada Net-zero,Oil and Gas,2007,179.81939,Megatonnes
+325,Canada Net-zero,Oil and Gas,2008,176.54913,Megatonnes
+326,Canada Net-zero,Oil and Gas,2009,173.77629,Megatonnes
+327,Canada Net-zero,Oil and Gas,2010,179.32107,Megatonnes
+328,Canada Net-zero,Oil and Gas,2011,184.79889,Megatonnes
+329,Canada Net-zero,Oil and Gas,2012,192.14209,Megatonnes
+330,Canada Net-zero,Oil and Gas,2013,196.83233,Megatonnes
+331,Canada Net-zero,Oil and Gas,2014,202.38086,Megatonnes
+332,Canada Net-zero,Oil and Gas,2015,203.05497,Megatonnes
+333,Canada Net-zero,Oil and Gas,2016,191.45773,Megatonnes
+334,Canada Net-zero,Oil and Gas,2017,194.02058,Megatonnes
+335,Canada Net-zero,Oil and Gas,2018,202.49321,Megatonnes
+336,Canada Net-zero,Oil and Gas,2019,201.31724,Megatonnes
+337,Canada Net-zero,Oil and Gas,2020,183.35403,Megatonnes
+338,Canada Net-zero,Oil and Gas,2021,189.15235,Megatonnes
+339,Canada Net-zero,Oil and Gas,2022,191.42341,Megatonnes
+340,Canada Net-zero,Oil and Gas,2023,188.91289,Megatonnes
+341,Canada Net-zero,Oil and Gas,2024,183.39136,Megatonnes
+342,Canada Net-zero,Oil and Gas,2025,177.27117,Megatonnes
+343,Canada Net-zero,Oil and Gas,2026,172.60874,Megatonnes
+344,Canada Net-zero,Oil and Gas,2027,165.76851,Megatonnes
+345,Canada Net-zero,Oil and Gas,2028,157.14402,Megatonnes
+346,Canada Net-zero,Oil and Gas,2029,146.86296,Megatonnes
+347,Canada Net-zero,Oil and Gas,2030,134.83912,Megatonnes
+348,Canada Net-zero,Oil and Gas,2031,123.72309,Megatonnes
+349,Canada Net-zero,Oil and Gas,2032,113.14272,Megatonnes
+350,Canada Net-zero,Oil and Gas,2033,102.59748,Megatonnes
+351,Canada Net-zero,Oil and Gas,2034,92.49518,Megatonnes
+352,Canada Net-zero,Oil and Gas,2035,83.63703,Megatonnes
+353,Canada Net-zero,Oil and Gas,2036,74.63350,Megatonnes
+354,Canada Net-zero,Oil and Gas,2037,65.50767,Megatonnes
+355,Canada Net-zero,Oil and Gas,2038,58.87307,Megatonnes
+356,Canada Net-zero,Oil and Gas,2039,55.53667,Megatonnes
+357,Canada Net-zero,Oil and Gas,2040,52.02804,Megatonnes
+358,Canada Net-zero,Oil and Gas,2041,47.81057,Megatonnes
+359,Canada Net-zero,Oil and Gas,2042,45.29177,Megatonnes
+360,Canada Net-zero,Oil and Gas,2043,43.35531,Megatonnes
+361,Canada Net-zero,Oil and Gas,2044,41.33981,Megatonnes
+362,Canada Net-zero,Oil and Gas,2045,39.48040,Megatonnes
+363,Canada Net-zero,Oil and Gas,2046,37.83373,Megatonnes
+364,Canada Net-zero,Oil and Gas,2047,36.28122,Megatonnes
+365,Canada Net-zero,Oil and Gas,2048,34.74464,Megatonnes
+366,Canada Net-zero,Oil and Gas,2049,33.28265,Megatonnes
+367,Canada Net-zero,Oil and Gas,2050,31.86210,Megatonnes
+368,Canada Net-zero,Total,2005,726.67639,Megatonnes
+369,Canada Net-zero,Total,2006,705.95366,Megatonnes
+370,Canada Net-zero,Total,2007,731.19360,Megatonnes
+371,Canada Net-zero,Total,2008,709.42526,Megatonnes
+372,Canada Net-zero,Total,2009,640.75421,Megatonnes
+373,Canada Net-zero,Total,2010,683.69454,Megatonnes
+374,Canada Net-zero,Total,2011,699.36207,Megatonnes
+375,Canada Net-zero,Total,2012,695.18280,Megatonnes
+376,Canada Net-zero,Total,2013,703.36311,Megatonnes
+377,Canada Net-zero,Total,2014,680.87949,Megatonnes
+378,Canada Net-zero,Total,2015,722.94032,Megatonnes
+379,Canada Net-zero,Total,2016,693.96994,Megatonnes
+380,Canada Net-zero,Total,2017,696.00553,Megatonnes
+381,Canada Net-zero,Total,2018,713.32133,Megatonnes
+382,Canada Net-zero,Total,2019,704.85819,Megatonnes
+383,Canada Net-zero,Total,2020,645.40050,Megatonnes
+384,Canada Net-zero,Total,2021,653.12511,Megatonnes
+385,Canada Net-zero,Total,2022,672.92449,Megatonnes
+386,Canada Net-zero,Total,2023,670.00104,Megatonnes
+387,Canada Net-zero,Total,2024,647.59761,Megatonnes
+388,Canada Net-zero,Total,2025,621.09862,Megatonnes
+389,Canada Net-zero,Total,2026,606.95846,Megatonnes
+390,Canada Net-zero,Total,2027,590.56594,Megatonnes
+391,Canada Net-zero,Total,2028,568.64852,Megatonnes
+392,Canada Net-zero,Total,2029,539.81437,Megatonnes
+393,Canada Net-zero,Total,2030,504.89098,Megatonnes
+394,Canada Net-zero,Total,2031,469.21797,Megatonnes
+395,Canada Net-zero,Total,2032,433.59861,Megatonnes
+396,Canada Net-zero,Total,2033,406.30721,Megatonnes
+397,Canada Net-zero,Total,2034,375.49039,Megatonnes
+398,Canada Net-zero,Total,2035,344.00026,Megatonnes
+399,Canada Net-zero,Total,2036,314.75987,Megatonnes
+400,Canada Net-zero,Total,2037,286.08579,Megatonnes
+401,Canada Net-zero,Total,2038,259.81545,Megatonnes
+402,Canada Net-zero,Total,2039,236.98506,Megatonnes
+403,Canada Net-zero,Total,2040,214.11053,Megatonnes
+404,Canada Net-zero,Total,2041,188.99866,Megatonnes
+405,Canada Net-zero,Total,2042,167.86829,Megatonnes
+406,Canada Net-zero,Total,2043,146.42890,Megatonnes
+407,Canada Net-zero,Total,2044,124.69308,Megatonnes
+408,Canada Net-zero,Total,2045,103.67767,Megatonnes
+409,Canada Net-zero,Total,2046,82.85252,Megatonnes
+410,Canada Net-zero,Total,2047,61.76079,Megatonnes
+411,Canada Net-zero,Total,2048,41.16487,Megatonnes
+412,Canada Net-zero,Total,2049,20.51617,Megatonnes
+413,Canada Net-zero,Total,2050,0.00000,Megatonnes
+414,Canada Net-zero,Transportation,2005,156.78923,Megatonnes
+415,Canada Net-zero,Transportation,2006,157.66182,Megatonnes
+416,Canada Net-zero,Transportation,2007,162.65285,Megatonnes
+417,Canada Net-zero,Transportation,2008,163.22526,Megatonnes
+418,Canada Net-zero,Transportation,2009,162.03289,Megatonnes
+419,Canada Net-zero,Transportation,2010,165.50358,Megatonnes
+420,Canada Net-zero,Transportation,2011,164.42336,Megatonnes
+421,Canada Net-zero,Transportation,2012,164.61839,Megatonnes
+422,Canada Net-zero,Transportation,2013,167.10580,Megatonnes
+423,Canada Net-zero,Transportation,2014,164.70716,Megatonnes
+424,Canada Net-zero,Transportation,2015,162.59078,Megatonnes
+425,Canada Net-zero,Transportation,2016,162.36484,Megatonnes
+426,Canada Net-zero,Transportation,2017,165.37102,Megatonnes
+427,Canada Net-zero,Transportation,2018,169.31698,Megatonnes
+428,Canada Net-zero,Transportation,2019,170.16312,Megatonnes
+429,Canada Net-zero,Transportation,2020,143.22023,Megatonnes
+430,Canada Net-zero,Transportation,2021,150.11474,Megatonnes
+431,Canada Net-zero,Transportation,2022,168.65092,Megatonnes
+432,Canada Net-zero,Transportation,2023,172.32977,Megatonnes
+433,Canada Net-zero,Transportation,2024,170.37998,Megatonnes
+434,Canada Net-zero,Transportation,2025,169.56612,Megatonnes
+435,Canada Net-zero,Transportation,2026,167.68131,Megatonnes
+436,Canada Net-zero,Transportation,2027,164.82331,Megatonnes
+437,Canada Net-zero,Transportation,2028,159.73398,Megatonnes
+438,Canada Net-zero,Transportation,2029,154.40923,Megatonnes
+439,Canada Net-zero,Transportation,2030,148.03467,Megatonnes
+440,Canada Net-zero,Transportation,2031,140.68810,Megatonnes
+441,Canada Net-zero,Transportation,2032,133.03285,Megatonnes
+442,Canada Net-zero,Transportation,2033,125.13825,Megatonnes
+443,Canada Net-zero,Transportation,2034,117.24619,Megatonnes
+444,Canada Net-zero,Transportation,2035,108.99844,Megatonnes
+445,Canada Net-zero,Transportation,2036,100.33579,Megatonnes
+446,Canada Net-zero,Transportation,2037,91.95447,Megatonnes
+447,Canada Net-zero,Transportation,2038,83.99742,Megatonnes
+448,Canada Net-zero,Transportation,2039,76.37808,Megatonnes
+449,Canada Net-zero,Transportation,2040,68.86838,Megatonnes
+450,Canada Net-zero,Transportation,2041,61.64119,Megatonnes
+451,Canada Net-zero,Transportation,2042,54.79910,Megatonnes
+452,Canada Net-zero,Transportation,2043,48.45681,Megatonnes
+453,Canada Net-zero,Transportation,2044,42.49214,Megatonnes
+454,Canada Net-zero,Transportation,2045,36.96732,Megatonnes
+455,Canada Net-zero,Transportation,2046,31.78086,Megatonnes
+456,Canada Net-zero,Transportation,2047,26.89499,Megatonnes
+457,Canada Net-zero,Transportation,2048,22.35254,Megatonnes
+458,Canada Net-zero,Transportation,2049,18.09483,Megatonnes
+459,Canada Net-zero,Transportation,2050,14.29785,Megatonnes
+460,Canada Net-zero,Waste and Others,2005,52.06563,Megatonnes
+461,Canada Net-zero,Waste and Others,2006,50.67911,Megatonnes
+462,Canada Net-zero,Waste and Others,2007,50.56911,Megatonnes
+463,Canada Net-zero,Waste and Others,2008,48.93659,Megatonnes
+464,Canada Net-zero,Waste and Others,2009,44.40289,Megatonnes
+465,Canada Net-zero,Waste and Others,2010,45.88144,Megatonnes
+466,Canada Net-zero,Waste and Others,2011,47.21734,Megatonnes
+467,Canada Net-zero,Waste and Others,2012,47.45911,Megatonnes
+468,Canada Net-zero,Waste and Others,2013,48.90671,Megatonnes
+469,Canada Net-zero,Waste and Others,2014,46.33105,Megatonnes
+470,Canada Net-zero,Waste and Others,2015,47.45318,Megatonnes
+471,Canada Net-zero,Waste and Others,2016,47.98844,Megatonnes
+472,Canada Net-zero,Waste and Others,2017,48.70280,Megatonnes
+473,Canada Net-zero,Waste and Others,2018,49.59370,Megatonnes
+474,Canada Net-zero,Waste and Others,2019,49.56743,Megatonnes
+475,Canada Net-zero,Waste and Others,2020,46.05725,Megatonnes
+476,Canada Net-zero,Waste and Others,2021,46.98380,Megatonnes
+477,Canada Net-zero,Waste and Others,2022,45.93380,Megatonnes
+478,Canada Net-zero,Waste and Others,2023,44.89153,Megatonnes
+479,Canada Net-zero,Waste and Others,2024,44.09905,Megatonnes
+480,Canada Net-zero,Waste and Others,2025,42.40463,Megatonnes
+481,Canada Net-zero,Waste and Others,2026,41.43356,Megatonnes
+482,Canada Net-zero,Waste and Others,2027,40.46111,Megatonnes
+483,Canada Net-zero,Waste and Others,2028,39.19911,Megatonnes
+484,Canada Net-zero,Waste and Others,2029,37.94544,Megatonnes
+485,Canada Net-zero,Waste and Others,2030,36.61004,Megatonnes
+486,Canada Net-zero,Waste and Others,2031,36.11297,Megatonnes
+487,Canada Net-zero,Waste and Others,2032,35.64935,Megatonnes
+488,Canada Net-zero,Waste and Others,2033,35.14572,Megatonnes
+489,Canada Net-zero,Waste and Others,2034,34.60264,Megatonnes
+490,Canada Net-zero,Waste and Others,2035,34.11998,Megatonnes
+491,Canada Net-zero,Waste and Others,2036,33.63094,Megatonnes
+492,Canada Net-zero,Waste and Others,2037,33.10020,Megatonnes
+493,Canada Net-zero,Waste and Others,2038,32.51512,Megatonnes
+494,Canada Net-zero,Waste and Others,2039,31.98097,Megatonnes
+495,Canada Net-zero,Waste and Others,2040,31.43365,Megatonnes
+496,Canada Net-zero,Waste and Others,2041,30.75218,Megatonnes
+497,Canada Net-zero,Waste and Others,2042,30.17683,Megatonnes
+498,Canada Net-zero,Waste and Others,2043,29.60382,Megatonnes
+499,Canada Net-zero,Waste and Others,2044,29.07735,Megatonnes
+500,Canada Net-zero,Waste and Others,2045,28.56453,Megatonnes
+501,Canada Net-zero,Waste and Others,2046,28.06051,Megatonnes
+502,Canada Net-zero,Waste and Others,2047,27.59453,Megatonnes
+503,Canada Net-zero,Waste and Others,2048,27.15183,Megatonnes
+504,Canada Net-zero,Waste and Others,2049,26.73312,Megatonnes
+505,Canada Net-zero,Waste and Others,2050,26.35733,Megatonnes

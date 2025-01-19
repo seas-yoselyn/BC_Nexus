@@ -8,543 +8,73 @@ description: |+
     Inside the user configuration file of the L:INKING TOOL, there are 'keys' with quantitative 'values' upon which the module results relies on.
     These  have been given as 'parameters' in the RULES
 
-Scenario: 
-  REF :
-    Name: Reference
-    Description: A base scenario with reasonable assumptions.
-
-country: Canada
-
-#grid_cell_resolution:  ### hardcoded for now. Future scope
-  # dx: 0.025
-  # dy: 0.025
-
-province_mapping:
-  'BC': 
-    name: "British Columbia"
-    land_area_km2: 925,186
-    land_area_mi2: 357,216
-    percentage_national_land_area: "10.4%"
-    snapshots_tz_BC: # Hardcoded alternate measures of 'timezone_convert', supported by Pypsa
-      start: 
-      - '2021-01-01 00:00:00' # YYYY-MM-DD "2021-01-01 07:00:00"
-      end: 
-      - '2021-12-31 23:00:00' # YYYY-MM-DD "2022-01-01 06:00:00"
-    timezone_convert: 'Etc/GMT+7' # Pacific Time Zone
-    region_mapping: {}
-    
 clews:
-  HYDRO_GENERATION:
-    cascade_group_1:
-    - Mica/Columbia
-    - Peace
-    - Stave
-    - Bridge
-    - Campbell
-    - Seven Mile
-    
-  CLUSTERING:
-    days_in_year: 365
-    hour_grouping: 12
-    n_clusters: 10  # ts= n_clusters * (24 / hour_grouping)
+  # CLUSTERING:
+  #   days_in_year: 365
+  #   hour_grouping: 6
+  #   n_clusters: 2
 
-  GENERAL:
-    last_year: 2050
-    region: REGION1
-    start_year: 2020
-
-GADM:
-  root: data/downloaded_data/GADM
-  processed: data/processed_data/regions
-  country_file_L1: "data/downloaded_data/GADM/gadm41_CAN_1.json" # Provincial level maps..
-  country_file_L2:  "data/downloaded_data/GADM/gadm41_CAN_2.json" # Administrative regions within provincial..
-
-Gov:
-  conservation_lands:
-    url: https://data-donnees.az.ec.gc.ca/api/file?path=%2Fspecies%2Fprotectrestore%2Fcanadian-protected-conserved-areas-database%2FDatabases%2FProtectedConservedArea_2023.zip
-    # consideration:
-    #   solar: 'yes'
-    #   wind: 'yes'
-    root: 'data/downloaded_data/Gov/Conservation_Lands'
-    data_name: 'ProtectedConservedArea'  # Zip and the processed data will be saved with this prefix
-    IUCN_CAT_mapping: # Check TABLE 10 of user manual from the source_url.
-      1: 'Strict  Nature Reserve'
-      2: 'Wilderness Area'
-      3: 'National Park'
-      4: 'Natural Monument or Feature'
-      5: 'Habitat/Species Management Area'
-      6: 'Protected Landscape/Seascape'
-      7: 'Protected Area with Sustainable Use of Natural Resources'
-      8: 'Interim Sites (unknown specifics)'
-      9 : 'OECM areas'
-    LOCATION_mapping: # Check TABLE 13 of user manual from the source_url.
-      "Alberta": 1
-      "British Columbia": 2
-      "Manitoba": 3
-      "New Brunswick": 4
-      "Newfoundland and Labrador": 5
-      "Northwest Territories": 6
-      "Nova Scotia": 7
-      "Nunavut": 8
-      "Ontario": 9
-      "Prince Edward Island": 10
-      "Quebec": 11
-      "Saskatchewan": 12
-      "Yukon": 13
-      
-      # not in use
-      "Coastal Arctic Marine": 14
-      "Coastal Atlantic Marine": 15
-      "Coastal Pacific Marine": 16
-      "Offshore Arctic Marine": 17
-      "Offshore Atlantic Marine": 18
-      "Offshore Pacific Marine": 19
-      "Arctic Marine Coastal/Offshore": 20
-      "Offshore Arctic/Atlantic Marine": 21
-
-    LAND_OWNER_mapping:
-      1: "Federal Govt."
-      2: "Provincial / territorial Govt"
-      3: "Municipal government"
-      4: "Indigenous Community/People"
-      5: "Communal ownership"
-      6: "Individual landowners"
-      7: "For-profit organizations" # (private companies or corporations – crown corporations should be reported as federal or provincial/territory)"
-      8: "Non-profit organizations"
-      9: "Joint ownership" #Under the joint ownership of more than one actor, representing more than one accepted value (e.g. non-profit organizations and for-profit organizations)"
-      10: "Multiple ownership" # Different parts of the land and/or waters are owned by different actors, representing more than one accepted value"
-      11: "Contested Ownership" # is contested
-      12: "not known or reported" # by the data provider
-
-    data_license: https://catalogue.ec.gc.ca/geonetwork/oilsands/api/records/6c343726-1e92-451a-876a-76e17d398a1c
-  Population:
-    root: 'data/downloaded_data/Gov/Population'
-    datafile: 'Population_Projections.csv'
-    skiprows: 6 # top 6 rows are data descriptions
-    different_name_mapping: # these names differs with GADM naming
-      Columbia Shuswap: Columbia-Shuswap
-      Strathcona: Comox-Strathcona
-      Metro Vancouver: Greater Vancouver
-      Metro-Vancouver : Greater Vancouver
-      qathet: Powell River
-      North Coast: Skeena-Queen Charlotte
-      Stikine (Census Division): Stikine
-      Northern Rockies (Census Division): Northern Rockies
-  CEEI: #Community Energy and Emissions Inventory
-    root: 'data/downloaded_data/Gov/CEEI'
-    datafile:
-      buildings: bc_utilities_energy_and_emissions_data_at_the_community_level.xlsx
-      transportation: bc_on_road_transportation_data_at_the_community_level.xlsx
-      waste: bc_municipal_solid_waste_data_at_the_community_level.xlsx
-    source:
-      buildings: https://www2.gov.bc.ca/assets/gov/environment/climate-change/data/ceei/bc_utilities_energy_and_emissions_data_at_the_community_level.xlsx
-      transportation: https://www2.gov.bc.ca/assets/gov/environment/climate-change/data/ceei/bc_on_road_transportation_data_at_the_community_level.xlsx
-      waste: https://www2.gov.bc.ca/assets/gov/environment/climate-change/data/ceei/bc_municipal_solid_waste_data_at_the_community_level.xlsx
-
-NREL: 
-  ATB: # Annual technology Baseline (ATB) - 2024\
-    root : 'data/downloaded_data/NREL/ATB'
-    source: # parquet file recommended for less memory usage
-      # excel: https://data.openei.org/files/6006/2024%20v2%20Annual%20Technology%20Baseline%20Workbook%20Errata%207-19-2024.xlsx
-      csv: https://oedi-data-lake.s3.amazonaws.com/ATB/electricity/csv/2024/ATBe.csv
-      parquet: https://oedi-data-lake.s3.amazonaws.com/ATB/electricity/parquet/2024/ATBe.parquet
-    datafile:
-      # excel: https://data.openei.org/files/6006/2024%20v2%20Annual%20Technology%20Baseline%20Workbook%20Errata%207-19-2024.xlsx
-      csv: ATBe.csv #96 MB
-      parquet: ATBe.parquet #5 MB
-    about: https://atb.nrel.gov/electricity/2024/technologies
-    column: 'core_metric_parameter'
-    cost_params:
-      capex: 'CAPEX' # mill. $/ MW
-      fom: 'Fixed O&M' # mill. $/ MW
-      vom: 'None' # Not found for solar,wind,bess
-
-        
-
-OSM_data: # OpenStreet Map
-  root: 'data/downloaded_data/OSM'
-  data_keys: # has to be inline with OSM tags
-    aeroway:
-      tags: ['aerodrome', 'runway', 'taxiway', 'helipad', 'apron', 'gate']
-    power:
-      tags: ['line', 'cable', 'minor_line', 'substation', 'tower', 'pole', 'generator', 'plant', 'terminal']
-    substation:
-      tags: ['transmission', 'distribution', 'minor_distribution', 'industrial']          
-pypsa:
-  custom: # need to automate this or upload to repo. Pierre created this manually
-      gen_wup: "data/downloaded_data/custom/hydro_gen_wup_features.csv"
-      res_wup: "data/downloaded_data/custom/hydro_res_wup_features.csv"
-      inflow_tables: "data/downloaded_data/custom/inflow_stats" # Has standardized names inside which are assumed
-      line_table: "data/downloaded_data/custom/electric_power_generation_table_13_3a.xlsx" # Custom table for infering line parameters
-  basin_files:  # need to automate this or upload to repo. Pierre created this manually
-      na_file: "data/downloaded_data/HydroBASINS/hybas_na_lev12_v1c.shp"
-      artic_file: "data/downloaded_data/HydroBASINS_artic/hybas_ar_lev12_v1c.shp"
-  data: #Temp
-    wind:
-      can_turbines: "data/downloaded_data/wind/canada_turbines.xlsx"
-      turbine_dict: "data/downloaded_data/wind/turbine_dict.json"
-      gwa_speed: "data/downloaded_data/wind/british_columbia_wspd_100m.tif"
-      gwa_geojson: "data/downloaded_data/wind/british_columbia.geojson"
-    coders:
-      gen_generic: "data/downloaded_data/CODERS/data-pull/supply/generation_generic.csv"
-      hydro_existing: "data/downloaded_data/CODERS/data-pull/supply/hydro_existing.csv"
-      generators: "data/downloaded_data/CODERS/data-pull/supply/generators.csv"
-      hydro_cascade: "data/downloaded_data/CODERS/data-pull/supply/hydro_cascade.csv"
-      lines: "data/downloaded_data/CODERS/data-pull/network/transmission_lines.csv"
-      substations: "data/downloaded_data/CODERS/data-pull/network/substations.csv"
-    load:
-      ceei: "data/downloaded_data/load/CEEI_2020.xlsx"
-      bch: "data/downloaded_data/load/bc_hydro_load/BalancingAuthorityLoad" # 2021.xls
-  output:
-    prepare_base_network:
-      folder: "data/processed_data/network"
-      regions: # list of all regions to include in the model build
-        - "BC"
-    create_hydro_assets:
-      hydro_generation: "data/processed_data/hydro/existing/hydro_generation.csv"
-      hydro_reservoir: "data/processed_data/hydro/existing/hydro_reservoirs.csv"
-    create_cutout:
-      cutout: "data/downloaded_data/cutout/BC_2021_2022.nc" # Modifications needed to how the year is added
-    reservoir_inflows:
-      fname: "data/processed_data/hydro/existing/bc_ext_reservoir_inflows.csv" # path + name
-      inflow_method: "mean_inflow_calibrate"
-      height: True
-      flowspeed: 1 #WORKFLOW PARAM
-    ror_ps:
-      fname: "data/processed_data/hydro/existing/bc_ext_ror_ts.csv"
-      height: True
-      flowspeed: 1 #WORKFLOW PARAM
-    create_ext_wind_assets:
-      fname: "data/processed_data/wind/existing/bc_ext_wind_assets.csv"
-    create_ext_wind_ts:
-      calibration: 1 # Used to select whether to calibrate with annual gen average or not #WORKFLOW PARAM
-      fname: "data/processed_data/wind/existing/bc_ext_wind_ts.csv" # for storing the timeseries for wind
-    create_ext_solar_assets:
-      fname: "data/processed_data/solar/existing/bc_ext_solar_assets.csv"
-    create_ext_solar_ts:
-      calibration: 0 # Used to select whether to calibrate with annual gen average or not #WORKFLOW PARAM
-      fname: "data/processed_data/solar/existing/bc_ext_solar_ts.csv" # for storing the timeseries for wind
-    pypsa_dict: # for all enrichment scripts
-      folder: "data/pypsa_data/" # Modified 2023-11-29
-      res: "hydro_reservoirs.pickle"
-      ror: "hydro_ror.pickle"
-      ror_water: "hydro_ror_water.pickle"
-      wind: "wind.pickle"
-      solar: "solar.pickle" # Change to solar
-      tpp: "tpp.pickle"
-      ff_infrastructure: "ff_infra.pickle"
-      cogen: "cogen.pickle"
-    enrich_format_wind: # snakemake usage only
-      vre_sel: "wind"
-    enrich_format_solar: # snakemake usage only
-      vre_sel: "solar"
-    enrich_format_tpp:
-      gas_grid: 0
-      UC: False # Unit commitment (T/F)
-    create_ext_tpp_assets:
-      gas_grid: False # True means the thermal generators will have unique gas bus at each of their nodes.
-      UC: False # unit commitment for thermal PPs
-      fname: "data/processed_data/tpp/existing/bc_ext_tpp_assets.csv"
-    disaggregate_load:
-      res_path: "data/processed_data/load/hourly_res.csv" # output path
-      csmi_path: "data/processed_data/load/hourly_csmi.csv" # output path
-    build_model:
-      fname: "results/pypsa/prepared_net.nc"
-      scenario: "0" # 50 or 100 depending on EV penetration
-      charge_strat: "uncoordinated" #[uncoordinated, coordinated, v2g]
-      region_res: "multiple"
-      ng_prices: "data/Alberta/2021_ab_ng_prices.csv"
-
-
-
-CODERS:
-  url_1: https://sesit.dev/
-  url_2: http://206.12.95.102/
-  api_key:
-    contact_for_request: mailto:modellingteam.sesit@uvic.ca
-    Elias: w0OksqQKMFMtKPbO  # please collect your personal API !!!
-  api_documentation: https://sesit.dev/api/docs
-  
-  data_pull:
-    # root: data/downloaded_data/CODERS
-    # # the following mapping directs where to dump the datafile (.csvs)
-    # substations: network
-    # transmission_lines: network
-    cef:
-      - macro_indicators
-      - end_use_demand
-      - greenhouse_gas_emissions
-      - benchmark_prices
-
-    coders:
-      - transmission_lines
-      - substations
-      - generators
-      - hydro_cascade
-      - hydro_existing
-      - wind_generators
-      - forecasted_annual_demand
-      - forecasted_peak_demand
-      - provincial_demand
-      - storage
-      - generation_planning_reserve
-      - generation_generic
-      - transmission_generic
-
-
-custom_land_layers:
-  rasters:
-    raster_1: # You can define any name here
-      'raster': {} #Raster or path to raster which to exclude.
-      'class_exclusion' : {} #Raster Classes
-      'buffer': {}
-      'invert': 'False' # TRUE = inclusion. FALSE = Exclusion
-  vectors:
-    vector_1: # You can define any name here
-      'geometry': {} #Raster path
-      'buffer':
-      'invert': 'False'
-
-GAEZ:
-  root: 'data/downloaded_data/GAEZ'
-  self.: 'https://s3.eu-west-1.amazonaws.com/data.gaezdev.aws.fao.org/LR.zip'
-  zip_file: 'LR.zip'
-  Rasters_in_use_direct: 'Rasters_in_use'
-  raster_types:
-    - name: 'land_cover'
-      raster: "faocmb_2010.tif"  # Dominant land cover/use ; 11 classes; (5 arc-minute)
-      zip_extract_direct: 'LR/lco'
-      color_map: 'YlGn'
-      class_inclusion:
-        solar: [2, 3, 5, 8, 9]
-        wind: [2, 3, 5, 8, 9]
-        
-    - name: 'terrain_resources'
-      raster: "slpmed05.tif" # Median terrain slope classes; 8 classes ; (5 arc-minute)
-      zip_extract_direct: 'LR/ter'
-      color_map: 'terrain'
-      class_exclusion:
-        solar: [9]
-        wind: [7, 8, 9]
-        buffer:
-          solar: 0 #m
-          wind: 500 #m
-
-    - name: 'exclusion_areas'
-      raster: "exclusion_2017.tif" # Exclusion areas defined by Int'l orgs ; 7 classes;
-      zip_extract_direct: 'LR/excl'
-      color_map: 'OrRd'
-      class_exclusion:
-        solar: [2, 3, 4, 5, 6, 7]
-        wind: [2, 3, 4, 5, 6, 7]
-        buffer: 
-          solar: 0 #m
-          wind: 0 #m
-          
-WorldPop:
-  root: 'data/downloaded_data/WorldPop'
-  source : 
-    population_density_CAN: 'https://data.worldpop.org/GIS/Population_Density/Global_2000_2020_1km_UNadj/2020/CAN/can_pd_2020_1km_UNadj_ASCII_XYZ.zip'
-    population_count_CAN: 'https://data.worldpop.org/GIS/Population/Global_2000_2020_1km_UNadj/2020/CAN/can_ppp_2020_1km_UNadj_ASCII_XYZ.zip'
-    weighted_population_density_EARTH: 'https://data.worldpop.org/GIS/Population_Weighted_Density/Unconstrained_Subnational/1km/PWD_1km_sub_national_geojson.zip'
-    # more_data : https://www.worldpop.org/datacatalog/
-        
-cutout:
-  root: data/downloaded_data/cutout/
-  module:
-    - era5
-    # - sarah
-  # year: 2022
-  # start_date: '2022-01-01'  #yyyy-mm-dd
-  # end_date: '2022-12-31' #yyyy-mm-dd
-  dx: 0.25 # Arc Length for cutout grids cells in Degrees
-  dy: 0.25 # Arc Length for cutout grids cells in Degrees
-
-  # the snapshots are given as a 'list', not 'values'. 
-  snapshots: 
-    start: # Must be formatted as 'YYYY-MM-DD' (ERA5 returns data in UTC)
-      - '2021-01-01 07:00:00' # YYYY-MM-DD "2021-01-01 07:00:00"
-    end:
-      - '2022-01-01 06:00:00' # 6 # YYYY-MM-DD "2022-01-01 06:00:00"
-
-GWA:
-  root: 'data/downloaded_data/GWA'
-  datafields: ['windspeed_gwa', 'CF_IEC2','CF_IEC3' ] #,'IEC_Class_ExLoads'
-  sources:
-    windspeed_gwa: 'https://globalwindatlas.info/api/gis/country/CAN/wind-speed/100'
-    # CF_IEC1: 'https://globalwindatlas.info/api/gis/country/CAN/capacity-factor_IEC1/'  #rotor dia 112m
-    CF_IEC2: 'https://globalwindatlas.info/api/gis/country/CAN/capacity-factor_IEC2' #rotor dia 126m
-    CF_IEC3: 'https://globalwindatlas.info/api/gis/country/CAN/capacity-factor_IEC3'   #rotor dia 136m
-    # IEC_Class_fatugue_loads: 'https://globalwindatlas.info/api/gis/country/CAN/IEC-class-fatigue-loads-incl-wake/'
-    # IEC_Class_ExLoads: 'https://globalwindatlas.info/api/gis/country/CAN/IEC-class-extreme-loads/' #IEC_Class_ExtremeLoads
-  rasters:
-    windspeed_gwa: 'Canada_wspd_100m.tif'
-    # CF_IEC1: 'CAN_capacity-factor_IEC1.tif'
-    CF_IEC2: 'CAN_capacity-factor_IEC2.tif'
-    CF_IEC3: 'CAN_capacity-factor_IEC3.tif'
-    # IEC_Class_ExLoads: 'CAN.IEC-class-extreme-loads.tif'
-  filter:
-    windspeed_low: 7 # meter/s
-    windspeed_high: 20 # meter/s
-
-capacity_disaggregation:
-  solar:
-    max_capacity: 5  # GW
-    landuse_intensity : 1.45  # (.01*145 MW/km2) ; Source: PyPSA-EUR paper, 
-    # capex : 1161.269 # USD/kW  *** Later to be linked to NREL ATB Spreadsheet (via data pipeline automation) for different wind class, different years.
-    cost_data: 'data/linking_tool/solar/utility_PV_Class5_cost_moderate_NREL_ATB2024.csv'
-    NREL_ATB_type : 'Class5' # for more : https://atb.nrel.gov/electricity/2023/utility-scale_pv
-    atlite_panel: 'CSi' # CSi , CdTe
-    tracking : 'dual' # None, horizontal,tilted_horizontal,vertical,dual
-    cell_static_CF_tolerance: 0.16
-    cell_capacity_tolerance: 1 #MW
-    WCSS_tolerance: 0.08 # Within-cluster Sum of Square # Bigger number denotes bigger tolerance, hence reduced number of clusters
-    buffer:
-      aeroway: 100 # m
-      conserved_lands: 100 #m
-    
-  wind:
-    max_capacity: 10  # GW
-    landuse_intensity : 3  # (0.3 * 10 MW/km2); Source: PyPSA-EUR paper,
-    # capex : 1323.4 # USD/kW  *** Later to be linked to NREL ATB Spreadsheet (via data pipeline automation) for different wind class, different years
-    cost_data: 'data/linking_tool/wind/land_based_wind_T3_cost_moderate_NREL_ATB2024.csv'
-    WCSS_tolerance: 0.1 # Within-cluster Sum of Square # Bigger number denotes bigger tolerance, hence reduced number of clusters
-    CF_low: 0.20
-    CF_high: 1
-    turbines: #From  existing system at BC (> 3MW turbines)
-      NREL_ATB_type : 'Wind Turbine Technology 3' # Turbine Type 3 (of NREL method), size : ~ 3.3 MW, 148 m Rotor Dia, HubHeight 100m, wind plant ~ 200MW
-      atlite:
-        1: 
-          name: 'Enercon_E82_3000kW' #rotor_dia 82m
-          ID: {} # N/A
-          P: 3 #Nominal Power
-        2': 
-          name: 'Vestas_V90_3MW' #rotor_dia 90m
-          ID: {} # N/A
-          P: 3 #Nominal Power
-      OEDB:
-        source: 'https://openenergy-platform.org/api/v0/schema/supply/tables/wind_turbine_library/rows'
-        models:
-          1:
-            name: 'GE2.75_120' #rotor_dia 120m
-            ID: 116
-            P: 2.75 #Nominal Power
-            manufacturer: 'GE Wind'
-            # config: xxx
-          2:
-            name: '3.2M114_NES' #rotor_dia 114m
-            ID: 93
-            P: 3.2 #Nominal Power
-            manufacturer: 'Senvion/REpower'
-            config: 'data/downloaded_data/OEDB/3.2M114_NES.yaml'
-    buffer:
-      aeroway: 100 # m
-      conserved_lands: 100 #m
-  bess:
-    max_capacity : 10 #GW
-    cost_data: 'data/linking_tool/bess/bess_LI_6hr_cost_moderate_NREL_ATB2024.csv'
-    NREL_ATB_type: '6Hr Battery Storage' # storage_discharge_duration should be in-line with this. Other options are
-    vom: 0 # not found in NREL,ATB
-    unit_size: 60 #MW; default in NREL is 50 MW
-    residential_energy_consumption_year: 2021 # BESS cluster size calculation is associated to this year' data
-    Based on general industry data and the needs of a region with a balanced energy mix like BC, you might consider the following approximate range:
-    capacity_estimate_per_energy_unit:    # MW per GWh of energy consumption.
-      Conservative: 0.01 
-      Moderate : 0.05 
-      Optimistic : 0.1 
-    storage_discharge_duration : 5.5 # hr  ; the battery cost should be inline with this data.
-
-  transmission:
-    grid_connection_cost_per_Km : 2.6 #M$/km   # from MISO , may try NREL method for different range of distance
-    tx_line_rebuild_cost : 0.56   #M$/km # from MISO
-    proximity_filter: 100 #km
-    buses: 'data/processed_data/buses_BC.csv'
-    lines: 'data/processed_data/lines_BC.csv'  #future scope usage
-
-BCNexus:
-  results: 
-    root: data/BC_NEXUS_results
-    CapacityInvestments: NewCapacity.csv
-    TotalCapacity: TotalCapacityAnnual.csv
-
-  inputs:
-    root: data/BC_NEXUS_inputs
-    ExistingCapacity: ResidualCapacity.csv
-    PlannedCapacity: TotalAnnualMinCapacityInvestment.csv
-    AvailabilityFactor : AvailabilityFactor.csv
-    CapacityFactor: CapacityFactor.csv
-
-processed_data:
-  linking:
-    root: data/linking_tool
-    CPCAD: CPCAD_BC_union.parquet
-    CPCAD_org: CPCAD_BC.parquet
-    GADM:
-    transmission: #to be sourced from PyPSA
-      nodes_datafile: 'BC_Transmission.pkl'
-      # lines: xxx   #future scope
-    solar:
-      osm_aeroway_datafile: aeroway_OSM_BC_with_buffer_solar.parquet
-      ERA5_CF_ts : ERA5_grid_CF_ts_df.pkl
-      scored_cells: ERA5_cells_scored.pkl
-      cell_clusters : ERA5_cell_cluster_filtered_all_sites.pkl
-      cell_cluster_ts : ERA5_cells_CF_ts_clusters.pkl
-      dissolved_indices: dissolved_indices.pkl
-
-    wind:
-      osm_aeroway_datafile: aeroway_OSM_BC_with_buffer_wind.parquet
-      gwa_cells_raw : GWA_cells.pkl
-      ERA5_CF_ts : ERA5_grid_CF_ts_df.pkl
-
-      scored_cells: GWA_cells_scored.pkl
-      cell_clusters : GWA_cell_cluster_filtered_all_sites.pkl
-      cell_cluster_ts :  GWA_cells_CF_ts_cluster.pkl
-      dissolved_indices : dissolved_indices.pkl
-    
-    bess:
-      cell_clusters : bess_regional_potential_for_res_elec_Conservative.pkl
-
-
-results:
-  linking:
-    root: results/linking
-    clusters_topSites:
-      solar : "Solar_Top_Sites_Clustered.pkl"
-      wind : "Wind_Top_Sites_Clustered.pkl"
-      bess: "bess_regional_potential_for_res_elec_" # this is a file name keyword only. The file name is variable with the scaling consumption of BESS (20%)
-    clusters_CFts_topSites:
-      solar : "Solar_Top_Sites_Clustered_CF_timeseries.pkl"
-      wind : "Wind_Top_Sites_Clustered_CF_timeseries.pkl"
-    # visual_resampling: # only for static plots
-    #   solar: 'd'  # h,d,w,m
-    #   wind: 'd'  # h,d,w,m
-
-visualization:
-  linking: vis/linking
-  nexus: vis/nexus
-  pypsa: vis/pypsa
-  misc: vis/misc
-
-interactive_dashboard:
-  headline: "Bi-directional Linking Tool [in progress...]"
-  font_size_h1 : "32px"
-  font_color_h1 : "#00008B"
-  
-  subheadline : "Module : Capacity Disaggregation [Preliminary Results]"
-  font_size_h2 : "26px"
-  font_color_h2 : "red"
-  
-  plot_width: '100%'
-  plot_height: 'auto'
-
-interactive_dashboard:
-  headline: "Bi-directional Linking Tool [in progress...]"
-  font_size_h1 : "32px"
-  font_color_h1 : "#00008B"
-  
-  subheadline : "Module : Capacity Disaggregation [Preliminary Results]"
-  font_size_h2 : "26px"
-  font_color_h2 : "red"
-  
-  plot_width: '100%'
-  plot_height: 'auto'
+  SCENARIOS:
+    Base:
+      Description: 'Baseline scenario with Canada Energy Futures 2023 report's Current Measures Demand. Call for Power 2024 sites fitted as committed plants. Potential resource options for Solar (5GW) and Wind (10GW) modeled. Hourly profiles absorbed from 2021 historical data.',
+      Demand: {}
+        # HDG:
+          # accumulated_annual_demand: '[100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 200, 200, 200, 200, 200, 300]'
+      EMISSION:
+        CO2: 
+          annual_emission_limit: '[9999, 9999, 9999, 9999, 9999, 9999, 9999, 9999, 9999, 9999, 9999]'
+          emission_penalty: {} # '[100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100]'
+      TECHS:
+        CCS01: {}
+          # capital_cost: '[1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 900, 900, 900, 900, 900, 800]'
+          # operational_life: 20
+        HDG01: {}
+          # capital_cost: 34
+          # operational_life: 20
+          # input_fuel: ELCB01
+          # efficiency: 0.85
+          # total_annual_min_capacity: '[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]'
+          # total_annual_max_capacity: '[10, 10, 10, 10, 10, 10, 10, 20, 30, 40]'
+        HDG02: {}
+          # capital_cost: 20
+          # operational_life: 20
+          # input_fuel: NGS
+          # efficiency: 0.70
+          # total_annual_max_capacity: 30
+        PWRURNB01: {}
+          # capital_cost: 6041
+          # operational_life: 36
+          # total_annual_max_capacity_investment: 0
+          # input_fuel: PWRURN
+          # efficiency: 0.3333
+    Elias:
+      Demand:
+        HDG:
+          accumulated_annual_demand: '[100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 200, 200, 200, 200, 200, 300]'
+      EMISSION:
+        CO2:
+          annual_emission_limit: '[9999, 9999, 9999, 9999, 9999, 9999, 9999, 9999, 9999, 9999, 50]'
+          emission_penalty: '[45, 45, 50, 65, 80, 95, 110, 125, 140, 155, 170]'
+      TECHS:
+        CCS01:
+          capital_cost: '[1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 900, 900, 900, 900, 900, 800]'
+          operational_life: 20
+        HDG01:
+          capital_cost: 34
+          operational_life: 20
+          input_fuel: ELCB01
+          efficiency: 0.85
+          total_annual_min_capacity: '[0, 0, 0, 0, 0, 0, 0, 10, 10, 20]'
+          total_annual_max_capacity: '[10, 10, 10, 10, 10, 10, 10, 20, 30, 40]'
+        HDG02:
+          capital_cost: 20
+          operational_life: 20
+          input_fuel: NGS
+          efficiency: 0.70
+          total_annual_max_capacity: 30
+        PWRURNB01:
+          capital_cost: 6041
+          operational_life: 36
+          total_annual_max_capacity_investment: 0
+          input_fuel: PWRURN
+          efficiency: 0.3333

@@ -4,7 +4,7 @@ sys.path.append('workflow/scripts')
 from dash import Dash, html, dcc, callback, Output, Input
 import plotly.express as px
 import pandas as pd
-import utilities as utils
+from bcnexus import utils
 import plotly.io as pio
 
 # Load configurations

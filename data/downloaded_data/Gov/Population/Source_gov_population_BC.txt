@@ -1,0 +1,21 @@
+https://bcstats.shinyapps.io/popApp/
+
+
+Step 1: Select Data:
+	Select the following options:
+	Region Type: Regional District
+	Regions: Select all regions under BC
+	Select years: 2021 to 2046
+	select gendres: Totals
+
+Step 2: Choose Static
+ > Choose 'count'
+
+Step 3: Select age format
+> Choose "Totals"
+
+Step 3: Customize Layout
+> Choose "None"
+ 
+> generate output
+> Download csv
