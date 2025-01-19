@@ -124,12 +124,13 @@ def update_tab_content(selected_tab, selected_scenario, *selected_filenames):
                 elif filename == "AnnualTechnologyEmission.csv":
                     techs = selected_technologies[selected_tab]
                     years, df_processed = vis_utils.load_and_process_data(file_path, techs)
-                    fig = px.area(df_processed, x=years, y=techs, title=filenames_mapping[filename], color_discrete_map=custom_colors)
-                    fig.update_xaxes(title_text='Year')
-                    fig.update_yaxes(title_text=units_mapping[selected_tab])
-                    for tech, label in legend_labels.items():
-                        fig.for_each_trace(lambda trace: trace.update(name=label) if trace.name == tech else ())
-                    graphs.append(dcc.Graph(figure=fig))
+                    if all(col in df_processed.columns for col in ['YEAR', 'TECHNOLOGY']):
+                        fig = px.area(df_processed, x=years, y=techs, title=filenames_mapping[filename], color_discrete_map=custom_colors)
+                        fig.update_xaxes(title_text='Year')
+                        fig.update_yaxes(title_text=units_mapping[selected_tab])
+                        for tech, label in legend_labels.items():
+                            fig.for_each_trace(lambda trace: trace.update(name=label) if trace.name == tech else ())
+                        graphs.append(dcc.Graph(figure=fig))
                 else:
                     techs = selected_technologies[selected_tab]
                     years, df_processed = vis_utils.load_and_process_data(file_path, techs)
