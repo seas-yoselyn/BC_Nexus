@@ -9,6 +9,7 @@ The repository is broken into several main folders. The [__Wiki__](https://githu
 Decarbonizing B.C.’s energy system
 - [Brief descristion about the project](https://pics.uvic.ca/projects/decarbonizing-b-c-s-energy-system/)
 - [High level overview of the modelling components](https://www.sfu.ca/see/research/delta-e/projects/decarbonization-of-bc-s-energy-system.html)
+- [How to run the model](https://github.com/DeltaE/BC-CLEWS-Model/wiki/How-to-Run-the-Model)
 
 # Contributors 
 
