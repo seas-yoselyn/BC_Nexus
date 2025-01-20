@@ -16,7 +16,6 @@ clews:
 
   SCENARIOS:
     Base:
-      Description: 'Baseline scenario with Canada Energy Futures 2023 report's Current Measures Demand. Call for Power 2024 sites fitted as committed plants. Potential resource options for Solar (5GW) and Wind (10GW) modeled. Hourly profiles absorbed from 2021 historical data.',
       Demand: {}
         # HDG:
           # accumulated_annual_demand: '[100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 200, 200, 200, 200, 200, 300]'
@@ -47,34 +46,61 @@ clews:
           # total_annual_max_capacity_investment: 0
           # input_fuel: PWRURN
           # efficiency: 0.3333
-    Elias:
-      Demand:
-        HDG:
-          accumulated_annual_demand: '[100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 200, 200, 200, 200, 200, 300]'
+    LIMITED_CO2:
+      Demand: {}
       EMISSION:
         CO2:
-          annual_emission_limit: '[9999, 9999, 9999, 9999, 9999, 9999, 9999, 9999, 9999, 9999, 50]'
-          emission_penalty: '[45, 45, 50, 65, 80, 95, 110, 125, 140, 155, 170]'
+          annual_emission_limit: '[100, 100, 100, 100, 50, 50, 50, 50, 50, 50, 50]'
+          # emission_penalty: '[45, 45, 50, 65, 80, 95, 110, 125, 140, 155, 170]'
       TECHS:
         CCS01:
           capital_cost: '[1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 900, 900, 900, 900, 900, 800]'
           operational_life: 20
-        HDG01:
-          capital_cost: 34
+        HDG01: {}
+          # capital_cost: 34
+          # operational_life: 20
+          # input_fuel: ELCB01
+          # efficiency: 0.85
+          # total_annual_min_capacity: '[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]'
+          # total_annual_max_capacity: '[10, 10, 10, 10, 10, 10, 10, 20, 30, 40]'
+        HDG02: {}
+          # capital_cost: 20
+          # operational_life: 20
+          # input_fuel: NGS
+          # efficiency: 0.70
+          # total_annual_max_capacity: 30
+        PWRURNB01: {}
+          # capital_cost: 6041
+          # operational_life: 36
+          # total_annual_max_capacity_investment: 0
+          # input_fuel: PWRURN
+          # efficiency: 0.3333
+    LIMITED_CO2_PLTY:
+      Demand: {}
+      EMISSION:
+        CO2:
+          annual_emission_limit: '[100, 100, 100, 100, 50, 50, 50, 50, 50, 50, 50]'
+          emission_penalty: '[50, 50, 50, 80, 170, 170, 170, 170, 170, 170, 170]'
+      TECHS:
+        CCS01: 
+          capital_cost: '[1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 900, 900, 900, 900, 900, 800]'
           operational_life: 20
-          input_fuel: ELCB01
-          efficiency: 0.85
-          total_annual_min_capacity: '[0, 0, 0, 0, 0, 0, 0, 10, 10, 20]'
-          total_annual_max_capacity: '[10, 10, 10, 10, 10, 10, 10, 20, 30, 40]'
-        HDG02:
-          capital_cost: 20
-          operational_life: 20
-          input_fuel: NGS
-          efficiency: 0.70
-          total_annual_max_capacity: 30
-        PWRURNB01:
-          capital_cost: 6041
-          operational_life: 36
-          total_annual_max_capacity_investment: 0
-          input_fuel: PWRURN
-          efficiency: 0.3333
+        HDG01: {}
+          # capital_cost: 34
+          # operational_life: 20
+          # input_fuel: ELCB01
+          # efficiency: 0.85
+          # total_annual_min_capacity: '[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]'
+          # total_annual_max_capacity: '[10, 10, 10, 10, 10, 10, 10, 20, 30, 40]'
+        HDG02: {}
+          # capital_cost: 20
+          # operational_life: 20
+          # input_fuel: NGS
+          # efficiency: 0.70
+          # total_annual_max_capacity: 30
+        PWRURNB01: {}
+          # capital_cost: 6041
+          # operational_life: 36
+          # total_annual_max_capacity_investment: 0
+          # input_fuel: PWRURN
+          # efficiency: 0.3333

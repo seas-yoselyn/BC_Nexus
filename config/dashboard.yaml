@@ -1,5 +1,6 @@
 
-SCENARIOS: ['Base','Elias'] #,'REF','AGG','100-ELC','100-ELC-CO2reduction','100-ELC-NoGeo','100-ELC-Nuc(10GW)'
+SCENARIOS: ['Base','LIMITED_CO2','LIMITED_CO2_PLTY']
+# aligned with config
 
 result_type:
   otoole:
@@ -9,14 +10,10 @@ result_type:
     'year': 'y'
     'technology' : 't'
 
-info_SCENARIOS: {
+info_SCENARIOS: { # aligned with folder name
   'Model_Kotzur_Base' : 'Baseline scenario with Canada Energy Futures 2023 report''s Current Measures Demand. Call for Power 2024 sites fitted as committed plants. Potential resource options for Solar (5GW) and Wind (10GW) modeled. Hourly profiles absorbed from 2021 historical data.',
-  'Elias': 'xxxxx',
-  # 'AGG': V1.1.8_BC_CLEWS_Model-AGG scenario-LND intensity Ave. NoNGS-no caps on solar or nuclear,
-  # '100-ELC': V1.1.9_reTest-BC_CLEWS_Model-NET scenario- Annual Emission Limit- fossil fuel demand decrease from 2025 except IND, aviation and HF-LND intensity Ave.,
-  # '100-ELC-CO2reduction': V1.1.9_BC_CLEWS_Model-NET scenario- Annual Emission Limit zero for 2050- fossil fuel demand decrease from 2025 except IND, aviation and HF-LND intensity Ave.,
-  # '100-ELC-Nuc(10GW)': V1.1.9_BC_CLEWS_Model-100-ELC- 10GW limit Nu,
-  # '100-ELC-NoGeo': V1.1.9_BC_CLEWS_Model-100-ELC-NoGEO 
+  'Model_Kotzur_LIMITED_CO2': 'Baseline scenario with CO2 annual limit up to 50 MTeCO2',
+  'Model_Kotzur_LIMITED_CO2_PLTY': 'Baseline scenario with CO2 annual limit and emission penalty up to $170/MTeCo2',
     }
 
 title : "BCNexus Results"
@@ -35,13 +32,13 @@ units_mapping: {
   energy: 'Generation (Pj)',
   emission: "Millon Tonnes of CO2",
   landuse: "Thousand Sq. Km per Pj",
-  CEF2023: "Pj"
+  demand: "Pj"
     }
 
 technologies:
-  capacity: ['PWRWND','PWRNGS','PWRBIO', 'PWRHYD', 'PWRSOL', 'PWRGEO', 'PWRURN']
-  emission: ['DEMAGR', 'DEMCOM', 'DEMIND', 'DEMRES', 'DEMTRA']
-  energy: ['PWRBIO', 'PWRHYD', 'PWRNGS', 'PWRSOL', 'PWRWND', 'PWRGEO', 'PWRURN']
+  capacity: ['PWRWND','PWRNGS','PWRBIO', 'PWRHYD', 'PWRSOL', 'PWRGEO', 'PWRURN','CCS','HDG']
+  emission: ['DEMAGR', 'DEMCOM', 'DEMIND', 'DEMRES', 'DEMTRA','CCS']
+  energy: ['PWRBIO', 'PWRHYD', 'PWRNGS', 'PWRSOL', 'PWRWND', 'PWRGEO', 'PWRURN','CCS']
   landuse: ['LNDAGRBC1C01', 'LNDAGRBC1C02', 'LNDAGRBC1C03', 'LNDAGRBC1C04', 'LNDAGRBC1C05', 'LNDAGRBC1C06', 'LNDAGRBC1C07']
 
 filenames_mapping: {
@@ -64,6 +61,8 @@ custom_colors : {
       'PWRSOL': '#FEE566',
       'PWRGEO': '#B067B3',
       'PWRURN': 'gray',
+      'CCS' : 'violet', # Dark Turquoise
+      'HDG' : '#00FFFF', # Aqua
 
       'DEMAGR': '#C57F7B',
       'DEMCOM': '#65B465',
@@ -88,6 +87,8 @@ legend_labels : {
       'PWRSOL': 'Solar',
       'PWRGEO': 'Geothermal',
       'PWRURN': 'Nuclear',
+      'CCS': 'Carbon Capture and Storage',
+      'HDG': ' Hydrogen',
 
       'DEMRES': 'Residential',
       'DEMIND': 'Industrial',

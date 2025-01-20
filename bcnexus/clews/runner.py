@@ -16,8 +16,6 @@ from . import solver
 from . import preprocess_data_Kotzur
 from . import preprocess_data_Niet
 from .. import utils
-from ..vis import plot_capacity,plot_emission#,plot_landuse,plot_energy
-
 
 # Filetring the package reated warnings
 import warnings

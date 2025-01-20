@@ -48,11 +48,12 @@ def scenario_and_tabs(SCENARIOS,
                         className='form-control',
                         style={
                             'border': 'none',
-                            'font-size': '0.8rem',  # Smaller font size
+                            'font-size': '0.5rem',  # Smaller font size
                             'box-shadow': 'none',
-                            'padding': '4px 4px',  # Reduced padding
-                            'width': '200px'  # Adjusted width
-                        }
+                            'padding': '4px 10px',  # Reduced padding
+                            'width': '300px'  # Adjusted width
+                        },
+    
                     ),
                     html.Div(
                         id='scenario-info',
@@ -60,7 +61,7 @@ def scenario_and_tabs(SCENARIOS,
                         style={'color': '#555', 'font-size': '0.8rem'}
                     )
                 ],
-                style={'flex': '1', 'margin-right': '2px'}  # Adjust flex behavior and spacing
+                style={'flex': '1', 'margin-right': '10px'}  # Adjust flex behavior and spacing
             ),
             
             # Tabs Component

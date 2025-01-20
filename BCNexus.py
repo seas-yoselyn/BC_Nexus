@@ -5,7 +5,7 @@ from bcnexus.clews.runner import RunModel
 # 1(A) Define the Arguments
 args={
     'storage_algorithm': 'Kotzur', # Lets do all the run with Kotzur for now.
-    'scenario':'Base',
+    'scenario':'LIMITED_CO2_PLTY',
     'clustering_attributes': {
         'hour_grouping': 4,
         'n_clusters': 5

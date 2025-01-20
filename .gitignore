@@ -10,3 +10,6 @@ dev_resources
 */*/__pycache__
 */__pycache__
 __pycache__
+
+results/clews/Model_Kotzur_Base/*/*.sol
+data/clews_data/Model_Kotzur/*

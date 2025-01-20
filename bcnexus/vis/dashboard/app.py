@@ -6,6 +6,7 @@ from bcnexus import utils
 import plotly.express as px
 from bcnexus.vis.dashboard.dash_components import header, scenario_and_tabs
 from pathlib import Path
+import plotly.graph_objects as go
 
 # Load configurations
 dash_configs: dict = utils.load_config('config/dashboard.yaml')
@@ -51,11 +52,11 @@ app.layout = html.Div([
         children=f"Displaying model results for {timeslices} timeslices",  # Dynamic message
         className="alert alert-info text-center",  # Bootstrap alert class for styling
         style={
-            'fontSize': '0.9rem',  # Set the font size
+            'fontSize': '0.8rem',  # Set the font size
             'color': '#333',  # Set text color for better readability
-            'borderRadius': '5px',  # Rounded corners for the alert
-            'padding': '10px',  # Padding for better spacing inside the alert
-            'boxShadow': '0 2px 5px rgba(0, 0, 0, 0.1)',  # Subtle shadow for a modern touch
+            'borderRadius': '10px',  # Rounded corners for the alert
+            'padding': '2px',  # Padding for better spacing inside the alert
+            'boxShadow': '0 2px 10px rgba(0, 0, 0, 0.1)',  # Subtle shadow for a modern touch
         }
     ),
 
@@ -95,8 +96,8 @@ def update_tab_content(selected_tab, selected_scenario, *selected_filenames):
                         df,
                         x="year",
                         y=["Commercial", "Industrial", "Residential", "Transportation"],
-                        title="Sectoral Emissions (Canada Energy Future 2023)",
-                        labels={"value": "Emissions (units)", "year": "Year"},
+                        title="Sectoral Demand (Canada Energy Future 2023)",
+                        labels={"value": "Demand", "year": "Year"},
                         color_discrete_map={
                             "Commercial": "blue",
                             "Industrial": "green",
@@ -107,7 +108,7 @@ def update_tab_content(selected_tab, selected_scenario, *selected_filenames):
                     fig.update_layout(
                         barmode='stack',
                         xaxis_title="Year",
-                        yaxis_title="Emissions (MteCO2)",
+                        yaxis_title=" Demand (Pj)",
                         legend_title="Sector"
                     )
                     graphs.append(dcc.Graph(figure=fig))
@@ -118,18 +119,83 @@ def update_tab_content(selected_tab, selected_scenario, *selected_filenames):
                 df = pd.read_csv(file_path)
                 if filename == "AnnualEmissions.csv":
                     fig = px.line(df, x='YEAR', y=df.columns[-1], title='Emission Trends', markers=False)
+                    fig.update_traces(
+                        line_color='red',  # Set line color to red
+                        opacity=0.9        # Set opacity to 70%
+                    )
                     fig.update_xaxes(title_text='Year')
                     fig.update_yaxes(title_text=units_mapping[selected_tab])
+
+                    # Add fixed markers for the BC Emission targets
+                    year = [2030, 2040, 2050]
+                    emission = [40, 25, 0]  # MTeCO2
+
+                    fig.add_trace(go.Scatter(
+                        x=year,
+                        y=emission,
+                        mode='markers+text',
+                        marker=dict(
+                            size=12,
+                            color='yellow',
+                            opacity=0.7,
+                            line=dict(width=1, color='orange')
+                        ),
+                        text=["2030 Target", "2040 Target", "2050 Target"],  # Text labels
+                        textposition="top center",
+                        name="BC Emission Targets"  # Legend name
+                    ))
+                    
+                    inventory_year=[2021, 2022, 2023]
+                    inventory_CO2_data=[63.8,65.6,55.94]# MTeCO2
+                    
+                    fig.add_trace(go.Scatter(
+                        x=inventory_year,
+                        y=inventory_CO2_data,
+                        mode='markers',
+                        marker=dict(
+                            size=9,
+                            color='blue',
+                            opacity=0.5,
+                            line=dict(width=1, color='blue')
+                        ),
+                        # textposition="top center",
+                        # text=["2021 actual", "2022 actual", "2023 actual"],  # Text labels
+                        name="BC Emission Inventory Report"  # Legend name
+                    ))
+                    
+                    # Ensure full data is shown by setting axis range to fit all data
+                    # Update axis titles
+                    fig.update_xaxes(
+                            title_text='Year',
+                            tickmode='linear',  # Show ticks at regular intervals
+                            dtick=2,           # Set tick interval (e.g., every 10 years)
+                            showgrid=True       # Optional: Show grid lines for better readability
+                        )
+                    fig.update_yaxes(title_text=units_mapping[selected_tab])
                     graphs.append(dcc.Graph(figure=fig))
+                    
                 elif filename == "AnnualTechnologyEmission.csv":
                     techs = selected_technologies[selected_tab]
                     years, df_processed = vis_utils.load_and_process_data(file_path, techs)
-                    fig = px.area(df_processed, x=years, y=techs, title=filenames_mapping[filename], color_discrete_map=custom_colors)
+                    # Create the area plot with negative values preserved
+                    fig = px.bar(df_processed, x=years, y=techs, title=filenames_mapping[filename], color_discrete_map=custom_colors)
+
+                    # Update x and y axes
                     fig.update_xaxes(title_text='Year')
-                    fig.update_yaxes(title_text=units_mapping[selected_tab])
+
+                    # Set the y-axis range to allow for negative values to be visible
+                    fig.update_yaxes(
+                        title_text=units_mapping[selected_tab]
+                          # Optionally, set to "tozero" if you want the y-axis to start from 0 or leave it dynamic
+                    )
+
+                    # Update legend labels (if needed)
                     for tech, label in legend_labels.items():
                         fig.for_each_trace(lambda trace: trace.update(name=label) if trace.name == tech else ())
+
+                    # Append the figure to the list of graphs
                     graphs.append(dcc.Graph(figure=fig))
+
                 else:
                     techs = selected_technologies[selected_tab]
                     years, df_processed = vis_utils.load_and_process_data(file_path, techs)
