@@ -3,8 +3,8 @@ import decimal
 import colorama
 
 #Local packages
-from .. import utils
-from . import model_structure as clews_const
+from bcnexus import utils
+from bcnexus.clews import model_structure as clews_const
     
 # Tailored for BC Combined Model
 # Refactoring (C) M Elias Islam (EL), 2024

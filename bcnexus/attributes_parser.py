@@ -5,8 +5,8 @@ from typing import Dict
 import logging as log
 
 # Local Package
-from .clews import model_structure as clews_const
-from . import utils
+from bcnexus.clews import model_structure as clews_const
+from bcnexus import utils
 
 # Logging Configuration
 log.basicConfig(level=log.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -43,13 +43,13 @@ class AttributesParser:
 
         self.combined_model_config_path=Path(self.combined_model_config_path)
 
-        # Define the path and filename
-        # self.store = Path("data/store/BC_Combined_Modelling_results_.h5")
-        # self.store.parent.mkdir(parents=True, exist_ok=True)
-        
+        self.bccm_dir_prefix=Path('models/BC_Nexus')
+
         self.data_cfg_path:str|Path=('config/data.yaml')
         self.clews_builder_config_path:str|Path=Path('config/clews_builder.yaml') # Kept it as under the hood config file build and updated automatically.
         self.clews_builder_skeleton_source:str|Path=Path('models/clews_builder_skeleton.yaml')
+        if not self.clews_builder_skeleton_source.exists():
+            self.clews_builder_skeleton_source = self.bccm_dir_prefix/ self.clews_builder_skeleton_source
         self.build_clews_builder_skeleton()
         
         # Load the user configuration master file by using the method
@@ -127,8 +127,10 @@ class AttributesParser:
     
     def get_otoole_yaml_file(self,
                              storage_algorithm:str='Kotzur')->Path:
-        
-        return Path(f'models/model_{storage_algorithm}/otoole_config_{storage_algorithm}.yaml')
+        otoole_config_path=Path(f'models/model_{storage_algorithm}/otoole_config_{storage_algorithm}.yaml')
+        if not otoole_config_path.exists():
+            otoole_config_path = self.bccm_dir_prefix/ otoole_config_path
+        return otoole_config_path
     
     def get_linking_tool_results(self):
         return Path('results/linking')
@@ -261,14 +263,11 @@ class AttributesParser:
                             storage_algorithm:str):
 
         org_model_file = Path(f'models/model_{storage_algorithm}/model_BCNexus_{storage_algorithm}.m')
-
+        if not org_model_file.exists():
+            org_model_file = self.bccm_dir_prefix/ org_model_file
         
         return org_model_file
-    """,
-               storage_case_model_file_preprocessed,
-               ip_data_file,
-               storage_case_ip_data_file_preprocessed)
-               """
+
            
     def get_data_and_model_file_paths(self,
                                       input_csvs:str|Path,
@@ -276,18 +275,5 @@ class AttributesParser:
                                       scenario:str):
         
         org_model_file = Path(f'models/model_{storage_algorithm}/model_BCNexus_{storage_algorithm}.txt')
-        # ip_data_file= input_csvs.parent/f'BCNexus_{storage_algorithm}.txt' 
-        
-        # (scenario_inputs_root,
-        # scenario_results_root,
-        # LP_file) = self.get_scenario_attributes(scenario,storage_algorithm)
-        
-        # storage_case_model_file_preprocessed = scenario_inputs_root/f'model_BCNexus_{storage_algorithm}_preprocessed.txt'
-        # storage_case_ip_data_file_preprocessed = scenario_inputs_root/f'BCNexus_{storage_algorithm}_processed.txt'
-        
+
         return(org_model_file)
-    """,
-               storage_case_model_file_preprocessed,
-               ip_data_file,
-               storage_case_ip_data_file_preprocessed)
-               """

@@ -4,14 +4,14 @@ from pathlib import Path
 import argparse
 
 # local packages
-from ..attributes_parser import AttributesParser
-from . import schema
-from . import schema as clewsB
-from . import datapackage as clews_data_module
-from . import update_yearly_params
-from . import update_global_params
-from . import sets_n_ratios
-from .. import utils
+from bcnexus import utils
+from bcnexus.attributes_parser import AttributesParser
+from bcnexus.clews import schema
+from bcnexus.clews import schema as clewsB
+from bcnexus.clews import datapackage as clews_data_module
+from bcnexus.clews import update_yearly_params
+from bcnexus.clews import update_global_params
+from bcnexus.clews import sets_n_ratios
 
 # Filetring the package reated warnings
 import warnings

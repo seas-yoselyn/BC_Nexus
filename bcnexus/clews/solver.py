@@ -3,11 +3,11 @@ from pathlib import Path
 import pandas as pd
 from typing import Optional
 import matplotlib.pyplot as plt
-from . import model_structure as clews_const
+from bcnexus.clews import model_structure as clews_const
 import warnings
 import subprocess
-import sys
-from .. import utils
+from bcnexus import utils
+
 warnings.filterwarnings("ignore")
 # Refactored by EL, 2024
 # Source: https://github.com/KTH-dESA/OSeMBE_ECEMF/blob/main/run.py

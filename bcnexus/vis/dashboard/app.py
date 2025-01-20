@@ -1,4 +1,3 @@
-import os
 from dash import Dash, html, dcc, Output, Input
 import pandas as pd
 from bcnexus.vis import vis_utils

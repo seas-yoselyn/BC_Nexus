@@ -1,9 +1,9 @@
 import argparse
 from pathlib import Path
 
-from . import schema
-from . import model_structure as clews_const
-from .. import utils
+from bcnexus.clews import schema
+from bcnexus.clews import model_structure as clews_const
+from bcnexus import utils
 
 region=next(iter(clews_const.Regions)) #gets the first key of the dictionary i.e. 'REGION1'
 clews_snapshot=clews_const.snapshot

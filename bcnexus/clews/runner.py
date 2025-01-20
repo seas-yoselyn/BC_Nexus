@@ -8,19 +8,17 @@ import yaml
 import sys
 
 # local packages
-from ..attributes_parser import AttributesParser
-from .builder import BuildModel
-from . import schema as clewsB
-# from . import datapackage as clews_data_module
-from . import solver
-from . import preprocess_data_Kotzur
-from . import preprocess_data_Niet
-from .. import utils
+from bcnexus.attributes_parser import AttributesParser
+from bcnexus.clews.builder import BuildModel
+from bcnexus.clews import schema as clewsB
+from bcnexus.clews import solver
+from bcnexus.clews import preprocess_data_Kotzur
+from bcnexus.clews import preprocess_data_Niet
+from bcnexus import utils
 
 # Filetring the package reated warnings
 import warnings
 warnings.filterwarnings("ignore")
-
 
 class RunModel:
     """ 
@@ -377,7 +375,7 @@ class RunModel:
                                 save_to=plot_save_to,
                                 show=show)
         return constraint_df_ELC_aggr
-    
+    """ 
     @staticmethod      
     def get_visuals(model_results_direc:str|Path,
                     visual_configs:dict,
@@ -390,7 +388,7 @@ class RunModel:
         plot_emission.create_plot(model_results_direc=model_results_direc,
                                             visual_configs=visual_configs,
                                             plots_save_to=plots_save_to)   
-        
+    """    
     @staticmethod
     def get_summary_report(binding_constraints: pd.DataFrame,
                         non_binding_constraints: pd.DataFrame,

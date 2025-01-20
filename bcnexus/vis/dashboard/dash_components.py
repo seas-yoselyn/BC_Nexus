@@ -1,5 +1,6 @@
 from dash import html, dcc
 from bcnexus import utils
+
 dash_configs: dict = utils.load_config('config/dashboard.yaml')
 filenames_mapping = dash_configs['filenames_mapping']
 

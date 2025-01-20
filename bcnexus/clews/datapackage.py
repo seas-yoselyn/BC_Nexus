@@ -2,7 +2,7 @@ import pandas as pd
 from typing import List, Tuple
 from pathlib import Path
 from dataclasses import dataclass
-from .. import utils
+from bcnexus import utils
 
 
 class GetDataPackage:

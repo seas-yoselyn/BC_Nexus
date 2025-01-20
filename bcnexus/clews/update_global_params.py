@@ -1,7 +1,7 @@
 import pandas as pd
 from pathlib import Path
-from . import model_structure as clews_const
-from .. import utils
+from bcnexus.clews import model_structure as clews_const
+from bcnexus import utils
 
 def update_capacity_to_activity_unit(input_csv_dir:str|Path):
     input_csv_dir=Path(input_csv_dir)

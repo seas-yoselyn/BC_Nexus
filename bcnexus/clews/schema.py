@@ -13,9 +13,9 @@ from sklearn.cluster import KMeans
 from sklearn.metrics import pairwise_distances_argmin_min 
 
 # Local Packages
-from .. import utils
-from . import model_structure as clews_const
-from ..attributes_parser import AttributesParser
+from bcnexus import utils
+from bcnexus.clews import model_structure as clews_const
+from bcnexus.attributes_parser import AttributesParser
 
         
 
