@@ -20,7 +20,7 @@ title : "BCNexus Results"
 demand_data: 'data/downloaded_data/CODERS/data-pull/demand'
 
 plot_files:
-  demand: ["BC_sectoral_end_use_demand_Current Measures.csv","BC_sectoral_end_use_demand_Canada Net-zero.csv","BC_sectoral_end_use_demand_Global Net-zero.csv"]
+  demand: ["BC_end_use_demand_Current Measures.csv","BC_end_use_demand_Canada Net-zero.csv","BC_end_use_demand_Global Net-zero.csv"]
   capacity : ["NewCapacity.csv","TotalCapacityAnnual.csv"]
   emission : ["AnnualEmissions.csv", "AnnualTechnologyEmission.csv"]
   energy : ["TotalTechnologyAnnualActivity.csv"]
@@ -30,7 +30,7 @@ plot_files:
 units_mapping: {
   capacity: 'Capacity (GW)',
   energy: 'Generation (Pj)',
-  emission: "Millon Tonnes of CO2",
+  emission: "Million Tonnes of CO2",
   landuse: "Thousand Sq. Km per Pj",
   demand: "Pj"
     }
@@ -48,61 +48,61 @@ filenames_mapping: {
   "AnnualTechnologyEmission.csv" : "Sectoral Emission",
   'TotalTechnologyAnnualActivity.csv' : 'Generation',
   "TotalAnnualTechnologyActivityByMode.csv" : "Land-use (clusters of BC)",
-  "BC_sectoral_end_use_demand_Current Measures.csv" : "Current Measures",
-  "BC_sectoral_end_use_demand_Canada Net-zero.csv" : "Canada Net-zero",
-  "BC_sectoral_end_use_demand_Global Net-zero.csv" : "Global Net-zero",
+  "BC_end_use_demand_Current Measures.csv" : "Current Measures",
+  "BC_end_use_demand_Canada Net-zero.csv" : "Canada Net-zero",
+  "BC_end_use_demand_Global Net-zero.csv" : "Global Net-zero",
   }
 
 custom_colors : {
-      'PWRWND': '#DDB3F9',
-      'PWRNGS': '#D27A78',
-      'PWRBIO': '#5BAB59',
-      'PWRHYD': '#86B4D8',
-      'PWRSOL': '#FEE566',
-      'PWRGEO': '#B067B3',
-      'PWRURN': 'gray',
-      'CCS' : 'violet', # Dark Turquoise
-      'HDG' : '#00FFFF', # Aqua
+  'PWRWND': '#DDB3F9',
+  'PWRNGS': '#D27A78',
+  'PWRBIO': '#5BAB59',
+  'PWRHYD': '#86B4D8',
+  'PWRSOL': '#FEE566',
+  'PWRGEO': '#B067B3',
+  'PWRURN': 'gray',
+  'CCS' : '#FF6347', # Tomato
+  'HDG' : '#00FFFF', # Aqua
 
-      'DEMAGR': '#C57F7B',
-      'DEMCOM': '#65B465',
-      'DEMIND': '#B3B3B3',
-      'DEMRES': '#87B4D7',
-      'DEMTRA': '#676767',
+  'DEMAGR': '#C57F7B',
+  'DEMCOM': '#65B465',
+  'DEMIND': '#B3B3B3',
+  'DEMRES': '#87B4D7',
+  'DEMTRA': '#676767',
 
-      'LNDAGRBC1C01': '#DDB3F9',
-      'LNDAGRBC1C02': '#D27A78',
-      'LNDAGRBC1C03': '#5BAB59',
-      'LNDAGRBC1C04': '#86B4D8',
-      'LNDAGRBC1C05': '#FEE566',
-      'LNDAGRBC1C06': '#B067B3',
-      'LNDAGRBC1C07': 'gray',
+  'LNDAGRBC1C01': '#DDB3F9',
+  'LNDAGRBC1C02': '#D27A78',
+  'LNDAGRBC1C03': '#5BAB59',
+  'LNDAGRBC1C04': '#86B4D8',
+  'LNDAGRBC1C05': '#FEE566',
+  'LNDAGRBC1C06': '#B067B3',
+  'LNDAGRBC1C07': 'gray',
   }
 
 legend_labels : {
-      'PWRWND': 'Wind',
-      'PWRNGS': 'Natural Gas',
-      'PWRBIO': 'Biomass/Biofuel',
-      'PWRHYD': 'Hydro',
-      'PWRSOL': 'Solar',
-      'PWRGEO': 'Geothermal',
-      'PWRURN': 'Nuclear',
-      'CCS': 'Carbon Capture and Storage',
-      'HDG': ' Hydrogen',
+  'PWRWND': 'Wind',
+  'PWRNGS': 'Natural Gas',
+  'PWRBIO': 'Biomass/Biofuel',
+  'PWRHYD': 'Hydro',
+  'PWRSOL': 'Solar',
+  'PWRGEO': 'Geothermal',
+  'PWRURN': 'Nuclear',
+  'CCS': 'Carbon Capture and Storage',
+  'HDG': ' Hydrogen',
 
-      'DEMRES': 'Residential',
-      'DEMIND': 'Industrial',
-      'DEMTRA': 'Transport',
-      'DEMAGR': 'Agricultural',
-      'DEMCOM': 'Commercial',
+  'DEMRES': 'Residential',
+  'DEMIND': 'Industrial',
+  'DEMTRA': 'Transport',
+  'DEMAGR': 'Agricultural',
+  'DEMCOM': 'Commercial',
 
-      'LNDAGRBC1C01': 'Land resource - Cluster 1',
-      'LNDAGRBC1C02': 'Land resource - Cluster 2',
-      'LNDAGRBC1C03': 'Land resource - Cluster 3',
-      'LNDAGRBC1C04': 'Land resource - Cluster 4',
-      'LNDAGRBC1C05': 'Land resource - Cluster 5',
-      'LNDAGRBC1C06': 'Land resource - Cluster 6',
-      'LNDAGRBC1C07': 'Land resource - Cluster 7'
+  'LNDAGRBC1C01': 'Land resource - Cluster 1',
+  'LNDAGRBC1C02': 'Land resource - Cluster 2',
+  'LNDAGRBC1C03': 'Land resource - Cluster 3',
+  'LNDAGRBC1C04': 'Land resource - Cluster 4',
+  'LNDAGRBC1C05': 'Land resource - Cluster 5',
+  'LNDAGRBC1C06': 'Land resource - Cluster 6',
+  'LNDAGRBC1C07': 'Land resource - Cluster 7'
   }
 
 

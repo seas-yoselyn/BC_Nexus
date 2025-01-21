@@ -43,7 +43,7 @@ class BuildModel:
         self.get_all_attributes() 
         
         # collects the template files from the CLEWS model repository and dumps to "data/clews_data/input_csvs" folder. The folder creation inside data will be handled by the method.
-        self.get_csv_template(force_replace=True)
+        self.get_csv_template(force_replace=False)
         
         """ 
         Builds SETs and Ratios (input/output activities) if the Model structure/connection needs to be changed.
@@ -861,7 +861,7 @@ class BuildModel:
     #1  
         utils.print_update(level=1,
             message='updating temporal profiles')
-        self.get_csv_template(force_replace=False)
+        # self.get_csv_template(force_replace=False)
 
         
     #2

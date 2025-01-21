@@ -1,11 +1,12 @@
 from dash import Dash, html, dcc, Output, Input
 import pandas as pd
-from bcnexus.vis import vis_utils
-from bcnexus import utils
+from bc_combined_modelling.vis import vis_utils
+from bc_combined_modelling import utils
 import plotly.express as px
-from bcnexus.vis.dashboard.dash_components import header, scenario_and_tabs
+from bc_combined_modelling.vis.dashboard.dash_components import header, scenario_and_tabs
 from pathlib import Path
 import plotly.graph_objects as go
+from bc_combined_modelling.vis.dashboard.plot_demand import create_demand_plots,create_demand_plot_simplified
 
 # Load configurations
 dash_configs: dict = utils.load_config('config/dashboard.yaml')
@@ -24,7 +25,7 @@ info_SCENARIOS = dash_configs['info_SCENARIOS']
 scenario_results_directory = Path('results/clews')
 SCENARIOS = sorted([item.name for item in scenario_results_directory.iterdir() if item.is_dir()])
 
-timeslices = 30
+timeslices = 8
 results_subfolder = f'{timeslices}ts_csvs_gurobi'
 """ 
 folder_names = []
@@ -91,26 +92,18 @@ def update_tab_content(selected_tab, selected_scenario, *selected_filenames):
             if file_path.exists():
                 df = pd.read_csv(file_path)
                 if all(col in df.columns for col in ["year", "Commercial", "Industrial", "Residential", "Transportation"]):
-                    fig = px.area(
-                        df,
-                        x="year",
-                        y=["Commercial", "Industrial", "Residential", "Transportation"],
-                        title="Sectoral Demand (Canada Energy Future 2023)",
-                        labels={"value": "Demand", "year": "Year"},
-                        color_discrete_map={
-                            "Commercial": "blue",
-                            "Industrial": "green",
-                            "Residential": "orange",
-                            "Transportation": "red"
-                        }
-                    )
-                    fig.update_layout(
-                        barmode='stack',
-                        xaxis_title="Year",
-                        yaxis_title=" Demand (Pj)",
-                        legend_title="Sector"
-                    )
+                    fig=create_demand_plot_simplified(df)
                     graphs.append(dcc.Graph(figure=fig))
+                # """ 
+                else:
+                    aggr_sector_plot,sector_fuels_plot=create_demand_plots(df)
+
+                    # Show figure
+                    graphs.append(dcc.Graph(figure=aggr_sector_plot))
+                    graphs.append(dcc.Graph(figure=sector_fuels_plot))
+
+                # """   
+             
     else:
         result_file_paths = [scenario_results_directory / selected_scenario / results_subfolder / filename for filename in selected_filenames]
         for file_path, filename in zip(result_file_paths, selected_filenames):
@@ -207,6 +200,7 @@ def update_tab_content(selected_tab, selected_scenario, *selected_filenames):
 
     return graphs
 
+
 # Run the app
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(port=8050,debug=True)
