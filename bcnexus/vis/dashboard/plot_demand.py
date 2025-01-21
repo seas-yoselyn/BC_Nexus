@@ -58,13 +58,12 @@ def create_demand_plots(df):
     )
 
     # Add stacked bar plots for each sector
+    sectors = [sector for sector in df['sector'].unique() if 'total' not in sector.lower()]
     for index, sector in enumerate(sectors):
         row = (index // cols) + 1
         col = (index % cols) + 1
-
-        sector_data = df[df['sector'] == sector]
-
-        for variable in sector_data['variable'].unique():
+        variables=[variable for variable in sector_data['variable'].unique() if 'total' not in variable.lower()]
+        for variable in variables:
             variable_data = sector_data[sector_data['variable'] == variable]
             fig_subplots.add_trace(
                 go.Bar(
@@ -74,6 +73,7 @@ def create_demand_plots(df):
                     marker=dict(color=variable_colors[variable]),
                     legendgroup=variable,  # Group legend by variable
                     showlegend=(index == 0),  # Show legend only in the first row of subplots
+
                 ),
                 row=row,
                 col=col,
@@ -85,6 +85,8 @@ def create_demand_plots(df):
         height=300 * rows,
         width=1100,
         barmode='stack',  # Enable stacking for bar charts
+        xaxis=dict(tickfont=dict(size=10)),  # Smaller font for x-axis
+        yaxis=dict(tickfont=dict(size=10)),  # Smaller font for y-axis
     )
 
     return fig_combined, fig_subplots
