@@ -24,6 +24,9 @@ info_SCENARIOS = dash_configs['info_SCENARIOS']
 # Define folders/sub-folders to access data
 scenario_results_directory = Path('results/clews')
 SCENARIOS = sorted([item.name for item in scenario_results_directory.iterdir() if item.is_dir()])
+# Add 'Resources' to plot_files and SCENARIOS if required
+plot_files['resources'] = []  # No specific files needed for this tab
+
 
 timeslices = 8
 results_subfolder = f'{timeslices}ts_csvs_gurobi'
@@ -41,6 +44,8 @@ for scenario in SCENARIOS:
 # Initialize Dash app
 app = Dash(__name__, external_stylesheets=['https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css'])
 server = app.server
+
+
 
 # Define layout
 app.layout = html.Div([
@@ -83,9 +88,41 @@ def update_scenario_info(selected_scenario):
 )
 def update_tab_content(selected_tab, selected_scenario, *selected_filenames):
     graphs = []
+
+    if selected_tab == 'resources':
+        # Embed the HTML plot as an iframe
+        html_file_path = Path("docs/plots/Resource_options.html")
+        if html_file_path.exists():
+            # Option 1: Display as an iframe
+            iframe = html.Iframe(
+                srcDoc=html_file_path.read_text(),
+                style={
+                    'width': '98%',
+                    'height': '900px',
+                    'border': 'none',
+                    'margin': 'auto',
+                    'display': 'block',
+                    'padding': '10px',
+                    'overflow': 'auto',
+                }
+            )
+
+            # Option 3: Display as a link to open in a new tab
+            # link = html.A(
+            #     'More About Resource Assessment',
+            #     href='https://deltae.github.io/Linking_tool/',
+            #     target='_blank',
+            #     className='btn btn-primary'
+            # )
+
+            # Choose one of the options to return
+            return [iframe]
+
+        else:
+            return [html.P("HTML file not found.", className='text-danger')]
+    
     plot_files_list = plot_files[selected_tab]
     selected_filenames = [filename for filename in selected_filenames if filename in plot_files_list]
-
     if selected_tab == 'demand':
         demand_file_paths = [Path(demand_data) / filename for filename in selected_filenames]
         for file_path, filename in zip(demand_file_paths, selected_filenames):

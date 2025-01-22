@@ -1,0 +1,650 @@
+codes:
+  sector:
+    'IND': 'Industry'
+    'RES': 'Residential'
+    'COM': 'Commercial'
+    'AGR': 'Agricultural'
+    'TRA': 'Transport'
+  
+  public_water_usage:
+    'PUB': 'Public'
+
+  water:
+    'WAT': 'Water'
+    'WTR' : 'Water'
+
+  crop_prefix:
+    'CRP': 'Crop prefix'
+
+  crops:
+    'ALF': 'Alfalfa'
+    'BAR': 'Barley'
+    'MAI': 'Maize'
+    'OAT': 'Oat'
+    'PEA': 'Dry pea'
+    'PTW': 'White potato'
+    'RAP': 'Rapeseed'
+    'RYE': 'Rye'
+    'WHE': 'Wheat'
+    'OTH': 'Other'
+
+  primary_fuels:
+    # 'CHC': 'Charcoal'
+    'BIO': 'Biomass'
+    'COA': 'Coal'
+    'CRU': 'Crude oil'
+    'DSL': 'Diesel'
+    'GSL': 'Gasoline'
+    'HDG' : 'Hydrogen'
+    'HFO': 'Heavy fuel oil'
+    'JFL': 'Jet fuel'
+    'KER': 'Kerosene'
+    'LPG': 'LPG'
+    # 'OHC': 'Other hydrocarbons'
+    # 'PCK': 'Petroleum coke'
+
+    'HYD': 'Hydropower'
+    'SOL': 'Solar'
+    'URN': 'Uranium'
+    'WND': 'Wind'
+    'GEO': 'Geothermal'
+    'NGS': 'Natural gas'
+  electricity:
+    'ELC': 'Electricity'
+  electricity_identifiers:
+    '01': 'Electricity from power plants in region B'
+    '02': 'Electricity from transmission in region B'
+  irrigation_type:
+    'R': 'Rain-fed'
+    'I': 'Irrigation'
+  irrigation_intensity:
+    'L': 'Low'
+    'I': 'Intermediate'
+    'H': 'High'
+  landuse:
+    'BAR': 'Barren and sparsely vegetated land'
+    'FOR': 'Forest land'
+    'GRS': 'Grassland & woodland'
+    'BLT': 'Built-up land'
+    'WAT': 'Water bodies'
+    'OTH': 'Other agricultural land'
+
+  grid:
+    'B' : 'Transmission grid-B'
+
+  land_region:
+    'BC1' : 'BC Region 1'
+
+  land_prefix:
+    'L' : 'Land'
+    'LND' : 'Land'
+
+  water_storage:
+    'WATER_STORAGE' : 'Water Storage'
+
+  water_storage_identifiers:
+    '01' : 'Aggregated Water Storage'
+
+  water_cycle:
+    'EVT': 'Evapotranspiration'
+    'GRC': 'Ground Recovery'
+    'PRC': 'Precipitation'
+    'SUR': 'Surface Water'
+
+  power_generation_techs:
+    'PWR' : 'Power generation facilities'
+  power_transmission_techs:
+   'TRN' : 'Power Transmission facilities'
+
+  emission:
+    'CO2' : 'Carbon-dioxide'
+
+  carbon_capture:
+    'CCS': 'Carbon-Capture-Storage'
+  
+  carbon_capture_tech_type:
+    '01': 'Captures and stores C02'
+  
+  hydrogen:
+    'HDG': 'Hydrogen-gas'
+
+  hydrogen_tech_type:
+    '01': 'Electrolyser, takes in Electricity and produces H2'
+    '02': 'Supplies H2 Gas'
+  
+  battery_storage_tech:
+    'BATTERY_STORAGE' : ' Battery Storage tech'
+
+  techs:
+    'MIN': 'Mining'
+    'PWR': 'Generator'
+    'TRN': 'Transmission'
+    'RNW' : 'Renewable Sources'
+    # primary_fuel_sourcing:
+    'IMP': 'Import'
+    'EXP' : 'Export'
+    'DEM' : 'End-use Demand'
+  
+  hydrobasin_tech:
+    'INFLOW': 'Basin water intake'
+
+  hydrobasin_tech_type:
+    '01' : 'Aggregated Basin'
+  
+  land_clusters:
+    'C01': 'Cluster 01'
+    'C02': 'Cluster 02'
+    'C03': 'Cluster 03'
+    'C04': 'Cluster 04'
+    'C05': 'Cluster 05'
+    'C06': 'Cluster 06'
+    'C07': 'Cluster 07'
+
+  literal_shortcode:
+    '4': 'for'
+
+  power_techs_identifiers:
+    '01': 'Power plant tech 1'
+    '02': 'Power plant tech 2'
+    '03': 'Power plant tech 3'
+    '04': 'Power plant tech 4'
+    '05': 'Power plant tech 5'
+    '06': 'Power plant tech 6'
+    '07': 'Power plant tech 7'
+    '08': 'Power plant tech 8'
+    '09': 'Power plant tech 9'
+    '10': 'Power plant tech 10'
+    '11': 'Power plant tech 11'
+    '12': 'Power plant tech 12'
+    '13': 'Power plant tech 13'
+    '14': 'Power plant tech 14'
+    '15': 'Power plant tech 15'
+    '16': 'Power plant tech 16'
+    '17': 'Power plant tech 17'
+    '18': 'Power plant tech 18'
+    '19': 'Power plant tech 19'
+    '20': 'Power plant tech 20'
+    '21': 'Power plant tech 21'
+    '22': 'Power plant tech 22'
+    '23': 'Power plant tech 23'
+    '24': 'Power plant tech 24'
+    '25': 'Power plant tech 25'
+    '26': 'Power plant tech 26'
+    '27': 'Power plant tech 27'
+    '28': 'Power plant tech 28'
+schema:
+  FUEL:
+
+  - name: land_for_powerplant_setup_fuel
+    items:
+    - name: land_prefix
+      valid: land_prefix
+      position: (1, 3)
+    - name: literal_shortcode_for
+      valid: literal_shortcode
+      position: (4, 4)
+    - name: power_generation_techs
+      valid: power_generation_techs
+      position: (5, 7)
+  
+  - name: primary_fuels_supply
+    items:
+    - name: primary_fuels
+      valid: primary_fuels
+      position: (1, 3)
+  
+  - name: land_use_for_powerplant
+    items:
+    - name: primary_fuels
+      valid: primary_fuels
+      position: (1, 3)
+  
+  - name: carbon_capture_and_storage
+    items:
+    - name: emission
+      valid: emission
+      position: (1, 3)
+    - name: carbon_capture
+      valid: carbon_capture
+      position: (4, 6)
+
+  - name: public_water_usage
+    items:
+    - name: public_water_usage
+      valid: public_water_usage
+      position: (1, 3)
+    - name: water
+      valid: water
+      position: (4, 6)
+    - name: land_region
+      valid: land_region
+      position: (7, 9)
+  
+  - name: powerplant_water_usage
+    items:
+    - name: power_generation_techs
+      valid: power_generation_techs
+      position: (1, 3)
+    - name: water
+      valid: water
+      position: (4 6)
+    - name: land_region
+      valid: land_region
+      position: (7, 9)
+
+  - name: crops
+    items:
+    - name: crop_prefix
+      valid: crop_prefix
+      position: (1, 3)
+    - name: crop_type
+      valid: crops
+      position: (4, 6)
+
+  - name: power_generation_techs
+    items:
+    - name: power_generation_techs
+      valid: power_generation_techs
+      position: (1, 3)
+    - name: primary_fuels
+      valid: primary_fuels
+      position: (4, 6)
+  
+  - name: electricity_fuel
+    items:
+    - name: fuel
+      valid: electricity
+      position: (1, 3)
+    - name: grid
+      valid: grid
+      position: (4, 4)
+    - name: electricity_identifiers
+      valid: electricity_identifiers
+      position: (5, 6)
+
+  - name: crop_yields
+    items:
+    - name: land_prefix
+      valid: land_prefix
+      position: (1, 1)
+    - name: crop_type
+      valid: crops
+      position: (2, 4)
+    - name: irrigation_intensity
+      valid: irrigation_intensity
+      position: (5, 5)
+    - name: irrigation_type
+      valid: irrigation_type
+      position: (6, 6)
+    - name: land
+      valid: land_region
+      position: (7, 9)
+
+  - name: fuel_name
+    items:
+    - name: sector
+      valid: sector
+      position: (1, 3)
+    - name: primary_fuels
+      valid: primary_fuels
+      position: (4, 6)
+
+  - name: land_fuel
+    items:
+    - name: land_prefix
+      valid: land_prefix
+      position: (1, 1)
+    - name: land
+      valid: land_region
+      position: (2, 4)
+
+  - name: land_use_non_power
+    items:
+    - name: land
+      valid: land_prefix
+      position: (1, 1)
+    - name: landuse_type
+      valid: landuse
+      position: (2, 4)
+    - name: land
+      valid: land_region
+      position: (5, 7)
+  
+  - name: water_usage
+    items:
+    - name: sector
+      valid: sector
+      position: (1, 3)
+    - name: fuel
+      valid: water
+      position: (4, 6)
+    - name: land
+      valid: land_region
+      position: (7, 9)
+
+  - name: water_cycle
+    items:
+    - name: water
+      valid: water
+      position: (1, 3)
+    - name: water_cycle
+      valid: water_cycle
+      position: (4, 6)
+    - name: land_region
+      valid: land_region
+      position: (7, 9)
+
+  - name: sectoral_electricity
+    items:
+    - name: sector
+      valid: sector
+      position: (1, 3)
+    - name: fuel
+      valid: electricity
+      position: (4, 6)
+    - name: grid
+      valid: grid
+      position: (7, 7)
+    - name: electricity_identifiers
+      valid: electricity_identifiers
+      position: (8, 9)
+
+  - name: water_storage # WATER_STORAGE01
+    items:
+    - name: water_storage
+      valid: water_storage
+      position: (1, 13)
+    - name: water_storage_identifiers
+      valid: water_storage_identifiers
+      position: (14, 15)
+
+
+  TECHNOLOGY:
+
+  - name: primary_fuel_supply_tech
+    items:
+    - name: techs
+      valid: techs
+      position: (1, 3)
+    - name: primary_fuels
+      valid: primary_fuels
+      position: (4, 5)
+
+  - name: hydrogen_tech
+    items:
+    - name: hydrogen_tech
+      valid: hydrogen
+      position: (1, 3)
+    - name: hydrogen_tech_type
+      valid: hydrogen_tech_type
+      position: (4, 5)
+
+  - name: ccs_tech
+    items:
+    - name: carbon_capture
+      valid: carbon_capture
+      position: (1, 3)
+    - name: carbon_capture_tech_type
+      valid: carbon_capture_tech_type
+      position: (4, 5)
+
+  - name: carbon_capture_tech
+    items:
+    - name: carbon_capture
+      valid: carbon_capture
+      position: (1, 3)
+    - name: carbon_capture_tech_type
+      valid: carbon_capture_tech_type
+      position: (4, 5)
+
+  - name: hydro_basin_tech
+    items:
+    - name: hydrobasin_tech
+      valid: hydrobasin_tech
+      position: (1, 6)
+    - name: hydrobasin_tech_type
+      valid: hydrobasin_tech_type
+      position: (7, 9)
+
+
+  - name: land_supply_techs # LND AGR BC1 C01
+    items:
+    - name: land
+      valid: land_prefix
+      position: (1, 3)
+    - name: sector
+      valid: sector
+      position: (4, 6)
+    - name: land_region
+      valid: land_region
+      position: (7, 9)
+    - name: land_clusters
+      valid: land_clusters
+      position: (10, 12)
+
+  - name: end_use_energy_demand_consuming_tech
+    items:
+    - name: techs
+      valid: techs
+      position: (1, 3)
+    - name: sector
+      valid: sector
+      position: (4, 6)
+    - name: primary_fuels
+      valid: primary_fuels
+      position: (7, 9)
+  
+  - name: end_use_electricity_demand_consuming_tech # DEM AGR ELC B 02
+    items:
+    - name: techs
+      valid: techs
+      position: (1, 3)
+    - name: sector
+      valid: sector
+      position: (4, 6)
+    - name: electricity
+      valid: electricity
+      position: (7, 9)
+    - name: grid
+      valid: grid
+      position: (10, 10)
+    - name: electricity_identifiers
+      valid: electricity_identifiers
+      position: (11, 12)
+
+  - name: electricity_generation_fuel_supply__tech  #  DEM PWR NGS
+    items:
+    - name: techs
+      valid: techs
+      position: (1, 3)
+    - name: power_generation_techs
+      valid: power_generation_techs
+      position: (4, 6)
+    - name: primary_fuels
+      valid: primary_fuels
+      position: (7, 9)
+  
+  - name: public_water_consumption_tech  #  DEM PUB SUR BC1
+    items:
+    - name: techs
+      valid: techs
+      position: (1, 3)
+    - name: public_water_usage
+      valid: public_water_usage
+      position: (4, 6)
+    - name: water_cycle
+      valid: water_cycle
+      position: (7, 9)
+    - name: land_region
+      valid: land_region
+      position: (10, 12)
+
+  - name: power_sector_water_supply_tech  #  DEM PWR SUR BC1
+    items:
+    - name: techs
+      valid: techs
+      position: (1, 3)
+    - name: power_generation_techs
+      valid: power_generation_techs
+      position: (4, 6)
+    - name: water_cycle
+      valid: water_cycle
+      position: (7, 9)
+    - name: land_region
+      valid: land_region
+      position: (10, 12)
+
+  - name: sectoral_water_consumption_tech  #  DEM AGR GWT BC1
+    items:
+    - name: techs
+      valid: techs
+      position: (1, 3)
+    - name: sector
+      valid: sector
+      position: (4, 6)
+    - name: water_cycle
+      valid: water_cycle
+      position: (7, 9)
+    - name: land_region
+      valid: land_region
+      position: (10, 12)
+
+  - name: crop_production_land_supply_tech  #  LND ALF I R BC1
+    items:
+    - name: land
+      valid: land_prefix
+      position: (1, 3)
+    - name: crop
+      valid: crops
+      position: (4, 6)
+    - name: irrigation_intensity
+      valid: irrigation_intensity
+      position: (7, 7)
+    - name: irrigation_type
+      valid: irrigation_type
+      position: (8, 8)
+    - name: land_region
+      valid: land_region
+      position: (10, 12)
+
+
+  - name: land_crop_production_tech #LNDALFBC1
+    items:
+    - name: land
+      valid: land_prefix
+      position: (1, 3)
+    - name: crop
+      valid: crops
+      position: (4, 6)
+    - name: land_region
+      valid: land_region
+      position: (7, 9)
+  
+  - name: water_bodies_tech #LNDWTRBC1
+    items:
+    - name: land
+      valid: land_prefix
+      position: (1, 3)
+    - name: water
+      valid: water
+      position: (4, 6)
+    - name: land_region
+      valid: land_region
+      position: (7, 9)
+  
+
+  - name: regional_land_supply_tech # MIN LND BC1
+    items:
+    - name: techs
+      valid: techs
+      position: (1, 3)
+    - name: land
+      valid: land_prefix
+      position: (4, 6)
+    - name: land_region
+      valid: land_region
+      position: (7, 9)
+
+  - name: land_supply_for_primary_fuels_tech # DEM LND BIO
+    items:
+    - name: techs
+      valid: techs
+      position: (1, 3)
+    - name: land
+      valid: land_prefix
+      position: (4, 6)
+    - name: primary_fuels
+      valid: primary_fuels
+      position: (7, 9)
+
+  - name: land_supply_for_primary_fuels_tech
+    items:
+    - name: techs
+      valid: techs
+      position: (1, 3)
+    - name: land
+      valid: land_prefix
+      position: (4, 6)
+    - name: primary_fuels
+      valid: primary_fuels
+      position: (7, 9)
+
+  - name: groundwater_supply
+    items:
+    - name: techs
+      valid: techs
+      position: (1, 3)
+    - name: water_cycle
+      valid: water_cycle
+      position: (4, 6)
+    - name: land_region
+      valid: land_region
+      position: (7, 9)
+  
+  - name: Fuel_supplier_for_power_generation_techs # PWR BIO B 01
+    items:
+    - name: techs
+      valid: techs
+      position: (1, 3)
+    - name: primary_fuels
+      valid: primary_fuels
+      position: (4, 6)
+    - name: grid
+      valid: grid
+      position: (7, 7)
+    - name: power_techs_identifiers
+      valid: power_techs_identifiers
+      position: (8, 9)
+    
+  - name: power_transmission-techs # PWR TRN B 01
+    items:
+    - name: power_generation_techs
+      valid: power_generation_techs
+      position: (1, 3)
+    - name: power_transmission_techs
+      valid: power_transmission_techs
+      position: (4, 6)
+    - name: grid
+      valid: grid
+      position: (7, 7)
+    - name: power_techs_identifiers
+      valid: power_techs_identifiers
+      position: (8, 9)
+
+  - name: battery_storage_tech # BATTERY_STORAGE
+    items:
+    - name: battery_storage_tech
+      valid: battery_storage_tech
+      position: (1, 15)
+
+  - name: land_use_supply_tech # LND BLT BC1
+    items:
+    - name: land
+      valid: land_prefix
+      position: (1, 3)
+    - name: landuse
+      valid: landuse
+      position: (4, 6)
+    - name: land_region
+      valid: land_region
+      position: (7, 9)

@@ -1,5 +1,5 @@
 
-SCENARIOS: ['Base','LIMITED_CO2','LIMITED_CO2_PLTY']
+SCENARIOS: ['Base_CNZ','CNZ_LIMITED_CO2','CNZ_LIMITED_CO2_PLTY','HYDROGEN']
 # aligned with config
 
 result_type:
@@ -10,11 +10,11 @@ result_type:
     'year': 'y'
     'technology' : 't'
 
-info_SCENARIOS: { # aligned with folder name
-  'Model_Kotzur_Base' : 'Baseline scenario with Canada Energy Futures 2023 report''s Current Measures Demand. Call for Power 2024 sites fitted as committed plants. Potential resource options for Solar (5GW) and Wind (10GW) modeled. Hourly profiles absorbed from 2021 historical data.',
-  'Model_Kotzur_LIMITED_CO2': 'Baseline scenario with CO2 annual limit up to 50 MTeCO2',
-  'Model_Kotzur_LIMITED_CO2_PLTY': 'Baseline scenario with CO2 annual limit and emission penalty up to $170/MTeCo2',
-    }
+info_SCENARIOS:  # aligned with folder name
+  'Model_Kotzur_Base_CNZ': "Baseline scenario with Canada Energy Futures 2023 report's Canada Net Zero Demand. Call for Power 2024 sites fitted as committed plants. Potential resource options for Solar (5GW) and Wind (10GW) modeled. Hourly profiles absorbed from 2021 historical data. Allowed CCS ( <= 0.2 GW) and HDG (<=0.2 GW) from 2026"
+  'Model_Kotzur_CNZ_LIMITED_CO2': "Baseline scenario with CO2 annual limit up to 50 MTeCO2."
+  'Model_Kotzur_CNZ_LIMITED_CO2_PLTY': "Baseline scenario with emission penalty up to $170/MTeCo2. "
+  'Model_Kotzur_HYDROGEN': "Hydrogen intense scenario with sectoral hydrogen demand assumptions and no emission limit, no limit on CCS, HDG techs."
 
 title : "BCNexus Results"
 demand_data: 'data/downloaded_data/CODERS/data-pull/demand'

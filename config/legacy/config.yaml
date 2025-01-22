@@ -1,0 +1,106 @@
+Title: User Configuration for Bidirectional Linking Tool
+Developer : Md Eliasinul Islam
+Affiliation : Sustainable Energy Engineering, Simon Fraser University, BC, Canada
+
+version: 1.0
+Release_Year: 2024
+description: |+
+    Inside the user configuration file of the L:INKING TOOL, there are 'keys' with quantitative 'values' upon which the module results relies on.
+    These  have been given as 'parameters' in the RULES
+
+clews:
+  # CLUSTERING:
+  #   days_in_year: 365
+  #   hour_grouping: 6
+  #   n_clusters: 2
+
+  SCENARIOS:
+    Base:
+      Demand: {}
+        # HDG:
+          # accumulated_annual_demand: '[100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 200, 200, 200, 200, 200, 300]'
+      EMISSION:
+        CO2: 
+          annual_emission_limit: '[9999, 9999, 9999, 9999, 9999, 9999, 9999, 9999, 9999, 9999, 9999]'
+          emission_penalty: {} # '[100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100]'
+      TECHS:
+        CCS01: {}
+          # capital_cost: '[1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 900, 900, 900, 900, 900, 800]'
+          # operational_life: 20
+        HDG01: {}
+          # capital_cost: 34
+          # operational_life: 20
+          # input_fuel: ELCB01
+          # efficiency: 0.85
+          # total_annual_min_capacity: '[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]'
+          # total_annual_max_capacity: '[10, 10, 10, 10, 10, 10, 10, 20, 30, 40]'
+        HDG02: {}
+          # capital_cost: 20
+          # operational_life: 20
+          # input_fuel: NGS
+          # efficiency: 0.70
+          # total_annual_max_capacity: 30
+        PWRURNB01: {}
+          # capital_cost: 6041
+          # operational_life: 36
+          # total_annual_max_capacity_investment: 0
+          # input_fuel: PWRURN
+          # efficiency: 0.3333
+    LIMITED_CO2:
+      Demand: {}
+      EMISSION:
+        CO2:
+          annual_emission_limit: '[100, 100, 100, 100, 50, 50, 50, 50, 50, 50, 50]'
+          # emission_penalty: '[45, 45, 50, 65, 80, 95, 110, 125, 140, 155, 170]'
+      TECHS:
+        CCS01:
+          capital_cost: '[1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 900, 900, 900, 900, 900, 800]'
+          operational_life: 20
+        HDG01: {}
+          # capital_cost: 34
+          # operational_life: 20
+          # input_fuel: ELCB01
+          # efficiency: 0.85
+          # total_annual_min_capacity: '[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]'
+          # total_annual_max_capacity: '[10, 10, 10, 10, 10, 10, 10, 20, 30, 40]'
+        HDG02: {}
+          # capital_cost: 20
+          # operational_life: 20
+          # input_fuel: NGS
+          # efficiency: 0.70
+          # total_annual_max_capacity: 30
+        PWRURNB01: {}
+          # capital_cost: 6041
+          # operational_life: 36
+          # total_annual_max_capacity_investment: 0
+          # input_fuel: PWRURN
+          # efficiency: 0.3333
+    LIMITED_CO2_PLTY:
+      Demand: {}
+      EMISSION:
+        CO2:
+          annual_emission_limit: '[100, 100, 100, 100, 50, 50, 50, 50, 50, 50, 50]'
+          emission_penalty: '[50, 50, 50, 80, 170, 170, 170, 170, 170, 170, 170]'
+      TECHS:
+        CCS01: 
+          capital_cost: '[1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 900, 900, 900, 900, 900, 800]'
+          operational_life: 20
+        HDG01: {}
+          # capital_cost: 34
+          # operational_life: 20
+          # input_fuel: ELCB01
+          # efficiency: 0.85
+          # total_annual_min_capacity: '[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]'
+          # total_annual_max_capacity: '[10, 10, 10, 10, 10, 10, 10, 20, 30, 40]'
+        HDG02: {}
+          # capital_cost: 20
+          # operational_life: 20
+          # input_fuel: NGS
+          # efficiency: 0.70
+          # total_annual_max_capacity: 30
+        PWRURNB01: {}
+          # capital_cost: 6041
+          # operational_life: 36
+          # total_annual_max_capacity_investment: 0
+          # input_fuel: PWRURN
+          # efficiency: 0.3333

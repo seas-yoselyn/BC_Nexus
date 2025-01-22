@@ -9,98 +9,143 @@ description: |+
     These  have been given as 'parameters' in the RULES
 
 clews:
-  # CLUSTERING:
-  #   days_in_year: 365
-  #   hour_grouping: 6
-  #   n_clusters: 2
-
   SCENARIOS:
-    Base:
+    # scneario_name: ####### CAN'T DELETE, CAN BE EMPTY
+      # scenario_axes: ####### CAN'T DELETE, CAN BE EMPTY
+        # TECHID:   ####### CAN BE EMPTY/deleted
+                # capital_cost: float or vector
+                # operational_life: int
+                # input_fuel: supported FUELS
+                # efficiency: float
+                # total_annual_min_capacity: float
+                # total_annual_max_capacity: float 
+                # total_annual_max_capacity_investment : float
+    # Base_CM:
+    #   Demand: {}
+    #   EMISSION: {}
+    #   TECHS: 
+    #     CCS01:
+    #         capital_cost: 9999 # we can also prove a vector e.g. [xxx xxx ]
+    #         total_annual_max_capacity: 0.2 #GW
+    #         operational_life: 25
+    #         total_annual_max_capacity_investment: '[0,0,0,0,0,1]'
+    #     HDG01:
+    #         total_annual_max_capacity: 0.2 #GW
+    #         total_annual_max_capacity_investment: '[0,0,0,0,0,1]'
+
+    #scenario
+    Base_CNZ:
       Demand: {}
-        # HDG:
-          # accumulated_annual_demand: '[100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 200, 200, 200, 200, 200, 300]'
-      EMISSION:
-        CO2: 
-          annual_emission_limit: '[9999, 9999, 9999, 9999, 9999, 9999, 9999, 9999, 9999, 9999, 9999]'
-          emission_penalty: {} # '[100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100]'
-      TECHS:
-        CCS01: {}
-          # capital_cost: '[1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 900, 900, 900, 900, 900, 800]'
-          # operational_life: 20
-        HDG01: {}
-          # capital_cost: 34
-          # operational_life: 20
-          # input_fuel: ELCB01
-          # efficiency: 0.85
-          # total_annual_min_capacity: '[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]'
-          # total_annual_max_capacity: '[10, 10, 10, 10, 10, 10, 10, 20, 30, 40]'
-        HDG02: {}
-          # capital_cost: 20
-          # operational_life: 20
-          # input_fuel: NGS
-          # efficiency: 0.70
-          # total_annual_max_capacity: 30
-        PWRURNB01: {}
-          # capital_cost: 6041
-          # operational_life: 36
-          # total_annual_max_capacity_investment: 0
-          # input_fuel: PWRURN
-          # efficiency: 0.3333
-    LIMITED_CO2:
-      Demand: {}
-      EMISSION:
-        CO2:
-          annual_emission_limit: '[100, 100, 100, 100, 50, 50, 50, 50, 50, 50, 50]'
-          # emission_penalty: '[45, 45, 50, 65, 80, 95, 110, 125, 140, 155, 170]'
-      TECHS:
+      EMISSION: {}
+      TECHS: 
         CCS01:
-          capital_cost: '[1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 900, 900, 900, 900, 900, 800]'
-          operational_life: 20
-        HDG01: {}
-          # capital_cost: 34
-          # operational_life: 20
-          # input_fuel: ELCB01
-          # efficiency: 0.85
-          # total_annual_min_capacity: '[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]'
-          # total_annual_max_capacity: '[10, 10, 10, 10, 10, 10, 10, 20, 30, 40]'
-        HDG02: {}
-          # capital_cost: 20
-          # operational_life: 20
-          # input_fuel: NGS
-          # efficiency: 0.70
-          # total_annual_max_capacity: 30
-        PWRURNB01: {}
-          # capital_cost: 6041
-          # operational_life: 36
-          # total_annual_max_capacity_investment: 0
-          # input_fuel: PWRURN
-          # efficiency: 0.3333
-    LIMITED_CO2_PLTY:
+            capital_cost: 9999 # we can also prove a vector e.g. [xxx xxx ]
+            total_annual_max_capacity: 0.2 #GW
+            operational_life: 25
+            total_annual_max_capacity_investment: [0,0,0,0,0,1]
+        HDG01:
+          total_annual_max_capacity: 0.2 #GW
+          total_annual_max_capacity_investment: [0,0,0,0,0,1]
+
+    #scenario
+    CNZ_LIMITED_CO2:
       Demand: {}
       EMISSION:
         CO2:
-          annual_emission_limit: '[100, 100, 100, 100, 50, 50, 50, 50, 50, 50, 50]'
-          emission_penalty: '[50, 50, 50, 80, 170, 170, 170, 170, 170, 170, 170]'
-      TECHS:
-        CCS01: 
-          capital_cost: '[1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 900, 900, 900, 900, 900, 800]'
+          annual_emission_limit: 70
+      TECHS: 
+        CCS01:
+          capital_cost: 9999
           operational_life: 20
-        HDG01: {}
-          # capital_cost: 34
-          # operational_life: 20
-          # input_fuel: ELCB01
-          # efficiency: 0.85
-          # total_annual_min_capacity: '[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]'
-          # total_annual_max_capacity: '[10, 10, 10, 10, 10, 10, 10, 20, 30, 40]'
-        HDG02: {}
-          # capital_cost: 20
-          # operational_life: 20
-          # input_fuel: NGS
-          # efficiency: 0.70
-          # total_annual_max_capacity: 30
-        PWRURNB01: {}
-          # capital_cost: 6041
-          # operational_life: 36
-          # total_annual_max_capacity_investment: 0
-          # input_fuel: PWRURN
-          # efficiency: 0.3333
+
+    #scenario
+    CNZ_LIMITED_CO2_PTY:
+      Demand: {}
+      EMISSION:
+        CO2:
+          # annual_emission_limit: [70,70,70,60,60,50]
+          emission_penalty: [45, 45, 50, 65, 80, 95, 110, 125, 140, 155, 170]
+      TECHS: 
+        CCS01:
+          capital_cost: 9999
+          operational_life: 20
+
+    #scenario
+    HYDROGEN:
+      Demand:
+        TRAHDG:
+          accumulated_annual_demand: [0, 0, 0, 0, 8.959, 12.92544, 16.78746, 20.59696, 24.78204, 28.8464, 33.0876, 37.3422, 41.67892, 46.19744, 50.7708, 55.3486, 59.96458, 64.57248, 69.22646, 73.9898, 78.8523, 83.83752, 88.98146, 94.3254, 99.9061, 105.73824, 111.8196, 118.14444, 124.72084, 131.544]
+        TRADSL:
+          accumulated_annual_demand: [97.11, 96.19, 97.68, 94.33, 89.015, 85.6544, 81.55812, 77.73012, 76.32148, 73.7688, 71.91856, 69.91268, 67.9959, 66.31136, 64.5758, 62.73588, 60.8825, 58.9632, 57.06738, 55.2482, 53.46718, 51.73056, 50.0539, 48.44924, 46.9098, 45.41816, 43.94846, 42.47748, 40.9973, 39.492]
+        TRAJFL:
+          accumulated_annual_demand: [39.94, 72.29, 80.01, 82.62, 81.206, 80.94016, 80.24442, 79.23292, 78.47648, 77.6748, 76.79384, 75.79512, 74.74518, 73.7712, 72.6934, 71.46552, 70.12292, 68.64432, 67.07616, 65.472, 63.83052, 62.16192, 60.47464, 58.77536, 57.0741, 55.3636, 53.63194, 51.86808, 50.06186, 48.204]
+        INDHDG:
+          accumulated_annual_demand: [0, 0, 0, 0, 12.6015, 19.85976, 25.12244, 29.99528, 38.1984, 47.5776, 53.90294, 59.80872, 67.32992, 75.12912, 82.2798, 89.09212, 95.4874, 102.01968, 108.8857, 116.0596, 123.49842, 131.0372, 138.73722, 146.78352, 155.1634, 163.84512, 172.8024, 182.0344, 191.56076, 201.36]
+        INDNGS:
+          accumulated_annual_demand: [218.37, 229.17, 236.88, 230.18, 239.4285, 255.97024, 242.13756, 228.58472, 238.6016, 249.7824, 242.26706, 233.37128, 230.59008, 227.81088, 222.4602, 216.01788, 208.6126, 201.61032, 195.2643, 189.3604, 183.71158, 178.0128, 172.33278, 166.85648, 161.4966, 156.16488, 150.7976, 145.3656, 139.85924, 134.24]
+      EMISSION: 
+        CO2:
+          annual_emission_limit: 9999
+          emission_penalty: 0
+      TECHS: 
+        CCS01:
+          capital_cost: 9999
+          operational_life: 20
+
+
+# Baseline Calibration with scenario config
+    calibration:
+      Demand: {}
+      EMISSION: {}
+      TECHS: 
+        PWRHYDB01:
+            total_annual_max_capacity_investment: 0
+        PWRHYDB02:
+            total_annual_max_capacity_investment: 0
+        PWRNGSB01:
+            total_annual_max_capacity_investment: 0
+        PWRNGSB02:
+            total_annual_max_capacity_investment: 0
+        PWRBIOB01:
+            total_annual_max_capacity_investment: 0
+        PWRBIOB02:
+            total_annual_max_capacity_investment: 0
+        PWRGEOB01:
+            total_annual_max_capacity_investment: 0
+        PWRSOLB01:
+            total_annual_max_capacity_investment: 0
+        PWRWNDB01:
+            total_annual_max_capacity_investment: 0
+        PWRWNDB02:
+            total_annual_max_capacity_investment: 0
+        PWRWNDB03:
+            total_annual_max_capacity_investment: 0
+        PWRWNDB04:
+            total_annual_max_capacity_investment: 0
+        PWRWNDB05:
+            total_annual_max_capacity_investment: 0
+        PWRWNDB06:
+            total_annual_max_capacity_investment: 0
+        PWRWNDB07:
+            total_annual_max_capacity_investment: 0
+        PWRWNDB08:
+            total_annual_max_capacity_investment: 0
+        PWRWNDB09:
+            total_annual_max_capacity_investment: 0
+        PWRWNDB10:
+            total_annual_max_capacity_investment: 0
+        PWRSOLB04:
+          total_annual_max_capacity: '[0,0,0,0,0,0,0,0,0,0,0]'
+        PWRSOLB05:
+          total_annual_max_capacity: '[0,0,0,0,0,0,0,0,0,0,0]'
+        PWRSOLB06:
+          total_annual_max_capacity: '[0,0,0,0,0,0,0,0,0,0,0]'
+        PWRSOLB07:
+          total_annual_max_capacity: '[0,0,0,0,0,0,0,0,0,0,0]'
+        CCS01:
+            capital_cost: 9999 # we can also prove a vector e.g. [xxx xxx ]
+            total_annual_max_capacity: 0.2 #GW
+            operational_life: 25
+            total_annual_max_capacity_investment: '[0,0,0,0,0]'
+        HDG01:
+            total_annual_max_capacity_investment: '[0,0,0,0,0]'
