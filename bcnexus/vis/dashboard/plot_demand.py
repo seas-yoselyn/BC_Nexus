@@ -85,8 +85,8 @@ def create_demand_plots(df):
         height=300 * rows,
         width=1100,
         barmode='stack',  # Enable stacking for bar charts
-        xaxis=dict(tickfont=dict(size=10)),  # Smaller font for x-axis
-        yaxis=dict(tickfont=dict(size=10)),  # Smaller font for y-axis
+        # xaxis=dict(tickfont=dict(size=10)),  # Smaller font for x-axis
+        # yaxis=dict(tickfont=dict(size=10)),  # Smaller font for y-axis
     )
 
     return fig_combined, fig_subplots
