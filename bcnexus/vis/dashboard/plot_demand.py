@@ -2,17 +2,23 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import plotly.express as px
 
+
 def create_demand_plots(df):
     # Filter sectors to exclude "Total"
     sectors = [sector for sector in df['sector'].unique() if 'total' not in sector.lower()]
 
-    # Define color palette
-    palette = px.colors.qualitative.Vivid  # Vibrant colors
-    sector_colors = {
-        sector: px.colors.qualitative.Dark24[i % len(px.colors.qualitative.Dark24)] for i, sector in enumerate(sectors)
-    }
+    # Find the sector with the most variables
+    max_variable_sector = max(sectors, key=lambda sector: len(
+        [variable for variable in df[df['sector'] == sector]['variable'].unique() if 'total' not in variable.lower()]
+    ))
+    max_variable_list = [variable for variable in df[df['sector'] == max_variable_sector]['variable'].unique() if 'total' not in variable.lower()]
+    if 'RPP' not in max_variable_list:
+        max_variable_list.append('RPP')
+    
+    # Define consistent color palette for variables
+    palette = px.colors.qualitative.Plotly
     variable_colors = {
-        variable: palette[i % len(palette)] for i, variable in enumerate(df['variable'].unique())
+        variable: palette[i % len(palette)] for i, variable in enumerate(max_variable_list)
     }
 
     # Combined stacked area chart for all sectors
@@ -23,13 +29,13 @@ def create_demand_plots(df):
         aggregated_data = sector_data.groupby('year')['value'].sum().reset_index()
         fig_combined.add_trace(
             go.Scatter(
-            x=aggregated_data['year'],
-            y=aggregated_data['value'],
-            mode='lines',
-            name=sector,
+                x=aggregated_data['year'],
+                y=aggregated_data['value'],
+                mode='lines',
+                name=sector,
                 stackgroup='one',  # This enables stacking for the area plot
-            line=dict(color=sector_colors[sector]),
-            legendgroup=sector,  # Group legend by sector
+                line=dict(color=px.colors.qualitative.Dark24[sectors.index(sector) % len(px.colors.qualitative.Dark24)]),
+                legendgroup=sector,  # Group legend by sector
             )
         )
 
@@ -58,22 +64,24 @@ def create_demand_plots(df):
     )
 
     # Add stacked bar plots for each sector
-    sectors = [sector for sector in df['sector'].unique() if 'total' not in sector.lower()]
     for index, sector in enumerate(sectors):
         row = (index // cols) + 1
         col = (index % cols) + 1
-        variables=[variable for variable in sector_data['variable'].unique() if 'total' not in variable.lower()]
-        for variable in variables:
+
+        # Filter data for the current sector
+        sector_data = df[df['sector'] == sector]
+
+        # Ensure all variables in max_variable_list are present
+        for variable in max_variable_list:
             variable_data = sector_data[sector_data['variable'] == variable]
             fig_subplots.add_trace(
                 go.Bar(
-                    x=variable_data['year'],
-                    y=variable_data['value'],
+                    x=sorted(sector_data['year'].unique()),  # Sort years for consistency
+                    y=variable_data['value'].values if not variable_data.empty else [0] * len(sector_data['year'].unique()),
                     name=variable,  # Variable legend
                     marker=dict(color=variable_colors[variable]),
                     legendgroup=variable,  # Group legend by variable
                     showlegend=(index == 0),  # Show legend only in the first row of subplots
-
                 ),
                 row=row,
                 col=col,
@@ -85,11 +93,11 @@ def create_demand_plots(df):
         height=300 * rows,
         width=1100,
         barmode='stack',  # Enable stacking for bar charts
-        # xaxis=dict(tickfont=dict(size=10)),  # Smaller font for x-axis
-        # yaxis=dict(tickfont=dict(size=10)),  # Smaller font for y-axis
     )
 
     return fig_combined, fig_subplots
+
+
 
 def create_demand_plot_simplified(df):
     fig = px.area(
