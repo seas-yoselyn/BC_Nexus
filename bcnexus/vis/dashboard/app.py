@@ -1,12 +1,12 @@
 from dash import Dash, html, dcc, Output, Input
 import pandas as pd
-from bc_combined_modelling.vis import vis_utils
-from bc_combined_modelling import utils
+from bcnexus.vis import vis_utils
+from bcnexus import utils
 import plotly.express as px
-from bc_combined_modelling.vis.dashboard.dash_components import header, scenario_and_tabs
+from bcnexus.vis.dashboard.dash_components import header, scenario_and_tabs
 from pathlib import Path
 import plotly.graph_objects as go
-from bc_combined_modelling.vis.dashboard.plot_demand import create_demand_plots,create_demand_plot_simplified
+from bcnexus.vis.dashboard.plot_demand import create_demand_plots,create_demand_plot_simplified
 
 # Load configurations
 dash_configs: dict = utils.load_config('config/dashboard.yaml')
