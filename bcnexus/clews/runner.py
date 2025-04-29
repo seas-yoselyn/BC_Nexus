@@ -6,7 +6,8 @@ import subprocess
 import gurobipy as gp
 import yaml
 import sys
-
+import time
+import psutil
 # local packages
 from bcnexus.attributes_parser import AttributesParser
 from bcnexus.clews.builder import BuildModel
@@ -437,8 +438,8 @@ class RunModel:
             build:bool=False,
             update_temporal_profiles=True,
             solver_name='gurobi',
-            threads:int=32
-            ):
+            threads:int=32,
+            machine_id:str=None):
         """
         Run the CLEWs model with the specified parameters.
         ## Args:
@@ -465,7 +466,9 @@ class RunModel:
         - If the model is not solved, logs an error message.
         input_csvs=Path(input_csvs) if input_csvs else self.input_csvs
         """
-
+        # Measure runtime and memory usage
+        start_time = time.time()
+        process = psutil.Process()
         
         if build or update_temporal_profiles:
     
@@ -595,8 +598,54 @@ class RunModel:
         
         else:
             utils.print_update(level=1, message="X The Solution file not found. Solution writing takes some time. Please wait until the file is written/exists.")  # handles the result folder creation
-        
 
+        
+        # Calculate runtime and memory usage
+        memory_usage = process.memory_info().rss  # Resident Set Size (RSS) in bytes
+
+        # Log runtime and memory usage
+        log_save_to=Path(self.scenario_results_root/f'{self.timeslices}ts')
+        RunModel.log_runtime_and_memory(self.scenario, self.timeslices, start_time, memory_usage, log_save_to, machine_id)
+
+    @staticmethod
+    def log_runtime_and_memory(scenario:str, 
+                               timeslices:int,
+                               start_time:float, 
+                               memory_usage:float, 
+                               save_to:str|Path,
+                               machine_id:Optional[str]=None):
+        # Ensure the directory exists
+        log_dir_path = Path(save_to)
+        log_dir_path.mkdir(parents=True, exist_ok=True)
+        log_path = log_dir_path / "runtime_memory_log.txt"
+        runtime = time.time() - start_time
+
+        # Get the number of CPU cores/threads used
+        cpu_count = psutil.cpu_count(logical=True)
+
+        with log_path.open("a") as log_file:
+            log_file.write(f"Scenario: {scenario}\n")
+            log_file.write(f"Timeslices: {timeslices}\n")
+            log_file.write(f"Runtime: {runtime:.2f} seconds\n")
+            log_file.write(f"Run Start Time: {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(start_time))}\n")
+            log_file.write(f"Run End Time: {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))}\n")
+            log_file.write(f"Memory Usage: {memory_usage / (1024 * 1024):.2f} MB\n")
+            try:
+                username = psutil.Process().username()
+                log_file.write(f"Linux User: {username}\n")
+            except AttributeError:
+                log_file.write("User:---\n")
+                
+            if machine_id is None:
+                try:
+                    machine_id = subprocess.check_output("hostname", shell=True).decode().strip()
+                except subprocess.CalledProcessError as e:
+                    log_file.write(f"Machine ID: Error retrieving ({e})\n")
+            else:
+                log_file.write(f"Machine ID: {machine_id}\n")
+            log_file.write(f"CPU Cores/Threads Used: {cpu_count}\n")
+            log_file.write("-" * 40 + "\n")
+        
 if __name__ == "__main__":
     # Set up argument parsing
     parser = argparse.ArgumentParser(description='Run CLEWs parameter update script')
