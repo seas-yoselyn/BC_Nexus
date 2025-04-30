@@ -605,11 +605,12 @@ class RunModel:
 
         # Log runtime and memory usage
         log_save_to=Path(self.scenario_results_root/f'{self.timeslices}ts')
-        RunModel.log_runtime_and_memory(self.scenario, self.timeslices, start_time, memory_usage, log_save_to, machine_id)
+        RunModel.log_runtime_and_memory(self.scenario, self.timeslices, self.clustering_attributes, start_time, memory_usage, log_save_to, machine_id)
 
     @staticmethod
     def log_runtime_and_memory(scenario:str, 
                                timeslices:int,
+                               clustering_attributes:dict,
                                start_time:float, 
                                memory_usage:float, 
                                save_to:str|Path,
@@ -626,7 +627,11 @@ class RunModel:
         with log_path.open("a") as log_file:
             log_file.write(f"Scenario: {scenario}\n")
             log_file.write(f"Timeslices: {timeslices}\n")
-            log_file.write(f"Runtime: {runtime:.2f} seconds\n")
+            
+            hour_grouping = clustering_attributes.get('hour_grouping', 'Not specified')
+            n_clusters = clustering_attributes.get('n_clusters', 'Not specified')
+            log_file.write(f"Clustering Attributes - Hour Grouping: {hour_grouping} , No of Clusters: {n_clusters} \n")
+            log_file.write(f"Runtime: {runtime:.2f} seconds ({runtime / 60:.2f} minutes)\n")
             log_file.write(f"Run Start Time: {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(start_time))}\n")
             log_file.write(f"Run End Time: {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))}\n")
             log_file.write(f"Memory Usage: {memory_usage / (1024 * 1024):.2f} MB\n")
@@ -644,7 +649,7 @@ class RunModel:
             else:
                 log_file.write(f"Machine ID: {machine_id}\n")
             log_file.write(f"CPU Cores/Threads Used: {cpu_count}\n")
-            log_file.write("-" * 40 + "\n")
+            log_file.write("-" * 50 + "\n")
         
 if __name__ == "__main__":
     # Set up argument parsing
