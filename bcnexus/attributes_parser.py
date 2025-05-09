@@ -191,11 +191,11 @@ class AttributesParser:
         ResidualStorageCapacity =  self.clewsb_config['STORAGE']['BATTERY']['residual_storage_capacity']
         
         # Existing Resources' Data
-        ext_wind_CF = self.data_cfg['pypsa']['output']['create_ext_wind_ts']['fname'] # Path('data/processed_data/wind/existing/bc_ext_wind_ts.csv') 
-        ext_solar_CF = self.data_cfg['pypsa']['output']['create_ext_solar_ts']['fname'] # Path('data/processed_data/solar/existing/bc_ext_solar_ts.csv') 
+        ext_wind_CF = self.data_cfg['output']['create_ext_wind_ts']['fname'] # Path('data/processed_data/wind/existing/bc_ext_wind_ts.csv') 
+        ext_solar_CF = self.data_cfg['output']['create_ext_solar_ts']['fname'] # Path('data/processed_data/solar/existing/bc_ext_solar_ts.csv') 
         demand_profile =  Path('data/downloaded_data/CODERS/data-pull/demand/BC_provincial_demand_profile.csv') 
-        hydro_res_CF = self.data_cfg['pypsa']['output']['reservoir_inflows']['fname']
-        hydro_ror_ts=self.data_cfg['pypsa']['output']['ror_ps']['fname']
+        hydro_res_CF = self.data_cfg['output']['reservoir_inflows']['fname']
+        hydro_ror_ts=self.data_cfg['output']['ror_ps']['fname']
         
         # Future Resource Options (Committed/Planned)
         future_wind_CF=linking_tool_results / 'resource_options_wind_timeseries.csv'
