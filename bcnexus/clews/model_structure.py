@@ -4,7 +4,6 @@
 # This file defines the constants of clews model building script.
 # Based on the data in this file, clewsy builds the SETS, InputActivityRatio and OutputActivityRatio
 
-
 Model= 'BC Clews Model V2.0'
 clews_builder_config_path='config/clews_builder.yaml'
 
@@ -44,41 +43,43 @@ LandToGridMap={
 
 # Data directory and file names for the land use data for the model.
 NamingConvention = {
-    'IND': 'Industry',
-    'RES': 'Residential',
-    'COM': 'Commercial',
-    'AGR': 'Agricultural',
-    'TRA': 'Transport',
-    'OTH': 'Other',
-    'BIO': 'Biomass',
-    'COA': 'Coal',
-    'CRU': 'Crude oil',
-    'DSL': 'Diesel',
-    'ELCB01': 'Electricity from power plants in region B',
-    'ELCB02': 'Electricity from transmission in region B',
-    'GSL': 'Gasoline',
-    'HFO': 'Heavy fuel oil',
-    'NGS': 'Natural gas',
-    'KER': 'Kerosene',
-    'LPG': 'LPG',
-    'OHC': 'Other hydrocarbons',
-    'GEO': 'Geothermal',
-    'HYD': 'Hydropower',
-    'SOL': 'Solar',
-    'WND': 'Wind',
-    'CHC': 'Charcoal',
-    'PCK': 'Petroleum coke',
-    'JFL': 'Jet fuel',
-    'URN': 'Uranium',
-    'ALF': 'Alfalfa',
-    'WHE': 'Wheat',
-    'RAP': 'Rapeseed',
-    'OAT': 'Oat',
-    'BRL': 'Barley',
-    'PEA': 'Dry pea',
-    'MAI': 'Maize',
-    'RYE': 'Rye',
-    'PTW': 'White potato'  #corrected from 'PWT'
+  'AGR': 'Agricultural',
+  'ALF': 'Alfalfa',
+  'BAR': 'Barley',
+  'BIO': 'Biomass',
+  'CHC': 'Charcoal',
+  'COA': 'Coal',
+  'COM': 'Commercial',
+  'CRU': 'Crude oil',
+  'CRP': 'Crop production',
+  'DSL': 'Diesel',
+  'ELCB01': 'Electricity from power plants', # in Grid (B) for region (BC1)
+  'ELCB02': 'Electricity from transmission',  # in Grid (B) for region (BC1)
+  'GSL': 'Gasoline',
+  'HFO': 'Heavy fuel oil',
+  'HDG': 'Hydrogen',
+  'HYD': 'Hydropower',
+  'IND': 'Industry',
+  'JFL': 'Jet fuel',
+  'KER': 'Kerosene',
+  'LPG': 'LPG',
+  'MAI': 'Maize',
+  'NGS': 'Natural gas',
+  'OAT': 'Oat',
+  'OHC': 'Other hydrocarbons',
+  'OTH': 'Other',
+  'PEA': 'Dry pea',
+  'PTW': 'White potato',  # corrected from 'PWT'
+  'RAP': 'Rapeseed',
+  'RPP': 'Refined petroleum products', # Defined in Canada Energy Future Report
+  'RES': 'Residential',
+  'RYE': 'Rye',
+  'SOL': 'Solar',
+  'TRA': 'Transport',
+  'URN': 'Uranium',
+  'WHE': 'Wheat',
+  'WND': 'Wind',
+  'CCS' :'Carbon Capture and Storage'
 }
 
 # The data for region RG1 will be in file data/clustering_results_RG1.csv
@@ -148,10 +149,10 @@ GroundwaterPercentofExcess= 0.051
 
 # Defines the final demand fuels in the model, and the sectors they are used in.
 EndUseFuels= {
-  'IND': ['DSL', 'BIO', 'NGS', 'ELCB02'],
-  'RES': ['KER', 'BIO', 'NGS', 'ELCB02'],
-  'COM': ['KER', 'BIO', 'NGS', 'ELCB02'],
-  'AGR': ['DSL', 'NGS', 'ELCB02'],
+  'IND': ['DSL', 'BIO', 'NGS', 'ELCB02', 'HDG'],
+  'RES': ['BIO', 'NGS', 'ELCB02','RPP','HDG'],
+  'COM': ['BIO', 'NGS', 'ELCB02','RPP','HDG'],
+  # 'AGR': ['DSL', 'NGS', 'ELCB02'], # 'AGR' is not used in the model due to data availability
   'TRA': ['GSL', 'DSL', 'HFO', 'JFL', 'BIO', 'NGS', 'LPG', 'ELCB02']
 }
 
@@ -256,20 +257,38 @@ Emissions= {
 # Crop yield factors for calibrating the model.  Codes here must match crop codes in the land use data.
 # -------->>>>>>>>>>>>>>>>>>> needs to be automated
 CropYieldFactors= {
-    'ALF': 0.95,
-    'WHE': 0.95,
-    'RAP': 0.95,
-    'OAT': 0.95,
-    'BAR': 0.95,    #corrected from 'BRL'
-    'PEA': 0.95,
-    'MAI': 0.95,
-    'RYE': 0.95,
-    'PTW': 0.95,
-    'OTH': 0.95
+  'ALF': 0.95,
+  'BAR': 0.95,
+  'MAI': 0.95,
+  'OAT': 0.95,
+  'OTH': 0.95,
+  'PEA': 0.95,
+  'PTW': 0.95,
+  'RAP': 0.95,
+  'RYE': 0.95,
+  'WHE': 0.95
 }
 
 Limitations={
   'STORAGE':'STORAGE set is being handled separately',
   'FUEL': 'Hydrobasin INFLOW fuel and the associated activity ratios are handled seprately.',
   'DAYSCRO' : 'SET representing Chronological day is handled separately.'
+}
+
+units= {
+    "capacity": "Capacity (Gigawatts)",
+    "energy_pj": "Generation (Petajoules)",
+    "energy_gwh": "Generation (GWh)",
+    "emission": "Million Tonnes of CO2",
+    "landuse": "Thousand Sq. Km per Petajoules",
+    "demand": "Petajoules",
+    "consumption_pj": "Petajoules",
+    "consumption_gwh": "GWh"
+}
+
+plot_technologies = {
+    "capacity": ["PWRWND", "PWRNGS", "PWRBIO", "PWRHYD", "PWRSOL", "PWRGEO", "PWRURN", "CCS", "HDG", "IMPPWR"],
+    "emission": ["DEMAGR", "DEMCOM", "DEMIND", "DEMRES", "DEMTRA", "CCS"],
+    "energy": ["PWRBIO", "PWRHYD", "PWRNGS", "PWRSOL", "PWRWND", "PWRGEO", "PWRURN", "CCS", "IMPPWR"],
+    "landuse": ["LNDAGRBC1C01", "LNDAGRBC1C02", "LNDAGRBC1C03", "LNDAGRBC1C04", "LNDAGRBC1C05", "LNDAGRBC1C06", "LNDAGRBC1C07"]
 }

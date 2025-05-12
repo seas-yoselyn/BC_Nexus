@@ -4,7 +4,6 @@ from pathlib import Path
 from dataclasses import dataclass
 from bcnexus import utils
 
-
 class GetDataPackage:
     def __init__(self, directory: str):
         """
@@ -18,6 +17,7 @@ class GetDataPackage:
         # Load the CSV files into the dictionary
         self.csv_files = []
         self.load_csvs()
+        utils.print_update(level=1, message=f"Loaded {len(self.all_dfs_dict)} CSV files from {self.directory}")
 
     def load_csvs(self) -> dict | None:
         """
@@ -48,7 +48,6 @@ class GetDataPackage:
  
         return self.all_dfs_dict
 
-
     def get_dataframe(self, filename: str) -> pd.DataFrame:
         """
         Retrieve a specific DataFrame by filename (excluding .csv extension).
@@ -56,6 +55,10 @@ class GetDataPackage:
         :param filename: The name of the CSV file (without extension).
         :return: The DataFrame corresponding to the filename, or None if not found.
         """
+        if filename not in self.all_dfs_dict:
+            utils.print_update(message=f"'{filename}' not found in the loaded CSV files.", alert=True)
+            return None
+        # Return the DataFrame corresponding to the filename
         return self.all_dfs_dict.get(filename, None)
 
     def load_data(self) -> Tuple[dict[str, pd.DataFrame], dict[str, pd.DataFrame]]:
@@ -92,8 +95,9 @@ class GetDataPackage:
 
         return Params_SETS_dict 
     
+    @property
     def show(self) -> List:
-        return list(self.all_dfs_dict.keys())
+        return sorted(self.all_dfs_dict.keys())
 
     
 @dataclass

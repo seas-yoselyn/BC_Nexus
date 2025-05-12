@@ -3,6 +3,15 @@ import os
 import pandas as pd
 from colorama import Fore, Style
 from typing import Optional
+from pathlib import Path
+import numpy as np
+from bcnexus.clews import model_structure
+from bcnexus import constants as bcnexus_const
+
+def print_module_title(text, Length_Char_inLine=60):
+    print(f"{Fore.LIGHTCYAN_EX}{Length_Char_inLine * '_'}{Style.RESET_ALL}\n"
+          f"{Fore.LIGHTGREEN_EX}{5 * ' '}{text}{Style.RESET_ALL}\n"
+          f"{Fore.LIGHTCYAN_EX}{Length_Char_inLine * '_'}{Style.RESET_ALL}")
 
 def print_update(level: int=None,
                  message: str="--",
@@ -15,7 +24,7 @@ def print_update(level: int=None,
             color = Fore.CYAN
             prefix=" └"
         elif level > 2:
-            color = Fore.LIGHTBLACK_EX + Style.DIM
+            color = Fore.LIGHTBLACK_EX
             prefix="  └─"
         elif alert:
             level=2
@@ -27,6 +36,37 @@ def print_update(level: int=None,
     
     print(f"{color}{prefix}> {message}{Style.RESET_ALL}")
     
+def process_demand_data(scenario:str,
+                        AccumulatedAnnualDemand_scenario_filepath:str|Path,
+                        SpecificAnnualDemand_scenario_filepath:str|Path,
+                        ):
+    """
+    This function loads the demand data for a given scenario and processes it.
+    It reads the accumulated and specific annual demand data from CSV files,
+    merges them, and adds helper columns for plotting.
+    Args:
+        AccumulatedAnnualDemand_scenario_filepath (str|Path): Path to the accumulated annual demand CSV file.
+        SpecificAnnualDemand_scenario_filepath (str|Path): Path to the specific annual demand CSV file.
+        scenario (str): The scenario name.
+    """
+
+    annual_demand_CZ = pd.read_csv(Path(AccumulatedAnnualDemand_scenario_filepath))
+    specific_demand_CZ = pd.read_csv(Path(SpecificAnnualDemand_scenario_filepath))
+    total_demand_CZ = pd.concat([specific_demand_CZ, annual_demand_CZ], ignore_index=True)
+
+    
+    # Initialize the column with default values
+    total_demand_CZ['sector'] = total_demand_CZ['FUEL'].str[:3]
+    total_demand_CZ['end_use_fuel'] = total_demand_CZ['FUEL'].str[3:]
+    total_demand_CZ['scenario'] = scenario
+
+    # Overwrite with None where 'FUEL' contains 'LND', 'CRP', or 'PUB'
+    mask = total_demand_CZ['FUEL'].str.contains('LND|CRP|PUB')
+    total_demand_CZ.loc[mask, 'end_use_fuel'] = None
+    # total_demand_CZ.loc[mask, 'sector'] = None
+    
+    # Helper function to get the columns needed for plotting
+    return total_demand_CZ
 
 def parse_data_value(value):
     """
@@ -92,3 +132,66 @@ def fix_df_ts_index(
 
     return df
 
+global det_col
+global color_dict
+det_col = None
+color_dict = None
+
+def add_power_tech_labels(df:pd.DataFrame,
+                          tech_key:str):
+    # Assign power_techs and filter
+    df.loc[:, 'power_techs'] = df['TECHNOLOGY'].apply(
+        lambda x: 'BATTERY_STORAGE' if (x == 'BATTERY_STORAGE' and (tech_key == 'capacity' or tech_key == 'energy')) else (
+            x[:6] if x[:6] in bcnexus_const.technologies[tech_key] else None
+        )
+    )
+    df.loc[:, 'power_techs_labels'] = df['power_techs'].map(bcnexus_const.legend_labels)
+    return df
+
+def df_years(df, years):
+    new_df = pd.DataFrame()
+    new_df['y'] = years
+    new_df['y'] = new_df['y'].astype(int)
+    df['y'] = df['y'].astype(int)
+    new_df = pd.merge(new_df, df, how='outer', on='y').fillna(0)
+    return new_df
+
+    
+def get_PJ_to_GWh_conversion_factor(timeslices_in_a_year: int = None) -> float:
+    """
+    Returns the conversion factor to convert energy in PJ (Petajoules) to 
+    GWh (Gigawatt-hours), either total or average per timeslice.
+
+    Parameters:
+    - timeslices_in_a_year (int, optional): Number of equal-length timeslices in a year.
+      If None, returns the direct conversion factor: 1 PJ = 277.778 GWh.
+      If provided, returns the factor for average GWh per timeslice.
+
+    Returns:
+    - float: Conversion factor (multiply PJ by this factor to get GWh or average GWh per timeslice)
+    """
+    
+    
+    PJ_TO_GWh = 277.778 #GWh  # 1 PJ=277.778 GWh=277,778MWh
+
+    if timeslices_in_a_year is None:
+        return PJ_TO_GWh
+    else:
+        return PJ_TO_GWh / timeslices_in_a_year
+
+def get_labels(df:pd.DataFrame):
+
+    df.loc[:,'sector'] = np.where(
+        df['TECHNOLOGY'].str.contains("CCS"),
+        None,
+        df['TECHNOLOGY'].str[3:6]
+    )
+    
+    df.loc[:,'end_use_fuel']= np.where(
+        df['TECHNOLOGY'].str.contains("CCS"),
+        None,
+        df['TECHNOLOGY'].str[6:9])
+
+    df['end_use_fuel_label'] = df['end_use_fuel'].map(model_structure.NamingConvention)
+    df['sector_label'] = df['sector'].map(model_structure.NamingConvention)
+    return df
