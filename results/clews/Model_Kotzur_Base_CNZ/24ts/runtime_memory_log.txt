@@ -1,0 +1,33 @@
+Scenario: Base_CNZ
+Timeslices: 24
+Clustering Attributes - Hour Grouping: 4 , No of Clusters: 4 
+Runtime: 1922.45 seconds (32.04 minutes)
+Run Start Time: 2025-06-08 17:23:53
+Run End Time: 2025-06-08 17:55:56
+Memory Usage: 1639.86 MB
+Linux User: mei3
+Machine ID: srye-deltae-07
+CPU Cores/Threads Used: 32
+--------------------------------------------------
+Scenario: Base_CNZ
+Timeslices: 24
+Clustering Attributes - Hour Grouping: 4 , No of Clusters: 4 
+Runtime: 4.41 seconds (0.07 minutes)
+Run Start Time: 2025-06-08 17:56:01
+Run End Time: 2025-06-08 17:56:05
+Memory Usage: 242.25 MB
+Linux User: mei3
+Machine ID: srye-deltae-07
+CPU Cores/Threads Used: 32
+--------------------------------------------------
+Scenario: Base_CNZ
+Timeslices: 24
+Clustering Attributes - Hour Grouping: 4 , No of Clusters: 4 
+Runtime: 4.31 seconds (0.07 minutes)
+Run Start Time: 2025-06-08 17:57:06
+Run End Time: 2025-06-08 17:57:10
+Memory Usage: 247.77 MB
+Linux User: mei3
+Machine ID: srye-deltae-07
+CPU Cores/Threads Used: 32
+--------------------------------------------------

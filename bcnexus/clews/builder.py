@@ -11,7 +11,8 @@ from bcnexus.clews import schema as clewsB
 from bcnexus.clews import datapackage as clews_data_module
 from bcnexus.clews import update_yearly_params
 from bcnexus.clews import update_global_params
-from bcnexus.clews import sets_n_ratios
+# from bcnexus.clews import sets_n_ratios
+from bcnexus.clews import livestock as bcnexus_lvs
 
 # Filetring the package reated warnings
 import warnings
@@ -44,17 +45,6 @@ class BuildModel:
         
         # collects the template files from the CLEWS model repository and dumps to "data/clews_data/input_csvs" folder. The folder creation inside data will be handled by the method.
         self.get_csv_template(force_replace=False)
-        
-        """ 
-        Builds SETs and Ratios (input/output activities) if the Model structure/connection needs to be changed.
-         >>> The model structure is being handled by "clews_model_constants.py"
-         >>> Still under development, not recommended to use unless you are sure about the impact.
-        self.build_SETs_and_ratios()
-        self.get_csv_files(self.SETs_save_to,
-                               self.input_csv_dir,
-                               all_files=False)
-        # self.clean_up_SETs_and_Params_definitions()
-        """
         
         # After the Scenario data being processed, CLEWs Builder Config being updated, load the config as a dictionary
         self.clewsb_config=self.aparser.load_config(self.clews_builder_config_path)
@@ -135,9 +125,14 @@ class BuildModel:
                                 dest_folder=self.LandCluster_data_dest,
                                 all_files=True)
     
-    def build_SETs_and_ratios(self):
+    
+    def build_SETs_and_ratios(self,
+                              include_livestock:bool=True):
         self.get_LandCluster_data()
-        sets_n_ratios.build(self.SETs_save_to)   # still in development, traced some bugs (missing SETs and weired ratios)
+        
+        # Creates the Sets csv files
+        if include_livestock:
+            bcnexus_lvs.main(csv_save_to=self.SETs_save_to) # handles all sets including livestock
         
         # Update STORAGE TECHNOLOGY in TECHNOLOGY SET
         TECHNOLOGY_set_file_path=Path(self.SETs_save_to / 'TECHNOLOGY.csv')
@@ -170,7 +165,7 @@ class BuildModel:
                 utils.print_update(level=3,
                 message=f"File Updated with FUEL: {fuel}")
         
-        #Handle additional MODE_OF_OPERATION 
+        # Handle additional MODE_OF_OPERATION 
         MOP_set_file_path=Path(self.SETs_save_to / 'MODE_OF_OPERATION.csv')
         MOP_df=pd.read_csv(MOP_set_file_path)
         if 57 not in MOP_df['VALUE'].values:
@@ -786,11 +781,21 @@ class BuildModel:
                            include_livestock:bool=True,
                            update_clews_builder: bool=True):
         
-        from bcnexus.clews import livestock as bcnexus_lvs
-        SETs_and_Ratios=Path('data/clews_data/SETs_and_Ratios')
+                
+        # """ 
+        # Builds SETs and Ratios (input/output activities) if the Model structure/connection needs to be changed.
+        #  >>> The model structure is being handled by "clews_model_constants.py"
+        #  >>> Still under development, not recommended to use unless you are sure about the impact.
+        self.build_SETs_and_ratios(include_livestock)
+        self.get_csv_files(self.SETs_save_to,
+                               self.input_csv_dir,
+                               all_files=True)
+        # # self.clean_up_SETs_and_Params_definitions()
+        # """
         
-        bcnexus_lvs.main(csv_save_to=SETs_and_Ratios)
-        self.get_csv_files(SETs_and_Ratios,self.case_input_csvs)
+        
+
+
         
     #1 @config/clews_builder.config
         if update_clews_builder:
@@ -850,7 +855,7 @@ class BuildModel:
 
     def build(self,
               include_livestock:bool=True,
-            update_clews_builder:bool=False):
+                update_clews_builder:bool=False):
         # Apply Methods to modify template input files on set configs (currently supports: simplified temporal clustering, power technology aggreation)
 
     #1  
