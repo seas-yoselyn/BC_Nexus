@@ -5,7 +5,8 @@ import colorama
 #Local packages
 from bcnexus import utils
 from bcnexus.clews import model_structure as clews_const
-    
+from pathlib import Path
+print_level_base=2    
 # Tailored for BC Combined Model
 # Refactoring (C) M Elias Islam (EL), 2024
 
@@ -14,33 +15,47 @@ from bcnexus.clews import model_structure as clews_const
 Original cocnept and script (C) Taco Niet 2019
 
 """
+utils.print_update(level=print_level_base, message="Module Activated: 'sets_n_ratios'")
+
 def UpdateSETS(SetNames:list, 
                  NewSetItems:list, 
                  IARList:list, 
                  OARList:list, 
                  csv_save_to:str):
     
-    if not os.path.exists(csv_save_to):
-        os.makedirs(csv_save_to)
-    # Ouptut the sets for otoole:
+    csv_save_to = Path(csv_save_to)
+    csv_save_to.mkdir(parents=True, exist_ok=True)
+    
+    utils.print_update(level=print_level_base,message=f"Writing SETs to {csv_save_to}")
+    
+    # Output the sets for otoole:
     for SetName in SetNames:
-        with open(os.path.join(csv_save_to, SetName + '.csv'),'w') as f:
+        set_file = csv_save_to / f"{SetName}.csv"
+        utils.print_update(level=print_level_base+1,message=f"Writing {SetName} to {set_file}")
+        with set_file.open('w') as f:
             f.write('VALUE\n')
             for items in NewSetItems[SetNames.index(SetName)]:
-                # print(items['value'], type(items['value']))
-                f.write(str(items['value'])+'\n')
-    
+                f.write(str(items['value']) + '\n')
+
     # And output the IAR for otoole:
-    with open(os.path.join(csv_save_to, 'InputActivityRatio.csv'),'w') as f:
+    iar_file = csv_save_to / 'InputActivityRatio.csv'
+    utils.print_update(level=print_level_base+1,message=f"Writing Input Activity Ratios to {iar_file}")
+    with iar_file.open('w') as f:
         f.write('REGION,TECHNOLOGY,FUEL,MODE_OF_OPERATION,YEAR,VALUE\n')
         for item in IARList:
-            f.write(str(item['c'][0])+','+str(item['c'][1])+','+str(item['c'][2])+','+str(item['c'][3])+','+str(item['c'][4])+','+str(item['v'])+'\n')
+            f.write(','.join(map(str, item['c'])) + ',' + str(item['v']) + '\n')
 
     # And output the OAR for otoole:
-    with open(os.path.join(csv_save_to, 'OutputActivityRatio.csv'),'w') as f:
+    oar_file = csv_save_to / 'OutputActivityRatio.csv'
+    utils.print_update(level=print_level_base+1,message=f"Writing Output Activity Ratios to {oar_file}")
+    
+    with oar_file.open('w') as f:
         f.write('REGION,TECHNOLOGY,FUEL,MODE_OF_OPERATION,YEAR,VALUE\n')
         for item in OARList:
-            f.write(str(item['c'][0])+','+str(item['c'][1])+','+str(item['c'][2])+','+str(item['c'][3])+','+str(item['c'][4])+','+str(item['v'])+'\n')
+            f.write(','.join(map(str, item['c'])) + ',' + str(item['v']) + '\n')
+            
+    mop_file = csv_save_to / 'MODE_OF_OPERATION.csv'
+
 
 # create_set in BuildCLEWsModel.py
 def create_set(set_names, new_SetItems, new_setGroups, sets):

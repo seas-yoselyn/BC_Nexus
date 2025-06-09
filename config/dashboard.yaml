@@ -1,7 +1,7 @@
 
-SCENARIOS: ['Base_CNZ','CNZ_LIMITED_CO2','CNZ_LIMITED_CO2_PLTY','HYDROGEN']
+# SCENARIOS: ['Base_CNZ','CNZ_LIMITED_CO2','CNZ_LIMITED_CO2_PLTY','HYDROGEN']
 # aligned with config
-
+base_load_year : 2021
 result_type:
   otoole:
    'year': 'YEAR'
@@ -11,35 +11,49 @@ result_type:
     'technology' : 't'
 
 info_SCENARIOS:  # aligned with folder name
-  'Model_Kotzur_Base_CNZ': "Baseline scenario with Canada Energy Futures 2023 report's Canada Net Zero Demand. Call for Power 2024 sites fitted as committed plants. Potential resource options for Solar (5GW) and Wind (10GW) modeled. Hourly profiles absorbed from 2021 historical data. Allowed CCS ( <= 0.2 GW) and HDG (<=0.2 GW) from 2026"
-  'Model_Kotzur_CNZ_LIMITED_CO2': "Baseline scenario with CO2 annual limit up to 50 MTeCO2."
-  'Model_Kotzur_CNZ_LIMITED_CO2_PLTY': "Baseline scenario with emission penalty up to $170/MTeCo2. "
-  'Model_Kotzur_HYDROGEN': "Hydrogen intense scenario with sectoral hydrogen demand assumptions and no emission limit, no limit on CCS, HDG techs."
+  Model_Kotzur_Base_CNZ: "Baseline scenario with Canada Energy Futures 2023 report's Canada Net Zero Demand. Call for Power 2024 sites fitted as committed plants. Potential resource options for Solar (5GW) and Wind (10GW) modeled. Hourly profiles absorbed from 2021 historical data. Allowed CCS ( <= 0.2 GW) and HDG (<=0.2 GW) from 2026"
+  Model_Kotzur_CNZ_LIMITED_CO2: "Baseline scenario with CO2 annual limit up to 50 MTeCO2."
+  Model_Kotzur_CNZ_LIMITED_CO2_PLTY: "Baseline scenario with emission penalty up to $170/MTeCo2. "
+  Model_Kotzur_HYDROGEN: "Hydrogen intense scenario with sectoral hydrogen demand assumptions and no emission limit, no limit on CCS, HDG techs."
+  Model_Kotzur_NUC_standard_2028: "Standard Nuclear scenario with Investment allowed from Y2028. All other assumptions are same as Base_CNZ scenario."
+  Model_Kotzur_NUC_standard_2028_2xCost: "Expensive Nuclear scenario with Investment allowed from Y2028. All other assumptions are same as Base_CNZ scenario. Cost of Nuclear is 2x the standard cost."
+  Model_Kotzur_NUC_standard_2030: "Standard Nuclear scenario with Investment allowed from Y2030. All other assumptions are same as Base_CNZ scenario."
+  Model_Kotzur_NUC_standard_2030_2xCost  : "Expensive Nuclear scenario with Investment allowed from Y2030. All other assumptions are same as Base_CNZ scenario. Cost of Nuclear is 2x the standard cost."
+  Model_Kotzur_NUC_standard_2035: "Standard Nuclear scenario with Investment allowed from Y2035. All other assumptions are same as Base_CNZ scenario."
+  Model_Kotzur_NUC_standard_2035_2xCost  : "Expensive Nuclear scenario with Investment allowed from Y2035. All other assumptions are same as Base_CNZ scenario. Cost of Nuclear is 2x the standard cost."
+  Model_Kotzur_NUC_standard_2035_4xCost : "Expensive Nuclear scenario with Investment allowed from Y2035. All other assumptions are same as Base_CNZ scenario. Cost of Nuclear is 4x the standard cost."
+  Model_Kotzur_Base_CNZ_2: Description
 
-title : "BCNexus Results"
+title : "BC Combined Modelling"
 demand_data: 'data/downloaded_data/CODERS/data-pull/demand'
 
 plot_files:
   demand: ["BC_end_use_demand_Current Measures.csv","BC_end_use_demand_Canada Net-zero.csv","BC_end_use_demand_Global Net-zero.csv"]
   capacity : ["NewCapacity.csv","TotalCapacityAnnual.csv"]
-  emission : ["AnnualEmissions.csv", "AnnualTechnologyEmission.csv"]
   energy : ["TotalTechnologyAnnualActivity.csv"]
-  landuse: ["TotalAnnualTechnologyActivityByMode.csv"]
-
+  consumption: ['UseByTechnology.csv']
+  emission : ["AnnualEmissions.csv", "AnnualTechnologyEmission.csv"]
+  landuse: ["RateOfProductionByTechnologyByMode.csv"]
 
 units_mapping: {
-  capacity: 'Capacity (GW)',
-  energy: 'Generation (Pj)',
+  capacity: 'Capacity (Gigawatts)',
+  energy_pj: 'Generation (Petajoules)',
+  energy_gwh: 'Generation (GWh)',
   emission: "Million Tonnes of CO2",
-  landuse: "Thousand Sq. Km per Pj",
-  demand: "Pj"
+  landuse: "Thousand Sq. Km per Petajoules",
+  demand: "Petajoules",
+  consumption_pj : "Petajoules",
+  consumption_gwh : "GWh"
     }
 
 technologies:
-  capacity: ['PWRWND','PWRNGS','PWRBIO', 'PWRHYD', 'PWRSOL', 'PWRGEO', 'PWRURN','CCS','HDG']
+  capacity: ['PWRWND','PWRNGS','PWRBIO', 'PWRHYD', 'PWRSOL', 'PWRGEO', 'PWRURN','CCS','HDG','IMPPWR']
   emission: ['DEMAGR', 'DEMCOM', 'DEMIND', 'DEMRES', 'DEMTRA','CCS']
-  energy: ['PWRBIO', 'PWRHYD', 'PWRNGS', 'PWRSOL', 'PWRWND', 'PWRGEO', 'PWRURN','CCS']
+  energy: ['PWRBIO', 'PWRHYD', 'PWRNGS', 'PWRSOL', 'PWRWND', 'PWRGEO', 'PWRURN','CCS','IMPPWR']
   landuse: ['LNDAGRBC1C01', 'LNDAGRBC1C02', 'LNDAGRBC1C03', 'LNDAGRBC1C04', 'LNDAGRBC1C05', 'LNDAGRBC1C06', 'LNDAGRBC1C07']
+
+end_use_fuels: ['BIO', 'DSL', 'ELCB02', 'GSL', 'HDG', 'HFO', 'JFL', 'LPG', 'NGS', 'RPP']
+sectors: ['IND','COM','RES','TRA']
 
 filenames_mapping: {
   'NewCapacity.csv':'New Capacity',
@@ -47,7 +61,8 @@ filenames_mapping: {
   "AnnualEmissions.csv": "System Emission", 
   "AnnualTechnologyEmission.csv" : "Sectoral Emission",
   'TotalTechnologyAnnualActivity.csv' : 'Generation',
-  "TotalAnnualTechnologyActivityByMode.csv" : "Land-use (clusters of BC)",
+  "RateOfProductionByTechnologyByMode.csv" : "Land-use (clusters of BC)",
+  "UseByTechnology.csv" : "Consumption",
   "BC_end_use_demand_Current Measures.csv" : "Current Measures",
   "BC_end_use_demand_Canada Net-zero.csv" : "Canada Net-zero",
   "BC_end_use_demand_Global Net-zero.csv" : "Global Net-zero",
@@ -61,14 +76,32 @@ custom_colors : {
   'PWRSOL': '#FEE566',
   'PWRGEO': '#B067B3',
   'PWRURN': 'gray',
+  'IMPPWR': 'red', 
+  'EXPPWR': 'green',
+
+  'IMP': 'red',
   'CCS' : '#FF6347', # Tomato
   'HDG' : '#00FFFF', # Aqua
+  'BIO': '#A52A2A',  # Brown
+  'DSL': '#FFA500',  # Orange
+  'ELCB02': '#008000',  # Green
+  'GSL': '#DC143C',  # Crimson
+  'HFO': '#800000',  # Maroon
+  'HYD': '#00BFFF',  # DeepSkyBlue
+  'JFL': '#00008B',  # DarkBlue
+  'LPG': '#FF1493',  # DeepPink
+  'NGS': '#8B4513',  # SaddleBrown
+  'RPP': '#B8860B',  # DarkGoldenRod
+  'WTRSURBC1': '#4169E1',  # RoyalBlue
+  'SOL': '#FFD700',  # Gold
+  'WND': '#32CD32',  # LimeGreen
 
-  'DEMAGR': '#C57F7B',
-  'DEMCOM': '#65B465',
-  'DEMIND': '#B3B3B3',
-  'DEMRES': '#87B4D7',
-  'DEMTRA': '#676767',
+
+  'AGR': '#C57F7B',
+  'COM': '#65B465',
+  'IND': '#B3B3B3',
+  'RES': '#87B4D7',
+  'TRA': '#676767',
 
   'LNDAGRBC1C01': '#DDB3F9',
   'LNDAGRBC1C02': '#D27A78',
@@ -79,6 +112,42 @@ custom_colors : {
   'LNDAGRBC1C07': 'gray',
   }
 
+colors_name_mapping: {
+  'Wind': '#DDB3F9',
+  'Natural Gas': '#D27A78',
+  'Biomass/Biofuel': '#5BAB59',
+  'Hydro': '#86B4D8',
+  'Solar': '#FEE566',
+  'Geothermal': '#B067B3',
+  'Nuclear': 'gray',
+  'Carbon Capture and Storage': '#FF6347', # Tomato
+  'Hydrogen': '#00FFFF', # Aqua
+  'Biomass': '#A52A2A',  # Brown
+  'Diesel': '#FFA500',  # Orange
+  'Electricity': '#008000',  # Green
+  'Gasoline': '#DC143C',  # Crimson
+  'Heavy Fuel Oil': '#800000',  # Maroon
+  'Jet Fuel': '#00008B',  # DarkBlue
+  'Liquefied Petroleum Gas': '#FF1493',  # DeepPink
+  'Surface Water': '#4169E1',  # RoyalBlue
+  'Refined Petroleum Products': '#B8860B',  # DarkGoldenRod
+
+  'Agricultural': '#C57F7B',
+  'Commercial': '#65B465',
+  'Industrial': '#B3B3B3',
+  'Residential': '#87B4D7',
+  'Transport': '#676767',
+
+  'Land resource - Cluster 1': '#DDB3F9',
+  'Land resource - Cluster 2': '#D27A78',
+  'Land resource - Cluster 3': '#5BAB59',
+  'Land resource - Cluster 4': '#86B4D8',
+  'Land resource - Cluster 5': '#FEE566',
+  'Land resource - Cluster 6': '#B067B3',
+  'Land resource - Cluster 7': 'gray',
+}
+
+
 legend_labels : {
   'PWRWND': 'Wind',
   'PWRNGS': 'Natural Gas',
@@ -87,8 +156,30 @@ legend_labels : {
   'PWRSOL': 'Solar',
   'PWRGEO': 'Geothermal',
   'PWRURN': 'Nuclear',
+  'IMPPWR': 'Power Import',
+  'EXPPWR': 'Power Export',
+  
   'CCS': 'Carbon Capture and Storage',
-  'HDG': ' Hydrogen',
+  'HDG': 'Hydrogen',
+  'BIO': 'Biomass',
+  'DSL': 'Diesel',
+  'ELCB02': 'Electricity',
+  'GSL': 'Gasoline',
+  'HFO': 'Heavy Fuel Oil',
+  'HYD': 'Hydro',
+  'JFL': 'Jet Fuel',
+  'LPG': 'Liquefied Petroleum Gas',
+  'NGS': 'Natural Gas',
+  'RPP': 'Refined Petroleum Products',
+  'WTRSURBC1': 'Surface Water',
+  'SOL': 'Solar',
+  'WND': 'Wind',
+
+  'RES': 'Residential',
+  'IND': 'Industrial',
+  'TRA': 'Transport',
+  'AGR': 'Agricultural',
+  'COM': 'Commercial',
 
   'DEMRES': 'Residential',
   'DEMIND': 'Industrial',
@@ -104,5 +195,4 @@ legend_labels : {
   'LNDAGRBC1C06': 'Land resource - Cluster 6',
   'LNDAGRBC1C07': 'Land resource - Cluster 7'
   }
-
 

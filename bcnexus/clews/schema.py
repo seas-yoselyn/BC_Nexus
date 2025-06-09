@@ -1348,6 +1348,7 @@ def add_technologies_capital_cost(
     Returns:
         pd.DataFrame: The DataFrame with the new rows added.
     """
+    # print(tech_key)
     # Get the necessary details from the tech_info dictionary
     capital_cost = tech_info[cost_name]  # Capital cost from YAML
     # Check if capital_cost is a list
@@ -1384,6 +1385,7 @@ def add_technologies_operational_life(filtered_df, tech_key, tech_info, region, 
     Add new rows to the filtered DataFrame based on the technology details from the YAML.
     Returns a DataFrame with the new technologies added.
     """
+    # print(tech_key)
     # Get the necessary details from the tech_info dictionary
     operational_life = tech_info[operational_name]  # Operational life from YAML
     

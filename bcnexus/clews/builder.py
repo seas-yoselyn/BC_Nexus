@@ -783,14 +783,20 @@ class BuildModel:
         utils.print_update(level=2,message=f"File updated for {k_tech_id} : {file_path}")
         
     def update_sets_params(self,
+                           include_livestock:bool=True,
                            update_clews_builder: bool=True):
+        
+        from bcnexus.clews import livestock as bcnexus_lvs
+        SETs_and_Ratios=Path('data/clews_data/SETs_and_Ratios')
+        
+        bcnexus_lvs.main(csv_save_to=SETs_and_Ratios)
+        self.get_csv_files(SETs_and_Ratios,self.case_input_csvs)
         
     #1 @config/clews_builder.config
         if update_clews_builder:
             utils.print_update(level=2,
             message="Updating 'clews_builder.config' to match data and user configurations (aggregation and naming of the TECHNOLOGIES).")
             self.update_clews_builder() # Currently supports simplified power technology aggregation.
-
         else:
             utils.print_update(level=2,
             message="Skipping clews_builder update due to default setting (recommended). Developers may change 'update_clews_builder':bool to 'True' to force update.")
@@ -843,13 +849,15 @@ class BuildModel:
     
 
     def build(self,
+              include_livestock:bool=True,
             update_clews_builder:bool=False):
         # Apply Methods to modify template input files on set configs (currently supports: simplified temporal clustering, power technology aggreation)
 
     #1  
         utils.print_update(level=1,
             message='updating CLEWs builder config, SETs and Parameters')
-        self.update_sets_params(update_clews_builder)
+        self.update_sets_params(include_livestock,
+                                update_clews_builder)
         
         utils.print_update(level=1,
                     message='Preparing the summary reports for input data')
