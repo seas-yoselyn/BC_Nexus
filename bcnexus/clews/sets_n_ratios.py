@@ -394,9 +394,11 @@ def BuildCLEWsModel():
 
         # Creation of agricultural water supply from grownwater
         # 1.73 number taken from Bolivia - Should be 0.0173
-        # NEED TO ADJUST THE IAR TO MATCH THE CORRECT VALUE FOR THE DEMAGRGWT...
-        AddActivityListItems(Years, Region, "DEMAGRGWT" + LandRegion, "AGRELC" + LandToGridMap[LandRegion] + "02", IARList, value = "0.0173",
-                v = "0.0173")
+        
+        if 'AGR' in EndUseFuels.keys():
+            # NEED TO ADJUST THE IAR TO MATCH THE CORRECT VALUE FOR THE DEMAGRGWT...
+            AddActivityListItems(Years, Region, "DEMAGRGWT" + LandRegion, "AGRELC" + LandToGridMap[LandRegion] + "02", IARList, value = "0.0173",
+                    v = "0.0173")
 
         # for year in Years:
         # Sets = [Region, "DEMAGRGWT"+LandRegion, "WTRGWT"+LandRegion, "1", year]

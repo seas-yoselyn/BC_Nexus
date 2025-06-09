@@ -143,28 +143,43 @@ def update_IARlist(
     IARList_new = []
     OARList_new=[]
 
+    seen_oar = set()
+    seen_iar = set()
     for region in model_structure.Regions.keys():
         for tech in livestock_sets.get('TECHNOLOGY'):
             for fuel in livestock_sets.get('FUEL'):
-                if fuel[-3:] in model_structure.LivestockYieldFactors.keys(): # produce supply
-                    for mode in model_structure.LivestockProduce_Modes.keys(): # produce supply
-                        for year_iter in range(model_structure.snapshot['start'], model_structure.snapshot['start']+1 ): # +1
+                # OAR: produce supply
+                if fuel[-3:] in model_structure.LivestockYieldFactors.keys():
+                    for mode in model_structure.LivestockProduce_Modes.keys():
+                        for year_iter in range(model_structure.snapshot['start'], model_structure.snapshot['start']+1):
+                            key = (region, tech, fuel, model_structure.LivestockProduce_Modes.get(fuel[-3:]), year_iter)
+                            if key not in seen_oar:
+                                entry = {
+                                    'c': list(key),
+                                    'v': model_structure.LivestockYieldFactors.get(fuel[-3:], 1)
+                                }
+                                OARList_new.append(entry)
+                                seen_oar.add(key)
+                # OAR & IAR: land supply
+                if fuel[-3:] in model_structure.LandRegions:
+                    for year_iter in range(model_structure.snapshot['start'], model_structure.snapshot['start']+1):
+                        tech_land = source_land_tech
+                        mode = 1
+                        key = (region, tech_land, fuel, mode, year_iter)
+                        if key not in seen_oar:
                             entry = {
-                                'c': [region, tech, fuel, model_structure.LivestockProduce_Modes.get(fuel[-3:]), year_iter],
-                                'v': model_structure.LivestockYieldFactors.get(fuel[-3:], 1)
+                                'c': list(key),
+                                'v': 1
                             }
                             OARList_new.append(entry)
-                            
-                if fuel[-3:] in model_structure.LandRegions:  # Land Supply
-                    for year_iter in range(model_structure.snapshot['start'], model_structure.snapshot['start']+1): # +1
-                        tech = source_land_tech
-                        mode = 1
-                        entry = {
-                            'c': [region, tech, fuel, mode, year_iter],
-                            'v': 1
-                        }
-                        OARList_new.append(entry)
-                        IARList_new.append(entry)
+                            seen_oar.add(key)
+                        if key not in seen_iar:
+                            entry_iar = {
+                                'c': list(key),
+                                'v': 1
+                            }
+                            IARList_new.append(entry_iar)
+                            seen_iar.add(key)
                             
                             
     # IARList_updated=IARList_existing.extend(IARList_new)
@@ -204,7 +219,7 @@ def update_mode_of_operation_csv(source_csv_files_path:str|Path,
         utils.print_update(level=print_level_base+2,message="No new modes to add.")
 
 def main(source_land_tech:str=None,
-         csv_save_to:str|Path='data/clews_data/SETs_and_Ratios'):
+         csv_save_to:str|Path='data/clews_data/SETs'):
     
     #1: Create Sets (FUEL, TECHNOLOGY) from Model structure 
     livestock_sets=get_Livestock_SETs()
