@@ -109,6 +109,16 @@ def get_powerplants():
 
     return PowerPlants
 
+def get_storage()->dict:
+    updated_resources=utils.load_config(clews_const.clews_builder_config_path)
+    updated_STORAGE:dict=updated_resources['STORAGE']
+    storage_techs = {}
+
+    for storage_type,tech_info in updated_STORAGE.items():
+        storage_techs[storage_type] = updated_STORAGE[storage_type]
+
+    return storage_techs
+
 def get_transformation_techs_power():
     _TransformationTechnologies_=clews_const.TransformationTechnologies
     updated_resources=utils.load_config(clews_const.clews_builder_config_path)
@@ -181,6 +191,7 @@ def BuildCLEWsModel():
     Regions=clews_const.Regions
     Emissions=clews_const.Emissions
     PowerPlants=get_powerplants()
+    Storages=get_storage()
 
     # ***************************** #
     # CREATE ENERGY SET INFORMATION #
@@ -276,6 +287,34 @@ def BuildCLEWsModel():
         AddActivityListItems(Years, Region, powerplant, "WTRSUR" + Land2Grid, OARList, value = str(PowerPlants[powerplant][3]),
                 v = str(PowerPlants[powerplant][3]))
 
+    # Create storage technologies, Fuels, Ip and Op Activity ratios
+    for storage in Storages:
+        if 'BATTERY' in storage:
+            # add this new TECHNOLOGY
+            if storage not in [li['value'] for li in NewSetItems[SetNames.index("TECHNOLOGY")]]:
+                Fill_Set(NewSetItems, SetNames, "TECHNOLOGY",Storages[storage]['technology_from_storage'], "#000000", "")
+                
+            AddActivityListItems(Years, Region,Storages[storage]['technology_from_storage'], 
+                                "ELCB"+"02",IARList,g=str(Storages[storage]['mode_of_operation_charge']),v='1')
+            
+            AddActivityListItems(Years,Region,Storages[storage]['technology_to_storage'], 
+                                "ELCB"+"02",OARList,g=str(Storages[storage]['mode_of_operation_discharge']),v='1') 
+        if 'HYDRODAM' in storage:
+            water_storage_fuel="WATER_STORAGE"+"01"
+            # ADD new Fuel
+            if water_storage_fuel not in [li['value'] for li in NewSetItems[SetNames.index("FUEL")]]:
+                Fill_Set(NewSetItems, SetNames, "FUEL", water_storage_fuel, "#000000", "")
+                
+            AddActivityListItems(Years, Region,Storages[storage]['technology_from_storage'], 
+                                water_storage_fuel,IARList,g=str(Storages[storage]['mode_of_operation_charge']),v='1')
+            
+            AddActivityListItems(Years,Region,Storages[storage]['technology_to_storage'], 
+                                water_storage_fuel,OARList,g=str(Storages[storage]['mode_of_operation_charge']),v='1')
+            
+            AddActivityListItems(Years,Region,Storages[storage]['technology_from_storage'], 
+                    water_storage_fuel,OARList,g=str(Storages[storage]['mode_of_operation_discharge']),v='1')
+
+    
     # Create Transformation Techs
     # surface water.
     TransformationTechnologies=get_transformation_techs_power()
@@ -671,11 +710,27 @@ def BuildCLEWsModel():
     SetNames.append("MODE_OF_OPERATION")
     NewSetItems.append([])
     NewSetGroups.append([])
+    
+    # Storage
+    for storage in Storages:
+        storage_charging_mode= Storages[storage]['mode_of_operation_charge']
+        storage_discharging_mode=Storages[storage]['mode_of_operation_discharge']
+        if  storage_charging_mode > len(ModeList):
+            ModeList.append('Storage Charging Mode')
+        # storage_discharging_mode is a number (1-based), ModeList's index+1 should be checked
+        if storage_discharging_mode > len(ModeList):
+            ModeList.append('Storage Discharging Mode')
+    
     for index, Mode in enumerate(ModeList):
         Fill_Set(NewSetItems, SetNames, "MODE_OF_OPERATION", str(index + 1), "#000000", Mode)
 
-    with open('ModeList.txt', 'w') as ModeFile:
-        ModeFile.write(str(ModeList))
+    # Ensure the directory exists
+    mode_dir = Path('data/clews_data/SETs')
+    mode_dir.mkdir(parents=True, exist_ok=True)
+    
+    with open(mode_dir / 'ModeList.txt', 'w') as ModeFile:
+        for idx, mode in enumerate(ModeList, 1):
+            ModeFile.write(f"{idx}: {mode}\n")
 
     # ******************************* #
     # Remove any 0's from IAR and OAR #

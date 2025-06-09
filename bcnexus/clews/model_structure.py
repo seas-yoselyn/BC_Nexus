@@ -165,7 +165,7 @@ EndUseFuels= {
   'RES': ['BIO', 'NGS', 'ELCB02','RPP','HDG'],
   'COM': ['BIO', 'NGS', 'ELCB02','RPP','HDG'],
   # 'AGR': ['DSL', 'NGS', 'ELCB02'], # 'AGR' is not used in the model due to data availability
-  'TRA': ['GSL', 'DSL', 'HFO', 'JFL', 'BIO', 'NGS', 'LPG', 'ELCB02']
+  'TRA': ['GSL', 'DSL', 'HFO', 'JFL', 'BIO', 'NGS', 'LPG', 'ELCB02','HDG']
 }
 
 # Imports and exports - add and remove fuels as needed to represent a given region.
@@ -285,8 +285,7 @@ CropYieldFactors= {
 }
 
 Limitations={
-  'STORAGE':'STORAGE set is being handled separately',
-  'FUEL': 'Hydrobasin INFLOW fuel and the associated activity ratios are handled seprately.',
+  'FUEL': 'LND4PWR, HDG, CO2CCS, INFLOW fuel and the associated activity ratios are handled seprately.',
   'DAYSCRO' : 'SET representing Chronological day is handled separately.'
 }
 

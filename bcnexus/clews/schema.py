@@ -131,12 +131,12 @@ def update_clews_builder_config(combined_model_config_path:Path)->tuple:
     data_cfg:dict=aparser.data_cfg
 
     # Load data file directories, the data files should be harmonized to PyPSA
-    wind_csv_file_path :str|Path = data_cfg['pypsa']['output']['create_ext_wind_assets'] ['fname']  # data_cfg['wind_file']
-    solar_csv_file_path:str|Path = data_cfg['pypsa']['output']['create_ext_solar_assets'] ['fname']  # data_cfg['solar_file']
-    tpp_csv_file_path :str|Path= data_cfg['pypsa']['output']['create_ext_tpp_assets'] ['fname']  #data_cfg['tpp_file']
-    hydro_generation_csv_file_path:str|Path = data_cfg['pypsa']['output']['create_hydro_assets'] ['hydro_generation']  #  data_cfg['hydro_generation_file']
-    hydro_resevoir_csv_file_path :str|Path= data_cfg['pypsa']['output']['create_hydro_assets'] ['hydro_reservoir']  # data_cfg['hydro_reservoir_file']
-    hydro_reservoir_ts_file_path :str|Path =  data_cfg['pypsa']['output']['reservoir_inflows'] ['fname']  # data_cfg['data_8760']['CF_hydro_reservoir']
+    wind_csv_file_path :str|Path = data_cfg['output']['create_ext_wind_assets'] ['fname']  # data_cfg['wind_file']
+    solar_csv_file_path:str|Path = data_cfg['output']['create_ext_solar_assets'] ['fname']  # data_cfg['solar_file']
+    tpp_csv_file_path :str|Path= data_cfg['output']['create_ext_tpp_assets'] ['fname']  #data_cfg['tpp_file']
+    hydro_generation_csv_file_path:str|Path = data_cfg['output']['create_hydro_assets'] ['hydro_generation']  #  data_cfg['hydro_generation_file']
+    hydro_resevoir_csv_file_path :str|Path= data_cfg['output']['create_hydro_assets'] ['hydro_reservoir']  # data_cfg['hydro_reservoir_file']
+    hydro_reservoir_ts_file_path :str|Path =  data_cfg['output']['reservoir_inflows'] ['fname']  # data_cfg['data_8760']['CF_hydro_reservoir']
 
     # Define cascade groups from the YAML file
     cascade_group:dict= clews_const.HYDRO_GENERATION # cm_config['clews']['HYDRO_GENERATION']#['cascade_group_1']

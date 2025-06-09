@@ -482,7 +482,7 @@ class RunModel:
             
             clewsBuild=BuildModel(**args)
             if build:
-                clewsBuild.build(include_livestock=True,
+                clewsBuild.build(include_livestock=include_livestock,
                                  update_clews_builder=False)
             elif update_temporal_profiles:
                 clewsBuild.update_temporal_profiles()

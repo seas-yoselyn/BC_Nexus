@@ -10,18 +10,7 @@ from pathlib import Path
 import pandas as pd
 
 print_level_base=2
-'''
-# Step 1
 
-# - Load the Sets,Ratios Builder module (functionality of _clewsy_)
-# - Create the Standard CLEWs Sets,Ratios 
-'''
-SetNames, NewSetItems, IARList, OARList=SnR.BuildCLEWsModel()
-
-'''
-# Step 2
-    - Prepare the Livestock Sets (already defined in Model Structure)
-'''
 
 def get_Livestock_SETs(model_structure:dict=model_structure)->dict:
     """
@@ -189,6 +178,7 @@ def update_IARlist(
     IARList_existing.extend(IARList_new)
     IARlist_updated=IARList_existing
     IARlist_updated=IARList_existing
+    
     utils.print_update(level=print_level_base,message="Livestock Ratios updated.")
     return IARlist_updated,OARlist_updated
 
@@ -217,11 +207,29 @@ def update_mode_of_operation_csv(source_csv_files_path:str|Path,
         utils.print_update(level=print_level_base+2,message= f"Added {len(missing_modes)} new modes to {mop_existing_file}")
     else:
         utils.print_update(level=print_level_base+2,message="No new modes to add.")
+    
+    for mode in missing_modes:
+        key = next(k for k, v in new_modes_dict.items() if str(v) == str(mode))
+        
+        mode_dir = Path('data/clews_data/SETs')
+        mode_dir.mkdir(parents=True, exist_ok=True)
+        
+        with open(mode_dir / 'ModeList.txt', 'a') as ModeFile:
+                ModeFile.write(f"{mode}: Livestock produce {model_structure.LivestockProduce[key]}\n")
 
 def main(source_land_tech:str=None,
          csv_save_to:str|Path='data/clews_data/SETs'):
     
-    #1: Create Sets (FUEL, TECHNOLOGY) from Model structure 
+    '''
+    # 1.1
+
+    # - Load the Sets,Ratios Builder module (functionality of _clewsy_)
+    # - Create the Standard CLEWs Sets,Ratios 
+    '''
+    SetNames, NewSetItems, IARList, OARList=SnR.BuildCLEWsModel()
+
+    
+    #1.2: Create Sets (FUEL, TECHNOLOGY) from Model structure 
     livestock_sets=get_Livestock_SETs()
     
     #2.1: Update (append) the Livestock Sets to the existing ones
@@ -251,6 +259,7 @@ def main(source_land_tech:str=None,
     #4 - Check the MODE_OF_OPERATION in the created CSV files and update
     update_mode_of_operation_csv(write_to_csvs_args['csv_save_to'], 
                                  model_structure.LivestockProduce_Modes)
+
 
 if __name__ == "__main__":
     main()

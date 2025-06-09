@@ -135,28 +135,28 @@ class BuildModel:
             bcnexus_lvs.main(csv_save_to=self.SETs_save_to) # handles all sets including livestock
         
         # Update STORAGE TECHNOLOGY in TECHNOLOGY SET
-        TECHNOLOGY_set_file_path=Path(self.SETs_save_to / 'TECHNOLOGY.csv')
+        # TECHNOLOGY_set_file_path=Path(self.SETs_save_to / 'TECHNOLOGY.csv')
         
-        TECHNOLOGY_df=pd.read_csv(TECHNOLOGY_set_file_path)
-        storage_techs = list(self.clewsb_config['STORAGE_TECHNOLOGY'].keys())
-        tech_sets = list(TECHNOLOGY_df['VALUE'])
-        for tech in storage_techs:
-            if tech not in tech_sets:
-                tech_sets.append(tech)
+        # TECHNOLOGY_df=pd.read_csv(TECHNOLOGY_set_file_path)
+        # storage_techs = list(self.clewsb_config['STORAGE_TECHNOLOGY'].keys())
+        # tech_sets = list(TECHNOLOGY_df['VALUE'])
+        # for tech in storage_techs:
+        #     if tech not in tech_sets:
+        #         tech_sets.append(tech)
 
-        if tech_sets:
-            tech_sets_df = pd.DataFrame(tech_sets, columns=['VALUE'])
-            tech_sets_df.to_csv(TECHNOLOGY_set_file_path, index=False)
-            utils.print_update(level=3,
-            message=f"File Updated with STORAGE TECHNOLOGY: {self.input_csv_dir / 'TECHNOLOGY.csv'}")
-        else:
-            pass
+        # if tech_sets:
+        #     tech_sets_df = pd.DataFrame(tech_sets, columns=['VALUE'])
+        #     tech_sets_df.to_csv(TECHNOLOGY_set_file_path, index=False)
+        #     utils.print_update(level=3,
+        #     message=f"File Updated with STORAGE TECHNOLOGY: {self.input_csv_dir / 'TECHNOLOGY.csv'}")
+        # else:
+        #     pass
         
         # Handles the missing fuel LND4PWR in FUELs
         FUEL_set_file_path=Path(self.SETs_save_to / 'FUEL.csv')
         FUEL_df=pd.read_csv(FUEL_set_file_path)
         
-        new_fuels = ['LND4PWR', 'HDG', 'CO2CCS', 'WATER_STORAGE01']
+        new_fuels = ['LND4PWR', 'HDG', 'CO2CCS',]
         for fuel in new_fuels:
             if fuel not in FUEL_df['VALUE'].values:
                 new_row = pd.DataFrame([{'VALUE': fuel}])
@@ -166,16 +166,16 @@ class BuildModel:
                 message=f"File Updated with FUEL: {fuel}")
         
         # Handle additional MODE_OF_OPERATION 
-        MOP_set_file_path=Path(self.SETs_save_to / 'MODE_OF_OPERATION.csv')
-        MOP_df=pd.read_csv(MOP_set_file_path)
-        if 57 not in MOP_df['VALUE'].values:
-            new_row = pd.DataFrame([{'VALUE': '57'}])
-            MOP_df = pd.concat([MOP_df, new_row], ignore_index=True)
-            MOP_df.to_csv(MOP_set_file_path, index=False)
-            utils.print_update(level=3,
-                message=f"File Updated with FUEL: {MOP_set_file_path}")
-        else:
-            pass
+        # MOP_set_file_path=Path(self.SETs_save_to / 'MODE_OF_OPERATION.csv')
+        # MOP_df=pd.read_csv(MOP_set_file_path)
+        # if 57 not in MOP_df['VALUE'].values:
+        #     new_row = pd.DataFrame([{'VALUE': '57'}])
+        #     MOP_df = pd.concat([MOP_df, new_row], ignore_index=True)
+        #     MOP_df.to_csv(MOP_set_file_path, index=False)
+        #     utils.print_update(level=3,
+        #         message=f"File Updated with FUEL: {MOP_set_file_path}")
+        # else:
+        #     pass
         
     def get_csv_template(self,force_replace:bool):
         
@@ -559,6 +559,9 @@ class BuildModel:
                                   self.start_year, 
                                   self.last_year)
         
+        ### Updating Ratios
+        self.IAR_file=self.input_csv_dir/'YearSplit.csv' #config['FILES']['yearsplit_file']
+        
         if self.storage_algorithm == 'Kotzur':
             # Updating dayscro
             output_dayscro_csv_file = self.case_input_csvs/'DAYSCRO.csv'
@@ -595,6 +598,9 @@ class BuildModel:
         clewsB.replication(self.case_yearsplit_csv_file, 
                                   self.start_year, 
                                   self.last_year)
+        
+        
+        
         # """
         if self.storage_algorithm == 'Kotzur':
             # Updating dayscro
@@ -851,7 +857,7 @@ class BuildModel:
 
     def build(self,
               include_livestock:bool=True,
-                update_clews_builder:bool=False):
+            update_clews_builder:bool=False):
         # Apply Methods to modify template input files on set configs (currently supports: simplified temporal clustering, power technology aggreation)
 
     #1  
