@@ -387,7 +387,7 @@ def pre_process_input_activity_ratio(scenario_key, scenario_info):
 
 def process_scenario_attribute(
     file_path:str |Path, 
-    scenario:dict, 
+    scenario_cfg:dict, 
     attribute_name:str, 
     column_name:str, 
     start_year:int, 
@@ -427,7 +427,8 @@ def process_scenario_attribute(
         None. The updated DataFrame is saved to 'file_path'.
     """
     df_filtered = None
-    for category, scenario_details in scenario.items():
+    for category, scenario_details in scenario_cfg.items():
+        print(f"Processing category: {scenario_details}")
         for scenario_key, scenario_info in scenario_details.items():
             # Check if the attribute exists
             attr_exists = attribute_name in scenario_info
@@ -1385,6 +1386,7 @@ def add_technologies_operational_life(filtered_df, tech_key, tech_info, region, 
     Returns a DataFrame with the new technologies added.
     """
     # Get the necessary details from the tech_info dictionary
+    # print(tech_key, tech_info)
     operational_life = tech_info[operational_name]  # Operational life from YAML
     
     new_rows = []
