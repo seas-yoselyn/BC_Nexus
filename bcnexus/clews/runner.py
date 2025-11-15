@@ -436,6 +436,7 @@ class RunModel:
     def run(self,
             input_csvs: str | Path=None,
             build:bool=False,
+            include_livestock:bool=True,
             update_temporal_profiles=True,
             solver_name='gurobi',
             threads:int=32,
@@ -481,7 +482,8 @@ class RunModel:
             
             clewsBuild=BuildModel(**args)
             if build:
-                clewsBuild.build(update_clews_builder=False)
+                clewsBuild.build(include_livestock=include_livestock,
+                                 update_clews_builder=False)
             elif update_temporal_profiles:
                 clewsBuild.update_temporal_profiles()
             

@@ -13,3 +13,5 @@ __pycache__
 
 results/clews/Model_Kotzur_Base/*/*.sol
 data/clews_data/Model_Kotzur/*
+data/clews_data/LandClusterData/figs/*.pdf
+SETs-test

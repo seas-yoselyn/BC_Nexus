@@ -5,7 +5,8 @@ import colorama
 #Local packages
 from bcnexus import utils
 from bcnexus.clews import model_structure as clews_const
-    
+from pathlib import Path
+print_level_base=2    
 # Tailored for BC Combined Model
 # Refactoring (C) M Elias Islam (EL), 2024
 
@@ -14,33 +15,47 @@ from bcnexus.clews import model_structure as clews_const
 Original cocnept and script (C) Taco Niet 2019
 
 """
+utils.print_update(level=print_level_base, message="Module Activated: 'sets_n_ratios'")
+
 def UpdateSETS(SetNames:list, 
                  NewSetItems:list, 
                  IARList:list, 
                  OARList:list, 
                  csv_save_to:str):
     
-    if not os.path.exists(csv_save_to):
-        os.makedirs(csv_save_to)
-    # Ouptut the sets for otoole:
+    csv_save_to = Path(csv_save_to)
+    csv_save_to.mkdir(parents=True, exist_ok=True)
+    
+    utils.print_update(level=print_level_base,message=f"Writing SETs to {csv_save_to}")
+    
+    # Output the sets for otoole:
     for SetName in SetNames:
-        with open(os.path.join(csv_save_to, SetName + '.csv'),'w') as f:
+        set_file = csv_save_to / f"{SetName}.csv"
+        utils.print_update(level=print_level_base+1,message=f"Writing {SetName} to {set_file}")
+        with set_file.open('w') as f:
             f.write('VALUE\n')
             for items in NewSetItems[SetNames.index(SetName)]:
-                # print(items['value'], type(items['value']))
-                f.write(str(items['value'])+'\n')
-    
+                f.write(str(items['value']) + '\n')
+
     # And output the IAR for otoole:
-    with open(os.path.join(csv_save_to, 'InputActivityRatio.csv'),'w') as f:
+    iar_file = csv_save_to / 'InputActivityRatio.csv'
+    utils.print_update(level=print_level_base+1,message=f"Writing Input Activity Ratios to {iar_file}")
+    with iar_file.open('w') as f:
         f.write('REGION,TECHNOLOGY,FUEL,MODE_OF_OPERATION,YEAR,VALUE\n')
         for item in IARList:
-            f.write(str(item['c'][0])+','+str(item['c'][1])+','+str(item['c'][2])+','+str(item['c'][3])+','+str(item['c'][4])+','+str(item['v'])+'\n')
+            f.write(','.join(map(str, item['c'])) + ',' + str(item['v']) + '\n')
 
     # And output the OAR for otoole:
-    with open(os.path.join(csv_save_to, 'OutputActivityRatio.csv'),'w') as f:
+    oar_file = csv_save_to / 'OutputActivityRatio.csv'
+    utils.print_update(level=print_level_base+1,message=f"Writing Output Activity Ratios to {oar_file}")
+    
+    with oar_file.open('w') as f:
         f.write('REGION,TECHNOLOGY,FUEL,MODE_OF_OPERATION,YEAR,VALUE\n')
         for item in OARList:
-            f.write(str(item['c'][0])+','+str(item['c'][1])+','+str(item['c'][2])+','+str(item['c'][3])+','+str(item['c'][4])+','+str(item['v'])+'\n')
+            f.write(','.join(map(str, item['c'])) + ',' + str(item['v']) + '\n')
+            
+    mop_file = csv_save_to / 'MODE_OF_OPERATION.csv'
+
 
 # create_set in BuildCLEWsModel.py
 def create_set(set_names, new_SetItems, new_setGroups, sets):
@@ -93,6 +108,16 @@ def get_powerplants():
                 PowerPlants[tech_id] = _PowerPlants_[f'{resource_type}B']
 
     return PowerPlants
+
+def get_storage()->dict:
+    updated_resources=utils.load_config(clews_const.clews_builder_config_path)
+    updated_STORAGE:dict=updated_resources['STORAGE']
+    storage_techs = {}
+
+    for storage_type,tech_info in updated_STORAGE.items():
+        storage_techs[storage_type] = updated_STORAGE[storage_type]
+
+    return storage_techs
 
 def get_transformation_techs_power():
     _TransformationTechnologies_=clews_const.TransformationTechnologies
@@ -166,6 +191,7 @@ def BuildCLEWsModel():
     Regions=clews_const.Regions
     Emissions=clews_const.Emissions
     PowerPlants=get_powerplants()
+    Storages=get_storage()
 
     # ***************************** #
     # CREATE ENERGY SET INFORMATION #
@@ -261,6 +287,34 @@ def BuildCLEWsModel():
         AddActivityListItems(Years, Region, powerplant, "WTRSUR" + Land2Grid, OARList, value = str(PowerPlants[powerplant][3]),
                 v = str(PowerPlants[powerplant][3]))
 
+    # Create storage technologies, Fuels, Ip and Op Activity ratios
+    for storage in Storages:
+        if 'BATTERY' in storage:
+            # add this new TECHNOLOGY
+            if storage not in [li['value'] for li in NewSetItems[SetNames.index("TECHNOLOGY")]]:
+                Fill_Set(NewSetItems, SetNames, "TECHNOLOGY",Storages[storage]['technology_from_storage'], "#000000", "")
+                
+            AddActivityListItems(Years, Region,Storages[storage]['technology_from_storage'], 
+                                "ELCB"+"02",IARList,g=str(Storages[storage]['mode_of_operation_charge']),v='1')
+            
+            AddActivityListItems(Years,Region,Storages[storage]['technology_to_storage'], 
+                                "ELCB"+"02",OARList,g=str(Storages[storage]['mode_of_operation_discharge']),v='1') 
+        if 'HYDRODAM' in storage:
+            water_storage_fuel="WATER_STORAGE"+"01"
+            # ADD new Fuel
+            if water_storage_fuel not in [li['value'] for li in NewSetItems[SetNames.index("FUEL")]]:
+                Fill_Set(NewSetItems, SetNames, "FUEL", water_storage_fuel, "#000000", "")
+                
+            AddActivityListItems(Years, Region,Storages[storage]['technology_from_storage'], 
+                                water_storage_fuel,IARList,g=str(Storages[storage]['mode_of_operation_charge']),v='1')
+            
+            AddActivityListItems(Years,Region,Storages[storage]['technology_to_storage'], 
+                                water_storage_fuel,OARList,g=str(Storages[storage]['mode_of_operation_charge']),v='1')
+            
+            AddActivityListItems(Years,Region,Storages[storage]['technology_from_storage'], 
+                    water_storage_fuel,OARList,g=str(Storages[storage]['mode_of_operation_discharge']),v='1')
+
+    
     # Create Transformation Techs
     # surface water.
     TransformationTechnologies=get_transformation_techs_power()
@@ -379,9 +433,11 @@ def BuildCLEWsModel():
 
         # Creation of agricultural water supply from grownwater
         # 1.73 number taken from Bolivia - Should be 0.0173
-        # NEED TO ADJUST THE IAR TO MATCH THE CORRECT VALUE FOR THE DEMAGRGWT...
-        AddActivityListItems(Years, Region, "DEMAGRGWT" + LandRegion, "AGRELC" + LandToGridMap[LandRegion] + "02", IARList, value = "0.0173",
-                v = "0.0173")
+        
+        if 'AGR' in EndUseFuels.keys():
+            # NEED TO ADJUST THE IAR TO MATCH THE CORRECT VALUE FOR THE DEMAGRGWT...
+            AddActivityListItems(Years, Region, "DEMAGRGWT" + LandRegion, "AGRELC" + LandToGridMap[LandRegion] + "02", IARList, value = "0.0173",
+                    v = "0.0173")
 
         # for year in Years:
         # Sets = [Region, "DEMAGRGWT"+LandRegion, "WTRGWT"+LandRegion, "1", year]
@@ -654,11 +710,27 @@ def BuildCLEWsModel():
     SetNames.append("MODE_OF_OPERATION")
     NewSetItems.append([])
     NewSetGroups.append([])
+    
+    # Storage
+    for storage in Storages:
+        storage_charging_mode= Storages[storage]['mode_of_operation_charge']
+        storage_discharging_mode=Storages[storage]['mode_of_operation_discharge']
+        if  storage_charging_mode > len(ModeList):
+            ModeList.append('Storage Charging Mode')
+        # storage_discharging_mode is a number (1-based), ModeList's index+1 should be checked
+        if storage_discharging_mode > len(ModeList):
+            ModeList.append('Storage Discharging Mode')
+    
     for index, Mode in enumerate(ModeList):
         Fill_Set(NewSetItems, SetNames, "MODE_OF_OPERATION", str(index + 1), "#000000", Mode)
 
-    with open('ModeList.txt', 'w') as ModeFile:
-        ModeFile.write(str(ModeList))
+    # Ensure the directory exists
+    mode_dir = Path('data/clews_data/SETs')
+    mode_dir.mkdir(parents=True, exist_ok=True)
+    
+    with open(mode_dir / 'ModeList.txt', 'w') as ModeFile:
+        for idx, mode in enumerate(ModeList, 1):
+            ModeFile.write(f"{idx}: {mode}\n")
 
     # ******************************* #
     # Remove any 0's from IAR and OAR #

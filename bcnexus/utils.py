@@ -13,6 +13,7 @@ def print_module_title(text, Length_Char_inLine=60):
           f"{Fore.LIGHTGREEN_EX}{5 * ' '}{text}{Style.RESET_ALL}\n"
           f"{Fore.LIGHTCYAN_EX}{Length_Char_inLine * '_'}{Style.RESET_ALL}")
 
+
 def print_update(level: int=None,
                  message: str="--",
                  alert:Optional[bool]=False):
@@ -23,18 +24,21 @@ def print_update(level: int=None,
         elif level == 2:
             color = Fore.CYAN
             prefix=" └"
-        elif level > 2:
-            color = Fore.LIGHTBLACK_EX
+        elif level == 3:
+            color = Fore.LIGHTMAGENTA_EX
+            prefix="  └"
+        elif level > 3:
+            color = Fore.LIGHTBLACK_EX + Style.DIM
             prefix="  └─"
         elif alert:
             level=2
             color = Fore.RED
             prefix=" └ X "
     else:
-        color = Fore.LIGHTMAGENTA_EX + Style.DIM
-        prefix=" ─"
+        color = Fore.LIGHTRED_EX + Style.DIM
+        prefix="  !!!"
     
-    print(f"{color}{prefix}> {message}{Style.RESET_ALL}")
+    print(f"{color}{prefix} {message}{Style.RESET_ALL}")
     
 def process_demand_data(scenario:str,
                         AccumulatedAnnualDemand_scenario_filepath:str|Path,

@@ -11,7 +11,8 @@ from bcnexus.clews import schema as clewsB
 from bcnexus.clews import datapackage as clews_data_module
 from bcnexus.clews import update_yearly_params
 from bcnexus.clews import update_global_params
-from bcnexus.clews import sets_n_ratios
+# from bcnexus.clews import sets_n_ratios
+from bcnexus.clews import livestock as bcnexus_lvs
 
 # Filetring the package reated warnings
 import warnings
@@ -44,17 +45,6 @@ class BuildModel:
         
         # collects the template files from the CLEWS model repository and dumps to "data/clews_data/input_csvs" folder. The folder creation inside data will be handled by the method.
         self.get_csv_template(force_replace=False)
-        
-        """ 
-        Builds SETs and Ratios (input/output activities) if the Model structure/connection needs to be changed.
-         >>> The model structure is being handled by "clews_model_constants.py"
-         >>> Still under development, not recommended to use unless you are sure about the impact.
-        self.build_SETs_and_ratios()
-        self.get_csv_files(self.SETs_save_to,
-                               self.input_csv_dir,
-                               all_files=False)
-        # self.clean_up_SETs_and_Params_definitions()
-        """
         
         # After the Scenario data being processed, CLEWs Builder Config being updated, load the config as a dictionary
         self.clewsb_config=self.aparser.load_config(self.clews_builder_config_path)
@@ -135,33 +125,38 @@ class BuildModel:
                                 dest_folder=self.LandCluster_data_dest,
                                 all_files=True)
     
-    def build_SETs_and_ratios(self):
+    
+    def build_SETs_and_ratios(self,
+                              include_livestock:bool=True):
         self.get_LandCluster_data()
-        sets_n_ratios.build(self.SETs_save_to)   # still in development, traced some bugs (missing SETs and weired ratios)
+        
+        # Creates the Sets csv files
+        if include_livestock:
+            bcnexus_lvs.main(csv_save_to=self.SETs_save_to) # handles all sets including livestock
         
         # Update STORAGE TECHNOLOGY in TECHNOLOGY SET
-        TECHNOLOGY_set_file_path=Path(self.SETs_save_to / 'TECHNOLOGY.csv')
+        # TECHNOLOGY_set_file_path=Path(self.SETs_save_to / 'TECHNOLOGY.csv')
         
-        TECHNOLOGY_df=pd.read_csv(TECHNOLOGY_set_file_path)
-        storage_techs = list(self.clewsb_config['STORAGE_TECHNOLOGY'].keys())
-        tech_sets = list(TECHNOLOGY_df['VALUE'])
-        for tech in storage_techs:
-            if tech not in tech_sets:
-                tech_sets.append(tech)
+        # TECHNOLOGY_df=pd.read_csv(TECHNOLOGY_set_file_path)
+        # storage_techs = list(self.clewsb_config['STORAGE_TECHNOLOGY'].keys())
+        # tech_sets = list(TECHNOLOGY_df['VALUE'])
+        # for tech in storage_techs:
+        #     if tech not in tech_sets:
+        #         tech_sets.append(tech)
 
-        if tech_sets:
-            tech_sets_df = pd.DataFrame(tech_sets, columns=['VALUE'])
-            tech_sets_df.to_csv(TECHNOLOGY_set_file_path, index=False)
-            utils.print_update(level=3,
-            message=f"File Updated with STORAGE TECHNOLOGY: {self.input_csv_dir / 'TECHNOLOGY.csv'}")
-        else:
-            pass
+        # if tech_sets:
+        #     tech_sets_df = pd.DataFrame(tech_sets, columns=['VALUE'])
+        #     tech_sets_df.to_csv(TECHNOLOGY_set_file_path, index=False)
+        #     utils.print_update(level=3,
+        #     message=f"File Updated with STORAGE TECHNOLOGY: {self.input_csv_dir / 'TECHNOLOGY.csv'}")
+        # else:
+        #     pass
         
         # Handles the missing fuel LND4PWR in FUELs
         FUEL_set_file_path=Path(self.SETs_save_to / 'FUEL.csv')
         FUEL_df=pd.read_csv(FUEL_set_file_path)
         
-        new_fuels = ['LND4PWR', 'HDG', 'CO2CCS', 'WATER_STORAGE01']
+        new_fuels = ['LND4PWR', 'HDG', 'CO2CCS',]
         for fuel in new_fuels:
             if fuel not in FUEL_df['VALUE'].values:
                 new_row = pd.DataFrame([{'VALUE': fuel}])
@@ -170,17 +165,17 @@ class BuildModel:
                 utils.print_update(level=3,
                 message=f"File Updated with FUEL: {fuel}")
         
-        #Handle additional MODE_OF_OPERATION 
-        MOP_set_file_path=Path(self.SETs_save_to / 'MODE_OF_OPERATION.csv')
-        MOP_df=pd.read_csv(MOP_set_file_path)
-        if 57 not in MOP_df['VALUE'].values:
-            new_row = pd.DataFrame([{'VALUE': '57'}])
-            MOP_df = pd.concat([MOP_df, new_row], ignore_index=True)
-            MOP_df.to_csv(MOP_set_file_path, index=False)
-            utils.print_update(level=3,
-                message=f"File Updated with FUEL: {MOP_set_file_path}")
-        else:
-            pass
+        # Handle additional MODE_OF_OPERATION 
+        # MOP_set_file_path=Path(self.SETs_save_to / 'MODE_OF_OPERATION.csv')
+        # MOP_df=pd.read_csv(MOP_set_file_path)
+        # if 57 not in MOP_df['VALUE'].values:
+        #     new_row = pd.DataFrame([{'VALUE': '57'}])
+        #     MOP_df = pd.concat([MOP_df, new_row], ignore_index=True)
+        #     MOP_df.to_csv(MOP_set_file_path, index=False)
+        #     utils.print_update(level=3,
+        #         message=f"File Updated with FUEL: {MOP_set_file_path}")
+        # else:
+        #     pass
         
     def get_csv_template(self,force_replace:bool):
         
@@ -564,6 +559,9 @@ class BuildModel:
                                   self.start_year, 
                                   self.last_year)
         
+        ### Updating Ratios
+        self.IAR_file=self.input_csv_dir/'YearSplit.csv' #config['FILES']['yearsplit_file']
+        
         if self.storage_algorithm == 'Kotzur':
             # Updating dayscro
             output_dayscro_csv_file = self.case_input_csvs/'DAYSCRO.csv'
@@ -600,6 +598,9 @@ class BuildModel:
         clewsB.replication(self.case_yearsplit_csv_file, 
                                   self.start_year, 
                                   self.last_year)
+        
+        
+        
         # """
         if self.storage_algorithm == 'Kotzur':
             # Updating dayscro
@@ -783,14 +784,26 @@ class BuildModel:
         utils.print_update(level=2,message=f"File updated for {k_tech_id} : {file_path}")
         
     def update_sets_params(self,
+                           include_livestock:bool=True,
                            update_clews_builder: bool=True):
         
+                
+        # """ 
+        # Builds SETs and Ratios (input/output activities) if the Model structure/connection needs to be changed.
+        #  >>> The model structure is being handled by "clews_model_constants.py"
+        #  >>> Still under development, not recommended to use unless you are sure about the impact.
+        self.build_SETs_and_ratios(include_livestock)
+        self.get_csv_files(self.SETs_save_to,
+                               self.input_csv_dir,
+                               all_files=True)
+        # # self.clean_up_SETs_and_Params_definitions()
+        # """
+
     #1 @config/clews_builder.config
         if update_clews_builder:
             utils.print_update(level=2,
             message="Updating 'clews_builder.config' to match data and user configurations (aggregation and naming of the TECHNOLOGIES).")
             self.update_clews_builder() # Currently supports simplified power technology aggregation.
-
         else:
             utils.print_update(level=2,
             message="Skipping clews_builder update due to default setting (recommended). Developers may change 'update_clews_builder':bool to 'True' to force update.")
@@ -843,13 +856,15 @@ class BuildModel:
     
 
     def build(self,
+              include_livestock:bool=True,
             update_clews_builder:bool=False):
         # Apply Methods to modify template input files on set configs (currently supports: simplified temporal clustering, power technology aggreation)
 
     #1  
         utils.print_update(level=1,
             message='updating CLEWs builder config, SETs and Parameters')
-        self.update_sets_params(update_clews_builder)
+        self.update_sets_params(include_livestock,
+                                update_clews_builder)
         
         utils.print_update(level=1,
                     message='Preparing the summary reports for input data')
