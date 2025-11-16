@@ -164,7 +164,7 @@ DAYTYPE:
   dtype: int
   type: set
 DaySplit:
-  default: 0.125
+  default: 0.00045662100456621003
   dtype: float
   indices:
   - DAILYTIMEBRACKET
@@ -482,7 +482,7 @@ ResidualCapacity:
   - YEAR
   type: param
 ResidualStorageCapacity:
-  default: 0.05
+  default: 0
   dtype: float
   indices:
   - REGION

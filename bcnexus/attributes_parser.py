@@ -132,8 +132,8 @@ class AttributesParser:
             otoole_config_path = self.bccm_dir_prefix/ otoole_config_path
         return otoole_config_path
     
-    def get_linking_tool_results(self):
-        return Path('results/linking')
+    def get_RESource_results(self):
+        return Path('results/RESource')
         
     def get_scenarios(self,
                       clews_cm:dict=None)->dict:
@@ -185,7 +185,7 @@ class AttributesParser:
                 - Path to the CLEWs demand profile CSV file with processed demand data. ` 
         """
 
-        linking_tool_results=self.get_linking_tool_results()
+        RESource_results=self.get_RESource_results()
         
         StorageMaxCapacity =  self.clewsb_config['STORAGE']['BATTERY']['storage_max_capacity']
         ResidualStorageCapacity =  self.clewsb_config['STORAGE']['BATTERY']['residual_storage_capacity']
@@ -198,12 +198,12 @@ class AttributesParser:
         hydro_ror_ts=self.data_cfg['output']['ror_ps']['fname']
         
         # Future Resource Options (Committed/Planned)
-        future_wind_CF=linking_tool_results / 'resource_options_wind_timeseries.csv'
-        future_solar_CF=linking_tool_results /'resource_options_solar_timeseries.csv'
+        future_wind_CF=RESource_results / 'resource_options_wind_BC_timeseries.csv'
+        future_solar_CF=RESource_results /'resource_options_solar_BC_timeseries.csv'
         
         # Committed Resource Options, contracted but not existing (i.e. we don't have existing profiles for them)
-        committed_wind_CF=Path('results/linking/BCH_CFP24_wind_ts.csv')
-        committed_solar_CF=Path('results/linking/BCH_CFP24_solar_ts.csv')
+        committed_wind_CF=Path('results/RESource/BCH_CFP24_wind_ts.csv')
+        committed_solar_CF=Path('results/RESource/BCH_CFP24_solar_ts.csv')
         
         # Profiles (Capacity Factort, Specific Demand) from Existing Resources, formatted in CLEWs schema
         clews_CF_csv_file =  Path('data/clews_data/inputs_csv_8760/CapacityFactor.csv')

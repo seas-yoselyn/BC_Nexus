@@ -226,7 +226,7 @@ def main(source_land_tech:str=None,
     # - Load the Sets,Ratios Builder module (functionality of _clewsy_)
     # - Create the Standard CLEWs Sets,Ratios 
     '''
-    SetNames, NewSetItems, IARList, OARList=SnR.BuildCLEWsModel()
+    SetNames, NewSetItems, IARList, OARList,ModeList=SnR.BuildCLEWsModel()
 
     
     #1.2: Create Sets (FUEL, TECHNOLOGY) from Model structure 
@@ -259,6 +259,7 @@ def main(source_land_tech:str=None,
     #4 - Check the MODE_OF_OPERATION in the created CSV files and update
     update_mode_of_operation_csv(write_to_csvs_args['csv_save_to'], 
                                  model_structure.LivestockProduce_Modes)
+
 
 
 if __name__ == "__main__":

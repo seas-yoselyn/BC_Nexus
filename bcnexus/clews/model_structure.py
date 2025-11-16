@@ -169,13 +169,16 @@ EndUseFuels= {
 }
 
 # Imports and exports - add and remove fuels as needed to represent a given region.
-ImportFuels= ['JFL', 'LPG', 'GSL', 'KER', 'DSL', 'HFO','CRU', 'COA'] 
-ExportFuels= ['NGS',  'BIO','CRU', 'COA']
+ImportFuels= ['JFL', 'LPG', 'GSL', 'DSL', 'HFO', ] # EL_20251115 Removed 'KER''CRU','COA' to harmonize with Canada Energy Future Report 2024 data
+ExportFuels= ['NGS',  'BIO'] #EL_20251115 Removed 'CRU', 'COA'
+CarbonCaptureFuels= ['CO2CCS']  # Fuels associated with carbon capture and storage.
 
 # Domestically available fuels.
-DomesticMining= ['NGS', 'URN','CRU', 'COA']
+DomesticMining= ['NGS', 'URN'] #EL_20251115 Removed 'CRU', 'COA'
 DomesticRenewables= ['WND', 'HYD', 'BIO', 'SOL', 'GEO']
 
+
+LandUseIntensity_FUEL='LND4PWR'
 # Transformation technologies that connect parts of the CLEWs model together.  
     # For example, power transmission between grids, oil refineries, biofuel plants, etc.
     # Note:  These technologies cannot create fuels but assume that their fuels are created elsewhere (either in the DomesticMining, DomesticRenewables or ImportFuels).
@@ -264,6 +267,9 @@ PowerPlants= {
   'PWRHYDB':  ['Hydro Plants on B grid, (? MW).', 1.0, 0, 0],
 }
 
+
+
+
 # Emissions to be tracked in the model.
 Emissions= {
   'CO2': ['Carbon dioxide emissions.','#00cc66']
@@ -285,8 +291,8 @@ CropYieldFactors= {
 }
 
 Limitations={
-  'FUEL': 'LND4PWR, HDG, CO2CCS, INFLOW fuel and the associated activity ratios are handled seprately.',
-  'DAYSCRO' : 'SET representing Chronological day is handled separately.'
+  'FUEL': "'INFLOW' fuel and the associated activity ratios are handled separately.",
+  'STORAGE_SETS': "Storage algorithm associated explicit sets are handled separately."
 }
 
 units= {
@@ -334,3 +340,23 @@ LivestockProduce_Modes:dict={
   'MIL':60,
   'BEF':61
   }
+
+# EL_225115 added this to identify committed sites
+# type_of_techn : [name,contact_capacity(GW),commission_year]
+committed_sites = {
+    "PWRWNDB": [
+        ["Stewart Creek Wind Project", 0.1999, 2031],
+        ["Nithi Mountain Wind Project", 0.1999, 2031],
+        ["Highland Valley Wind Project", 0.1972, 2032],
+        ["Taylor Wind Project", 0.2000, 2032],
+        ["K2 Wind Project", 0.1596, 2032],
+        ["Nilhts'i Ecoener Project (Formerly Hixon Wind Power Project)", 0.1404, 2032],
+        ["Brewster Wind Project", 0.1972, 2032],
+        ["Mount Mabel Wind Project", 0.1428, 2032],
+        ["Boulder and Elkhart Wind Project", 0.0944, 2032]
+    ],
+
+    "PWRSOLB": [
+        ["ShTSaQU Solar Project", 0.104, 2030]
+    ]
+}

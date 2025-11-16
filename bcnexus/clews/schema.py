@@ -143,15 +143,15 @@ def update_clews_builder_config(combined_model_config_path:Path)->tuple:
 
     # Read the data files
     wind_df = pd.read_csv(wind_csv_file_path)
-    wind_future_df = pd.read_csv(Path('results/linking/resource_options_wind.csv'))
-    wind_committed_df = pd.read_csv(Path('results/linking/BC_CFP24_wind.csv'))
+    wind_future_df = pd.read_csv(Path('results/RESource/resource_options_wind_BC.csv'))
+    wind_committed_df = pd.read_csv(Path('results/RESource/BC_CFP24_wind.csv'))
 
     wind_future_with_committed_df = get_VRE_committed_candidate_combine(wind_future_df, 
                                                                         wind_committed_df)
 
     solar_df = pd.read_csv(solar_csv_file_path)
-    solar_future_df = pd.read_csv(Path('results/linking/resource_options_solar.csv'))
-    solar_committed_df = pd.read_csv(Path('results/linking/BC_CFP24_solar.csv'))
+    solar_future_df = pd.read_csv(Path('results/RESource/resource_options_solar_BC.csv'))
+    solar_committed_df = pd.read_csv(Path('results/RESource/BC_CFP24_solar.csv'))
 
     solar_future_with_committed_df = get_VRE_committed_candidate_combine(solar_future_df,    
                                                                             solar_committed_df)
@@ -165,17 +165,17 @@ def update_clews_builder_config(combined_model_config_path:Path)->tuple:
     # Create new PWRWND, PWRSOL, INFLOW and PWRHYD structures
 
     
-    new_pwrsol_structure = create_schema(solar_df, id_prefix='PWRSOLB')
+    new_pwrsol_structure = create_schema_VRE(solar_df, id_prefix='PWRSOLB')
     
-    new_pwrsol_future_structure = create_schema(solar_df, 
+    new_pwrsol_future_structure = create_schema_VRE(solar_df, 
                                                 id_prefix='PWRSOLB', 
                                                 start_index=len(solar_df), 
                                                 future_df=solar_future_with_committed_df)
 
-    new_pwrwnd_structure = create_schema(wind_df,
+    new_pwrwnd_structure = create_schema_VRE(wind_df,
                                          id_prefix='PWRWNDB')
     
-    new_pwrwnd_future_structure = create_schema(wind_df, 
+    new_pwrwnd_future_structure = create_schema_VRE(wind_df, 
                                                 id_prefix='PWRWNDB', 
                                                 start_index=len(wind_df), 
                                                 future_df=wind_future_with_committed_df)
@@ -564,7 +564,7 @@ def add_technologies_max_cap(
     # If not 'future', return the original DataFrame unchanged
     return filtered_df
 
-def create_schema(df:pd.DataFrame, 
+def create_schema_VRE(df:pd.DataFrame, 
                   id_prefix:str, 
                   start_index:int=1, 
                   future_df: Union[pd.DataFrame, None]=None )->Dict:
@@ -618,7 +618,6 @@ def create_schema(df:pd.DataFrame,
 
     # Prepares existing facilities data, if future_df is None
     if future_df is None:
-        
         for i, row in df.iterrows():
             
             item_id :int = f'{id_prefix}{start_index + i:02d}'
@@ -1227,45 +1226,6 @@ def delete_technologies(
     
     return df_filtered
 
-def copy_csv_files(
-    src_folder: str, 
-    dest_folder: str,
-    all_files:bool=False
-    ) -> None:
-    """
-    Copies only missing CSV files from the source folder to the destination folder.
-
-    Args:
-        src_folder (str): Path to the source folder containing CSV files.
-        dest_folder (str): Path to the destination folder where CSV files will be copied.
-        all_files (bool) : If True, copies all files, otherwise copies the missing files only.
-
-    Returns:
-        None: The function does not return any value.
-    """
-    # Convert paths to Path objects
-    src_path = Path(src_folder)
-    dest_path = Path(dest_folder)
-
-    # Ensure the destination folder exists
-    dest_path.mkdir(parents=True, exist_ok=True)
-
-    # Iterate through all CSV files in the source folder
-    for src_file in src_path.glob("*.csv"):
-        # Destination file path
-        dest_file = dest_path / src_file.name
-        if all_files:
-            shutil.copy(src_file, dest_file)
-            # utils.print_update(level=3,message=f"Copied: {src_file.name}")
-        else:
-            # Copy only if the file is missing in the destination folder
-            if not dest_file.exists():
-                shutil.copy(src_file, dest_file)
-                utils.print_update(level=4,message=f"Copied: {src_file.name}")
-            else:
-                pass
-                # utils.print_update(level=3,message=f"Skipped (already exists): {src_file.name}")
-
     
 def add_technologies_availability_factor(
     filtered_df: pd.DataFrame,
@@ -1700,10 +1660,10 @@ def prepare_capacity_factor_data(
     start_year = cm_config['clews']['GENERAL']['start_year']
     wind_ts_file_path =  cm_config['pypsa']['output']['create_ext_wind_ts'] ['fname']  # config['FILES']['DATA']['data_8760']['CF_wind']
     # wind_future_ts_file_path = Path (cm_config['results']['linking']['root'])/ cm_config['results']['linking']['clusters_CFts_topSites']['wind'] # config['FILES']['DATA']['data_8760']['CF_wind_future']
-    wind_future_ts_file_path=Path ('results/linking/resource_options_wind_timeseries.csv')
+    wind_future_ts_file_path=Path ('results/RESource/resource_options_wind_timeseries.csv')
     solar_ts_file_path =  cm_config['pypsa']['output']['create_ext_solar_ts'] ['fname'] # config['FILES']['DATA']['data_8760']['CF_solar']
     # solar_future_ts_file_path = Path (cm_config['results']['linking']['root'])/ cm_config['results']['linking']['clusters_CFts_topSites']['solar'] #config['FILES']['DATA']['data_8760']['CF_solar_future']
-    solar_future_ts_file_path=Path ('results/linking/resource_options_solar_timeseries.csv')
+    solar_future_ts_file_path=Path ('results/RESource/resource_options_solar_timeseries.csv')
     hydro_reservoir_ts_file_path = cm_config['pypsa']['output']['reservoir_inflows'] ['fname']  #  config['FILES']['DATA']['data_8760']['CF_hydro_reservoir']
     hydro_ror_ts_file_path = cm_config['pypsa']['output']['ror_ps'] ['fname']  # config['FILES']['DATA']['data_8760']['CF_hydro_ror']
     

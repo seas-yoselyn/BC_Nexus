@@ -1,26 +1,10 @@
-# ---
-# jupyter:
-#   jupytext:
-#     cell_metadata_filter: -all
-#     custom_cell_magics: kql
-#     text_representation:
-#       extension: .py
-#       format_name: percent
-#       format_version: '1.3'
-#       jupytext_version: 1.11.2
-#   kernelspec:
-#     display_name: bcnexus
-#     language: python
-#     name: python3
-# ---
-
 # %%
 from bcnexus.clews.runner import RunModel
 
 # %%
 scenarios = [
-    'Base_CNZ',
-    # 'Base_CNZ_noCCS',
+    # 'Base_CNZ',
+    'Base_CNZ_noCCS',
     # 'CNZ_LIMITED_CO2_PTY'
     # 'CNZ_LIMITED_CO2',
     # 'NUC_standard_2028',
@@ -52,8 +36,8 @@ def run_model(scenario: str):
 
     # 1(C) Apply the .run() method
     clewsRun.run(
-        build=True,  # Should be true for the very first run
-        include_livestock=True,
+        build=False,  # Should be true for the very first run
+        include_livestock=False,
         solver_name='gurobi',
         threads=32 ,# The thread depends on the hardware limitations of your machine. If you have 4 core CPU, use Thread <=4
         machine_id='srye-deltae-07' # for hardware tracking

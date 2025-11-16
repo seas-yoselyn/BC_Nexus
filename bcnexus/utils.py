@@ -1,23 +1,25 @@
-import yaml
 import os
-import pandas as pd
-from colorama import Fore, Style
-from typing import Optional
+import shutil
 from pathlib import Path
-import numpy as np
-from bcnexus.clews import model_structure
-from bcnexus import constants as bcnexus_const
+from typing import Optional
 
-def print_module_title(text, Length_Char_inLine=60):
-    print(f"{Fore.LIGHTCYAN_EX}{Length_Char_inLine * '_'}{Style.RESET_ALL}\n"
-          f"{Fore.LIGHTGREEN_EX}{5 * ' '}{text}{Style.RESET_ALL}\n"
-          f"{Fore.LIGHTCYAN_EX}{Length_Char_inLine * '_'}{Style.RESET_ALL}")
+import numpy as np
+import pandas as pd
+import yaml
+from colorama import Fore, Style
+
+from bcnexus import constants as bcnexus_const
+from bcnexus.clews import model_structure
 
 
 def print_update(level: int=None,
                  message: str="--",
                  alert:Optional[bool]=False):
-    if level is not None:
+    if alert:
+            level=level or 2
+            color = Fore.RED
+            prefix=" └ ❌ "
+    elif level is not None:
         if level == 1:
             color = Fore.YELLOW
             prefix="└"
@@ -25,20 +27,93 @@ def print_update(level: int=None,
             color = Fore.CYAN
             prefix=" └"
         elif level == 3:
-            color = Fore.LIGHTMAGENTA_EX
+            color = Fore.LIGHTWHITE_EX + Style.DIM
             prefix="  └"
         elif level > 3:
             color = Fore.LIGHTBLACK_EX + Style.DIM
             prefix="  └─"
-        elif alert:
-            level=2
-            color = Fore.RED
-            prefix=" └ X "
     else:
-        color = Fore.LIGHTRED_EX + Style.DIM
-        prefix="  !!!"
+        color = Fore.LIGHTMAGENTA_EX + Style.DIM
+        prefix=" ─"
     
-    print(f"{color}{prefix} {message}{Style.RESET_ALL}")
+    print(f"{color}{prefix}> {message}{Style.RESET_ALL}")
+
+def print_error(message):
+    print(f"{Fore.RED} └ ❌ > {message}{Style.RESET_ALL}")
+
+def print_module_title(text, Length_Char_inLine=100):
+    print(f"{Fore.LIGHTCYAN_EX}{Length_Char_inLine * '_'}{Style.RESET_ALL}\n"
+          f"{Fore.LIGHTGREEN_EX}{5 * ' '}{text}{Style.RESET_ALL}\n"
+          f"{Fore.LIGHTCYAN_EX}{Length_Char_inLine * '_'}{Style.RESET_ALL}")
+    
+def print_banner(message: str):
+    line = "*" * len(message)
+    print(f"{Fore.GREEN}{Style.BRIGHT}{line}{Style.RESET_ALL}")
+    print(f"{Fore.GREEN}{Style.BRIGHT}{message}{Style.RESET_ALL}")
+    print(f"{Fore.GREEN}{Style.BRIGHT}{line}{Style.RESET_ALL}")
+
+def print_info(info:str):
+    print(f"{Fore.LIGHTBLACK_EX}{Style.BRIGHT}ℹ️  {info}{Style.RESET_ALL}")
+
+def print_warning(info: str):
+    print(f"{Fore.LIGHTYELLOW_EX}{Style.BRIGHT}⚠️  {info}{Style.RESET_ALL}")
+    
+def copy_csv_files(
+    src_folder: str, 
+    dest_folder: str,
+    all_files:bool=False
+    ) -> None:
+    """
+    Copies only missing CSV files from the source folder to the destination folder.
+
+    Args:
+        src_folder (str): Path to the source folder containing CSV files.
+        dest_folder (str): Path to the destination folder where CSV files will be copied.
+        all_files (bool) : If True, copies all files, otherwise copies the missing files only.
+
+    Returns:
+        None: The function does not return any value.
+    """
+    # Convert paths to Path objects
+    src_path = Path(src_folder)
+    dest_path = ensure_path(dest_folder)
+    if all_files:
+        print_update(level=2,message=f"Copying all CSV files : '{src_path}' >> '{dest_path}'")
+    else:
+        print_update(level=2,message=f"Copying missing CSV files : '{src_path}' >> '{dest_path}'")
+
+    # Iterate through all CSV files in the source folder
+    for src_file in src_path.glob("*.csv"):
+        # Destination file path
+        dest_file = dest_path / src_file.name
+        if all_files:
+            shutil.copy(src_file, dest_file)
+            print_update(level=3,message=f"Copied: {src_file.name}")
+        else:
+            # Copy only if the file is missing in the destination folder
+            if not dest_file.exists():
+                shutil.copy(src_file, dest_file)
+                print_update(level=4,message=f"Copied: {src_file.name}")
+            else:
+                pass
+                print_update(level=4,message=f"Skipped (already exists): {src_file.name}")
+
+def ensure_path(save_to: str | Path) -> Path:
+    """
+    Ensures that the given argument is a Path object. If the user provides a string,
+    it converts it to a Path object to facilitate operations like directory creation.
+    
+    ## Args:
+    - save_to (str | Path): The path input, either as a string or a Path object.
+
+    ## Returns:
+    - Path: The input converted (if necessary) to a Path object.
+    """
+    if not isinstance(save_to, Path):
+        Warning(f">> Given instance for 'destination (save_to)' is of type: {type(save_to)}. Converting it to a Path")
+        save_to = Path(save_to)
+    save_to.mkdir(parents=True, exist_ok=True)
+    return save_to
     
 def process_demand_data(scenario:str,
                         AccumulatedAnnualDemand_scenario_filepath:str|Path,

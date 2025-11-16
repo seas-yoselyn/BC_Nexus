@@ -6,16 +6,17 @@ import colorama
 from bcnexus import utils
 from bcnexus.clews import model_structure as clews_const
 from pathlib import Path
-print_level_base=2    
+PRINT_LEVEL_BASE:int=2    # Handle print levels
+
 # Tailored for BC Combined Model
 # Refactoring (C) M Elias Islam (EL), 2024
 
-""" Creates the SETS, FUELS and COMMODITIES in MoManI for the energy sector and the land use (from clustered AEZ data).
-
-Original cocnept and script (C) Taco Niet 2019
+""" 
+Creates the SETS, FUELS and COMMODITIES in MoManI for the energy sector and the land use (from clustered AEZ data).
+Original concept and script (C) Taco Niet 2019
 
 """
-utils.print_update(level=print_level_base, message="Module Activated: 'sets_n_ratios'")
+utils.print_update(level=PRINT_LEVEL_BASE, message="Module Activated: 'sets_n_ratios'")
 
 def UpdateSETS(SetNames:list, 
                  NewSetItems:list, 
@@ -26,12 +27,12 @@ def UpdateSETS(SetNames:list,
     csv_save_to = Path(csv_save_to)
     csv_save_to.mkdir(parents=True, exist_ok=True)
     
-    utils.print_update(level=print_level_base,message=f"Writing SETs to {csv_save_to}")
+    utils.print_update(level=PRINT_LEVEL_BASE,message=f"Writing SETs to {csv_save_to}")
     
     # Output the sets for otoole:
     for SetName in SetNames:
         set_file = csv_save_to / f"{SetName}.csv"
-        utils.print_update(level=print_level_base+1,message=f"Writing {SetName} to {set_file}")
+        utils.print_update(level=PRINT_LEVEL_BASE+1,message=f"Writing {SetName} to {set_file}")
         with set_file.open('w') as f:
             f.write('VALUE\n')
             for items in NewSetItems[SetNames.index(SetName)]:
@@ -39,7 +40,7 @@ def UpdateSETS(SetNames:list,
 
     # And output the IAR for otoole:
     iar_file = csv_save_to / 'InputActivityRatio.csv'
-    utils.print_update(level=print_level_base+1,message=f"Writing Input Activity Ratios to {iar_file}")
+    utils.print_update(level=PRINT_LEVEL_BASE+1,message=f"Writing Input Activity Ratios to {iar_file}")
     with iar_file.open('w') as f:
         f.write('REGION,TECHNOLOGY,FUEL,MODE_OF_OPERATION,YEAR,VALUE\n')
         for item in IARList:
@@ -47,7 +48,7 @@ def UpdateSETS(SetNames:list,
 
     # And output the OAR for otoole:
     oar_file = csv_save_to / 'OutputActivityRatio.csv'
-    utils.print_update(level=print_level_base+1,message=f"Writing Output Activity Ratios to {oar_file}")
+    utils.print_update(level=PRINT_LEVEL_BASE+1,message=f"Writing Output Activity Ratios to {oar_file}")
     
     with oar_file.open('w') as f:
         f.write('REGION,TECHNOLOGY,FUEL,MODE_OF_OPERATION,YEAR,VALUE\n')
@@ -163,6 +164,8 @@ def BuildCLEWsModel():
     LandToGridMap = clews_const.LandToGridMap
     LandCluster_data=clews_const.LandCluster_data
     TransformationTechnologies:dict = get_transformation_techs_power()
+    LandUseIntensity=clews_const.LandUseIntensity_FUEL
+    CarbonCaptureFuels=clews_const.CarbonCaptureFuels
   
     ImportFuels:dict = clews_const.ImportFuels
     DomesticMining :dict= clews_const.DomesticMining
@@ -192,6 +195,9 @@ def BuildCLEWsModel():
     Emissions=clews_const.Emissions
     PowerPlants=get_powerplants()
     Storages=get_storage()
+    
+    utils.print_update(level=PRINT_LEVEL_BASE+1,message="Checking Land Cluster Data files...")
+    check_landcluster_data(LandCluster_data, clews_const.LandToGridMap)
 
     # ***************************** #
     # CREATE ENERGY SET INFORMATION #
@@ -362,9 +368,7 @@ def BuildCLEWsModel():
     # Create import fuels
     for fuel in ImportFuels:
         if not fuel in [li['value'] for li in NewSetItems[SetNames.index("FUEL")]]:
-            print("")
-            print("\x1b[0;30;41mWarning:  Import fuel " + fuel + " created for fuel that is not used in any sector.\x1b[0m")
-            print("")
+            utils.print_warning("\x1b[0;30;41mWarning:  Import fuel " + fuel + " created for fuel that is not used in any sector.\x1b[0m")
             Fill_Set(NewSetItems, SetNames, "FUEL", fuel, "#000000",  "")
         Fill_Set(NewSetItems, SetNames, "TECHNOLOGY", "IMP" + fuel, "#000000",  "")
         AddActivityListItems(Years, Region, "IMP" + fuel, fuel, OARList, value = "1")
@@ -372,10 +376,8 @@ def BuildCLEWsModel():
     # Create domestic supply of fuels
     for fuel in DomesticMining:
         if not fuel in [li['value'] for li in NewSetItems[SetNames.index("FUEL")]]:
-            print("")
-            print(
+            utils.print_warning(
                 "\x1b[0;30;41mWarning:  Mining of fuel " + fuel + " created for fuel that is not used in any sector.\x1b[0m")
-            print("")
             Fill_Set(NewSetItems, SetNames, "FUEL", fuel, "#000000",  "")
         Fill_Set(NewSetItems, SetNames, "TECHNOLOGY", "MIN" + fuel, "#000000",  "")
         AddActivityListItems(Years, Region, "MIN" + fuel, fuel, OARList, value = "1")
@@ -383,10 +385,8 @@ def BuildCLEWsModel():
     # Create domestic supply of renewables
     for fuel in DomesticRenewables:
         if not fuel in [li['value'] for li in NewSetItems[SetNames.index("FUEL")]]:
-            print("")
-            print(
+            utils.print_warning(
                 "\x1b[0;30;41mWarning:  Renewable fuel " + fuel + " created for fuel that is not used in any sector.\x1b[0m")
-            print("")
             Fill_Set(NewSetItems, SetNames, "FUEL", fuel, "#000000",  "")
         Fill_Set(NewSetItems, SetNames, "TECHNOLOGY", "RNW" + fuel, "#000000",  "")
         AddActivityListItems(Years, Region, "RNW" + fuel, fuel, OARList, value = "1")
@@ -394,10 +394,8 @@ def BuildCLEWsModel():
     # Create export fuels
     for fuel in ExportFuels:
         if not fuel in [li['value'] for li in NewSetItems[SetNames.index("FUEL")]]:
-            print("")
-            print(
+            utils.print_warning(
                 "\x1b[0;30;41mWarning:  Export fuel " + fuel + " created for fuel that is not used/produced in any sector.\x1b[0m")
-            print("")
             Fill_Set(NewSetItems, SetNames, "FUEL", fuel, "#000000",  "")
         Fill_Set(NewSetItems, SetNames, "TECHNOLOGY", "EXP" + fuel, "#000000",  "")
         AddActivityListItems(Years, Region, "EXP" + fuel, fuel, IARList, value = "1")
@@ -724,13 +722,7 @@ def BuildCLEWsModel():
     for index, Mode in enumerate(ModeList):
         Fill_Set(NewSetItems, SetNames, "MODE_OF_OPERATION", str(index + 1), "#000000", Mode)
 
-    # Ensure the directory exists
-    mode_dir = Path('data/clews_data/SETs')
-    mode_dir.mkdir(parents=True, exist_ok=True)
     
-    with open(mode_dir / 'ModeList.txt', 'w') as ModeFile:
-        for idx, mode in enumerate(ModeList, 1):
-            ModeFile.write(f"{idx}: {mode}\n")
 
     # ******************************* #
     # Remove any 0's from IAR and OAR #
@@ -744,13 +736,29 @@ def BuildCLEWsModel():
         if float(dic['v']) == float('0'):
             OARList.pop(i)
 
+    #Handle Landuse intensity fuel
+    if LandUseIntensity not  in [li['value'] for li in NewSetItems[SetNames.index("FUEL")]]:
+        Fill_Set(NewSetItems, SetNames, "FUEL", LandUseIntensity, "#000000", "Land use intensity fuel for tracking land use intensity.")
+    for CarbonCaptureFuel in CarbonCaptureFuels:
+        if CarbonCaptureFuel not  in [li['value'] for li in NewSetItems[SetNames.index("FUEL")]]:
+            Fill_Set(NewSetItems, SetNames, "FUEL", CarbonCaptureFuel, "#000000", "Carbon capture fuel for tracking carbon capture from land use change.")
     return (SetNames, 
             NewSetItems, 
             IARList, 
-            OARList)
+            OARList,
+            ModeList)
 
 def build(save_to='SETs'):
-    SetNames, NewSetItems, IARList, OARList=BuildCLEWsModel()
+    save_to:Path=utils.ensure_path(save_to)
+    utils.print_banner("Building CLEWs SETs")
+    utils.print_info(f"Saving to directory: {save_to}")
+    utils.print_info("Model Structure: 'bcnexus/clews/model_structure.py'")
+    SetNames, NewSetItems, IARList, OARList,ModeList=BuildCLEWsModel()
+
+    
+    with open(save_to / 'ModeList.txt', 'w') as ModeFile:
+        for idx, mode in enumerate(ModeList, 1):
+            ModeFile.write(f"{idx}: {mode}\n")
     
     UpdateSETS(SetNames,
                 NewSetItems, 
@@ -759,15 +767,41 @@ def build(save_to='SETs'):
                 save_to)
     
     clews_set_builder_limitaitons=clews_const.Limitations
-    print("Limitations of build SETs:")
+    utils.print_banner("Limitations of build SETs:")
     for limitation in clews_set_builder_limitaitons :
-        print(f'{clews_set_builder_limitaitons[limitation]}\n')
+        utils.print_warning(f'{clews_set_builder_limitaitons[limitation]}')
         
     return (SetNames, 
             NewSetItems, 
             IARList, 
             OARList)
 
+def check_landcluster_data(landcluser_config:dict,
+                           land_to_grid_map:dict):
+
+    root = landcluser_config['root']
+    utils.print_update(level=PRINT_LEVEL_BASE+2,message=f"landcluser data source: {root}")
+
+    for landRegion in land_to_grid_map.keys():
+        missing = []  # reset for each region
+
+        for key, prefix in landcluser_config.items():
+            if key == 'root':
+                continue
+
+            expected_file = os.path.join(root, f"{prefix}{landRegion}.csv")
+
+            if not os.path.isfile(expected_file):
+                missing.append((key, expected_file))
+
+        # --- reporting for this region ---
+        if missing:
+            msg = "\n".join([f"{k}: {f}" for k, f in missing])
+            raise AssertionError(
+                f"Missing required cluster files for region '{landRegion}':\n{msg}"
+            )
+        else:
+            utils.print_update(level=PRINT_LEVEL_BASE+3,message=f"✔ All cluster files for land region '{landRegion}' found.")
 
 # if __name__ == "__main__":
 #     # logging.basicConfig(level=logging.DEBUG)

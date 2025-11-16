@@ -55,5 +55,3 @@
 55: Water bodies
 56: Other agricultural land
 57: Storage Discharging Mode
-61: Livestock produce Beef
-60: Livestock produce Milk

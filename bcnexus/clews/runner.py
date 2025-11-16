@@ -38,7 +38,7 @@ class RunModel:
         self.storage_algorithm=storage_algorithm
         self.input_csvs=Path(input_csvs) if input_csvs else Path(f'data/clews_data/Model_{self.storage_algorithm}/inputs_csv')
         self.clustering_attributes=clustering_attributes
-        
+
         utils.print_update(level=1,
                     message=f"Initiated CLEWs Model Runner for '{self.scenario}' scenario with '{self.storage_algorithm}' storage algorithm")
         utils.print_update(level=2,
@@ -46,6 +46,7 @@ class RunModel:
         
         # The Attributes Parser handles all sorts of parsing from the User Config file and implements necessary checks, validation and sets suitabel defaults if any field is missing.
         self.aparser=AttributesParser(self.combined_model_config_path)
+        self.case_input_csvs = self.aparser.get_case_input_csvs_path(self.storage_algorithm)
         self.get_all_attributes()
   
         
@@ -474,7 +475,6 @@ class RunModel:
         if build or update_temporal_profiles:
     
             args={
-                'combined_model_config_path': self.combined_model_config_path,
                 'storage_algorithm': self.storage_algorithm,
                 'scenario':self.scenario,
                 'clustering_attributes':self.clustering_attributes
@@ -484,15 +484,22 @@ class RunModel:
             if build:
                 clewsBuild.build(include_livestock=include_livestock,
                                  update_clews_builder=False)
-            elif update_temporal_profiles:
+            if update_temporal_profiles:
                 clewsBuild.update_temporal_profiles()
             
         else:
  
             utils.print_update(level=1,
                 message=f'Skipping CLEWs builder and profile updates and using prepared SETs and Params from {input_csvs}')
-            
 
+        utils.copy_csv_files(src_folder=clewsBuild.input_csv_dir,
+                           dest_folder=self.input_csvs,
+                           all_files=True)
+        clewsBuild.update_storage_case_SETs()
+        
+        utils.print_update(level=1,
+                    message='Preparing the summary reports for input data')
+        clewsBuild.collect_input_checker_report(self.case_input_csvs)
     #1           
         # Should not assign loaded config from object, Loading the config from path is essential to recognize the changes in scenario data.
         utils.print_update(level=1,

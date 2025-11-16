@@ -15,7 +15,7 @@ warnings.filterwarnings("ignore")
 def sol_gurobi(lp_path: str,
                log_path:Optional[str]='results/clews/gurobi.log',
                threads: int=16
-            ):
+   ):
     lp_path=str(lp_path)# gurobipy doesn't handle path objects
     log_path=str(log_path)
     threads=int(threads)

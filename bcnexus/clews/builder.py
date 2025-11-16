@@ -1,44 +1,47 @@
-import pandas as pd 
-from pathlib import Path
 # from typing import Optional
 import argparse
+
+# Filetring the package reated warnings
+import warnings
+from pathlib import Path
+
+import pandas as pd
 
 # local packages
 from bcnexus import utils
 from bcnexus.attributes_parser import AttributesParser
-from bcnexus.clews import schema
-from bcnexus.clews import schema as clewsB
 from bcnexus.clews import datapackage as clews_data_module
-from bcnexus.clews import update_yearly_params
-from bcnexus.clews import update_global_params
-# from bcnexus.clews import sets_n_ratios
 from bcnexus.clews import livestock as bcnexus_lvs
+from bcnexus.clews import schema as clewsB
+from bcnexus.clews import sets_n_ratios, update_global_params, update_yearly_params
 
-# Filetring the package reated warnings
-import warnings
 warnings.filterwarnings("ignore")
 
+PRINT_LEVEL_BASE:int=1
 
 class BuildModel:
     """ 
     BuildModel is a class that handles the configuration, processing, and execution of a combined model for CLEWs (Climate, Land, Energy, and Water systems).
     """
     def __init__(self,
-                combined_model_config_path:str|Path,
                 scenario:str,
                 storage_algorithm:str,
-                clustering_attributes:dict=None):
-        
-        self.combined_model_config_path:Path=Path(combined_model_config_path)
+                clustering_attributes:dict=None,
+                config_path:str|Path=None):
+
         self.scenario=scenario
         self.storage_algorithm=storage_algorithm
         self.clustering_attributes=clustering_attributes
+        self.config_path:Path=Path(config_path) if config_path else Path('config/config.yaml')
         
-        utils.print_update(level=1,
-                    message=f"Initiating CLEWs Model Builder for {self.scenario} scenario with {self.storage_algorithm} storage algorithm")
+        utils.print_module_title("CLEWs Model Builder")
+        utils.print_banner(f"Scenario: {self.scenario}")
+        utils.print_info(f"Using configuration file at: {self.config_path}")
+        utils.print_info(f"Clustering attributes: {self.clustering_attributes}")
+        utils.print_info(f"Storage Algorithm: {self.storage_algorithm}")
         
         # The Attributes Parser handles all sorts of parsing from the User Config file and implements necessary checks, validation and sets suitabel defaults if any field is missing.
-        self.aparser=AttributesParser(self.combined_model_config_path)
+        self.aparser=AttributesParser(self.config_path)
         
         # Gets all class attributes (e.g. directories, static values/ranges, constants etc.)
         self.get_all_attributes() 
@@ -121,19 +124,33 @@ class BuildModel:
         return SETS_dfs,Params_dfs
 
     def get_LandCluster_data(self):
-        clewsB.copy_csv_files(src_folder=self.LandCluster_data_source,
+        utils.print_update(level=PRINT_LEVEL_BASE+1,
+            message="Collecting LandCluster data files...")
+        utils.print_warning("This model usages prepared LandCluster data. Ensure the data is prepared for the scenario being modelled.")
+        utils.print_info(f"Landcluster data source: {self.LandCluster_data_source}")
+        utils.copy_csv_files(src_folder=self.LandCluster_data_source,
                                 dest_folder=self.LandCluster_data_dest,
                                 all_files=True)
     
     
     def build_SETs_and_ratios(self,
-                              include_livestock:bool=True):
+                              include_livestock:bool=False):
+        utils.print_update(level=PRINT_LEVEL_BASE,
+            message="Building SETs and Ratios data...")
+            
+    #1. Collect LandCluster data files
         self.get_LandCluster_data()
+    
+    #2. Build base SETs and Ratios
         
-        # Creates the Sets csv files
+        SetNames,NewSetItems,IARList,OARList=    sets_n_ratios.build(self.SETs_save_to)
+    
+    #3. Collect Livestock data and build SETs including livestock data
         if include_livestock:
+            utils.print_banner("Building Livestock SETs and Ratios data...")
             bcnexus_lvs.main(csv_save_to=self.SETs_save_to) # handles all sets including livestock
-        
+
+    ## NOT NEEDED : EL_20251115
         # Update STORAGE TECHNOLOGY in TECHNOLOGY SET
         # TECHNOLOGY_set_file_path=Path(self.SETs_save_to / 'TECHNOLOGY.csv')
         
@@ -152,18 +169,19 @@ class BuildModel:
         # else:
         #     pass
         
-        # Handles the missing fuel LND4PWR in FUELs
-        FUEL_set_file_path=Path(self.SETs_save_to / 'FUEL.csv')
-        FUEL_df=pd.read_csv(FUEL_set_file_path)
-        
-        new_fuels = ['LND4PWR', 'HDG', 'CO2CCS',]
-        for fuel in new_fuels:
-            if fuel not in FUEL_df['VALUE'].values:
-                new_row = pd.DataFrame([{'VALUE': fuel}])
-                FUEL_df = pd.concat([FUEL_df, new_row], ignore_index=True)
-                FUEL_df.to_csv(FUEL_set_file_path, index=False)
-                utils.print_update(level=3,
-                message=f"File Updated with FUEL: {fuel}")
+        # #4. Handle missing FUELs in FUEL SET
+        #     # Handles the missing fuel LND4PWR in FUELs
+        #     FUEL_set_file_path=Path(self.SETs_save_to / 'FUEL.csv')
+        #     FUEL_df=pd.read_csv(FUEL_set_file_path)
+            
+        #     new_fuels = ['LND4PWR', 'CO2CCS',]
+        #     for fuel in new_fuels:
+        #         if fuel not in FUEL_df['VALUE'].values:
+        #             new_row = pd.DataFrame([{'VALUE': fuel}])
+        #             FUEL_df = pd.concat([FUEL_df, new_row], ignore_index=True)
+        #             FUEL_df.to_csv(FUEL_set_file_path, index=False)
+        #             utils.print_update(level=3,
+        #             message=f"File Updated with FUEL: {fuel}")
         
         # Handle additional MODE_OF_OPERATION 
         # MOP_set_file_path=Path(self.SETs_save_to / 'MODE_OF_OPERATION.csv')
@@ -179,15 +197,16 @@ class BuildModel:
         
     def get_csv_template(self,force_replace:bool):
         
+        utils.print_warning("Collecting CLEWS CSV template files...")
         ### Copying CSV Templates  >>> This should be done before other param update scripts, make it part of workflow
-        clewsB.copy_csv_files(self.input_csv_templates, 
+        utils.copy_csv_files(self.input_csv_templates, 
                                       self.input_csv_dir,
                                       all_files=force_replace)
         utils.print_update(level=2,
                            message=f"Checked and copied missing CSV files from {self.input_csv_templates} to {self.input_csv_dir}")
     
             
-    def update_clews_builder(self):
+    def update_clews_builder_config(self):
         """
         Updates the CLEWS builder configuration and returns the updated information as a dictionary. It's a wrapper of 'update_clews_builder_config' function from clews_builder.py.
             > Currently support TECHNOLOGY aggregation for POWERPLANTS and STORAGE.
@@ -202,7 +221,7 @@ class BuildModel:
                     - `availability_factor`: A float representing how often the resource is available for use (e.g., 0.9)
                 """
         utils.print_update(level=2,message="Updating CLEWS Builder configuration file...")
-        _structure_= clewsB.update_clews_builder_config(self.combined_model_config_path)
+        _structure_= clewsB.update_clews_builder_config(self.config_path)
         """ 
         `_structure_` is a complex tuple containing dictionaries (dict) of resources schema in the following order: \
             0 → new_pwrwnd_structure 
@@ -234,7 +253,7 @@ class BuildModel:
                            message="Updating Global params' data")
         update_global_params.update_capacity_to_activity_unit(self.input_csv_dir)
          
-    def update_set_TECHNOLGOY(self):
+    def update_set_TECHNOLOGY(self):
         """
         If the clews_builder.yaml gets updated (typically with updated power technologies, different aggregation level, new resource options) 
         then the TECHNOLOGY set needs an update to harmonize input data.
@@ -412,7 +431,7 @@ class BuildModel:
         for resource, ts_data in structure_mapping.items():
             schema = resources_structure[resource] if resources_structure else self.resources_structure[resource]  # Get the corresponding structure
             rows.extend(
-                schema.generate_capacity_factor(
+                clewsB.generate_capacity_factor(
                     schema, 
                     ts_data, 
                     self.region, 
@@ -447,7 +466,7 @@ class BuildModel:
         df_filtered = clewsB.preprocess_demand_data(df)  # Preprocesses the demand data by filtering outlier days like leap-year, normalizing, and ensuring data integrity.
 
         # Generate demand profile rows
-        demand_rows = schema.generate_demand_profile(demands, 
+        demand_rows = clewsB.generate_demand_profile(demands, 
                                                             df_filtered, 
                                                             self.region, 
                                                             self.start_year)
@@ -485,7 +504,7 @@ class BuildModel:
         self.get_clustering_attributes()
         
         #2. Scale profiles (CF, Demand) as per Clustering attributes and revise the clews data for CF and Demand profiles
-        self.representative_days, self.chronological_sequence = schema.cluster_data(self.ext_wind_CF, 
+        self.representative_days, self.chronological_sequence = clewsB.cluster_data(self.ext_wind_CF, 
                                                                                         self.ext_solar_CF, 
                                                                                         self.demand_profile, 
                                                                                         self.n_clusters)
@@ -504,7 +523,8 @@ class BuildModel:
         utils.print_update(level=4,
                     message=f"Representative days: {self.representative_days}")
     
-    def get_profiles(self):
+    def get_profiles(self,
+                     force_update:bool=False):
         """
         Prepares the profiling params data harmonized with CLEWs schema.
          > Currenty supports Capacity Factors (CF), Specific Demand Profile (SDP) paramater data.
@@ -516,10 +536,24 @@ class BuildModel:
         """
         utils.print_update(level=2,message="Updating profiling params' data")
         #2 Checks the CF source data and collects highest resolution (1hour) data and refactors to clews schema profiles
-        self.get_capacity_factor_profiles()
+        if self.clews_CF_csv_file.exists():
+            if force_update:
+                utils.print_warning("Forcing update of Capacity Factor profiles...")
+                self.get_capacity_factor_profiles()
+            else:
+                utils.print_info("Capacity Factor profiles file already exists. Skipping update.")
+        else:
+            self.get_capacity_factor_profiles()
         
-        #3 Checks the Demand source data and collects highest resolution (1hour) data and refactors to clews schema profiles
-        self.get_specified_demand_profiles()
+        if self.clews_demand_profile.exists():
+            if force_update:
+                utils.print_warning("Forcing update of Demand profiles...")
+                self.get_specified_demand_profiles()
+            else:
+                utils.print_info("Demand profiles file already exists. Skipping update.")
+        else:        
+            #3 Checks the Demand source data and collects highest resolution (1hour) data and refactors to clews schema profiles
+            self.get_specified_demand_profiles()
         
     def get_clustering_attributes(self):
         self.n_clusters = (self.clustering_attributes.get('n_clusters') if self.clustering_attributes else None) or self.cm_config['clews']['CLUSTERING']['n_clusters']
@@ -529,12 +563,6 @@ class BuildModel:
         # Number of blocks per day based on the hour grouping
         self.blocks_per_day = 24 // self.hour_grouping
     
-    def get_csv_files(self,
-                        from_path:str|Path=None,
-                        to_path:str|Path=None,
-                        all_files=True):
-        
-        clewsB.copy_csv_files(from_path, to_path,all_files=True)
     
     def update_storage_SETs(self):
         # Updating TIMESLICE
@@ -793,9 +821,7 @@ class BuildModel:
         #  >>> The model structure is being handled by "clews_model_constants.py"
         #  >>> Still under development, not recommended to use unless you are sure about the impact.
         self.build_SETs_and_ratios(include_livestock)
-        self.get_csv_files(self.SETs_save_to,
-                               self.input_csv_dir,
-                               all_files=True)
+        utils.copy_csv_files(src_folder=self.SETs_save_to, to_path=self.input_csv_dir, all_files=True)
         # # self.clean_up_SETs_and_Params_definitions()
         # """
 
@@ -803,7 +829,8 @@ class BuildModel:
         if update_clews_builder:
             utils.print_update(level=2,
             message="Updating 'clews_builder.config' to match data and user configurations (aggregation and naming of the TECHNOLOGIES).")
-            self.update_clews_builder() # Currently supports simplified power technology aggregation.
+            self.update_clews_builder_config_X() # Currently supports simplified power technology aggregation.
+            self.get_profiles()
         else:
             utils.print_update(level=2,
             message="Skipping clews_builder update due to default setting (recommended). Developers may change 'update_clews_builder':bool to 'True' to force update.")
@@ -822,14 +849,15 @@ class BuildModel:
         self.update_set_STORAGE()
         
 
-        # 2.2 @ data/clews_data/inputs_csv
-        if update_clews_builder:
-            self.get_profiles() # Currently supports simplified temporal clustering.
+        # # 2.2 @ data/clews_data/inputs_csv
+        # if update_clews_builder:
+        #     self.get_profiles() # Currently supports simplified temporal clustering.
     
     #3 Get clustered profiles (CF, Demand) i.e. scaling the highest resolution CF, Demand profile (clews schema)
 
         #3.1
         self.get_temporal_clusters()
+        
         #3.2
         self.get_profiling_Params()
         
@@ -882,14 +910,14 @@ class BuildModel:
     #2
         self.get_temporal_clusters()
         self.get_profiling_Params()
-        self.get_csv_files(from_path=self.input_csv_dir,
-                           to_path=self.case_input_csvs,
-                           all_files=True)
-        self.update_storage_case_SETs()
+        # utils.copy_csv_files(src_folder=self.input_csv_dir,
+        #                    dest_folder=self.case_input_csvs,
+        #                    all_files=True)
+        # self.update_storage_case_SETs()
         
-        utils.print_update(level=1,
-                    message='Preparing the summary reports for input data')
-        self.collect_input_checker_report(self.case_input_csvs)
+        # utils.print_update(level=1,
+        #             message='Preparing the summary reports for input data')
+        # self.collect_input_checker_report(self.case_input_csvs)
 
 if __name__ == "__main__":
     # Set up argument parsing

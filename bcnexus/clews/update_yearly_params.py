@@ -24,9 +24,23 @@ FILES = {
     'technology_from_storage': DATA_DIR / 'TechnologyFromStorage.csv',
 }
 
+def get_committed_sites(committed_sites_dict:dict[list])->list:
+    # get the committed sites
+    committed_sites_list: list = []
+
+    for k_tech in committed_sites_dict.keys():
+        sites:list[list]=committed_sites_dict[k_tech]
+        for site in sites:
+            committed_sites_list.append(site[0])
+    return committed_sites_list
+
 def update_TotalAnnualMaxCapacity(
     clews_builder_config:dict,
 ):
+    
+    # get the committed sites
+    committed_sites = get_committed_sites(committed_sites_dict=clews_const.committed_sites)
+
     ### UPDATE RESIDUAL CAPACITY
     ##################################################################################################
     utils.print_update(level=3,message="Updating TOTAL ANNUAL MAX CAPACITY...")
@@ -38,15 +52,21 @@ def update_TotalAnnualMaxCapacity(
     # Add the new technologies
     for category, tech_details in techs.items():
         for tech_key, tech_info in tech_details.items():
+            
             if not tech_info:  # Check if the value is an empty dictionary
                 utils.print_update(level=4,message=f"Disregarding {tech_key} as it is empty")
                 continue
-            df_filtered = schema.add_technologies_max_cap(df_filtered, tech_key, tech_info, start_year, last_year, region)
+            
+            tech_actual_name = tech_info.get('name', {})
+            if tech_actual_name in committed_sites:
+                pass  # Skip committed sites
+            else:
+                 df_filtered = schema.add_technologies_max_cap(df_filtered, tech_key, tech_info, start_year, last_year, region)
             
     # Save the file with updated technologies
     df_filtered.to_csv(total_max_capacity_file, index=False)
     utils.print_update(level=4, message=f"File Updated: {total_max_capacity_file}")
-    return df_filtered
+    # return df_filtered
 
 def update_residual_capacity(
     clews_builder_config:dict,
@@ -280,7 +300,7 @@ def main(
     update_operational_life_storage(clews_builder_config)
 
     #step 7: Update AVAILABILITY FACTOR
-    # update_availability_factor(clews_builder_config)
+    update_availability_factor(clews_builder_config)
     
     #step 8: Update CAPEX
     update_capex(clews_builder_config)

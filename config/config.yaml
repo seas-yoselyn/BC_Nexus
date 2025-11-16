@@ -1,25 +1,26 @@
 Title: User Configuration for Bidirectional Linking Tool
-Developer : Md Eliasinul Islam
-Affiliation : Sustainable Energy Engineering, Simon Fraser University, BC, Canada
+Developer: Md Eliasinul Islam
+Affiliation: Sustainable Energy Engineering, Simon Fraser University, BC, Canada
 
 version: 1.0
 Release_Year: 2024
 description: |+
-    Inside the user configuration file of the L:INKING TOOL, there are 'keys' with quantitative 'values' upon which the module results relies on.
-    These  have been given as 'parameters' in the RULES
+  Inside the user configuration file of the L:INKING TOOL, there are 'keys' with quantitative 'values' upon which the module results relies on.
+  These  have been given as 'parameters' in the RULES
 
 country: Canada
 
 province_mapping:
-  'BC': 
+  'BC':
     name: "British Columbia"
     land_area_km2: 925,186
     land_area_mi2: 357,216
     percentage_national_land_area: "10.4%"
-    snapshots_tz_BC: # Hardcoded alternate measures of 'timezone_convert', supported by Pypsa
-      start: 
+    snapshots_tz_BC:
+      # Hardcoded alternate measures of 'timezone_convert', supported by Pypsa
+      start:
       - '2021-01-01 00:00:00' # YYYY-MM-DD "2021-01-01 07:00:00"
-      end: 
+      end:
       - '2021-12-31 23:00:00' # YYYY-MM-DD "2022-01-01 06:00:00"
     timezone_convert: 'Etc/GMT+7' # Pacific Time Zone
     region_mapping: {}
@@ -27,15 +28,15 @@ province_mapping:
 clews:
   SCENARIOS:
     # scneario_name: ####### CAN'T DELETE, CAN BE EMPTY
-      # scenario_axes: ####### CAN'T DELETE, CAN BE EMPTY
-        # TECHID:   ####### CAN BE EMPTY/deleted
-                # capital_cost: float or vector
-                # operational_life: int
-                # input_fuel: supported FUELS
-                # efficiency: float
-                # total_annual_min_capacity: float
-                # total_annual_max_capacity: float 
-                # total_annual_max_capacity_investment : float
+    # scenario_axes: ####### CAN'T DELETE, CAN BE EMPTY
+    # TECHID:   ####### CAN BE EMPTY/deleted
+    # capital_cost: float or vector
+    # operational_life: int
+    # input_fuel: supported FUELS
+    # efficiency: float
+    # total_annual_min_capacity: float
+    # total_annual_max_capacity: float 
+    # total_annual_max_capacity_investment : float
     # Base_CM:
     #   Demand: {}
     #   EMISSION: {}
@@ -53,37 +54,37 @@ clews:
     Base_CNZ:
       Demand: {}
       EMISSION: {}
-      TECHS: 
+      TECHS:
         CCS01:
           capital_cost: 9999 # we can also prove a vector e.g. [xxx xxx ]
           total_annual_max_capacity: 0.2 #GW
           operational_life: 25
-          total_annual_max_capacity_investment: [0,0,0,0,0,1]
+          total_annual_max_capacity_investment: [ 0, 0, 0, 0, 0, 1 ]
         HDG01:
           operational_life: 25
           total_annual_max_capacity: 0.2 #GW
-          total_annual_max_capacity_investment: [0,0,0,0,0,1]
+          total_annual_max_capacity_investment: [ 0, 0, 0, 0, 0, 1 ]
     Base_CNZ_noCCS:
       Demand: {}
       EMISSION: {}
-      TECHS: 
+      TECHS:
         CCS01:
-            capital_cost: 9999 # we can also prove a vector e.g. [xxx xxx ]
-            total_annual_max_capacity: 0 #GW
-            operational_life: 25
-            total_annual_max_capacity_investment: [0]
+          capital_cost: 9999 # we can also prove a vector e.g. [xxx xxx ]
+          total_annual_max_capacity: 0 #GW
+          operational_life: 25
+          total_annual_max_capacity_investment: [ 0 ]
         HDG01:
           total_annual_max_capacity: 0.2 #GW
-          total_annual_max_capacity_investment: [0,0,0,0,0,1]
-      remarks:
-        "Baseline"
-    #scenario
+          total_annual_max_capacity_investment: [ 0, 0, 0, 0, 0, 1 ]
+      # remarks:
+      #   "Baseline"
+      #scenario
     CNZ_LIMITED_CO2:
       Demand: {}
       EMISSION:
         CO2:
           annual_emission_limit: 70
-      TECHS: 
+      TECHS:
         CCS01:
           capital_cost: 9999
           operational_life: 20
@@ -94,186 +95,201 @@ clews:
       EMISSION:
         CO2:
           # annual_emission_limit: [70,70,70,60,60,50]
-          emission_penalty: [45, 45, 50, 65, 80, 95, 110, 125, 140, 155, 170]
-      TECHS: 
+          emission_penalty: [ 45, 45, 50, 65, 80, 95, 110, 125, 140, 155, 170 ]
+      TECHS:
         CCS01:
           capital_cost: 9999
           operational_life: 20
-          
-    #scenario
-    IMP_USA_100: 
-      Demand: {}
-      EMISSION:
-        CO2:
-          # annual_emission_limit: [70,70,70,60,60,50]
-          emission_penalty: [45, 45, 50, 65, 80, 95, 110, 125, 140, 155, 170]
-      TECHS: 
-        PWRIMPB01: # Import from USA
-            capacit: 0.571 #GW from [4,500 GWh /(8,760 × 0.9)]
-            # capital_cost: 7863 # $/kW
-            availability_factor:  0.9
-            efficiency: 1
-            operational_life: 50 #years
-            total_annual_min_capacity:  0.571 # float
-            total_annual_max_capacity: 0.571 # float
-
-        PWRURNB01: # Nuclear
-            capital_cost: 7863 # $/kW
-            # NREL ATB 2024, Moderate Scenario, Market price of 2035 , CAPEX 7863 USD/kW, FOM  136 USD/kW, VOM 2.6 USD/kWh
-            efficiency: 0.3333
-            input_fuel: PWRURN
-            operational_life: 35 #years
-            # total_annual_min_capacity: # float
-            # total_annual_max_capacity: # float 
-            total_annual_max_capacity_investment: [0,0,0,0,0,0,0,0,1] # from 2028          
-    #scenario
-    NUC_standard_2028: # NUC + CNZ_LIMITED_CO2_PTY
-      Demand: {}
-      EMISSION:
-        CO2:
-          # annual_emission_limit: [70,70,70,60,60,50]
-          emission_penalty: [45, 45, 50, 65, 80, 95, 110, 125, 140, 155, 170]
-      TECHS: 
-        CCS01:
-          capital_cost: 9999
-          operational_life: 20
-
-        PWRURNB01: # Nuclear
-            capital_cost: 7863 # $/kW
-            # NREL ATB 2024, Moderate Scenario, Market price of 2035 , CAPEX 7863 USD/kW, FOM  136 USD/kW, VOM 2.6 USD/kWh
-            efficiency: 0.3333
-            input_fuel: PWRURN
-            operational_life: 35 #years
-            # total_annual_min_capacity: # float
-            # total_annual_max_capacity: # float 
-            total_annual_max_capacity_investment: [0,0,0,0,0,0,0,0,1] # from 2028
-
-    NUC_standard_2028_2xCost: # NUC + CNZ_LIMITED_CO2_PTY
-      Demand: {}
-      EMISSION:
-        CO2:
-          # annual_emission_limit: [70,70,70,60,60,50]
-          emission_penalty: [45, 45, 50, 65, 80, 95, 110, 125, 140, 155, 170]
-      TECHS: 
-        CCS01:
-          capital_cost: 9999
-          operational_life: 20
-
-        PWRURNB01: # Nuclear
-            capital_cost: 15726 # (7863*2)  # $/kW
-            # NREL ATB 2024, Moderate Scenario, Market price of 2035 , CAPEX 7863 USD/kW, FOM  136 USD/kW, VOM 2.6 USD/kWh
-            efficiency: 0.3333
-            input_fuel: PWRURN
-            operational_life: 35 #years
-            # total_annual_min_capacity: # float
-            # total_annual_max_capacity: # float 
-            total_annual_max_capacity_investment: [0,0,0,0,0,0,0,0,1] # from 2028
-
-    NUC_standard_2030: # NUC + CNZ_LIMITED_CO2_PTY
-      Demand: {}
-      EMISSION:
-        CO2:
-          # annual_emission_limit: [70,70,70,60,60,50]
-          emission_penalty: [45, 45, 50, 65, 80, 95, 110, 125, 140, 155, 170]
-      TECHS: 
-        CCS01:
-          capital_cost: 9999
-          operational_life: 20
-
-        PWRURNB01: # Nuclear
-            capital_cost: 7863 # $/kW
-            # NREL ATB 2024, Moderate Scenario, Market price of 2035 , CAPEX 7863 USD/kW, FOM  136 USD/kW, VOM 2.6 USD/kWh
-            efficiency: 0.3333
-            input_fuel: PWRURN
-            operational_life: 35 #years
-            # total_annual_min_capacity: # float
-            # total_annual_max_capacity: # float 
-            total_annual_max_capacity_investment: [0,0,0,0,0,0,0,0,0,0,1] # from 2030
-
-    NUC_standard_2030_2xCost: # NUC + CNZ_LIMITED_CO2_PTY
-      Demand: {}
-      EMISSION:
-        CO2:
-          # annual_emission_limit: [70,70,70,60,60,50]
-          emission_penalty: [45, 45, 50, 65, 80, 95, 110, 125, 140, 155, 170]
-      TECHS: 
-        CCS01:
-          capital_cost: 9999
-          operational_life: 20
-
-        PWRURNB01: # Nuclear
-            capital_cost: 15726 # (7863*2)  # $/kW
-            # NREL ATB 2024, Moderate Scenario, Market price of 2035 , CAPEX 7863 USD/kW, FOM  136 USD/kW, VOM 2.6 USD/kWh
-            efficiency: 0.3333
-            input_fuel: PWRURN
-            operational_life: 35 #years
-            # total_annual_min_capacity: # float
-            # total_annual_max_capacity: # float 
-            total_annual_max_capacity_investment: [0,0,0,0,0,0,0,0,0,0,1] # from 2030
-
-    NUC_standard_2035: # NUC + CNZ_LIMITED_CO2_PTY
-      Demand: {}
-      EMISSION:
-        CO2:
-          # annual_emission_limit: [70,70,70,60,60,50]
-          emission_penalty: [45, 45, 50, 65, 80, 95, 110, 125, 140, 155, 170]
-      TECHS: 
-        CCS01:
-          capital_cost: 9999
-          operational_life: 20
-
-        PWRURNB01: # Nuclear
-            capital_cost: 7863 # $/kW
-            # NREL ATB 2024, Moderate Scenario, Market price of 2035 , CAPEX 7863 USD/kW, FOM  136 USD/kW, VOM 2.6 USD/kWh
-            efficiency: 0.3333
-            input_fuel: PWRURN
-            operational_life: 35 #years
-            # total_annual_min_capacity: # float
-            # total_annual_max_capacity: # float 
-            total_annual_max_capacity_investment: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,1] # from 2035
-            
-    NUC_standard_2035_2xCost: # NUC + CNZ_LIMITED_CO2_PTY
-      Demand: {}
-      EMISSION:
-        CO2:
-          # annual_emission_limit: [70,70,70,60,60,50]
-          emission_penalty: [45, 45, 50, 65, 80, 95, 110, 125, 140, 155, 170]
-      TECHS: 
-        CCS01:
-          capital_cost: 9999
-          operational_life: 20
-
-        PWRURNB01: # Nuclear
-            capital_cost: 15726 # (7863*2)  # $/kW
-            # NREL ATB 2024, Moderate Scenario, Market price of 2035 , CAPEX 7863 USD/kW, FOM  136 USD/kW, VOM 2.6 USD/kWh
-            efficiency: 0.3333
-            input_fuel: PWRURN
-            operational_life: 35 #years
-            total_annual_min_capacity: # GW
-            total_annual_max_capacity: # float 
-            total_annual_max_capacity_investment: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,1] # from 2035
-    NUC_standard_2035_4xCost: # NUC + CNZ_LIMITED_CO2_PTY
-      Demand: {}
-      EMISSION:
-        CO2:
-          # annual_emission_limit: [70,70,70,60,60,50]
-          emission_penalty: [45, 45, 50, 65, 80, 95, 110, 125, 140, 155, 170]
-      TECHS: 
-        CCS01:
-          capital_cost: 9999
-          operational_life: 20
-        PWRURNB01: # Nuclear
-            capital_cost: 31452 # (7863*2)  # $/kW
-            # NREL ATB 2024, Moderate Scenario, Market price of 2035 , CAPEX 7863 USD/kW, FOM  136 USD/kW, VOM 2.6 USD/kWh
-            efficiency: 0.3333
-            input_fuel: PWRURN
-            operational_life: 35 #years
-            # total_annual_min_capacity: # float
-            # total_annual_max_capacity: # float 
-            total_annual_max_capacity_investment: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,1] # from 2035
 
     #scenario
- 
+    IMP_USA_100:
+      Demand: {}
+      EMISSION:
+        CO2:
+          # annual_emission_limit: [70,70,70,60,60,50]
+          emission_penalty: [ 45, 45, 50, 65, 80, 95, 110, 125, 140, 155, 170 ]
+      TECHS:
+        PWRIMPB01:
+          # Import from USA
+          capacit: 0.571 #GW from [4,500 GWh /(8,760 × 0.9)]
+          # capital_cost: 7863 # $/kW
+          availability_factor: 0.9
+          efficiency: 1
+          operational_life: 50 #years
+          total_annual_min_capacity: 0.571 # float
+          total_annual_max_capacity: 0.571 # float
+
+        PWRURNB01:
+          # Nuclear
+          capital_cost: 7863 # $/kW
+          # NREL ATB 2024, Moderate Scenario, Market price of 2035 , CAPEX 7863 USD/kW, FOM  136 USD/kW, VOM 2.6 USD/kWh
+          efficiency: 0.3333
+          input_fuel: PWRURN
+          operational_life: 35 #years
+          # total_annual_min_capacity: # float
+          # total_annual_max_capacity: # float 
+          total_annual_max_capacity_investment: [ 0, 0, 0, 0, 0, 0, 0, 0, 1 ] # from 2028          
+    #scenario
+    NUC_standard_2028:
+      # NUC + CNZ_LIMITED_CO2_PTY
+      Demand: {}
+      EMISSION:
+        CO2:
+          # annual_emission_limit: [70,70,70,60,60,50]
+          emission_penalty: [ 45, 45, 50, 65, 80, 95, 110, 125, 140, 155, 170 ]
+      TECHS:
+        CCS01:
+          capital_cost: 9999
+          operational_life: 20
+
+        PWRURNB01:
+          # Nuclear
+          capital_cost: 7863 # $/kW
+          # NREL ATB 2024, Moderate Scenario, Market price of 2035 , CAPEX 7863 USD/kW, FOM  136 USD/kW, VOM 2.6 USD/kWh
+          efficiency: 0.3333
+          input_fuel: PWRURN
+          operational_life: 35 #years
+          # total_annual_min_capacity: # float
+          # total_annual_max_capacity: # float 
+          total_annual_max_capacity_investment: [ 0, 0, 0, 0, 0, 0, 0, 0, 1 ] # from 2028
+
+    NUC_standard_2028_2xCost:
+      # NUC + CNZ_LIMITED_CO2_PTY
+      Demand: {}
+      EMISSION:
+        CO2:
+          # annual_emission_limit: [70,70,70,60,60,50]
+          emission_penalty: [ 45, 45, 50, 65, 80, 95, 110, 125, 140, 155, 170 ]
+      TECHS:
+        CCS01:
+          capital_cost: 9999
+          operational_life: 20
+
+        PWRURNB01:
+          # Nuclear
+          capital_cost: 15726 # (7863*2)  # $/kW
+          # NREL ATB 2024, Moderate Scenario, Market price of 2035 , CAPEX 7863 USD/kW, FOM  136 USD/kW, VOM 2.6 USD/kWh
+          efficiency: 0.3333
+          input_fuel: PWRURN
+          operational_life: 35 #years
+          # total_annual_min_capacity: # float
+          # total_annual_max_capacity: # float 
+          total_annual_max_capacity_investment: [ 0, 0, 0, 0, 0, 0, 0, 0, 1 ] # from 2028
+
+    NUC_standard_2030:
+      # NUC + CNZ_LIMITED_CO2_PTY
+      Demand: {}
+      EMISSION:
+        CO2:
+          # annual_emission_limit: [70,70,70,60,60,50]
+          emission_penalty: [ 45, 45, 50, 65, 80, 95, 110, 125, 140, 155, 170 ]
+      TECHS:
+        CCS01:
+          capital_cost: 9999
+          operational_life: 20
+
+        PWRURNB01:
+          # Nuclear
+          capital_cost: 7863 # $/kW
+          # NREL ATB 2024, Moderate Scenario, Market price of 2035 , CAPEX 7863 USD/kW, FOM  136 USD/kW, VOM 2.6 USD/kWh
+          efficiency: 0.3333
+          input_fuel: PWRURN
+          operational_life: 35 #years
+          # total_annual_min_capacity: # float
+          # total_annual_max_capacity: # float 
+          total_annual_max_capacity_investment: [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 ] # from 2030
+
+    NUC_standard_2030_2xCost:
+      # NUC + CNZ_LIMITED_CO2_PTY
+      Demand: {}
+      EMISSION:
+        CO2:
+          # annual_emission_limit: [70,70,70,60,60,50]
+          emission_penalty: [ 45, 45, 50, 65, 80, 95, 110, 125, 140, 155, 170 ]
+      TECHS:
+        CCS01:
+          capital_cost: 9999
+          operational_life: 20
+
+        PWRURNB01:
+          # Nuclear
+          capital_cost: 15726 # (7863*2)  # $/kW
+          # NREL ATB 2024, Moderate Scenario, Market price of 2035 , CAPEX 7863 USD/kW, FOM  136 USD/kW, VOM 2.6 USD/kWh
+          efficiency: 0.3333
+          input_fuel: PWRURN
+          operational_life: 35 #years
+          # total_annual_min_capacity: # float
+          # total_annual_max_capacity: # float 
+          total_annual_max_capacity_investment: [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 ] # from 2030
+
+    NUC_standard_2035:
+      # NUC + CNZ_LIMITED_CO2_PTY
+      Demand: {}
+      EMISSION:
+        CO2:
+          # annual_emission_limit: [70,70,70,60,60,50]
+          emission_penalty: [ 45, 45, 50, 65, 80, 95, 110, 125, 140, 155, 170 ]
+      TECHS:
+        CCS01:
+          capital_cost: 9999
+          operational_life: 20
+
+        PWRURNB01:
+          # Nuclear
+          capital_cost: 7863 # $/kW
+          # NREL ATB 2024, Moderate Scenario, Market price of 2035 , CAPEX 7863 USD/kW, FOM  136 USD/kW, VOM 2.6 USD/kWh
+          efficiency: 0.3333
+          input_fuel: PWRURN
+          operational_life: 35 #years
+          # total_annual_min_capacity: # float
+          # total_annual_max_capacity: # float 
+          total_annual_max_capacity_investment: [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 ] # from 2035
+
+    NUC_standard_2035_2xCost:
+      # NUC + CNZ_LIMITED_CO2_PTY
+      Demand: {}
+      EMISSION:
+        CO2:
+          # annual_emission_limit: [70,70,70,60,60,50]
+          emission_penalty: [ 45, 45, 50, 65, 80, 95, 110, 125, 140, 155, 170 ]
+      TECHS:
+        CCS01:
+          capital_cost: 9999
+          operational_life: 20
+
+        PWRURNB01:
+          # Nuclear
+          capital_cost: 15726 # (7863*2)  # $/kW
+          # NREL ATB 2024, Moderate Scenario, Market price of 2035 , CAPEX 7863 USD/kW, FOM  136 USD/kW, VOM 2.6 USD/kWh
+          efficiency: 0.3333
+          input_fuel: PWRURN
+          operational_life: 35 #years
+          total_annual_min_capacity: # GW
+          total_annual_max_capacity: # float 
+          total_annual_max_capacity_investment: [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 ] # from 2035
+    NUC_standard_2035_4xCost:
+      # NUC + CNZ_LIMITED_CO2_PTY
+      Demand: {}
+      EMISSION:
+        CO2:
+          # annual_emission_limit: [70,70,70,60,60,50]
+          emission_penalty: [ 45, 45, 50, 65, 80, 95, 110, 125, 140, 155, 170 ]
+      TECHS:
+        CCS01:
+          capital_cost: 9999
+          operational_life: 20
+        PWRURNB01:
+          # Nuclear
+          capital_cost: 31452 # (7863*2)  # $/kW
+          # NREL ATB 2024, Moderate Scenario, Market price of 2035 , CAPEX 7863 USD/kW, FOM  136 USD/kW, VOM 2.6 USD/kWh
+          efficiency: 0.3333
+          input_fuel: PWRURN
+          operational_life: 35 #years
+          # total_annual_min_capacity: # float
+          # total_annual_max_capacity: # float 
+          total_annual_max_capacity_investment: [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 ] # from 2035
+    #scenario
+
     # HYDROGEN:
     #   Demand:
     #     TRAHDG:
@@ -296,59 +312,59 @@ clews:
     #       operational_life: 20
 
 
-# # Baseline Calibration with scenario config
-#     calibration:
-#       Demand: {}
-#       EMISSION: {}
-#       TECHS: 
-#         PWRHYDB01:
-#             total_annual_max_capacity_investment: 0
-#         PWRHYDB02:
-#             total_annual_max_capacity_investment: 0
-#         PWRNGSB01:
-#             total_annual_max_capacity_investment: 0
-#         PWRNGSB02:
-#             total_annual_max_capacity_investment: 0
-#         PWRBIOB01:
-#             total_annual_max_capacity_investment: 0
-#         PWRBIOB02:
-#             total_annual_max_capacity_investment: 0
-#         PWRGEOB01:
-#             total_annual_max_capacity_investment: 0
-#         PWRSOLB01:
-#             total_annual_max_capacity_investment: 0
-#         PWRWNDB01:
-#             total_annual_max_capacity_investment: 0
-#         PWRWNDB02:
-#             total_annual_max_capacity_investment: 0
-#         PWRWNDB03:
-#             total_annual_max_capacity_investment: 0
-#         PWRWNDB04:
-#             total_annual_max_capacity_investment: 0
-#         PWRWNDB05:
-#             total_annual_max_capacity_investment: 0
-#         PWRWNDB06:
-#             total_annual_max_capacity_investment: 0
-#         PWRWNDB07:
-#             total_annual_max_capacity_investment: 0
-#         PWRWNDB08:
-#             total_annual_max_capacity_investment: 0
-#         PWRWNDB09:
-#             total_annual_max_capacity_investment: 0
-#         PWRWNDB10:
-#             total_annual_max_capacity_investment: 0
-#         PWRSOLB04:
-#           total_annual_max_capacity: '[0,0,0,0,0,0,0,0,0,0,0]'
-#         PWRSOLB05:
-#           total_annual_max_capacity: '[0,0,0,0,0,0,0,0,0,0,0]'
-#         PWRSOLB06:
-#           total_annual_max_capacity: '[0,0,0,0,0,0,0,0,0,0,0]'
-#         PWRSOLB07:
-#           total_annual_max_capacity: '[0,0,0,0,0,0,0,0,0,0,0]'
-#         CCS01:
-#             capital_cost: 9999 # we can also prove a vector e.g. [xxx xxx ]
-#             total_annual_max_capacity: 0.2 #GW
-#             operational_life: 25
-#             total_annual_max_capacity_investment: '[0,0,0,0,0]'
-#         HDG01:
-#             total_annual_max_capacity_investment: '[0,0,0,0,0]'
+    # # Baseline Calibration with scenario config
+    #     calibration:
+    #       Demand: {}
+    #       EMISSION: {}
+    #       TECHS: 
+    #         PWRHYDB01:
+    #             total_annual_max_capacity_investment: 0
+    #         PWRHYDB02:
+    #             total_annual_max_capacity_investment: 0
+    #         PWRNGSB01:
+    #             total_annual_max_capacity_investment: 0
+    #         PWRNGSB02:
+    #             total_annual_max_capacity_investment: 0
+    #         PWRBIOB01:
+    #             total_annual_max_capacity_investment: 0
+    #         PWRBIOB02:
+    #             total_annual_max_capacity_investment: 0
+    #         PWRGEOB01:
+    #             total_annual_max_capacity_investment: 0
+    #         PWRSOLB01:
+    #             total_annual_max_capacity_investment: 0
+    #         PWRWNDB01:
+    #             total_annual_max_capacity_investment: 0
+    #         PWRWNDB02:
+    #             total_annual_max_capacity_investment: 0
+    #         PWRWNDB03:
+    #             total_annual_max_capacity_investment: 0
+    #         PWRWNDB04:
+    #             total_annual_max_capacity_investment: 0
+    #         PWRWNDB05:
+    #             total_annual_max_capacity_investment: 0
+    #         PWRWNDB06:
+    #             total_annual_max_capacity_investment: 0
+    #         PWRWNDB07:
+    #             total_annual_max_capacity_investment: 0
+    #         PWRWNDB08:
+    #             total_annual_max_capacity_investment: 0
+    #         PWRWNDB09:
+    #             total_annual_max_capacity_investment: 0
+    #         PWRWNDB10:
+    #             total_annual_max_capacity_investment: 0
+    #         PWRSOLB04:
+    #           total_annual_max_capacity: '[0,0,0,0,0,0,0,0,0,0,0]'
+    #         PWRSOLB05:
+    #           total_annual_max_capacity: '[0,0,0,0,0,0,0,0,0,0,0]'
+    #         PWRSOLB06:
+    #           total_annual_max_capacity: '[0,0,0,0,0,0,0,0,0,0,0]'
+    #         PWRSOLB07:
+    #           total_annual_max_capacity: '[0,0,0,0,0,0,0,0,0,0,0]'
+    #         CCS01:
+    #             capital_cost: 9999 # we can also prove a vector e.g. [xxx xxx ]
+    #             total_annual_max_capacity: 0.2 #GW
+    #             operational_life: 25
+    #             total_annual_max_capacity_investment: '[0,0,0,0,0]'
+    #         HDG01:
+    #             total_annual_max_capacity_investment: '[0,0,0,0,0]'
