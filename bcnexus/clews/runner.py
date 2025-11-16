@@ -103,7 +103,7 @@ class RunModel:
     
         # Define common args
         common_attr = {
-            'scenario': self.scenario_cfg,
+            'scenario_cfg': self.scenario_cfg,
             'start_year': self.start_year,
             'last_year': self.last_year,
             'region': self.region,
@@ -600,7 +600,7 @@ class RunModel:
                                      visual_configs=self.visual_config,
                                      plots_save_to=self.plots_save_to)
                     """
-                    utils.print_update(level=1, message="type bash command `bash dashboard.sh' from root directory for the interactive dashboard")  # handles the result folder creation
+                    # utils.print_update(level=1, message="type bash command `bash dashboard.sh' from root directory for the interactive dashboard")  # handles the result folder creation
 
                 else:
                     utils.print_update(level=2, message="Otoole Results files (.csvs) incomplete")  # handles the result folder creation
