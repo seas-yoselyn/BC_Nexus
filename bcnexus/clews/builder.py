@@ -854,6 +854,8 @@ class BuildModel:
     #3 Get clustered profiles (CF, Demand) i.e. scaling the highest resolution CF, Demand profile (clews schema)
         self.get_profiles()  
         self.get_temporal_clusters()
+        self.update_set_STORAGE()
+        self.update_storage_SETs()
         
     #4
         self.update_yearly_params() # Updates the associated parameters affected due to technology aggregation          

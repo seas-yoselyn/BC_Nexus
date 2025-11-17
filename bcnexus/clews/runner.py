@@ -511,14 +511,14 @@ class RunModel:
                                 update_clews_builder=False)
             if update_temporal_profiles:
 
-                    # clewsBuild.update_clews_builder_config()
-                    # clewsBuild.update_set_TECHNOLOGY()
-                    # clewsBuild.update_set_STORAGE()
-                    # clewsBuild.update_yearly_params() 
-                    # clewsBuild.trim_snapshot_data()
-                    # clewsBuild.get_profiles()    
-                    clewsBuild.update_temporal_profiles()
-                    # clewsBuild.update_otoole_config()
+                # clewsBuild.update_clews_builder_config()
+                # clewsBuild.update_set_TECHNOLOGY()
+                # clewsBuild.update_set_STORAGE()
+                # clewsBuild.update_yearly_params() 
+                # clewsBuild.trim_snapshot_data()
+                # clewsBuild.get_profiles()    
+                clewsBuild.update_temporal_profiles()
+                # clewsBuild.update_otoole_config()
             
             utils.copy_csv_files(src_folder=clewsBuild.clews_build_input_csv_dir,
                                 dest_folder=clewsBuild.storage_case_input_csvs,
@@ -533,6 +533,7 @@ class RunModel:
         #             message='Preparing the summary reports for input data')
         # clewsBuild.collect_input_checker_report(self.input_csvs)
         
+        clewsBuild.update_storage_SETs()
     #2        
         utils.print_update(level=1,
                 message=f' Loading scenario config @ {self.scenario_cfg}')
