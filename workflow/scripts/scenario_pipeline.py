@@ -2,16 +2,16 @@ import bcnexus.utils as utils
 import sys
 from bcnexus.vis import plot_results_BC_Nexus
 
-def get_nexus_scenarios(config_path:str='config/config.yaml')->dict:
+def get_nexus_scenarios(config_path:str='config/scenarios_bcnexus.yaml')->dict:
     cfg=utils.load_config(config_path)
-    nexus_scenarios:dict=cfg.get('clews').get('SCENARIOS')
+    nexus_scenarios:dict=cfg.get('SCENARIOS')
     return nexus_scenarios
 
 
-def show_nexus_scenarios(config_path:str='config/config.yaml'):
+def show_nexus_scenarios(config_path:str='config/scenarios_bcnexus.yaml'):
     nexus_scenarios=get_nexus_scenarios(config_path)
     
-    utils.print_module_title("Available Nexus Scenarios from 'config/config.yaml' ")
+    utils.print_module_title("Available Nexus Scenarios from 'config/scenarios_bcnexus.yaml' ")
     for scenario_key in nexus_scenarios:
         utils.print_update(level=2,message=f"{scenario_key}")
         for key in nexus_scenarios[scenario_key]:

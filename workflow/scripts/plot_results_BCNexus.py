@@ -113,7 +113,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "storage_algorithm",
         type=str,
-        choices=["Kotzur", "Niet", "Welsch", "Novo"],
+        choices=["Kotzur", "Niet"],
         help="Storage clustering algorithm"
     )
 

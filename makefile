@@ -17,7 +17,7 @@ help:
 	@echo ""
 	@echo "Variables:"
 	@echo "  NEXUS_SCENARIO   Name of the Nexus scenario (default: 'Base_CNZ_noCCS')"
-	@echo "  PYPSA_YEAR       Year for PyPSA simulation (default: 2035)"
+
 	@echo "  NEXUS_TIMESLICES Number of timeslices (default: 24)"
 	@echo ""
 	@echo "Examples:"
@@ -25,7 +25,7 @@ help:
 	@echo "  make nexus_plots NEXUS_SCENARIO=CNZ_1 NEXUS_TIMESLICES=96"
 
 # Default values for variables
-PYPSA_YEAR ?= 2035
+
 NEXUS_SCENARIO ?= 'Base_CNZ_noCCS'
 NEXUS_TIMESLICES ?= 24
 
