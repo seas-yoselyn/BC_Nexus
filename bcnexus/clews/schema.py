@@ -1,23 +1,23 @@
 
 # Load packages
-import shutil
-import yaml
-import pandas as pd
-import numpy as np
-from collections import Counter
-from typing import Any, Dict, Union, Optional
 import math
+import shutil
+from collections import Counter
 from pathlib import Path
-from sklearn.preprocessing import MinMaxScaler
+from typing import Any, Dict, Optional, Union
+
+import numpy as np
+import pandas as pd
+import yaml
 from sklearn.cluster import KMeans
-from sklearn.metrics import pairwise_distances_argmin_min 
+from sklearn.metrics import pairwise_distances_argmin_min
+from sklearn.preprocessing import MinMaxScaler
 
 # Local Packages
 from bcnexus import utils
-from bcnexus.clews import model_structure as clews_const
 from bcnexus.attributes_parser import AttributesParser
-
-        
+from bcnexus.clews import model_structure as clews_const
+PRINT_LEVEL_BASE=3
 
 """ 
 Developers : 
@@ -46,7 +46,6 @@ Developer_Remarks:
  New_components:
    - Battery and Hydro Storage, Timeslice up/down scaling upto 1-hour resolution, cascaded hydro power.
 """
-
 
 """
 FP
@@ -87,18 +86,15 @@ def get_VRE_committed_candidate_combine(future_df:pd.DataFrame,
     
     return future_with_committed_df
 
-def update_clews_builder_config(combined_model_config_path:Path)->tuple:
+def update_clews_builder_config(scenario_config_path:Path)->tuple:
     """
     Reads the existing CLEWs Builder Config file (skeleton), processes required data files to identify 
     existing and future resource options, and updates technologies, SETS, and PARAMETERS.  
     Useful for updating baseline and resource options.
 
     ## Args:
-        combined_model_config_path (str):  
+        scenario_config_path (str):  
             Path to the combined model configuration file.  
-
-        clews_builder_config_path (str):  
-            Path to the CLEWs Builder configuration file.  
 
     ## Returns:
         - tuple: A tuple containing dictionaries (`dict`) in the following order:  
@@ -124,8 +120,7 @@ def update_clews_builder_config(combined_model_config_path:Path)->tuple:
     ##################################################################################################
     
     # Read the existing YAML file
-
-    aparser=AttributesParser(combined_model_config_path)
+    aparser=AttributesParser(scenario_config_path)
     clews_builder_config_path=aparser.clews_builder_config_path
     clewsb_config:dict=aparser.clewsb_config
     data_cfg:dict=aparser.data_cfg
@@ -137,22 +132,24 @@ def update_clews_builder_config(combined_model_config_path:Path)->tuple:
     hydro_generation_csv_file_path:str|Path = data_cfg['output']['create_hydro_assets'] ['hydro_generation']  #  data_cfg['hydro_generation_file']
     hydro_resevoir_csv_file_path :str|Path= data_cfg['output']['create_hydro_assets'] ['hydro_reservoir']  # data_cfg['hydro_reservoir_file']
     hydro_reservoir_ts_file_path :str|Path =  data_cfg['output']['reservoir_inflows'] ['fname']  # data_cfg['data_8760']['CF_hydro_reservoir']
-
+    
+    # Load RESource data config
+    RESource_data_cfg=data_cfg.get('RESource',{})
+    RESource_data_root=Path(RESource_data_cfg.get('results_root','data/RESource'))
+    
     # Define cascade groups from the YAML file
     cascade_group:dict= clews_const.HYDRO_GENERATION # cm_config['clews']['HYDRO_GENERATION']#['cascade_group_1']
 
     # Read the data files
     wind_df = pd.read_csv(wind_csv_file_path)
-    wind_future_df = pd.read_csv(Path('results/RESource/resource_options_wind_BC.csv'))
-    wind_committed_df = pd.read_csv(Path('results/RESource/BC_CFP24_wind.csv'))
-
+    wind_future_df = pd.read_csv(RESource_data_root / RESource_data_cfg['future_wind_sites'])
+    wind_committed_df = pd.read_csv(RESource_data_root / RESource_data_cfg['committed_wind_sites'])
     wind_future_with_committed_df = get_VRE_committed_candidate_combine(wind_future_df, 
                                                                         wind_committed_df)
 
     solar_df = pd.read_csv(solar_csv_file_path)
-    solar_future_df = pd.read_csv(Path('results/RESource/resource_options_solar_BC.csv'))
-    solar_committed_df = pd.read_csv(Path('results/RESource/BC_CFP24_solar.csv'))
-
+    solar_future_df = pd.read_csv(RESource_data_root / RESource_data_cfg['future_solar_sites'])
+    solar_committed_df = pd.read_csv(RESource_data_root / RESource_data_cfg['committed_solar_sites'])
     solar_future_with_committed_df = get_VRE_committed_candidate_combine(solar_future_df,    
                                                                             solar_committed_df)
 
@@ -428,7 +425,9 @@ def process_scenario_attribute(
     """
     df_filtered = None
     for category, scenario_details in scenario_cfg.items():
-        print(f"Processing category: {scenario_details}")
+        if scenario_details is None:
+            continue
+        utils.print_update(level=PRINT_LEVEL_BASE, message=f"Processing category: {category}")
         for scenario_key, scenario_info in scenario_details.items():
             # Check if the attribute exists
             attr_exists = attribute_name in scenario_info
@@ -470,7 +469,7 @@ def process_scenario_attribute(
             # Save if we modified anything
             if df_filtered is not None:
                 df_filtered.to_csv(file_path, index=False)
-                utils.print_update(level=3,
+                utils.print_update(level=PRINT_LEVEL_BASE+1,
                     message=f"Data updated for {scenario_key} in : {file_path}")
             else:
                 # utils.print_update(level=3,message=f"No changes made for {attribute_name}")
@@ -970,7 +969,7 @@ def conversionld(
     utils.print_update(level=3,message=f"File Updated: {output_file}")
     return output_file
     
-def CFandSDP(
+def CF_and_SDP(
     input_file: Path, 
     representative_days: int, 
     hour_grouping: int, 

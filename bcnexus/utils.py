@@ -97,23 +97,20 @@ def copy_csv_files(
             else:
                 pass
                 print_update(level=4,message=f"Skipped (already exists): {src_file.name}")
+                
+def ensure_path(path: str | Path) -> Path:
+    p = Path(path)
 
-def ensure_path(save_to: str | Path) -> Path:
-    """
-    Ensures that the given argument is a Path object. If the user provides a string,
-    it converts it to a Path object to facilitate operations like directory creation.
-    
-    ## Args:
-    - save_to (str | Path): The path input, either as a string or a Path object.
+    # If path has a suffix (like .txt, .yaml, .csv) → it's a file
+    if p.suffix:
+        # Make sure the directory exists
+        p.parent.mkdir(parents=True, exist_ok=True)
+        return p
 
-    ## Returns:
-    - Path: The input converted (if necessary) to a Path object.
-    """
-    if not isinstance(save_to, Path):
-        Warning(f">> Given instance for 'destination (save_to)' is of type: {type(save_to)}. Converting it to a Path")
-        save_to = Path(save_to)
-    save_to.mkdir(parents=True, exist_ok=True)
-    return save_to
+    # Otherwise, treat as directory
+    p.mkdir(parents=True, exist_ok=True)
+    return p
+
     
 def process_demand_data(scenario:str,
                         AccumulatedAnnualDemand_scenario_filepath:str|Path,

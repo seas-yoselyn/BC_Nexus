@@ -16,7 +16,6 @@ Creates the SETS, FUELS and COMMODITIES in MoManI for the energy sector and the 
 Original concept and script (C) Taco Niet 2019
 
 """
-utils.print_update(level=PRINT_LEVEL_BASE, message="Module Activated: 'sets_n_ratios'")
 
 def UpdateSETS(SetNames:list, 
                  NewSetItems:list, 

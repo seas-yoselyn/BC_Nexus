@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bcnexus"
+version = "1"
+authors = [
+    {name = "Elias Islam", email = "elias_islam@sfu.ca"},
+    {name = "Bruno Borba"},
+]
+description = "A package tool to serve the requirement for the scripts of BCNexus models"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT License"}
+classifiers = [
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: POSIX :: Linux",
+]
+
+[project.urls]
+Homepage = "https://github.com/DeltaE/BC_Nexus"
+"Research Lab" = "https://deltaeplus.sfu.ca"
+Documentation = "https://github.com/DeltaE/BC/wiki"
+
+[project.scripts]
+bcnexus = "bcnexus.cli:main"
+
+[tool.setuptools]
+packages = {find = {}}

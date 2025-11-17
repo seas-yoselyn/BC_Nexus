@@ -1,27 +1,37 @@
 import argparse
 from pathlib import Path
 
+from flask import config
+
 from bcnexus.clews import schema
 from bcnexus.clews import model_structure as clews_const
 from bcnexus import utils
-
+from bcnexus.attributes_parser import AttributesParser
 region=next(iter(clews_const.Regions)) #gets the first key of the dictionary i.e. 'REGION1'
 clews_snapshot=clews_const.snapshot
 start_year=clews_snapshot['start']
 last_year=clews_snapshot['end']
+
 # Constants for file paths
-DATA_DIR = Path('data/clews_data/inputs_csv')
+try:
+    aparser=AttributesParser()
+    CLEWS_BUILDER_CFG:dict=aparser.clewsb_config
+    CLEWS_BUILD_DATA_DIR:Path=aparser.clews_build_inputs
+except Exception as e:
+    utils.print_update(level=1,message=f"Error loading Attributes Parser or CLEWs Builder Config: {e}")
+
+# CLEWS_BUILD_DATA_DIR = Path('data/clews_data/inputs_csv')
 
 FILES = {
-    'total_max_capacity': DATA_DIR / 'TotalAnnualMaxCapacity.csv',
-    'residual_capacity': DATA_DIR / 'ResidualCapacity.csv',
-    'operational_life': DATA_DIR / 'OperationalLife.csv',
-    'operational_life_storage': DATA_DIR / 'OperationalLifeStorage.csv',
-    'capital_cost': DATA_DIR / 'CapitalCost.csv',
-    'availability_factor': DATA_DIR / 'AvailabilityFactor.csv',
-    'capital_cost_storage': DATA_DIR / 'CapitalCostStorage.csv',
-    'technology_to_storage': DATA_DIR / 'TechnologyToStorage.csv',
-    'technology_from_storage': DATA_DIR / 'TechnologyFromStorage.csv',
+    'total_max_capacity': CLEWS_BUILD_DATA_DIR / 'TotalAnnualMaxCapacity.csv',
+    'residual_capacity': CLEWS_BUILD_DATA_DIR / 'ResidualCapacity.csv',
+    'operational_life': CLEWS_BUILD_DATA_DIR / 'OperationalLife.csv',
+    'operational_life_storage': CLEWS_BUILD_DATA_DIR / 'OperationalLifeStorage.csv',
+    'capital_cost': CLEWS_BUILD_DATA_DIR / 'CapitalCost.csv',
+    'availability_factor': CLEWS_BUILD_DATA_DIR / 'AvailabilityFactor.csv',
+    'capital_cost_storage': CLEWS_BUILD_DATA_DIR / 'CapitalCostStorage.csv',
+    'technology_to_storage': CLEWS_BUILD_DATA_DIR / 'TechnologyToStorage.csv',
+    'technology_from_storage': CLEWS_BUILD_DATA_DIR / 'TechnologyFromStorage.csv',
 }
 
 def get_committed_sites(committed_sites_dict:dict[list])->list:
@@ -270,7 +280,7 @@ def update_technology_from_to_storage(
 
     ### UPDATE TECHNOLOGY FROM STORAGE
     ##################################################################################################
-    technology_from_storage_file = Path ('data/clews_data/inputs_csv/TechnologyFromStorage.csv') #config['FILES']['technology_from_storage_file']
+    technology_from_storage_file = FILES['technology_from_storage']#config['FILES']['technology_from_storage_file']
 
     df_filtered = schema.delete_technologies(technology_from_storage_file, storage, 'STORAGE')
 
@@ -281,58 +291,67 @@ def update_technology_from_to_storage(
             continue
         df_filtered = schema.add_technology_to_and_from_storage(df_filtered, storage_key, storage_info, region, operation_type='FROM')
 
-    technology_from_storage_out = Path ('data/clews_data/inputs_csv/TechnologyFromStorage.csv')
     # Save the file with updated technologies
-    df_filtered.to_csv(technology_from_storage_out, index=False)
+    df_filtered.to_csv(technology_from_storage_file, index=False)
 
-    utils.print_update(level=4, message=f"updated : {technology_from_storage_out}")
+    utils.print_update(level=4, message=f"updated : {technology_from_storage_file}")
 
 def main(
-   
-    clews_builder_config:dict
+    clews_builder_config:dict=None,
 ):
-    
-    #step 5: update RESIDUAL CAPACITY
-    # update_residual_capacity(clews_builder_config) # the data is already updated in the template file
-    
-    #step 6: Update OPERATIONAL LIFE
-    update_operational_life(clews_builder_config)
-    update_operational_life_storage(clews_builder_config)
+    if clews_builder_config is None:
+        clews_builder_config=CLEWS_BUILDER_CFG
+        utils.print_update(level=3,message="No CLEWs Builder Config provided. Using default from Attributes Parser.")
+    else:
+        utils.print_update(level=3,message="Using provided CLEWs Builder Config.")
+        
+    try:
 
-    #step 7: Update AVAILABILITY FACTOR
-    update_availability_factor(clews_builder_config)
-    
-    #step 8: Update CAPEX
-    update_capex(clews_builder_config)
-    update_capex_storage(clews_builder_config)
+        #step 5: update RESIDUAL CAPACITY
+        # update_residual_capacity(clews_builder_config) # the data is already updated in the template file
+        
+        #step 6: Update OPERATIONAL LIFE
+        update_operational_life(clews_builder_config)
+        update_operational_life_storage(clews_builder_config)
 
-    #step 9: Update TECHNOLOGY from/to STORAGE
-    update_technology_from_to_storage(clews_builder_config)
+        #step 7: Update AVAILABILITY FACTOR
+        update_availability_factor(clews_builder_config)
+        
+        #step 8: Update CAPEX
+        update_capex(clews_builder_config)
+        update_capex_storage(clews_builder_config)
+
+        #step 9: Update TECHNOLOGY from/to STORAGE
+        update_technology_from_to_storage(clews_builder_config)
+        
+        #step 10: Update TOTAL ANNUAL MAX CAP
+        update_TotalAnnualMaxCapacity(clews_builder_config)
+
+        return 
     
-    #step 10: Update TOTAL ANNUAL MAX CAP
-    update_TotalAnnualMaxCapacity(clews_builder_config)
-    
-    return 
+    except Exception as e:
+        utils.print_update(level=1,message=f"Error loading Attributes Parser or CLEWs Builder Config: {e}")
+            
 
 
 
-if __name__ == "__main__":
-    # Set up argument parsing
-    parser = argparse.ArgumentParser(description='Run CLEWs paramater update script')
+# if __name__ == "__main__":
+#     # Set up argument parsing
+#     parser = argparse.ArgumentParser(description='Run CLEWs paramater update script')
     
-    # Positional arguments (without default values)
-    parser.add_argument('combined_model_config', 
-                        type=str, 
-                        help="Path to the combined model configuration file")
+#     # Positional arguments (without default values)
+#     parser.add_argument('scenario_config', 
+#                         type=str, 
+#                         help="Path to the combined model configuration file")
     
-    parser.add_argument('clews_builder_config', 
-                        type=str, 
-                        help="Path to the CLEWs builder configuration file")
+#     parser.add_argument('clews_builder_config', 
+#                         type=str, 
+#                         help="Path to the CLEWs builder configuration file")
     
-    # Parse the arguments
-    args = parser.parse_args()
+#     # Parse the arguments
+#     args = parser.parse_args()
     
-    main(args.combined_model_config, args.clews_builder_config)
+#     main(args.scenario_config, args.clews_builder_config)
     # """
     #----------------------- for notebook run/Debugging------------------------------------
     # config_file_path='config/config.yaml'

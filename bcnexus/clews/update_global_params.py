@@ -3,18 +3,31 @@ from pathlib import Path
 from bcnexus.clews import model_structure as clews_const
 from bcnexus import utils
 
+REGIONS=clews_const.Regions
+# Constants for file paths
+try:
+    from bcnexus.attributes_parser import AttributesParser
+    aparser=AttributesParser()
+    CLEWS_BUILDER_CFG:dict=aparser.clewsb_config
+    CLEWS_BUILD_DATA_DIR:Path=aparser.clews_build_data_root
+except Exception as e:
+    utils.print_update(level=1,message=f"Error loading Attributes Parser or CLEWs Builder Config: {e}")
+
 def update_capacity_to_activity_unit(input_csv_dir:str|Path):
-    input_csv_dir=Path(input_csv_dir)
-    regions=clews_const.Regions
+    if input_csv_dir is None:
+        input_csv_dir = CLEWS_BUILD_DATA_DIR
+    else:
+        input_csv_dir=Path(input_csv_dir)
+        
+
     CapacityToActivityUnit:pd.DataFrame=pd.read_csv(input_csv_dir/'CapacityToActivityUnit.csv')
-    
     TECHNOLOGY:pd.DataFrame=pd.read_csv(input_csv_dir/'TECHNOLOGY.csv')
     PWR_TECHNOLOGY = TECHNOLOGY[TECHNOLOGY['VALUE'].str.startswith('PWR')]
     
     # Find missing technologies
     missing_techs_in_C2AU :pd.DataFrame= PWR_TECHNOLOGY[~PWR_TECHNOLOGY['VALUE'].isin(CapacityToActivityUnit['TECHNOLOGY'])]
 
-    for k,v in regions.items():
+    for k,v in REGIONS.items():
         # Assign default value for the missing technologies
         missing_techs:pd.DataFrame = missing_techs_in_C2AU.assign(
             TECHNOLOGY=missing_techs_in_C2AU['VALUE'],

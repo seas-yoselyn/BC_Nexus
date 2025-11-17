@@ -15,3 +15,12 @@ results/clews/Model_Kotzur_Base/*/*.sol
 data/clews_data/Model_Kotzur/*
 data/clews_data/LandClusterData/figs/*.pdf
 SETs-test
+results/clews/Model_Kotzur_Base_CNZ_noCCS/24ts/gurobi.log
+data/clews_data/clews_build_data/Model_Kotzur
+data/clews_data/LandClusterData
+vis/*
+log.txt
+Base_CNZ_noCCS/results/clews/Model_Kotzur_Base_CNZ_noCCS/4ts/runtime_memory_log.txt
+Base_CNZ_noCCS/results/clews/Model_Kotzur_Base_CNZ_noCCS/8ts/runtime_memory_log.txt
+data/clews_data/clews_build_data/*
+results/*

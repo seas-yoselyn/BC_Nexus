@@ -1,24 +1,24 @@
-import pandas as pd 
-from pathlib import Path
-from typing import Optional
 import argparse
 import subprocess
-import gurobipy as gp
-import yaml
 import sys
 import time
+import warnings
+from pathlib import Path
+from typing import Optional
+
+import gurobipy as gp
+import pandas as pd
 import psutil
-# local packages
-from bcnexus.attributes_parser import AttributesParser
-from bcnexus.clews.builder import BuildModel
-from bcnexus.clews import schema as clewsB
-from bcnexus.clews import solver
-from bcnexus.clews import preprocess_data_Kotzur
-from bcnexus.clews import preprocess_data_Niet
+import yaml
+
 from bcnexus import utils
 
-# Filetring the package reated warnings
-import warnings
+# local packages
+from bcnexus.attributes_parser import AttributesParser
+from bcnexus.clews import preprocess_data_Kotzur, preprocess_data_Niet, solver
+from bcnexus.clews import schema
+from bcnexus.clews.builder import BuildModel
+
 warnings.filterwarnings("ignore")
 
 class RunModel:
@@ -26,52 +26,55 @@ class RunModel:
     RunModel is a class that takes in the prepared folder of CSVs (SETs,Parameters) and do all the prerequisites to solve and extract the results.
     """
     def __init__(self,
-                scenario:str,
-                storage_algorithm:str,
+                run_scenario:str,
+                storage_algorithm:str=None,
                 input_csvs:str|Path=None,
-                combined_model_config_path:str|Path=None,
+                scenario_config_path:str|Path=None,
                 clustering_attributes:dict=None
                ):
         
-        self.combined_model_config_path:Path=Path(combined_model_config_path) if combined_model_config_path else Path('config/config.yaml')
-        self.scenario=scenario
-        self.storage_algorithm=storage_algorithm
-        self.input_csvs=Path(input_csvs) if input_csvs else Path(f'data/clews_data/Model_{self.storage_algorithm}/inputs_csv')
-        self.clustering_attributes=clustering_attributes
+        self.scenario_config_path:Path=Path(scenario_config_path) if scenario_config_path else Path('config/scenarios_bcnexus.yaml')
+        self.aparser=AttributesParser(self.scenario_config_path)
+        
+        self.run_scenario=str(run_scenario)
+        self.storage_algorithm=storage_algorithm if storage_algorithm else self.aparser.DEFAULT_STORAGE_ALGORITHM
+        self.scenario_cfg:dict=self.aparser.scenario_dict.get('SCENARIOS').get(self.run_scenario)
+        self.input_csvs=Path(input_csvs) if input_csvs else self.aparser.get_scenario_inputs_path(scenario=self.run_scenario,
+                                                                                                  storage_algorithm=self.storage_algorithm)
+        self.clustering_attributes = (
+            clustering_attributes
+            if clustering_attributes
+            else utils.print_info("Using default clustering attributes: {'hour_grouping': 6, 'n_clusters': 2}")
+                and dict(hour_grouping=6,
+                         n_clusters=2)
+        )
 
         utils.print_update(level=1,
-                    message=f"Initiated CLEWs Model Runner for '{self.scenario}' scenario with '{self.storage_algorithm}' storage algorithm")
+                    message=f"Initiated CLEWs Model Runner for '{self.run_scenario}' scenario with '{self.storage_algorithm}' storage algorithm")
         utils.print_update(level=2,
                     message=f" Input CSVS set to: {self.input_csvs}")
         
-        # The Attributes Parser handles all sorts of parsing from the User Config file and implements necessary checks, validation and sets suitabel defaults if any field is missing.
-        self.aparser=AttributesParser(self.combined_model_config_path)
-        self.case_input_csvs = self.aparser.get_case_input_csvs_path(self.storage_algorithm)
+        # The Attributes Parser handles all sorts of parsing from the User Config file and implements necessary checks, validation and sets suitable defaults if any field is missing.
+
         self.get_all_attributes()
   
         
     def get_all_attributes(self):
         self.otoole_yaml_file=self.aparser.get_otoole_yaml_file(self.storage_algorithm)
-        self.scenario_cfg:dict=self.aparser.get_scenarios().get(self.scenario)
-        
-        self.clews_builder_config_path=self.aparser.clews_builder_config_path
-        self.clewsb_config:dict=self.aparser.load_config(self.clews_builder_config_path)
-        
+        self.clewsb_config:dict=self.aparser.clewsb_config #self.aparser.load_config(self.aparser.clews_builder_config_path)
         (self.start_year, self.last_year)=self.aparser.get_clews_snapshot()
         self.region=self.aparser.get_region()
         
         self.org_model_file=self.aparser.get_model_file_path(storage_algorithm=self.storage_algorithm)
-        self.LP_file=self.input_csvs.parent/self.scenario/f'{self.scenario}.lp'
-        self.scenario_results_root=self.aparser.get_scenario_results_path(scenario=self.scenario,
+        self.LP_file=self.input_csvs.parent/self.run_scenario/f'{self.run_scenario}.lp'
+        self.scenario_results_root=self.aparser.get_scenario_results_path(scenario=self.run_scenario,
                                                                           storage_algorithm=self.storage_algorithm)
-        
         # self.visual_config:dict=self.aparser.get_visual_configs()
         self.plots_save_to:Path=self.aparser.get_plots_save_to()
         
     def process_scenario_data(self):
-        
-        utils.print_update(level=2,
-                    message="Processing Scenario Data")
+        utils.print_update(level=4,
+                    message="Processing Scenario Data...")
         
         # Update TECHNOLOGY SET csv file
         TECHNOLOGY_df=pd.read_csv(self.input_csvs / 'TECHNOLOGY.csv')
@@ -84,7 +87,7 @@ class RunModel:
 
         tech_sets_df = pd.DataFrame(tech_sets, columns=['VALUE'])
         tech_sets_df.to_csv(self.input_csvs / 'TECHNOLOGY.csv', index=False)
-        utils.print_update(level=3,
+        utils.print_update(level=4,
                     message=f"File Updated: {self.input_csvs / 'TECHNOLOGY.csv'}")
         
         # Update TECHNOLOGY SET's info to clews_builder_config file.
@@ -95,11 +98,11 @@ class RunModel:
                 else:
                     pass
         # Save the updated YAML back to the same file
-        with open(self.clews_builder_config_path, 'w') as file:
+        with open(self.aparser.clews_builder_config_path, 'w') as file:
             yaml.dump(self.clewsb_config, file, default_flow_style=False)
         
-        utils.print_update(level=3,
-                    message=f"File Updated : {self.clews_builder_config_path}")
+        utils.print_update(level=4,
+                    message=f"File Updated : {self.aparser.clews_builder_config_path}")
     
         # Define common args
         common_attr = {
@@ -107,8 +110,8 @@ class RunModel:
             'start_year': self.start_year,
             'last_year': self.last_year,
             'region': self.region,
-            'delete_technologies_func': clewsB.delete_technologies,
-            'add_technologies_func': clewsB.add_technologies,
+            'delete_technologies_func': schema.delete_technologies,
+            'add_technologies_func': schema.add_technologies,
         }
 
         # Define attributes with unique args
@@ -150,7 +153,7 @@ class RunModel:
                 'file_path': self.input_csvs / 'InputActivityRatio.csv',
                 'attribute_name': 'input_activity_ratio',
                 'column_name': 'TECHNOLOGY',
-                'pre_process': clewsB.pre_process_input_activity_ratio,
+                'pre_process': schema.pre_process_input_activity_ratio,
                 'additional_columns': {'MODE_OF_OPERATION': 1},  # FUEL will be added dynamically
             },
         ]
@@ -159,16 +162,22 @@ class RunModel:
         for unique_attr in scenario_attributes:
             # Merge common params with unique params, giving precedence to unique params
             params = {**common_attr, **unique_attr}
-            clewsB.process_scenario_attribute(**params)
+            schema.process_scenario_attribute(**params)
+        
+        utils.print_update(level=4,
+                    message="Scenario Data processing completed.Loading updated ClewsBuilder configuration...")
+        self.clewsb_config=self.aparser.load_config(self.aparser.clews_builder_config_path)
+        utils.print_update(level=4,
+                    message=f"ClewsBuilder configuration reloaded from {self.aparser.clews_builder_config_path}")
     
 
     def get_input_datafile_from_csvs(self,
                                      input_csvs:str|Path=None,
-                                     datafile_path:str|Path=None)->Path:
+                                     datafile_path:str=None)->Path:
 
         input_csvs = Path(input_csvs) if input_csvs else self.input_csvs
-        datafile_path = Path(datafile_path) if datafile_path else input_csvs.parent /self.scenario/ 'data.txt'
-        datafile_path.parent.mkdir(parents=True,exist_ok=True)
+        datafile_path = datafile_path if datafile_path else utils.ensure_path(input_csvs.parent /self.run_scenario/ f'{self.run_scenario}_data.txt')
+
         """
         otoole_convert_args ={'config': otoole_config_file,
                             'from_format': 'csv',
@@ -205,14 +214,15 @@ class RunModel:
             processed_datafile (Optional[Path]): Path to the processed data file.
             model_file (Optional[Path]): Path to the input model file.
             processed_model (Optional[Path]): Path to the processed model file.
-            storage_algrithm (Optional[str]): The storage algorithm to use ('Kotzur' or 'Niet').
+            storage_algorithm (Optional[str]): The storage algorithm to use ('Kotzur' or 'Niet').
 
         Returns:
             Tuple[Path, Path]: Paths to the processed data and model files.
         """
-        data_infile:Path=Path(data_infile)
+        data_infile=Path(data_infile) 
+        print("DATA_INFILE:", data_infile, "IS_DIR?", Path(data_infile).is_dir())
         processed_datafile=data_infile.with_suffix('.txt').with_name(data_infile.stem + 'Processed.txt')
-        processed_model=self.input_csvs.parent/self.scenario/'model_processed.txt'
+        processed_model=self.input_csvs.parent/self.run_scenario/f'{self.storage_algorithm}_Model_processed.txt'
         
         # Prepare arguments for the preprocessing module
         preprocessing_module_args = {
@@ -244,7 +254,7 @@ class RunModel:
 
     def get_model_run_files(self):
         
-        _data_file_:Path=self.get_input_datafile_from_csvs(self.input_csvs)
+        _data_file_=self.get_input_datafile_from_csvs(self.input_csvs)
         
         data_file, model_file = self.preprocess_data_model( data_infile=_data_file_,
                                                             model_file=self.org_model_file)
@@ -255,10 +265,10 @@ class RunModel:
         ### Updating otoole yaml file
         
         # Updating day split in yaml file
-        clewsB.new_yaml_param(self.otoole_yaml_file, 'DaySplit', self.day_split)
+        schema.new_yaml_param(self.otoole_yaml_file, 'DaySplit', self.day_split)
 
-        # clewsB.new_yaml_param(self.otoole_yaml_file, 'StorageMaxCapacity', self.StorageMaxCapacity)
-        clewsB.new_yaml_param(self.otoole_yaml_file, 'ResidualStorageCapacity', self.ResidualStorageCapacity)
+        # schema.new_yaml_param(self.otoole_yaml_file, 'StorageMaxCapacity', self.StorageMaxCapacity)
+        schema.new_yaml_param(self.otoole_yaml_file, 'ResidualStorageCapacity', self.ResidualStorageCapacity)
         
     def get_result_csvs(self,
                         solution_file:str|Path=None,
@@ -471,45 +481,61 @@ class RunModel:
         # Measure runtime and memory usage
         start_time = time.time()
         process = psutil.Process()
-        
-        if build or update_temporal_profiles:
-    
-            args={
+        builder_args={
                 'storage_algorithm': self.storage_algorithm,
-                'scenario':self.scenario,
+                'run_scenario':self.run_scenario,
                 'clustering_attributes':self.clustering_attributes
                 }
             
-            clewsBuild=BuildModel(**args)
+        clewsBuild=BuildModel(**builder_args)
+        if build or update_temporal_profiles:
+            utils.print_update(level=1,
+                message=f' Running CLEWs Builder to prepare SETs and Params for scenario: {self.run_scenario} ')
             if build:
+
+                # clewsBuild.get_clews_builder_attributes()
+                # # clewsBuild.update_temporal_profiles()
+                # clewsBuild.update_set_TECHNOLOGY()
+                # clewsBuild.update_set_STORAGE()
+                # clewsBuild.update_yearly_params() 
+                # clewsBuild.trim_snapshot_data()
+                # clewsBuild.get_profiles()    
+                # clewsBuild.update_temporal_profiles()
+                # clewsBuild.update_otoole_config()
+                # clewsBuild.update_storage_case_SETs()
+                # utils.copy_csv_files(src_folder=clewsBuild.clews_build_input_csv_dir,
+                #     dest_folder=clewsBuild.storage_case_input_csvs,
+                #     all_files=True)
+        
                 clewsBuild.build(include_livestock=include_livestock,
-                                 update_clews_builder=False)
+                                update_clews_builder=False)
             if update_temporal_profiles:
-                clewsBuild.update_temporal_profiles()
+
+                    # clewsBuild.update_clews_builder_config()
+                    # clewsBuild.update_set_TECHNOLOGY()
+                    # clewsBuild.update_set_STORAGE()
+                    # clewsBuild.update_yearly_params() 
+                    # clewsBuild.trim_snapshot_data()
+                    # clewsBuild.get_profiles()    
+                    clewsBuild.update_temporal_profiles()
+                    # clewsBuild.update_otoole_config()
+            
+            utils.copy_csv_files(src_folder=clewsBuild.clews_build_input_csv_dir,
+                                dest_folder=clewsBuild.storage_case_input_csvs,
+                                all_files=True)
             
         else:
- 
             utils.print_update(level=1,
                 message=f'Skipping CLEWs builder and profile updates and using prepared SETs and Params from {input_csvs}')
 
-        utils.copy_csv_files(src_folder=clewsBuild.input_csv_dir,
-                           dest_folder=self.input_csvs,
-                           all_files=True)
-        clewsBuild.update_storage_case_SETs()
         
-        utils.print_update(level=1,
-                    message='Preparing the summary reports for input data')
-        clewsBuild.collect_input_checker_report(self.case_input_csvs)
-    #1           
-        # Should not assign loaded config from object, Loading the config from path is essential to recognize the changes in scenario data.
-        utils.print_update(level=1,
-                message=f' Loading config @ {self.combined_model_config_path}')
-        self.cm_config=self.aparser.load_config(self.combined_model_config_path)
+        # utils.print_update(level=1,
+        #             message='Preparing the summary reports for input data')
+        # clewsBuild.collect_input_checker_report(self.input_csvs)
         
     #2        
         utils.print_update(level=1,
-                message=f' Loading scenario config @ {self.combined_model_config_path}')
-        self.scenario_cfg:dict=self.aparser.get_scenarios(self.cm_config['clews']).get(self.scenario)
+                message=f' Loading scenario config @ {self.scenario_cfg}')
         self.process_scenario_data()
         
         self.timeslices=len(pd.read_csv(self.input_csvs/'TIMESLICE.csv')) # We need this for directories
@@ -613,8 +639,8 @@ class RunModel:
         memory_usage = process.memory_info().rss  # Resident Set Size (RSS) in bytes
 
         # Log runtime and memory usage
-        log_save_to=Path(self.scenario_results_root/f'{self.timeslices}ts')
-        RunModel.log_runtime_and_memory(self.scenario, self.timeslices, self.clustering_attributes, start_time, memory_usage, log_save_to, machine_id)
+        log_save_to=Path(self.run_scenario/self.scenario_results_root/f'{self.timeslices}ts')
+        RunModel.log_runtime_and_memory(self.run_scenario, self.timeslices, self.clustering_attributes, start_time, memory_usage, log_save_to, machine_id)
 
     @staticmethod
     def log_runtime_and_memory(scenario:str, 
