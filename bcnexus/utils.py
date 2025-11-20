@@ -1,18 +1,18 @@
 import os
 import shutil
 from pathlib import Path
-from typing import Optional
+from typing import Any, List, Optional
 
+import ipywidgets as widgets
 import numpy as np
 import pandas as pd
 import yaml
 from colorama import Fore, Style
+from IPython.display import display
 
 from bcnexus import constants as bcnexus_const
 from bcnexus.clews import model_structure
-import ipywidgets as widgets
-from IPython.display import display
-from typing import List, Optional, Any
+
 
 def print_update(level: int=None,
                  message: str="--",
@@ -59,7 +59,15 @@ def print_info(info:str):
 
 def print_warning(info: str):
     print(f"{Fore.LIGHTYELLOW_EX}{Style.BRIGHT}⚠️  {info}{Style.RESET_ALL}")
-
+    
+def check_machine_cores():
+    import psutil
+    n_physical_cores = psutil.cpu_count(logical=False)
+    n_logical_cores = psutil.cpu_count(logical=True)
+    print_info(f"Your machine has {n_physical_cores} physical cores and {n_logical_cores} logical cores.")
+    if n_physical_cores < 8:
+        print_warning(f"Warning: Your machine has only {n_physical_cores} physical cores. \n Model building and runs may be slow. Consider using a machine with at least 4 physical cores for better performance.")
+    return n_physical_cores, n_logical_cores
 def build_scenario_ui(scenarios_cfg: dict = None):
     scenarios_cfg = scenarios_cfg or load_config(model_structure.clews_scenario_cfg_path)
 

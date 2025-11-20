@@ -122,8 +122,15 @@ class RunModel:
                     message=f" Input CSVS set to: {self.input_csvs}")
         
         # The Attributes Parser handles all sorts of parsing from the User Config file and implements necessary checks, validation and sets suitable defaults if any field is missing.
-
+        builder_args={
+                'storage_algorithm': self.storage_algorithm,
+                'run_scenario':self.run_scenario,
+                'clustering_attributes':self.clustering_attributes
+                }
+            
+        self.clewsBuilder=BuildModel(**builder_args)
         self.get_all_attributes()
+
   
         
     def get_all_attributes(self):
@@ -138,7 +145,7 @@ class RunModel:
                                                                           storage_algorithm=self.storage_algorithm)
         # self.visual_config:dict=self.aparser.get_visual_configs()
         self.plots_save_to:Path=self.aparser.get_plots_save_to()
-        
+        self.clewsBuilder.get_clustering_attributes()
     def process_scenario_data(self):
         utils.print_update(level=4,
                     message="Processing Scenario Data...")
@@ -513,7 +520,6 @@ class RunModel:
             input_csvs: str | Path=None,
             build:bool=False,
             include_livestock:bool=True,
-            update_temporal_profiles=True,
             solver_name='gurobi',
             threads:int=32,
             machine_id:str=None):
@@ -546,37 +552,28 @@ class RunModel:
         # Measure runtime and memory usage
         start_time = time.time()
         process = psutil.Process()
-        builder_args={
-                'storage_algorithm': self.storage_algorithm,
-                'run_scenario':self.run_scenario,
-                'clustering_attributes':self.clustering_attributes
-                }
-            
-        clewsBuild=BuildModel(**builder_args)
-        clewsBuild.get_clustering_attributes()
-                
-        if build or update_temporal_profiles:
+
+    #1           
+        if build:
             utils.print_update(level=1,
                 message=f' Running CLEWs Builder to prepare SETs and Params for scenario: {self.run_scenario} ')
             if build:
-                clewsBuild.build(include_livestock=include_livestock,
+                self.clewsBuilder.build(include_livestock=include_livestock,
                                 update_clews_builder=build)
-            if update_temporal_profiles: 
-                clewsBuild.update_temporal_profiles()
-            utils.copy_csv_files(src_folder=clewsBuild.clews_build_input_csv_dir,
-                                dest_folder=clewsBuild.storage_case_input_csvs,
-                                all_files=True)
         else:
             utils.print_update(level=1,
-                message=f'Skipping CLEWs builder and profile updates and using prepared SETs and Params from {input_csvs}')
-
-        
+                message=f'Skipping CLEWs builder and using prepared SETs and Params from {input_csvs}')
+    #2
+        self.clewsBuilder.update_temporal_profiles()
+        utils.copy_csv_files(src_folder=self.clewsBuilder.clews_build_input_csv_dir,
+                                dest_folder=self.clewsBuilder.storage_case_input_csvs,
+                                all_files=True)
         # utils.print_update(level=1,
         #             message='Preparing the summary reports for input data')
         # clewsBuild.collect_input_checker_report(self.input_csvs)
-
-        clewsBuild.update_storage_case_temporal_schema()
-    #2        
+    #3
+        self.clewsBuilder.update_storage_case_temporal_schema()
+    #4    
         utils.print_update(level=1,
                 message=f' Loading scenario config @ {self.scenario_cfg}')
         self.process_scenario_data()
@@ -591,8 +588,7 @@ class RunModel:
         utils.print_update(level=1,
             message='Preparing model and data files. ')
         self.data_file,self.model_file=self.get_model_run_files()
-    #3
-
+    #5
         self.write_LP_file(self.model_file,
                            self.data_file,
                            self.LP_file)

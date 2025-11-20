@@ -84,6 +84,7 @@ def get_plots(nexus_scenario:str='Base_CNZ',
     
     save_plots(nexus_plots,
                plots_save_to)
+    return nexus_energy_plots
 
     
 

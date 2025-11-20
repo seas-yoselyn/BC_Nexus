@@ -392,5 +392,6 @@ mode_of_operation = {
     53: "Grassland & woodland",
     54: "Built-up land",
     55: "Water bodies",
-    56: "Other agricultural lands"
+    56: "Other agricultural lands",
+    57: "Storage Discharging Mode"
 }
