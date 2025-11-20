@@ -22,3 +22,8 @@ Base_CNZ_noCCS/results/clews/Model_Kotzur_Base_CNZ_noCCS/4ts/runtime_memory_log.
 Base_CNZ_noCCS/results/clews/Model_Kotzur_Base_CNZ_noCCS/8ts/runtime_memory_log.txt
 data/clews_data/clews_build_data/*
 results/*
+bcnexus/constants.py
+bcnexus/plots.py
+bcnexus/utils.py
+bcnexus/clews/runner.py
+config/clews_builder.yaml
