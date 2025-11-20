@@ -5,7 +5,8 @@
 # Based on the data in this file, clewsy builds the SETS, InputActivityRatio and OutputActivityRatio
 
 Model= 'BC Clews Model V2.1' # 20250606, v.2 + With YOSE's work
-clews_builder_config_path='config/clews_builder.yaml'
+clews_builder_cfg_path='config/clews_builder.yaml'
+clews_scenario_cfg_path='config/scenarios_bcnexus.yaml'
 
 # The OSeMOSYS regions in the model.  
 # For most models, leave this as REGION1 as CLEWs regions are built with technologies and commodities rather than OSeMOSYS regions.
@@ -169,12 +170,12 @@ EndUseFuels= {
 }
 
 # Imports and exports - add and remove fuels as needed to represent a given region.
-ImportFuels= ['JFL', 'LPG', 'GSL', 'DSL', 'HFO', ] # EL_20251115 Removed 'KER''CRU','COA' to harmonize with Canada Energy Future Report 2024 data
-ExportFuels= ['NGS',  'BIO'] #EL_20251115 Removed 'CRU', 'COA'
+ImportFuels= ['JFL', 'LPG', 'GSL', 'DSL', 'HFO','CRU', 'COA','RPP' ] # EL_20251115 added 'KER''CRU','COA' to harmonize with Canada Energy Future Report 2024 data
+ExportFuels= ['NGS',  'BIO','CRU', 'COA'] #EL_20251115 added 'CRU', 'COA'
 CarbonCaptureFuels= ['CO2CCS']  # Fuels associated with carbon capture and storage.
 
 # Domestically available fuels.
-DomesticMining= ['NGS', 'URN'] #EL_20251115 Removed 'CRU', 'COA'
+DomesticMining= ['NGS', 'URN','CRU', 'COA'] #EL_20251115 added 'CRU', 'COA'
 DomesticRenewables= ['WND', 'HYD', 'BIO', 'SOL', 'GEO']
 
 
@@ -191,12 +192,27 @@ ________________________________________________________________________________
 # One can use multiple lines for a single technology to create additional input or output activity ratios for a given technology (such as the refinery example below).
 
 """
+TransformationTechnologies_schema= [
+  'TECHNOLOGY',          # Technology code
+  'FUEL_input',          # Input fuel code
+  'InputActivityRatio',  # Input activity ratio (for 1 PJ of output, how much input fuel is needed)
+  'FUEL_output',         # Output fuel code
+  'OutputActivityRatio', # Output activity ratio (for 1 PJ of input, how much output fuel is produced)
+  'Name',                # Description of the technology
+  'MODE_OF_OPERATION'      # Mode of operation code (usually 1)
+  ]
 TransformationTechnologies= [
 # 90% efficient grid distribution system:
-  ['PWRTRNB01', 'ELCB01', '1.11', 'ELCB02', '1', 'Power transmission grid B', '1'],
+ ['PWRTRNB01', 'ELCB01', '1.11', 'ELCB02', '1', 'Power transmission grid B', '1'],
   
 # Example of land use impact of a power generation technology:
 # ['power plant name and discription', 'input fuel', 'input activity ratio: for 1PJ of output how much land will be needded', 'output fuel- leave it blank', 'output activity raio- leave it blank', 'discription-leave it blank', 'Mode of operation'],
+ 
+ # CCS technology
+ ['CCS', '', '', 'CO2CCS', '1', 'Carbon Capture and Storage', '1'],
+  
+# Hydrogen production technology
+ ['HDG', '', '','HDG', '1',  'Hydrogen production', '1'],
  
  # lands needed for Livestock
  
@@ -244,7 +260,7 @@ TransformationTechnologies= [
   
   # Palm oil blending plant
   
-]
+  ]
 
 Powertech_attributes = {
     'Power plant description.': {},

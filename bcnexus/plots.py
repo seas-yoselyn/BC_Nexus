@@ -33,7 +33,8 @@ def save_plots(nexus_plots:dict,
 def get_plots(nexus_scenario:str='Base_CNZ',
          timeslices:int=24,
          storage_algorithm:str="Kotzur",
-         solver:str="gurobi"):
+         solver:str="gurobi",
+         plots_save_to:str|Path=None):
 
     nexus_results_root=Path(f'results/clews/Model_{storage_algorithm}_{nexus_scenario}/{timeslices}ts_csvs_{solver}')
     result_pack=GetDataPackage(nexus_results_root)
@@ -42,7 +43,7 @@ def get_plots(nexus_scenario:str='Base_CNZ',
         sys.exit(1)
     
     vis_save_to_root = Path('vis/bccm')
-    plots_save_to=vis_save_to_root/nexus_scenario/'bc_nexus'
+    plots_save_to=plots_save_to or vis_save_to_root/nexus_scenario/'bc_nexus'
     if not plots_save_to.exists():
         plots_save_to.mkdir(parents=True, exist_ok=True)
 
@@ -86,7 +87,10 @@ def get_plots(nexus_scenario:str='Base_CNZ',
 
     
 
-def main(nexus_scenario: str, storage_algorithm: str, timeslices: int):
+def main(nexus_scenario: str, 
+         storage_algorithm: str, 
+         timeslices: int,
+         plots_save_to:str,):
     
     print("Running CLEWs plotter:")
     print("  Scenario          : {nexus_scenario}")
@@ -95,7 +99,8 @@ def main(nexus_scenario: str, storage_algorithm: str, timeslices: int):
     
     get_plots(nexus_scenario=nexus_scenario,
               storage_algorithm=storage_algorithm,
-              timeslices=timeslices)
+              timeslices=timeslices,
+              plots_save_to=plots_save_to)
     
 
 # if __name__ == "__main__":

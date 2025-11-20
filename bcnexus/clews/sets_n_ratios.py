@@ -4,8 +4,10 @@ import colorama
 
 #Local packages
 from bcnexus import utils
-from bcnexus.clews import model_structure as clews_const
+from bcnexus.clews import builder, model_structure as clews_const
 from pathlib import Path
+import pandas as pd
+
 PRINT_LEVEL_BASE:int=2    # Handle print levels
 
 # Tailored for BC Combined Model
@@ -54,7 +56,7 @@ def UpdateSETS(SetNames:list,
         for item in OARList:
             f.write(','.join(map(str, item['c'])) + ',' + str(item['v']) + '\n')
             
-    mop_file = csv_save_to / 'MODE_OF_OPERATION.csv'
+    # mop_file = csv_save_to / 'MODE_OF_OPERATION.csv'
 
 
 # create_set in BuildCLEWsModel.py
@@ -86,8 +88,8 @@ def AddActivityListItems(year1,
     """   
     for year in year1:
         Sets = [region, input1, input2, g, year]
-        Value = value
-        Item = {"c": Sets, "v": v}
+        Value = value if value is not None else v
+        Item = {"c": Sets, "v": Value}
         List.append(Item)
         
 def Fill_Set(new_set_items, set_names, sets, value1, color1, name1 = '', t = "name"):
@@ -95,7 +97,7 @@ def Fill_Set(new_set_items, set_names, sets, value1, color1, name1 = '', t = "na
     {"value": value1, t: name1, "color": color1})
     
 def get_powerplants():
-    updated_resources=utils.load_config(clews_const.clews_builder_config_path)
+    updated_resources=utils.load_config(clews_const.clews_builder_cfg_path)
     updated_TECHNOLOGIES=updated_resources['TECHNOLOGIES']
     _PowerPlants_=clews_const.PowerPlants
     PowerPlants = {}
@@ -110,7 +112,7 @@ def get_powerplants():
     return PowerPlants
 
 def get_storage()->dict:
-    updated_resources=utils.load_config(clews_const.clews_builder_config_path)
+    updated_resources=utils.load_config(clews_const.clews_builder_cfg_path)
     updated_STORAGE:dict=updated_resources['STORAGE']
     storage_techs = {}
 
@@ -121,7 +123,7 @@ def get_storage()->dict:
 
 def get_transformation_techs_power():
     _TransformationTechnologies_=clews_const.TransformationTechnologies
-    updated_resources=utils.load_config(clews_const.clews_builder_config_path)
+    updated_resources=utils.load_config(clews_const.clews_builder_cfg_path)
     updated_TECHNOLOGIES=updated_resources['TECHNOLOGIES']
 
     # Create a separate list for items starting with 'PWR'
@@ -741,20 +743,27 @@ def BuildCLEWsModel():
     for CarbonCaptureFuel in CarbonCaptureFuels:
         if CarbonCaptureFuel not  in [li['value'] for li in NewSetItems[SetNames.index("FUEL")]]:
             Fill_Set(NewSetItems, SetNames, "FUEL", CarbonCaptureFuel, "#000000", "Carbon capture fuel for tracking carbon capture from land use change.")
+    
+    
+    # update_transformation_tech_OAR(OARList)
+    
     return (SetNames, 
             NewSetItems, 
             IARList, 
             OARList,
             ModeList)
-
+    
+    
 def build(save_to='SETs'):
     save_to:Path=utils.ensure_path(save_to)
     utils.print_banner("Building CLEWs SETs")
     utils.print_info(f"Saving to directory: {save_to}")
     utils.print_info("Model Structure: 'bcnexus/clews/model_structure.py'")
     SetNames, NewSetItems, IARList, OARList,ModeList=BuildCLEWsModel()
-
     
+    OARextender = OAR_Extender(OARList) # EL_20251119 developed this class to add missing rows to OARList based on transformation technologies
+    OARList = OARextender.apply() # Add missing rows (if any) from transformation technologies
+
     with open(save_to / 'ModeList.txt', 'w') as ModeFile:
         for idx, mode in enumerate(ModeList, 1):
             ModeFile.write(f"{idx}: {mode}\n")
@@ -806,3 +815,107 @@ def check_landcluster_data(landcluser_config:dict,
 #     # logging.basicConfig(level=logging.DEBUG)
 #     datafile = sys.argv[1]
 #     build(yamlfile)
+
+
+
+class OAR_Extender:
+    """
+    Extends the OARList by adding missing rows based on the CLEWs model structure and clews_builder config file. 
+    Clews_builder config file is loaded to get the expanded technology variants and aggregations.
+    
+    Attributes:
+        OARList (list): Original OARList to be extended.
+        updated_resources (dict): Loads clews_builder configuration from the path defined in model_structure.
+        transformation_tech_schema (list): Schema of TransformationTechnologies (which item represents what in the list) from model_structure.
+            loc_fuel (int): Index of 'FUEL_output' in transformation_tech_schema.
+            loc_tech (int): Index of 'TECHNOLOGY' in transformation_tech_schema.
+    Methods:
+        get_missing_fuels(): Identifies fuels present in the system but missing in the OARList.
+        get_expanded_techs(fuel): For a given fuel, retrieves all associated technologies including variants.
+        build_missing_rows(): Constructs missing OAR rows for each combination of region, technology, fuel, and year.
+        apply(): Extends the OARList with the newly built missing rows.
+        to_dataframe(): Converts the OARList into a pandas DataFrame for easier manipulation and analysis.
+        find_duplicates(): Identifies duplicate entries in the OARList DataFrame.
+        remove_duplicates(): (Optional) Safely removes duplicate entries from the OARList.
+    """
+    
+    def __init__(self, OARList):
+        from bcnexus.clews import model_structure as clews_const
+        self.OARList:list[list] = OARList
+        self.updated_resources:dict= utils.load_config(clews_const.clews_builder_cfg_path)
+        self.transformation_tech_schema= clews_const.TransformationTechnologies_schema
+        self.loc_fuel = self.transformation_tech_schema.index('FUEL_output')
+        self.loc_tech = self.transformation_tech_schema.index('TECHNOLOGY')
+
+    # --- 1. Fuel detection -----------------------------------------
+    def get_missing_fuels(self):
+        fuels_in_system = {attrs[self.loc_fuel] for attrs in clews_const.TransformationTechnologies if attrs[self.loc_fuel]}
+        fuels_in_OAR = {item['c'][2] for item in self.OARList}
+        return fuels_in_system - fuels_in_OAR
+
+    # --- 2. Tech expansion -----------------------------------------
+    def get_expanded_techs(self, fuel):
+        base_techs = [
+            attrs[self.loc_tech]
+            for attrs in clews_const.TransformationTechnologies
+            if attrs[self.loc_fuel] == fuel
+        ]
+        return [
+            variant
+            for tech in base_techs
+            for variant in (list(self.updated_resources['TECHNOLOGIES'].get(tech, {}).keys()) or [tech])
+        ]
+
+    # --- 3. Build missing OAR rows ---------------------------------
+    def build_missing_rows(self):
+        start, end = clews_const.snapshot['start'], clews_const.snapshot['end']
+        regions = clews_const.Regions.keys()
+
+        for fuel in self.get_missing_fuels():
+            for tech in self.get_expanded_techs(fuel):
+                for region in regions:
+                    for year in range(start, end + 1):
+                        yield {'c': [region, tech, fuel, 1, year], 'v': 1}
+
+    # --- 4. Extend existing OARList --------------------------------
+    def apply(self):
+        self.OARList.extend(self.build_missing_rows())
+        
+        duplicates = self.find_duplicates()
+        if duplicates.empty:
+            return self.OARList
+        else:
+            # utils.print_error("Duplicates detected in OutputActivityRatio:")
+            # utils.print_error(duplicates)
+            self.OARList = self.remove_duplicates()  # optional cleanup
+            return self.OARList
+
+    # --- 5. Convert to DataFrame -----------------------------------
+    def to_dataframe(self):
+        return pd.DataFrame([
+            {'REGION': c[0], 'TECHNOLOGY': c[1], 'FUEL': c[2],
+             'MODE_OF_OPERATION': c[3], 'YEAR': c[4], 'VALUE': v}
+            for item in self.OARList
+            for c, v in [(item['c'], item['v'])]
+        ])
+
+    # --- 6. Duplicate detection ------------------------------------
+    def find_duplicates(self):
+        df = self.to_dataframe()
+        return df[df.duplicated(
+            subset=['REGION', 'TECHNOLOGY', 'FUEL', 'MODE_OF_OPERATION', 'YEAR'], 
+            keep=False
+        )]
+
+    # --- 7. (Optional) Remove duplicates safely ---------------------
+    def remove_duplicates(self):
+        df = self.to_dataframe().drop_duplicates(
+            subset=['REGION', 'TECHNOLOGY', 'FUEL', 'MODE_OF_OPERATION', 'YEAR'],
+            keep='first'
+        )
+        self.OARList = [
+            {'c': [row.REGION, row.TECHNOLOGY, row.FUEL, row.MODE_OF_OPERATION, row.YEAR],
+             'v': row.VALUE}
+            for row in df.itertuples()
+        ]
+        return self.OARList

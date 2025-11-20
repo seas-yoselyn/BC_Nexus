@@ -1,3 +1,70 @@
+"""
+CLEWs Model Runner Module
+
+This module provides the core functionality for running Climate, Land, Energy, and Water Systems (CLEWs) 
+optimization models within the BC Nexus framework. It handles the complete workflow from model preparation 
+through execution to results extraction and visualization.
+
+Key Components:
+---------------
+- RunModel: Main class that orchestrates the entire CLEWs model execution pipeline
+  * Scenario configuration and data preprocessing
+  * Model building with storage algorithms (Kotzur/Niet)
+  * LP file generation using GLPK
+  * Optimization solving with Gurobi or CBC solvers
+  * Results extraction and CSV generation via otoole
+  * Shadow price analysis and constraint reporting
+  * Performance logging and memory tracking
+
+Supported Storage Algorithms:
+-----------------------------
+- Kotzur: Storage representation based on Kotzur et al. methodology
+- Niet: Storage representation based on Niet methodology
+
+Supported Solvers:
+-----------------
+- Gurobi: Commercial optimization solver (default, recommended)
+- CBC: Open-source solver (alternative)
+
+Workflow:
+---------
+1. Initialize RunModel with scenario configuration
+2. Process scenario data and update technology parameters
+3. Generate preprocessed data and model files based on storage algorithm
+4. Create LP file using GLPK
+5. Solve optimization problem with selected solver
+6. Extract results to CSV format
+7. Generate reports, visualizations, and performance logs
+
+Dependencies:
+------------
+- gurobipy: Gurobi optimizer Python interface
+- pandas: Data manipulation and analysis
+- psutil: System and process utilities
+- yaml: YAML file parsing
+- otoole: OSeMOSYS data management tool
+- GLPK: GNU Linear Programming Kit (external)
+
+Usage Example:
+-------------
+    runner = RunModel(
+        run_scenario='Base_CNZ',
+        storage_algorithm='Kotzur',
+        scenario_config_path='config/scenarios_bcnexus.yaml'
+    )
+    runner.run(build=True, solver_name='gurobi', threads=32)
+
+Notes:
+------
+- Requires proper installation of solvers (Gurobi or CBC) and GLPK
+- Input data must follow OSeMOSYS format conventions
+- Results are organized by scenario and timeslice configuration
+- Memory and runtime are logged for performance analysis
+
+Author: BC Nexus Development Team
+License: See repository LICENSE file
+"""
+
 import argparse
 import subprocess
 import sys
@@ -285,8 +352,7 @@ class RunModel:
         ### Extract the CSV results from GUROBI Solution/Result datafile
         utils.print_update(level=2,
                     message=f"Initiating otoole interface to extract results; input csvs : {self.input_csvs} , config file: {self.otoole_yaml_file}")
-        self.otoole_results_dir = self.scenario_results_root / f'{self.timeslices}ts_csvs_{solver_name}'
-        self.otoole_results_dir.mkdir(parents=True, exist_ok=True)
+        self.otoole_results_dir = utils.ensure_path(self.scenario_results_root / f'{self.timeslices}ts_csvs_{solver_name}')
         
         if debug_mode:
             otoole_results_cmd= f"otoole -v results {solver_name} csv {self.solution_path} {self.otoole_results_dir} csv {self.input_csvs} {self.otoole_yaml_file}"
@@ -294,15 +360,14 @@ class RunModel:
             otoole_results_cmd= f"otoole results {solver_name} csv {self.solution_path} {self.otoole_results_dir} csv {self.input_csvs} {self.otoole_yaml_file}"
         
         try:
-            result = subprocess.run(otoole_results_cmd, shell=True, text=True)
-            utils.print_update(result.check_returncode(),alert=True)
+            subprocess.run(otoole_results_cmd, shell=True, text=True)
             utils.print_update(level=3,
                 message=f"Result extraction completed and saved to {self.otoole_results_dir}")
             return self.otoole_results_dir
 
         except Exception as e:
             utils.print_update(level=4,
-                        message=f"An error occurred during otoole result extraction: {e}")
+                        message=f"An error occurred during otoole result extraction: {e} and ")
       
 
     @staticmethod
@@ -488,42 +553,19 @@ class RunModel:
                 }
             
         clewsBuild=BuildModel(**builder_args)
+        clewsBuild.get_clustering_attributes()
+                
         if build or update_temporal_profiles:
             utils.print_update(level=1,
                 message=f' Running CLEWs Builder to prepare SETs and Params for scenario: {self.run_scenario} ')
             if build:
-
-                # clewsBuild.get_clews_builder_attributes()
-                # # clewsBuild.update_temporal_profiles()
-                # clewsBuild.update_set_TECHNOLOGY()
-                # clewsBuild.update_set_STORAGE()
-                # clewsBuild.update_yearly_params() 
-                # clewsBuild.trim_snapshot_data()
-                # clewsBuild.get_profiles()    
-                # clewsBuild.update_temporal_profiles()
-                # clewsBuild.update_otoole_config()
-                # clewsBuild.update_storage_case_SETs()
-                # utils.copy_csv_files(src_folder=clewsBuild.clews_build_input_csv_dir,
-                #     dest_folder=clewsBuild.storage_case_input_csvs,
-                #     all_files=True)
-        
                 clewsBuild.build(include_livestock=include_livestock,
-                                update_clews_builder=False)
-            if update_temporal_profiles:
-
-                # clewsBuild.update_clews_builder_config()
-                # clewsBuild.update_set_TECHNOLOGY()
-                # clewsBuild.update_set_STORAGE()
-                # clewsBuild.update_yearly_params() 
-                # clewsBuild.trim_snapshot_data()
-                # clewsBuild.get_profiles()    
+                                update_clews_builder=build)
+            if update_temporal_profiles: 
                 clewsBuild.update_temporal_profiles()
-                # clewsBuild.update_otoole_config()
-            
             utils.copy_csv_files(src_folder=clewsBuild.clews_build_input_csv_dir,
                                 dest_folder=clewsBuild.storage_case_input_csvs,
                                 all_files=True)
-            
         else:
             utils.print_update(level=1,
                 message=f'Skipping CLEWs builder and profile updates and using prepared SETs and Params from {input_csvs}')
@@ -532,8 +574,8 @@ class RunModel:
         # utils.print_update(level=1,
         #             message='Preparing the summary reports for input data')
         # clewsBuild.collect_input_checker_report(self.input_csvs)
-        
-        clewsBuild.update_storage_SETs()
+
+        clewsBuild.update_storage_case_temporal_schema()
     #2        
         utils.print_update(level=1,
                 message=f' Loading scenario config @ {self.scenario_cfg}')
@@ -605,8 +647,7 @@ class RunModel:
                 self.duals_df.to_csv(duals_save_to)
             
             else:
-                utils.print_update(alert=True,
-                message=f'X Model not solved, check the logs for more details @ {self.solver_log_save_to}')
+                utils.print_error(f'X Model not solved, check the logs for more details @ {self.solver_log_save_to}')
             
         if solver_name=='cbc':
             self.solve_model_cbc(lp_path=self.LP_file,

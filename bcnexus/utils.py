@@ -10,7 +10,9 @@ from colorama import Fore, Style
 
 from bcnexus import constants as bcnexus_const
 from bcnexus.clews import model_structure
-
+import ipywidgets as widgets
+from IPython.display import display
+from typing import List, Optional, Any
 
 def print_update(level: int=None,
                  message: str="--",
@@ -57,7 +59,141 @@ def print_info(info:str):
 
 def print_warning(info: str):
     print(f"{Fore.LIGHTYELLOW_EX}{Style.BRIGHT}⚠️  {info}{Style.RESET_ALL}")
+
+def build_scenario_ui(scenarios_cfg: dict = None):
+    scenarios_cfg = scenarios_cfg or load_config(model_structure.clews_scenario_cfg_path)
+
+    # Scenario dropdown
+    scenarios_dd = display_dropdown(
+        options=list(scenarios_cfg.get('SCENARIOS').keys()),
+        description='Scenarios:',
+        description_width=90,
+        autodisplay=False
+    )
+
+    # Storage algorithm dropdown (NEW)
+    storage_algo_dd = display_dropdown(
+        options=['Kotzur', 'Niet'],
+        description='Storage Algorithm:',
+        description_width=110,
+        default='Kotzur',
+        autodisplay=False
+    )
+
+    # Clustering sliders
+    h_grouping_dd = display_range_slider(
+        1, 24,
+        description='Hour grouping:',
+        description_width=120,
+        autodisplay=False
+    )
+
+    n_clusters_dd = display_range_slider(
+        1, 10,
+        description='Clusters:',
+        description_width=120,
+        autodisplay=False
+    )
+
+    # Live timeslices label
+    timeslices_label = widgets.HTML(
+        value="<b>Timeslices:</b> --",
+        layout=widgets.Layout(width='150px', padding='5px 0px')
+    )
+
+    # Dynamic update for timeslices
+    def update_timeslices(change=None):
+        h = h_grouping_dd.value
+        k = n_clusters_dd.value
+        if h > 0:
+            ts = (24 // h) * k
+            timeslices_label.value = f"<b>Timeslices:</b> {ts}"
+        else:
+            timeslices_label.value = "<b>Timeslices:</b> —"
+
+    h_grouping_dd.observe(update_timeslices, names='value')
+    n_clusters_dd.observe(update_timeslices, names='value')
+    update_timeslices()
+
+    # Final layout — Storage Alg added inline with Scenarios
+    ui = widgets.VBox([
+        widgets.HTML("<h4 style='margin-bottom:3px;'>Scenario Selection</h4>"),
+        widgets.HBox(
+            [scenarios_dd, storage_algo_dd],
+            layout=widgets.Layout(justify_content='flex-start', gap='30px')
+        ),
+
+        widgets.HTML("<h4 style='margin:15px 0px 3px;'>Clustering Settings</h4>"),
+        widgets.HBox(
+            [h_grouping_dd, n_clusters_dd, timeslices_label],
+            layout=widgets.Layout(justify_content='flex-start', align_items='center', gap='30px')
+        )
+    ], layout=widgets.Layout(width='80%', padding='10px 0px'))
+
+    display(ui)
+    return scenarios_dd, storage_algo_dd, h_grouping_dd, n_clusters_dd, timeslices_label
+
+
+def display_dropdown(
+    options: List[Any],
+    description: str = "Selection:",
+    description_width:int=110,
+    default: Optional[Any] = None,
+    disabled: bool = False,
+    autodisplay: bool = True,
+) -> widgets.Dropdown:
+    """
+    Create a modern, flexible dropdown widget in Jupyter Notebook.
+
+    Args:
+        options (List[Any]): Items to display in the dropdown.
+        description (str): Label shown before dropdown. Default: 'Selection:'.
+        default (Any, optional): Initial selected value. If not provided, first element is used.
+        disabled (bool): Whether the dropdown is interactive. Default: False.
+        auto_display (bool): If True, displays immediately in notebook. Otherwise returns widget without display.
+
+    Returns:
+        widgets.Dropdown: The created Dropdown widget.
+    """
+    if not isinstance(options, list) or not options:
+        raise ValueError("options must be a non-empty list.")
+
+    if default is not None and default not in options:
+        raise ValueError("default value must be one of the options.")
+
+    dropdown = widgets.Dropdown(
+        options=options,
+        description=description,
+        value=default or options[0],
+        disabled=disabled,
+        layout=widgets.Layout(width='50%'),  # Optional: adds nice styling
+        style={'description_width': f'{description_width}px'}  # control label width
+    )
     
+    if autodisplay:
+        display(dropdown)
+    return dropdown
+
+def display_range_slider(min_val: int, 
+                         max_val: int, 
+                         description: str = 'None',
+                         description_width:int=110,
+                         autodisplay: bool = True) -> widgets.IntSlider:
+    slider = widgets.IntSlider(
+        value=(min_val + max_val) // 2,
+        min=min_val,
+        max=max_val,
+        step=1,
+        description=description if description else 'Select:',
+        layout=widgets.Layout(width='70%'),   # control slider width
+        style={'description_width': f'{description_width}px'}  # control label width
+    )
+    if autodisplay:
+        display(slider)
+    return slider
+
+
+
 def copy_csv_files(
     src_folder: str, 
     dest_folder: str,
