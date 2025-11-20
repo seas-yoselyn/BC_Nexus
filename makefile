@@ -34,15 +34,18 @@ setup:
 	@echo "Creating and setting up the environment..."
 	conda env create -f env/environment.yml
 	@echo "Installing local package..."
-	pip install -e.
+	pip install -e .
 	git submodule init
-	@echo "Environment created. Please restart your shell or run 'conda activate wb_oemc' manually."
+	@echo "Environment created. Please restart your shell or run 'conda activate bc_nexus' manually."
 
 # Update the environment
 update:
 	@echo "Updating environment..."
 	conda env update -f env/environment.yml
-	@echo "Environment updated. Please restart your shell or run 'conda activate wb_oemc' manually."
+	@echo "Environment updated. Please restart your shell or run 'conda activate bc_nexus' manually."
+	@echo "Installing local package..."
+	pip install -e .
+	
 
 # Optional: clean up env (if you want this)
 clean:
@@ -55,20 +58,6 @@ export:
 	conda env export -n bc_nexus > env/environment.yml
 	@echo "Environment exported to env/environment.yml."
 
-# submodules:
-# 	# Initialize and update all submodules recursively
-# 	echo "Initializing and updating submodules..."
-# 	git submodule update --init --recursive || true
-
-# 	# Navigate to the Linking_tool submodule and install it
-# 	echo "Installing packages from setup.py..."; \
-# 	[ -f models/BC_Nexus/setup.py ] && pip install -e models/BC_Nexus || echo "setup.py not found in models/BC_Nexus"; \
-
-# 	echo "Submodules initialized and packages installed successfully."
-# 	# git submodule status
-
-# dash: # Doesn't run with SFU VPN, need to find alterative proven ways to shwocase locally
-# 	python bc_combined_modelling/vis/dashboard/app.py
 
 nexus:
 	@echo "Running BC Nexus model with 'workflow/scripts/BCNexus.py'..."

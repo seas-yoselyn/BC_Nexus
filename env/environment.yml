@@ -1,0 +1,4 @@
+name: bc_nexus
+channels:
+  - defaults
+prefix: /localhome/mei3/miniconda3/envs/bc_nexus

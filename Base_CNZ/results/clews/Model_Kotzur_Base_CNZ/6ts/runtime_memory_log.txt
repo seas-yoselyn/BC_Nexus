@@ -1,0 +1,10 @@
+Scenario: Base_CNZ
+Timeslices: 6
+Clustering Attributes - Hour Grouping: 12 , No of Clusters: 3 
+Runtime: 140.64 seconds (2.34 minutes)
+Run Start Time: 2025-11-19 16:08:06
+Run End Time: 2025-11-19 16:10:27
+Memory Usage: 1119.70 MB
+Linux User: mei3
+CPU Cores/Threads Used: 32
+--------------------------------------------------
