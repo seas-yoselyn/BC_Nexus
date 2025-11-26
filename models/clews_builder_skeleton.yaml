@@ -26,6 +26,24 @@ STORAGE_TECHNOLOGY:
     operational_life: 25
     variable_cost: 100000
 TECHNOLOGIES:
+  PWRBSW:
+    PWRBSWB01:
+      availability_factor: 0.7036363636363636
+      capacity: '[0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15,
+        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]'
+      capital_cost: 2076.52
+      efficiency: 0.40095671388167753
+      operational_life: 15
+      variable_cost: 8.1
+  PWRBCW:
+    PWRBCWB01: 
+      availability_factor: 0.7036363636363636
+      capacity: '[0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15,
+        0.0]'
+      capital_cost: 2076.52
+      efficiency: 0.40095671388167753
+      operational_life: 15
+      variable_cost: 8.1
   PWRURN:
     PWRURNB01: {}
   CCS:

@@ -37,14 +37,8 @@ TECHNOLOGIES:
       - 0
       - 0
       - 1
-      total_annual_min_capacity: 0.2
   HDG:
-    HDG02:
-      capital_cost: 20
-      efficiency: 0.7
-      input_fuel: NGS
-      operational_life: 20
-      total_annual_max_capacity: 30
+    HDG02: {}
   INFLOW:
     INFLOW01:
       capacity: 13.80168961708861
@@ -69,6 +63,15 @@ TECHNOLOGIES:
       - BC_STC_RES
       - BC_WGS_RES
       operational_life: 99
+  PWRBCW:
+    PWRBCWB01:
+      availability_factor: 0.7036363636363636
+      capacity: '[0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15,
+        0.0]'
+      capital_cost: 2076.52
+      efficiency: 0.40095671388167753
+      operational_life: 15
+      variable_cost: 8.1
   PWRBIO:
     PWRBIOB01:
       availability_factor: 0.8497798971482001
@@ -88,11 +91,17 @@ TECHNOLOGIES:
       efficiency: 0.2527512322320797
       operational_life: 30
       variable_cost: 6.58
+  PWRBSW:
+    PWRBSWB01:
+      availability_factor: 0.7036363636363636
+      capacity: '[0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15,
+        0.0, ]'
+      capital_cost: 2076.52
+      efficiency: 0.40095671388167753
+      operational_life: 15
+      variable_cost: 8.1
   PWRGEO:
-    PWRGEOB01:
-      capital_cost: 999999
-      operational_life: 50
-      total_annual_max_capacity_investment: 0
+    PWRGEOB01: {}
   PWRHYD:
     PWRHYDB01:
       capacity: 12.41801
@@ -210,12 +219,7 @@ TECHNOLOGIES:
       status: future
       variable_cost: 0.0
   PWRURN:
-    PWRURNB01:
-      capital_cost: 6041
-      efficiency: 0.3333
-      input_fuel: PWRURN
-      operational_life: 36
-      total_annual_max_capacity_investment: 0
+    PWRURNB01: {}
   PWRWND:
     PWRWNDB01:
       capacity: 0.102

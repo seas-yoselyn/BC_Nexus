@@ -259,7 +259,9 @@ TransformationTechnologies= [
   # Palm Oil Refinery
   
   # Palm oil blending plant
-  
+  # SwitchGrass Biofuel Powerplants  # EL_20251125 added
+  ['PWRBSWB', 'BSWCAN', '3.72', 'ELCB01', '1', 'Powerplant for Switchgrass Biofuel', '1'],
+  ['PWRBCWB', 'BCWCAN', '3.72', 'ELCB01', '1', 'Powerplant for Switchgrass Biofuel', '1']
   ]
 
 Powertech_attributes = {
@@ -281,6 +283,8 @@ PowerPlants= {
   'PWRGEOB':  ['Geothermal plant (Steam technology) on B grid, (? MW).', 6.67, 0.0021, 0.0006],
   'PWRURNB':  ['Nuclear plant (OT technology) on B grid, (? MW).', 3.0, 0.0378, 0.0375],
   'PWRHYDB':  ['Hydro Plants on B grid, (? MW).', 1.0, 0, 0],
+  'PWRBSWB':  ['Switchgrass Biofuel Powerplant on B grid.', 3.72, 0.0291, 0.0288], # EL_20251125 added
+  'PWRBCWB':  ['Switchgrass Biofuel Powerplant on B grid.', 3.72, 0.0291, 0.0288] # EL_20251125 added
 }
 
 
@@ -303,7 +307,8 @@ CropYieldFactors= {
   'PTW': 0.95,
   'RAP': 0.95,
   'RYE': 0.95,
-  'WHE': 0.95
+  'WHE': 0.95,
+  'SWI': 0.95 # EL_20251125 added
 }
 
 Limitations={
