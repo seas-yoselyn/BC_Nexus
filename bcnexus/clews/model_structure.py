@@ -260,8 +260,8 @@ TransformationTechnologies= [
   
   # Palm oil blending plant
   # SwitchGrass Biofuel Powerplants  # EL_20251125 added
-  ['PWRBSWB', 'BSWCAN', '3.72', 'ELCB01', '1', 'Powerplant for Switchgrass Biofuel', '1'],
-  ['PWRBCWB', 'BCWCAN', '3.72', 'ELCB01', '1', 'Powerplant for Switchgrass Biofuel', '1']
+  ['PWRBSWB', 'BSW', '3.72', 'ELCB01', '1', 'Powerplant for Switchgrass Biofuel', '1'],
+  ['PWRBCWB', 'BCW', '3.72', 'ELCB01', '1', 'Powerplant for Switchgrass Biofuel', '1']
   ]
 
 Powertech_attributes = {
@@ -286,8 +286,6 @@ PowerPlants= {
   'PWRBSWB':  ['Switchgrass Biofuel Powerplant on B grid.', 3.72, 0.0291, 0.0288], # EL_20251125 added
   'PWRBCWB':  ['Switchgrass Biofuel Powerplant on B grid.', 3.72, 0.0291, 0.0288] # EL_20251125 added
 }
-
-
 
 
 # Emissions to be tracked in the model.

@@ -1,6 +1,7 @@
 import sys
 from pathlib import Path
 from typing import Dict, Any
+import bcnexus.utils as utils
 
 # ============================================================
 # User-defined scenario list
@@ -77,7 +78,7 @@ def run_model(scenario: str, attributes: Dict[str, Any]) -> None:
     validate_run_attributes(attributes)
 
     # Merge attributes and scenario safely
-    args = {**attributes, "scenario": scenario}
+    args = {**attributes, "run_scenario": scenario}
 
     try:
         from bcnexus.clews.runner import RunModel
@@ -152,7 +153,7 @@ if __name__ == "__main__":
         try:
             run_model(scen, run_attributes)
         except Exception as e:
-            print(f"[CRITICAL] Model failed for '{scen}'. Continuing to next scenario.\n{e}")
+            utils.prin(f"[CRITICAL] Model failed for '{scen}'. Continuing to next scenario.\n{e}")
             continue
 
         # Attempt plotting even if model fails

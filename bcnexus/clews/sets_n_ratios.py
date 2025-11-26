@@ -534,6 +534,7 @@ def BuildCLEWsModel():
                 CropList[Crop] = CropCode
                 # And create the crop commodity for final output:
                 Fill_Set(NewSetItems, SetNames, "FUEL", "CRP" + CropCode, "#000000", Crop)
+                
             # And then we need to check if we have the combination already, and if not add it to the list.
             if CropCode + Intensity + IrrigationType in CropComboList:
                 CropCombo = CropComboList[CropCode + Intensity + IrrigationType]
