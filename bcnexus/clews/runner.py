@@ -520,6 +520,7 @@ class RunModel:
             input_csvs: str | Path=None,
             build:bool=False,
             include_livestock:bool=True,
+            include_agrivoltaic:bool=False,
             solver_name='gurobi',
             threads:int=32,
             machine_id:str=None):
@@ -559,6 +560,7 @@ class RunModel:
                 message=f' Running CLEWs Builder to prepare SETs and Params for scenario: {self.run_scenario} ')
             if build:
                 self.clewsBuilder.build(include_livestock=include_livestock,
+                                include_agrivoltaic=include_agrivoltaic,
                                 update_clews_builder=build)
         else:
             utils.print_update(level=1,

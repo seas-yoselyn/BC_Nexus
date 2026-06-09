@@ -82,8 +82,9 @@ NamingConvention = {
   'WND': 'Wind',
   'CCS' :'Carbon Capture and Storage',
   'BEF': 'Beef', # EL_20250606, for YOSE
-  'MIL': 'Milk'# EL_20250606, for YOSE
-  
+  'MIL': 'Milk',# EL_20250606, for YOSE
+  'PIG': 'Swine', 
+  'SHP': 'Sheep',
 }
 
 # The data for region RG1 will be in file data/clustering_results_RG1.csv
@@ -260,8 +261,8 @@ TransformationTechnologies= [
   
   # Palm oil blending plant
   # SwitchGrass Biofuel Powerplants  # EL_20251125 added
-  ['PWRBSWB', 'BSW', '3.72', 'ELCB01', '1', 'Powerplant for Switchgrass Biofuel', '1'],
-  ['PWRBCWB', 'BCW', '3.72', 'ELCB01', '1', 'Powerplant for Switchgrass Biofuel', '1']
+  ['PWRBSWB', 'LND4PWR', '0.293', '', '', 'Powerplant for Switchgrass Biofuel', '1'],
+  ['PWRBCWB', 'LND4PWR', '0.293', '', '', 'Powerplant for Clearwood Biofuel', '1']
   ]
 
 Powertech_attributes = {
@@ -290,7 +291,10 @@ PowerPlants= {
 
 # Emissions to be tracked in the model.
 Emissions= {
-  'CO2': ['Carbon dioxide emissions.','#00cc66']
+  'CO2': ['Carbon dioxide emissions.','#00cc66'],
+  'CH4_FER': ['Methane emissions from enteric fermentation', '#ff6600'],
+  'CH4_MAN': ['Methane emissions from manure management', '#9933cc'],
+  'N2O_MAN': ['Nitrous oxide emissions from manure management', '#9933cc'],
 }
 
 # Crop yield factors for calibrating the model.  Codes here must match crop codes in the land use data.
@@ -334,31 +338,76 @@ plot_technologies = {
 
 # --------------------------------------------------------------------------
 # Livestock Modelling
-Livestock_code:str='LVS'
+# --------------------------------------------------------------------------
 
-LivestockProduce:dict={
-  'BEF': 'Beef',
-  'MIL' : 'Milk'
+Livestock_code: str = 'LVS'
+
+LivestockProduce: dict = {
+    'BEF': 'Beef',
+    'MIL': 'Milk',
+    'PIG': 'Swine',
+    'SHP': 'Sheep',
 }
 
-# Livestock yield factors for calibrating the model , 2025 06 06 - for YOSE's work
-LivestockYieldFactors:dict = {
-    'BEF': 0.12,   # ton meat/ha must be updated
-    'MIL': 1.05    # ton milk/ha be updated
+LivestockPathways = {
+    'BEFN': {'label': 'Beef (natural pasture)',    'produce': 'BEF', 'pasture': 'N'},
+    'BEFC': {'label': 'Beef (cultivated pasture)', 'produce': 'BEF', 'pasture': 'C'},
+    'MIL':  {'label': 'Dairy', 'produce': 'MIL', 'pasture': None},
+    'PIG':  {'label': 'Swine', 'produce': 'PIG', 'pasture': None},
+    'SHP':  {'label': 'Sheep', 'produce': 'SHP', 'pasture': None},
 }
 
-LivestockProduceMeats:list= ['BEF']
-
-## Pasture types - generally do not change; for YOSE's work 20250606
-MeatPastureTypeList : dict= {
-    'N': 'Natural pastures',
-    'C': 'Cultivated pasture'
+# Stocking density (1000 heads per 1000 sq km)
+LivestockStockingDensity = {
+    'BEFN': 36.51,    
+    'BEFC': 48.77,    
+    'MIL':  224.817,  
+    'PIG':  7126.02,  #intensive
+    'SHP':  419.22
+    ,   
 }
 
-LivestockProduce_Modes:dict={
-  'MIL':60,
-  'BEF':61
-  }
+# Commodity yield: ktons per 1000 heads
+# Used as Level 3 OAR — how much product per head
+LivestockCommodityYield = {
+    'BEF': 0.3888,   
+    'MIL': 5.472,
+    'PIG': 0.885,
+    'SHP': 0.089,
+}
+
+# Land area: 1000 sq km, fixed at base year
+LivestockLandArea = {
+    'BEFN': 7.102,
+    'BEFC': 1.013,
+    'MIL':  0.709,
+    'PIG': 0.0124,
+    'SHP':  0.153,
+}
+
+# --------------------------------------------------------------------------
+# Agrivoltaic Modelling
+# --------------------------------------------------------------------------
+
+AgrivoltaicCrops: list = [
+    'MAI',   # Maize
+    'WHE',   # Wheat
+    'PTW',   # White potato
+]
+
+# Mode of operation for each agrivoltaic crop Need to update because I want script to do it automatically
+AgrivoltaicModes: dict = {
+    'MAI': 63,   # Agrivoltaic Maize
+    'WHE': 64,   # Agrivoltaic Wheat
+    'PTW': 65,   # Agrivoltaic White Potato
+}
+
+# Solar IAR(PJ of solar input per unit of crop output).
+AgrivoltaicSolarIAR: float = 1.0
+
+# Electricity OAR (PJ of electricity per unit of crop output).
+AgrivoltaicElecOAR: float = 1.0
+
 
 # EL_225115 added this to identify committed sites
 # type_of_techn : [name,contact_capacity(GW),commission_year]

@@ -764,7 +764,16 @@ def build(save_to='SETs'):
     
     OARextender = OAR_Extender(OARList) # EL_20251119 developed this class to add missing rows to OARList based on transformation technologies
     OARList = OARextender.apply() # Add missing rows (if any) from transformation technologies
-
+    
+    # Ensure all technologies referenced in OAR/IAR exist in the TECHNOLOGY set
+    tech_idx = SetNames.index('TECHNOLOGY')
+    existing_techs = {item['value'] for item in NewSetItems[tech_idx]}
+    for entry in OARList + IARList:
+        tech = entry['c'][1]
+        if tech not in existing_techs:
+            NewSetItems[tech_idx].append({'value': tech, 'name': '', 'color': '#000000'})
+            existing_techs.add(tech)
+    
     with open(save_to / 'ModeList.txt', 'w') as ModeFile:
         for idx, mode in enumerate(ModeList, 1):
             ModeFile.write(f"{idx}: {mode}\n")

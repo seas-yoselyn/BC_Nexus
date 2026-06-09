@@ -10,6 +10,7 @@ from bcnexus import utils
 from bcnexus.attributes_parser import AttributesParser
 from bcnexus.clews import datapackage as clews_data_module
 from bcnexus.clews import livestock as bcnexus_lvs
+from bcnexus.clews import agrivoltaic as bcnexus_agv
 from bcnexus.clews import schema as schema_processor
 from bcnexus.clews import sets_n_ratios, update_global_params, update_yearly_params
 
@@ -107,15 +108,24 @@ class BuildModel:
         clews_Data=clews_data_module.GetDataPackage(csvs_dir)
         
         SETS_dfs, Params_dfs=clews_Data.load_data()
-        for set,df in SETS_dfs.items():
-            for param, df in Params_dfs.items():
-                if 'TECHNOLOGY' in Params_dfs[param].columns:
-                    valid_technologies = list(SETS_dfs['TECHNOLOGY']['VALUE'])
-                    Params_dfs[param] = Params_dfs[param][Params_dfs[param]['TECHNOLOGY'].isin(valid_technologies)]
-                    Params_dfs[param].to_csv(csvs_dir/f"{param}.csv", index=False)
-                else:
+        
+        # Build validity lookups for each SET that appears as a column in params
+        valid_sets = {}
+        for set_name, set_df in SETS_dfs.items():
+            valid_sets[set_name] = set(set_df['VALUE'].astype(str))
+
+        for param, df in Params_dfs.items():
+            filtered = df
+            for col in df.columns:
+                if col == 'VALUE':
                     continue
-        return SETS_dfs,Params_dfs
+                if col in valid_sets:
+                    filtered = filtered[filtered[col].astype(str).isin(valid_sets[col])]
+            if len(filtered) != len(df):
+                Params_dfs[param] = filtered
+                filtered.to_csv(csvs_dir/f"{param}.csv", index=False)
+                
+        return SETS_dfs, Params_dfs
 
     def get_LandCluster_data(self):
         utils.print_update(level=PRINT_LEVEL_BASE+1,
@@ -128,7 +138,8 @@ class BuildModel:
     
     
     def build_SETs_and_ratios(self,
-                              include_livestock:bool=False):
+                              include_livestock:bool=False,
+                              include_agrivoltaic:bool=False):
         utils.print_update(level=PRINT_LEVEL_BASE,
             message="Building SETs and Ratios data...")
             
@@ -141,8 +152,47 @@ class BuildModel:
     #3. Collect Livestock data and build SETs including livestock data
         if include_livestock:
             utils.print_banner("Building Livestock SETs and Ratios data...")
-            bcnexus_lvs.main(csv_save_to=self.SETs_save_to) # handles all sets including livestock
 
+            livestock_sets = bcnexus_lvs.get_Livestock_SETs()
+            NewSetItems = bcnexus_lvs.update_SetItems_with_Livestock(
+                SetNames, NewSetItems, livestock_sets
+            )
+
+            agr_mode_count = len(NewSetItems[SetNames.index('MODE_OF_OPERATION')])
+            livestock_modes = bcnexus_lvs._assign_livestock_modes(agr_mode_count)
+
+            IARList, OARList = bcnexus_lvs.update_IARlist(
+                IARList_existing=IARList,
+                OARList_existing=OARList,
+                livestock_sets=livestock_sets,
+                livestock_modes=livestock_modes,
+            )
+
+            # Overwrite CSVs with the combined (base + livestock) data
+            sets_n_ratios.UpdateSETS(
+                SetNames=SetNames,
+                NewSetItems=NewSetItems,
+                IARList=IARList,
+                OARList=OARList,
+                csv_save_to=self.SETs_save_to,
+            )
+
+            # Ensure livestock modes are in MODE_OF_OPERATION.csv
+            bcnexus_lvs.update_mode_of_operation_csv(
+                self.SETs_save_to, livestock_modes
+            )
+
+    
+    #3. Collect Agrivoltaics data and build SETs including agrivoltaic data
+        if include_agrivoltaic:
+            utils.print_banner("Building AGV SETs and Ratios data...")
+            bcnexus_agv.main(
+                csv_save_to=self.SETs_save_to,
+                SetNames=SetNames,
+                NewSetItems=NewSetItems,
+                IARList=IARList,
+                OARList=OARList
+    )
     ## NOT NEEDED : EL_20251115
     # ---------------------------
         # Update STORAGE TECHNOLOGY in TECHNOLOGY SET
@@ -163,18 +213,18 @@ class BuildModel:
         # else:
         #     pass
     # ---------------------------
-        #4. Handle missing FUELs in FUEL SET
-            # Handles the missing fuel LND4PWR in FUELs
-            FUEL_set_file_path=Path(self.SETs_save_to / 'FUEL.csv')
-            FUEL_df=pd.read_csv(FUEL_set_file_path)
+    #4. Handle missing FUELs in FUEL SET
+         # Handles the missing fuel LND4PWR in FUELs
+        FUEL_set_file_path=Path(self.SETs_save_to / 'FUEL.csv')
+        FUEL_df=pd.read_csv(FUEL_set_file_path)
             
-            new_fuels = ['LND4PWR', 'CO2CCS',]
-            for fuel in new_fuels:
-                if fuel not in FUEL_df['VALUE'].values:
-                    new_row = pd.DataFrame([{'VALUE': fuel}])
-                    FUEL_df = pd.concat([FUEL_df, new_row], ignore_index=True)
-                    FUEL_df.to_csv(FUEL_set_file_path, index=False)
-                    utils.print_update(level=3,
+        new_fuels = ['LND4PWR', 'CO2CCS',]
+        for fuel in new_fuels:
+            if fuel not in FUEL_df['VALUE'].values:
+                new_row = pd.DataFrame([{'VALUE': fuel}])
+                FUEL_df = pd.concat([FUEL_df, new_row], ignore_index=True)
+                FUEL_df.to_csv(FUEL_set_file_path, index=False)
+                utils.print_update(level=3,
                     message=f"File Updated with FUEL: {fuel}")
         
         # Handle additional MODE_OF_OPERATION 
@@ -774,15 +824,16 @@ class BuildModel:
     
     def build(self,
             include_livestock:bool=True,
+            include_agrivoltaic:bool=False,
             update_clews_builder: bool=True):
 
     # Builds SETs and Ratios (input/output activities) if the Model structure/connection needs to be changed.
         # EL_20251116 , spotted bugs in outputs
-        self.build_SETs_and_ratios(include_livestock) # has bugs
+        self.build_SETs_and_ratios(include_livestock, include_agrivoltaic) # has bugs
         utils.copy_csv_files(src_folder=self.SETs_save_to, 
                              dest_folder=self.clews_build_input_csv_dir, 
                              all_files=True)
-        # self.clean_up_SETs_and_Params_definitions()
+        self.clean_up_SETs_and_Params_definitions()
     
     #------------------------------------------------------------ 
     # @config/clews_builder.config
