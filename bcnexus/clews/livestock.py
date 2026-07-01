@@ -171,7 +171,27 @@ def update_IARlist(IARList_existing: list,
                              region, lnd_tech, base_land_fuel, 1, year, 1)
                     _add_oar(seen_oar, OARList_new,
                              region, lnd_tech, alloc_fuel, 1, year, 1)
+                    # Level 1 — natural water balance (mode 1)
+                    # Mirrors the non-crop land-use water-balance pattern from sets_n_ratios.py.
+                    # Parameters defined in model_structure.py and flagged as placeholders for
+                    # BC-specific calibration (FAO, Mekonnen & Hoekstra, AAFC, NRC).
+                    prc = ms.LivestockRegionalPrecipitation.get(land_region, 0)
+                    if prc > 0:
+                        et_frac = ms.LivestockEvapotranspirationPercent[pathway]
+                        gw_frac = ms.LivestockGroundwaterPercentofExcess[pathway]
+                        et_val  = prc * et_frac
+                        excess  = prc - et_val
+                        grc_val = excess * gw_frac
+                        sur_val = excess * (1 - gw_frac)
 
+                        _add_iar(seen_iar, IARList_new,
+                                region, lnd_tech, f'WTRPRC{land_region}', 1, year, prc)
+                        _add_oar(seen_oar, OARList_new,
+                                region, lnd_tech, f'WTREVT{land_region}', 1, year, et_val)
+                        _add_oar(seen_oar, OARList_new,
+                                region, lnd_tech, f'WTRGRC{land_region}', 1, year, grc_val)
+                        _add_oar(seen_oar, OARList_new,
+                                region, lnd_tech, f'WTRSUR{land_region}', 1, year, sur_val)
                     # Level 2 — herd tech
                     _add_iar(seen_iar, IARList_new,
                              region, hrd_tech, alloc_fuel, mode, year, 1)

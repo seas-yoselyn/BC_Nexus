@@ -147,7 +147,7 @@ class BuildModel:
         self.get_LandCluster_data()
     
     #2. Build base SETs and Ratios
-        SetNames,NewSetItems,IARList,OARList=    sets_n_ratios.build(self.SETs_save_to)
+        SetNames,NewSetItems,IARList,OARList,EARList=    sets_n_ratios.build(self.SETs_save_to)
     
     #3. Collect Livestock data and build SETs including livestock data
         if include_livestock:
@@ -174,6 +174,7 @@ class BuildModel:
                 NewSetItems=NewSetItems,
                 IARList=IARList,
                 OARList=OARList,
+                EARList=OARList,
                 csv_save_to=self.SETs_save_to,
             )
 
@@ -182,8 +183,20 @@ class BuildModel:
                 self.SETs_save_to, livestock_modes
             )
 
+            # Sync livestock modes into NewSetItems so downstream consumers
+            # (e.g. agrivoltaic mode assignment) see the correct mode count.
+            mop_idx = SetNames.index('MODE_OF_OPERATION')
+            existing_mode_values = {item['value'] for item in NewSetItems[mop_idx]}
+            for pw, mode in livestock_modes.items():
+                if str(mode) not in existing_mode_values:
+                    NewSetItems[mop_idx].append({
+                        'value': str(mode),
+                        'name': f'Livestock pathway {pw}',
+                        'color': '#000000'
+                    })
+
     
-    #3. Collect Agrivoltaics data and build SETs including agrivoltaic data
+        #4. Collect Agrivoltaics data and build SETs including agrivoltaic data
         if include_agrivoltaic:
             utils.print_banner("Building AGV SETs and Ratios data...")
             bcnexus_agv.main(
@@ -191,8 +204,8 @@ class BuildModel:
                 SetNames=SetNames,
                 NewSetItems=NewSetItems,
                 IARList=IARList,
-                OARList=OARList
-    )
+                OARList=OARList,
+            )
     ## NOT NEEDED : EL_20251115
     # ---------------------------
         # Update STORAGE TECHNOLOGY in TECHNOLOGY SET

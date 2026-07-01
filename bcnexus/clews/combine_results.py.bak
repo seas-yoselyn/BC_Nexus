@@ -1,0 +1,106 @@
+"""
+combine_results.py
+------------------
+Combines all OSeMOSYS result CSVs from a given results directory into a single
+wide-format file (CSV or XLSX), matching the structure of data_energy_output.xlsx.
+"""
+
+import argparse
+import pandas as pd
+from pathlib import Path
+
+# All possible index columns across all result files
+INDEX_COLS = ['REGION', 'TECHNOLOGY', 'FUEL', 'EMISSION', 'TIMESLICE', 'YEAR']
+
+
+def load_result_file(filepath: Path) -> pd.DataFrame:
+    """
+    Load a single result CSV and return a dataframe with:
+    - All index columns present (NaN if not in file)
+    - VALUE column renamed to the parameter name (filename without extension)
+    """
+    df = pd.read_csv(filepath)
+    param_name = filepath.stem  # e.g. 'TotalCapacityAnnual'
+
+    # Identify which index columns are present in this file
+    present_index = [col for col in INDEX_COLS if col in df.columns]
+
+    # Rename VALUE to the parameter name
+    if 'VALUE' not in df.columns:
+        print(f"  ⚠️  Skipping {param_name}: no VALUE column found. Columns: {list(df.columns)}")
+        return None
+
+    df = df[present_index + ['VALUE']].rename(columns={'VALUE': param_name})
+
+    # Add missing index columns as NaN so merge works correctly
+    for col in INDEX_COLS:
+        if col not in df.columns:
+            df[col] = None
+
+    # Cast all index columns to string to avoid type mismatch on merge
+    for col in INDEX_COLS:
+        df[col] = df[col].astype(str).replace("None", pd.NA).replace("nan", pd.NA)
+
+    return df[INDEX_COLS + [param_name]]
+
+
+def combine_results(results_dir: str, output_path: str) -> None:
+    results_dir = Path(results_dir)
+    output_path = Path(output_path)
+
+    csv_files = sorted(results_dir.glob('*.csv'))
+    if not csv_files:
+        print(f"No CSV files found in {results_dir}")
+        return
+
+    print(f"Found {len(csv_files)} result files in {results_dir}")
+
+    combined = None
+
+    for filepath in csv_files:
+        print(f"  Processing: {filepath.name}")
+        df = load_result_file(filepath)
+        if df is None:
+            continue
+
+        if combined is None:
+            combined = df
+        else:
+            # Outer merge on all index columns to preserve all rows
+            combined = pd.merge(combined, df, on=INDEX_COLS, how='outer')
+
+    if combined is None:
+        print("No valid files were loaded.")
+        return
+
+    # Sort by the most common index columns for readability
+    sort_cols = [c for c in ['REGION', 'TECHNOLOGY', 'FUEL', 'EMISSION', 'TIMESLICE', 'YEAR']
+                 if c in combined.columns]
+    combined = combined.sort_values(sort_cols, na_position='last').reset_index(drop=True)
+
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    if output_path.suffix.lower() in ('.xlsx', '.xls'):
+        # Excel has a ~1M row limit per sheet; warn if exceeded
+        if len(combined) > 1_048_575:
+            print(f"  ⚠️  Warning: {len(combined):,} rows exceeds Excel's 1,048,576-row limit. "
+                  f"Some rows will be truncated. Consider using a .csv output instead.")
+        combined.to_excel(output_path, index=False, engine='openpyxl')
+    else:
+        combined.to_csv(output_path, index=False)
+
+    print(f"\n✅ Combined file saved to: {output_path}")
+    print(f"   Rows: {len(combined):,}")
+    print(f"   Columns: {len(combined.columns)} ({len(INDEX_COLS)} index + {len(combined.columns) - len(INDEX_COLS)} parameters)")
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Combine OSeMOSYS result CSVs into a single wide-format file.')
+    parser.add_argument('--results_dir', type=str, required=True,
+                        help='Path to the folder containing result CSV files')
+    parser.add_argument('--output', type=str, default='results_combined.csv',
+                        help='Output file path. Use .xlsx for Excel, .csv otherwise '
+                             '(default: results_combined.csv)')
+    args = parser.parse_args()
+
+    combine_results(args.results_dir, args.output)

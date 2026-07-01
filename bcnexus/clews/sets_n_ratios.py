@@ -22,7 +22,8 @@ Original concept and script (C) Taco Niet 2019
 def UpdateSETS(SetNames:list, 
                  NewSetItems:list, 
                  IARList:list, 
-                 OARList:list, 
+                 OARList:list,
+                 EARList:list,
                  csv_save_to:str):
     
     csv_save_to = Path(csv_save_to)
@@ -54,6 +55,14 @@ def UpdateSETS(SetNames:list,
     with oar_file.open('w') as f:
         f.write('REGION,TECHNOLOGY,FUEL,MODE_OF_OPERATION,YEAR,VALUE\n')
         for item in OARList:
+            f.write(','.join(map(str, item['c'])) + ',' + str(item['v']) + '\n')
+
+    # And output the EAR for otoole:
+    ear_file = csv_save_to / 'EmissionActivityRatio.csv'
+    utils.print_update(level=PRINT_LEVEL_BASE+1,message=f"Writing Emission Activity Ratios to {ear_file}")
+    with ear_file.open('w') as f:
+        f.write('REGION,TECHNOLOGY,EMISSION,MODE_OF_OPERATION,YEAR,VALUE\n')
+        for item in EARList:
             f.write(','.join(map(str, item['c'])) + ',' + str(item['v']) + '\n')
             
     # mop_file = csv_save_to / 'MODE_OF_OPERATION.csv'
@@ -210,6 +219,7 @@ def BuildCLEWsModel():
     NewSetGroups = []
     IARList = []
     OARList = []
+    EARList = []
 
     # Create set YEARS
     # First create the new set name for year and add space for groups and items for this set
@@ -588,6 +598,16 @@ def BuildCLEWsModel():
                         "LNDAGR" + LandRegion + "C" + Clusters[clustercount].split(',')[0].zfill(2),
                         "CRP" + modeCombo[:-2], OARList, g = str(mode + 1), v = str(Value))
 
+                        # Direct + indirect N2O from agricultural soils
+                        # Applied only to crop modes (this if-branch); non-crop
+                        # land uses (FOR, SET, etc.) are added in a separate loop.
+                        AddActivityListItems(Years, Region,
+                        "LNDAGR" + LandRegion + "C" + Clusters[clustercount].split(',')[0].zfill(2),
+                        "N2O_DIR", EARList, g = str(mode + 1), v = str(clews_const.EF_N2O_DIR))
+                        AddActivityListItems(Years, Region,
+                        "LNDAGR" + LandRegion + "C" + Clusters[clustercount].split(',')[0].zfill(2),
+                        "N2O_IND", EARList, g = str(mode + 1), v = str(clews_const.EF_N2O_IND))
+
                         # IAR for Irrigation
                         Location = IrrigationWaterDeficitClusters[0].strip().split(',').index(CropComboLabel)
                         IrrigationValue = float(IrrigationWaterDeficitClusters[clustercount].split(',')[Location])
@@ -752,6 +772,7 @@ def BuildCLEWsModel():
             NewSetItems, 
             IARList, 
             OARList,
+            EARList,
             ModeList)
     
     
@@ -760,7 +781,7 @@ def build(save_to='SETs'):
     utils.print_banner("Building CLEWs SETs")
     utils.print_info(f"Saving to directory: {save_to}")
     utils.print_info("Model Structure: 'bcnexus/clews/model_structure.py'")
-    SetNames, NewSetItems, IARList, OARList,ModeList=BuildCLEWsModel()
+    SetNames, NewSetItems, IARList, OARList, EARList, ModeList = BuildCLEWsModel()
     
     OARextender = OAR_Extender(OARList) # EL_20251119 developed this class to add missing rows to OARList based on transformation technologies
     OARList = OARextender.apply() # Add missing rows (if any) from transformation technologies
@@ -781,7 +802,8 @@ def build(save_to='SETs'):
     UpdateSETS(SetNames,
                 NewSetItems, 
                 IARList, 
-                OARList, 
+                OARList,
+                EARList, 
                 save_to)
     
     clews_set_builder_limitaitons=clews_const.Limitations
@@ -792,7 +814,8 @@ def build(save_to='SETs'):
     return (SetNames, 
             NewSetItems, 
             IARList, 
-            OARList)
+            OARList, 
+            EARList)
 
 def check_landcluster_data(landcluser_config:dict,
                            land_to_grid_map:dict):

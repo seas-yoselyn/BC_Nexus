@@ -295,7 +295,13 @@ Emissions= {
   'CH4_FER': ['Methane emissions from enteric fermentation', '#ff6600'],
   'CH4_MAN': ['Methane emissions from manure management', '#9933cc'],
   'N2O_MAN': ['Nitrous oxide emissions from manure management', '#9933cc'],
+  'N2O_DIR': ['Direct nitrous oxide emissions from agricultural soils', '#9933cc'],
+  'N2O_IND': ['Indirect nitrous oxide emissions from agricultural soils', '#9933cc'],
 }
+
+
+EF_N2O_DIR = 0.0000308
+EF_N2O_IND = 0.0000134
 
 # Crop yield factors for calibrating the model.  Codes here must match crop codes in the land use data.
 # -------->>>>>>>>>>>>>>>>>>> needs to be automated
@@ -385,29 +391,100 @@ LivestockLandArea = {
     'SHP':  0.153,
 }
 
+# Water-balance parameters for livestock land use
+# Taken from Geoclews, values for grassland
+LivestockEvapotranspirationPercent = {
+    'BEFN': 0.694,   
+    'BEFC': 0.694,   
+    'MIL':  0.694,   
+    'PIG':  0.694,   
+    'SHP':  0.694,   
+}
+
+# Fraction of excess water
+# Taken from Geoclews, values for grassland
+LivestockGroundwaterPercentofExcess = {
+    'BEFN': 0.051,   # GRS proxy
+    'BEFC': 0.060,   # placeholder
+    'MIL':  0.060,   # placeholder
+    'PIG':  0.072,   # BLT proxy
+    'SHP':  0.051,   # GRS proxy
+}
+
+# BC1 area weighted precipitation from Geoclews
+LivestockRegionalPrecipitation = {
+    'BC1': 0.9682,  
+}
+
+
 # --------------------------------------------------------------------------
 # Agrivoltaic Modelling
 # --------------------------------------------------------------------------
+#
 
-AgrivoltaicCrops: list = [
-    'MAI',   # Maize
-    'WHE',   # Wheat
-    'PTW',   # White potato
-]
+Agrivoltaic_code: str = 'AGV'
 
-# Mode of operation for each agrivoltaic crop Need to update because I want script to do it automatically
-AgrivoltaicModes: dict = {
-    'MAI': 63,   # Agrivoltaic Maize
-    'WHE': 64,   # Agrivoltaic Wheat
-    'PTW': 65,   # Agrivoltaic White Potato
+# One entry per agrivoltaic pathway. Pathway key is the short code used
+# in tech/fuel identifiers (e.g. LNDAGV{pathway}{region}). Keep it short
+# — typically the crop code unless multiple pathway variants per crop are
+# needed (e.g. fixed vs. tracking panels).
+AgrivoltaicPathways = {
+    'MAI': {'label': 'Agrivoltaic Maize',        'crop': 'MAI'},
+    'WHE': {'label': 'Agrivoltaic Wheat',        'crop': 'WHE'},
+    'PTW': {'label': 'Agrivoltaic White Potato', 'crop': 'PTW'},
 }
 
-# Solar IAR(PJ of solar input per unit of crop output).
-AgrivoltaicSolarIAR: float = 1.0
+# Crop yield derate under moderate-shade agrivoltaic geometry.
+# Per-crop values from primary AGV field and simulation literature;
+# see thesis Section 3.X for full derivation.
+#
+# References:
+#   MAI: Ramos-Fuentes et al. (2023) 7.7% reduction at 20-25% shade;
+#        Amaducci et al. (2018) maize under Agrovoltaico simulation
+#   WHE: Weselek et al. (2021) Heggelbach pilot +2.7% in 2018;
+#        Dupraz et al. (2011) STICS modelling, LER 1.35-1.7
+#   PTW: Weselek et al. (2021) +11% potato in 2018;
+#        Colauzzi et al. (2026) 4-year Italian trial -12% at ST1
+#   Cross-cutting: Laub et al. (2022) meta-analysis yield response
+AgrivoltaicCropYieldFactor = {
+    'MAI': 0.92,
+    'WHE': 0.95,
+    'PTW': 0.88,
+}
 
-# Electricity OAR (PJ of electricity per unit of crop output).
-AgrivoltaicElecOAR: float = 1.0
+# Shade derate applied to BOTH irrigation demand and evapotranspiration.
+# Marrou et al. (2013) half-density wheat cycle: 0.68 PAR transmission.
+# Weselek et al. (2021) Heggelbach pilot: 0.70 mean PAR.
+# Single value across crops; crop-specific refinement deferred.
+AgrivoltaicShadeFactor = 0.70
 
+# Solar resource incident on AGV land, BC-wide area-weighted.
+# Natural Resources Canada (NRCan) annual horizontal global insolation
+# for BC agricultural areas: ~3.4 kWh/m^2/day annual average.
+# Conversion: 3.4 kWh/m^2/day x 365 d/yr x 1314 = 4,470 PJ per 1000 km^2 yr.
+# Applied uniformly across GeoCLEWs clusters; PV resource heterogeneity
+# is smaller than crop-yield heterogeneity, and Saedi (2023) cluster
+# assignments do not preserve raster-cell mappings needed for area-
+# weighted cluster-level PV averaging.
+AgrivoltaicSolarInput = {
+    'MAI': 4470.0,
+    'WHE': 4470.0,
+    'PTW': 4470.0,
+}
+
+# Electricity yield from single-axis-tracking bifacial agrivoltaic
+# systems on BC agricultural land.
+# Source: Jamil, Bonnington & Pearce (2023, Sustainability 15:3228)
+# SAM simulation of Heliene 72M-405 G1 bifacial modules with 20 m
+# inter-row spacing for farm-equipment access. BC area-weighted
+# average across 750 kWh/kWp and 950 kWh/kWp zones.
+# Derivation: 4,007 GWh/yr on 1% of ~25,500 km^2 BC cropland
+# = 56 PJ per 1000 km^2 per year.
+AgrivoltaicElectricityYield = {
+    'MAI': 56.0,
+    'WHE': 56.0,
+    'PTW': 56.0,
+}
 
 # EL_225115 added this to identify committed sites
 # type_of_techn : [name,contact_capacity(GW),commission_year]
