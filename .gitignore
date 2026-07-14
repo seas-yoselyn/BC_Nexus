@@ -30,3 +30,4 @@ config/clews_builder.yaml
 data/clews_data/NE_study
 Base_CNZ
 Base_CNZ_noCCS
+data/clews_data/SETs/OutputActivityRatio.csv

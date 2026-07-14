@@ -52,7 +52,7 @@ class AttributesParser:
     # Define constants for defaults
         self.DEFAULT_STORAGE_ALGORITHM:str = "Kotzur"
         self.supported_storage_algorithms:list = ["Kotzur", "Niet"]
-        self.runtag:str = datetime.now().strftime("%Y_%d_%m")  # Timestamp for tagging runs
+        self.runtag:str = datetime.now().strftime("%Y%m%d")  # Timestamp for tagging runs
       
     # CLEWs Builder related paths
         self.clews_data_root=utils.ensure_path('data/clews_data')
@@ -140,6 +140,7 @@ class AttributesParser:
         try:
             start_year=int(clews_snapshot['start'])
             last_year=int(clews_snapshot['end'])
+            print(f"{__name__} | CLEWs snapshot configuration: start_year={start_year}, last_year={last_year}")
             return (start_year, last_year)
         except (KeyError, TypeError, ValueError) as e:
             raise ValueError(f"{__name__} | Invalid snapshot configuration at 'bcnexus/clews/model_structure.py': {e}")

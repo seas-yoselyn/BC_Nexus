@@ -1665,7 +1665,7 @@ def create_schema_hydro(df, cascade_groups, id_prefix):
             'closure_year': 2050,
             'input ratio': 1,
             'status': 'existing',
-            'variable_cost': 0.01 # EL_20260713 tie-breaker cost (M$/PJ) to remove LP degeneracy (free-energy overproduction)
+            # 'variable_cost': 0.01 # EL_20260713 tie-breaker cost (M$/PJ) to remove LP degeneracy (free-energy overproduction)
         }
         
         # Increment the index for the next group

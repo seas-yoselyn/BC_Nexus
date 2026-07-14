@@ -29,9 +29,14 @@ TECHNOLOGIES:
     CCS01:
       capital_cost: 9999
       operational_life: 25
-      total_annual_max_capacity: 0
+      total_annual_max_capacity: 0.2
       total_annual_max_capacity_investment:
       - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 1
   HDG:
     HDG02: {}
   INFLOW:

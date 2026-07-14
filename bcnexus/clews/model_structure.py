@@ -15,7 +15,7 @@ Regions= {'REGION1': ['BC','#000000']}
 # Add or reduce the model time horizon as needed.
 snapshot={ 
   'start': 2021,
-  'end':2026
+  'end': 2040
   }
 
 HYDRO_GENERATION= {

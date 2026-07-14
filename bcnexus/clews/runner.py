@@ -363,7 +363,7 @@ class RunModel:
         if results_save_to:
             self.otoole_results_dir=utils.ensure_path(results_save_to)
         else:
-            self.otoole_results_dir = utils.ensure_path(self.scenario_results_root / f'{self.timeslices}ts_csvs_{solver_name}_{self.aparser.runtag}')
+            self.otoole_results_dir = utils.ensure_path(self.scenario_results_root / f'{self.timeslices}ts_{self.aparser.runtag} '/f'{self.timeslices}ts_csvs_{solver_name}')
         
         if debug_mode:
             otoole_results_cmd= f"otoole -v results {solver_name} csv {self.solution_path} {self.otoole_results_dir} csv {self.input_csvs} {self.otoole_yaml_file}"
@@ -562,6 +562,7 @@ class RunModel:
             utils.print_update(level=1,
                 message=f' Running CLEWs Builder to prepare SETs and Params for scenario: {self.run_scenario} ')
             if build:
+                self.clewsBuilder.get_csv_template(force_replace=True)
                 self.clewsBuilder.build(include_livestock=include_livestock,
                                 update_clews_builder=build)
         else:

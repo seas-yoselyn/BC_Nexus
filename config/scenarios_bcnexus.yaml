@@ -31,19 +31,19 @@ SCENARIOS:
   #         total_annual_max_capacity_investment: '[0,0,0,0,0,1]'
 
   #scenario
-  # Base_CNZ:
-  #   Demand: {}
-  #   EMISSION: {}
-  #   TECHS:
-  #     CCS01:
-  #       capital_cost: 9999 # we can also prove a vector e.g. [xxx xxx ]
-  #       total_annual_max_capacity: 0.2 #GW
-  #       operational_life: 25
-  #       total_annual_max_capacity_investment: [ 0, 0, 0, 0, 0, 1 ]
-  #     HDG01:
-  #       operational_life: 25
-  #       total_annual_max_capacity: 0.2 #GW
-  #       total_annual_max_capacity_investment: [ 0, 0, 0, 0, 0, 1 ]
+  Base_CNZ:
+    Demand: {}
+    EMISSION: {}
+    TECHS:
+      CCS01:
+        capital_cost: 9999 # we can also prove a vector e.g. [xxx xxx ]
+        total_annual_max_capacity: 0.2 #GW
+        operational_life: 25
+        total_annual_max_capacity_investment: [ 0, 0, 0, 0, 0, 1 ]
+      HDG01:
+        operational_life: 25
+        total_annual_max_capacity: 0.2 #GW
+        total_annual_max_capacity_investment: [ 0, 0, 0, 0, 0, 1 ]
   Base_CNZ_noCCS:
     Demand: {}
     EMISSION: {}
