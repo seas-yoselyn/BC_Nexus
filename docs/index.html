@@ -218,7 +218,9 @@ body.present .hero h1{margin-top:0}
       <a href="#constraints">Constraints</a>
       <a href="#variants">Variants</a>
       <a href="#structure">Structure</a>
+      <a href="resources/package_workflow.html" target="_blank" rel="noopener">Package</a>
       <a href="#suite">Suite</a>
+      <a href="#contribute">Contribute</a>
     </nav>
     <div class="bar-right">
       <a class="ib" href="https://github.com/DeltaE/BC_Nexus" target="_blank" rel="noopener" title="Source code on GitHub">
@@ -263,10 +265,11 @@ body.present .hero h1{margin-top:0}
   implications of expanding electricity supply. It couples three subsystems (Water, Food/land, Energy) to climate.</p>
   <div class="facts">
     <div class="fact"><div class="n">WFE → Climate</div><div class="l">Water · Food/land · Energy subsystems coupled through CO₂ emissions</div></div>
-    <div class="fact"><div class="n">Flexible time</div><div class="l">User-defined temporal resolution — time-slices &amp; seasons chosen to capture both <b>diurnal</b> and <b>seasonal</b> attributes of VRE supply and demand</div></div>
+    <div class="fact"><div class="n">Flexible time</div><div class="l">User-defined temporal resolution via clustering (<span class="mono">hour_grouping</span> × <span class="mono">n_clusters</span>, e.g. 30 timeslices) to capture both <b>diurnal</b> and <b>seasonal</b> VRE patterns
+      <span class="tiny">Base model horizon: <b>2020–2050</b>, British Columbia (single region, grid B).</span></div></div>
     <div class="fact"><div class="n">Bottom-up</div><div class="l">Explicit technologies, fuels and flows form a reference energy system</div></div>
-    <div class="fact"><div class="n">LP</div><div class="l">Linear cost optimisation over a multi-year horizon
-      <span class="tiny">Becomes a <b>MILP</b> when integer unit-builds are activated via <code>CapacityOfOneTechnologyUnit[r,t,y]</code> (and reserve/maintenance integer options) — see OSeMOSYS capacity constraints.</span></div></div>
+    <div class="fact"><div class="n">LP</div><div class="l">Linear cost optimisation over the horizon
+      <span class="tiny">The base case is a pure <b>LP</b> — <code>CapacityOfOneTechnologyUnit</code> is left unused. Activating it turns the model into a <b>MILP</b> (integer unit-builds).</span></div></div>
   </div>
 </section>
 
@@ -292,6 +295,9 @@ body.present .hero h1{margin-top:0}
     <a class="card" target="_blank" rel="noopener" href="resources/BCNexus_CLEWs_model_documentation.html#landuse">
       <div class="ico">🗺️</div><h3>Land-use constraints ★</h3>
       <p>The CLEWs heart: LU1–LU4 bound land-use activity per mode in level and in year-on-year rate of change.</p><span class="more">Inspect LU1–LU4 ↗</span></a>
+    <a class="card" target="_blank" rel="noopener" href="resources/package_workflow.html">
+      <div class="ico">🧩</div><h3>Package &amp; workflow</h3>
+      <p>Interactive map of the <span class="mono">bcnexus</span> Python package and how one <span class="mono">run()</span> call turns CSVs into a solved model — click any module or step.</p><span class="more">Explore architecture ↗</span></a>
     <a class="card" target="_blank" rel="noopener" href="https://github.com/DeltaE/BC_Nexus">
       <div class="ico">⌥</div><h3>Source code</h3>
       <p>The authoritative model files, otoole configs and run workflow live in the BC_Nexus repository.</p><span class="more">Browse the repo ↗</span></a>
@@ -472,6 +478,46 @@ body.present .hero h1{margin-top:0}
       </div>
       <p style="margin:16px 0 0;color:var(--muted);font-size:.94rem">Explore the umbrella project:
       <a href="https://github.com/DeltaE/BC_Combined_Modelling" target="_blank" rel="noopener" style="color:var(--accent)">DeltaE/BC_Combined_Modelling ↗</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- 10 CONTRIBUTE -->
+<section id="contribute" class="reveal">
+  <span class="eyebrow">Get involved</span>
+  <h2 class="title">Run it, contribute, connect</h2>
+  <p class="sec-lede">A quick path from clone to results, how to contribute changes, and how to reach the developer.</p>
+  <div class="cards">
+    <div class="card">
+      <div class="ico">⚡</div><h3>Quick start</h3>
+      <p style="color:var(--muted)">On Linux / WSL with Anaconda:</p>
+      <pre style="margin:10px 0 0;background:rgba(0,0,0,.25);border:1px solid var(--brd);border-radius:10px;padding:12px 14px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:.78rem;line-height:1.7;color:var(--muted)">git clone https://github.com/DeltaE/BC_Nexus
+cd BC_Nexus
+conda env create --file env/environment.yaml
+conda activate bcnexus
+bash install_bcnexus.sh        <span style="color:var(--green)"># or: pip install .</span>
+bash dashboard.sh              <span style="color:var(--green)"># sample results + dashboard</span></pre>
+      <p style="margin:12px 0 0;color:var(--muted);font-size:.9rem">Then configure &amp; run via <span class="mono">BCNexus.py</span> or <span class="mono">BCNexus.ipynb</span> — pick scenario, storage algorithm (Kotzur/Niet), clustering and solver (<span class="mono">gurobi</span> / <span class="mono">cbc</span>) and threads.</p>
+    </div>
+    <a class="card" target="_blank" rel="noopener" href="https://github.com/DeltaE/BC_Nexus/pulls">
+      <div class="ico">🌿</div><h3>How to contribute</h3>
+      <p>The standard GitHub flow:</p>
+      <ol style="margin:8px 0 0;padding-left:18px;color:var(--muted);font-size:.92rem;line-height:1.7">
+        <li>Fork the repository</li>
+        <li>Create a feature branch (<span class="mono">git checkout -b feature/idea</span>)</li>
+        <li>Commit your changes</li>
+        <li>Push and open a Pull Request</li>
+      </ol>
+      <p style="margin:10px 0 0;color:var(--muted);font-size:.86rem">Hitting solver/Gurobi-license or <span class="mono">DOT/graphviz</span> setup issues? The wiki's Troubleshooting &amp; Known-issues notes cover the common fixes (incl. the free CBC fallback).</p>
+      <span class="more" style="color:var(--accent);font-weight:600;font-size:.86rem">Open pull requests ↗</span></a>
+    <div class="card">
+      <div class="ico">🤝</div><h3>Connect with the developer</h3>
+      <p style="color:var(--muted)">Muhammad Eliasinul Islam (EL) — Delta E+ Research Lab, Simon Fraser University. Co-developer of BCNexus and the storage-in-OSeMOSYS framework.</p>
+      <div style="display:flex;flex-direction:column;gap:9px;margin-top:14px">
+        <a class="btn ghost" style="justify-content:flex-start;padding:10px 16px" target="_blank" rel="noopener" href="https://github.com/eliasinul">⌥ github.com/eliasinul ↗</a>
+        <a class="btn ghost" style="justify-content:flex-start;padding:10px 16px" target="_blank" rel="noopener" href="https://www.linkedin.com/in/eliasinul/">in · linkedin.com/in/eliasinul ↗</a>
+        <a class="btn ghost" style="justify-content:flex-start;padding:10px 16px" target="_blank" rel="noopener" href="https://github.com/DeltaE/BC_Nexus/issues">◇ Report an issue on GitHub ↗</a>
+      </div>
     </div>
   </div>
 </section>

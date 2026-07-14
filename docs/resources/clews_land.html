@@ -86,6 +86,18 @@ footer{padding:40px 0 70px;color:var(--muted);font-size:.85rem;border-top:1px so
 <tr><td>Climate</td><td>Farm machinery and land conversion emissions via <code>EmissionActivityRatio</code></td></tr>
 </tbody></table></section>
 
+<section><h2>Base-model specifics (BC)</h2>
+<div class="card">
+<p>Land data comes from the <b>GAEZ</b> (Global Agro-Ecological Zoning) model via <em>agglomerative hierarchical
+clustering</em> of land with similar achievable yield. BC is split into <b>7 clustered zones</b>; <b>9 crops</b> covering
+~90% of production (alfalfa, barley, maize, oat, pea, potato, rapeseed, rye, wheat) are explicit, the rest grouped as "other".</p>
+<ul>
+<li>Land unit = <b>1000 km²</b> (BC ≈ 925 units); farmland generic operational life <b>15 years</b>.</li>
+<li>Each crop appears as <em>irrigated vs rain-fed</em> × <em>low / intermediate / high</em> input intensity (see codes like <span class="pill"><b>LWHEIIBC1</b> wheat · irrigated · intermediate</span>).</li>
+<li><b>Land-use intensity</b> (km²/PJ, avg): nuclear 0.03, wind 0.38, gas 0.60, solar PV 4.35, hydro 21.8, biomass 293 — used in electrification sensitivity analysis.</li>
+<li>Growth in cropland/built-up land follows BC's ~<b>1.1%</b> population growth.</li>
+</ul>
+</div></section>
 <footer><p>Sourced from the <a href="https://github.com/DeltaE/BC_Nexus/wiki" target="_blank">BC_Nexus wiki</a>
 and interpreted against the model code. Prepared for EL · June 2026.</p></footer>
 </div>

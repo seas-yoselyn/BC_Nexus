@@ -84,6 +84,15 @@ footer{padding:40px 0 70px;color:var(--muted);font-size:.85rem;border-top:1px so
 </tbody></table>
 <p class="m">The wiki notes that water and agriculture demand/supply are handled on an <b>annual</b> basis (unlike the sub-annual energy timeslices), reflecting their slower dynamics.</p></section>
 
+<section><h2>Base-model specifics (BC)</h2>
+<div class="card">
+<p>In this version water is <b>tracked one-way</b> — the model monitors water use and demand changes but water does not
+yet feed back to constrain the solution. All water change is assumed to occur in the <b>surface</b> water body.</p>
+<ul>
+<li><b>Three water demands:</b> agriculture (by crop, from the GAEZ dataset), public sector (<span class="pill"><b>PUBWATBC1</b></span>, growing ~<b>1.1%</b>/yr with population), and the power sector (by generation technology, after Larsen 2019).</li>
+<li>Commodities: <span class="pill"><b>SUR</b> surface</span><span class="pill"><b>GWT</b> ground</span><span class="pill"><b>AGRWATBC1</b> irrigation</span> plus evapotranspiration losses (<span class="pill">WTREVTBC1</span>).</li>
+</ul>
+</div></section>
 <footer><p>Sourced from the <a href="https://github.com/DeltaE/BC_Nexus/wiki" target="_blank">BC_Nexus wiki</a>
 and interpreted against the model code. Prepared for EL · June 2026.</p></footer>
 </div>

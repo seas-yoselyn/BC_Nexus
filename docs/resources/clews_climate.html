@@ -82,6 +82,15 @@ footer{padding:40px 0 70px;color:var(--muted);font-size:.85rem;border-top:1px so
 <section><h2>Why it is the 'C' that integrates the rest</h2>
 <p>Without a shared climate metric, the three subsystems would optimise independently. By pricing and capping emissions everywhere, climate forces trade-offs to surface — e.g. whether to irrigate a bioenergy crop (land + water + energy cost) versus deploy wind (energy + land cost) to cut the same tonne of CO₂. That cross-cutting tension is the entire point of a nexus model.</p></section>
 
+<section><h2>Base-model specifics (BC)</h2>
+<div class="card">
+<p>The tracked pollutant is <b>CO₂-equivalent</b>, entering through <code>EmissionActivityRatio</code> for every activity
+across the energy, land and water systems. Emission factors are from the US EPA (2018) and BC carbon-intensity records.</p>
+<ul>
+<li><b>Carbon price</b> (via <code>EmissionsPenalty</code>) follows BC's tax: ~<b>$45/t (2020) → $170/t (2030+)</b>.</li>
+<li><b>Forests as CCS:</b> forest-land technologies carry a <em>negative</em> variable cost, so the optimiser is rewarded for retaining/adding forest — folding reforestation/deforestation into the cost objective. Estimated value ~$2–8M per 1000 km²/yr over 2020–2050.</li>
+</ul>
+</div></section>
 <footer><p>Sourced from the <a href="https://github.com/DeltaE/BC_Nexus/wiki" target="_blank">BC_Nexus wiki</a>
 and interpreted against the model code. Prepared for EL · June 2026.</p></footer>
 </div>

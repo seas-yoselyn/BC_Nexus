@@ -82,6 +82,19 @@ footer{padding:40px 0 70px;color:var(--muted);font-size:.85rem;border-top:1px so
 <section><h2>What the model is trying to find</h2>
 <p>The core policy question: which technological pathways — heavy electrification plus alternative carriers such as <b>hydrogen</b> — meet BC's decarbonization targets at least cost. Variable renewables (solar, wind) make the intra-day timeslice resolution and the storage formulation (see the Niet vs Kotzur variants) especially important.</p></section>
 
+<section><h2>Base-model specifics (BC)</h2>
+<div class="card">
+<p>Horizon <b>2020–2050</b>, British Columbia as a single region on grid "B". Existing plants enter as
+<b>residual capacity</b>: ~150 active BC projects aggregated into <b>12 hydro units</b> plus natural-gas and biomass
+groups, while wind and solar are represented individually for location sensitivity.</p>
+<ul>
+<li><b>CapacityToActivityUnit</b> = 31.536 (1 GW = 31.536 PJ/yr); <b>OutputActivityRatio</b> = 1 for power techs.</li>
+<li><b>Transmission loss</b> ~10% (modelled as a 1.11 generation multiplier); <b>reserve margin</b> conservative ~13% (≈1.135), met by hydro, gas, bio, geo, nuclear (not VRE).</li>
+<li><b>Efficiencies</b> (InputActivityRatio) from EURELECTRIC (2003): e.g. CCGT up to 58%, hydro up to 95%, wind up to 35%, PV up to 15%.</li>
+<li><b>Operational life</b>: hydro 60 y, nuclear 36 y, wind/solar 25 y, gas 22 y, bio/geo 40 y. Costs are generic EIA-2020 values, held constant across the horizon.</li>
+</ul>
+<p class="m">Reference: Arianpoo, Wright &amp; Niet, "Electrification Policy Impacts on Land System in BC, Canada."</p>
+</div></section>
 <footer><p>Sourced from the <a href="https://github.com/DeltaE/BC_Nexus/wiki" target="_blank">BC_Nexus wiki</a>
 and interpreted against the model code. Prepared for EL · June 2026.</p></footer>
 </div>
