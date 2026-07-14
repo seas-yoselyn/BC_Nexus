@@ -1,4 +1,4 @@
 [submodule "BC_Nexus.wiki"]
     path = BC_Nexus.wiki
-    url = https://github.com/DeltaE/BC_Nexus.wiki.git
+    url = https://github.com/DeltaE/BC_Nexus/wiki
     branch = main
