@@ -347,7 +347,8 @@ class RunModel:
     def get_result_csvs(self,
                         solution_file:str|Path=None,
                         solver_name='gurobi',
-                        debug_mode:Optional[bool]=False):
+                        debug_mode:Optional[bool]=False,
+                        results_save_to:Optional[Path]=None)->Path:
         """
         Args:
             solution_file (str | Path, optional): _description_. Defaults to None.
@@ -359,7 +360,10 @@ class RunModel:
         ### Extract the CSV results from GUROBI Solution/Result datafile
         utils.print_update(level=2,
                     message=f"Initiating otoole interface to extract results; input csvs : {self.input_csvs} , config file: {self.otoole_yaml_file}")
-        self.otoole_results_dir = utils.ensure_path(self.scenario_results_root / f'{self.timeslices}ts_csvs_{solver_name}')
+        if results_save_to:
+            self.otoole_results_dir=utils.ensure_path(results_save_to)
+        else:
+            self.otoole_results_dir = utils.ensure_path(self.scenario_results_root / f'{self.timeslices}ts_csvs_{solver_name}_{self.aparser.runtag}')
         
         if debug_mode:
             otoole_results_cmd= f"otoole -v results {solver_name} csv {self.solution_path} {self.otoole_results_dir} csv {self.input_csvs} {self.otoole_yaml_file}"
@@ -597,7 +601,7 @@ class RunModel:
             message=f'Solving the LP problem with {solver} solver')
         
         #### solution (from solver), LP (from solver) file directories
-        self.solution_path = self.scenario_results_root/f'{self.timeslices}ts'/f'{self.timeslices}ts_solution_{solver_name}.sol'
+        self.solution_path = self.scenario_results_root/f'{self.timeslices}ts_{self.aparser.runtag}'/f'{self.timeslices}ts_solution_{solver_name}.sol'
         
 
         if solver_name=='gurobi':
@@ -627,7 +631,7 @@ class RunModel:
                 utils.print_update(level=1,
                     message='Extracting the shadow price of Electricity (ELCB02) from Electricity Balance Constraint')
                 self.shadow_price_ELCB02=self.get_shadow_price_ELCB02(self.solved_model,
-                                plot_save_to=self.scenario_results_root/f'{self.timeslices}ts'/f'shadowprice_ELC02_{self.timeslices}ts.png',
+                                plot_save_to=self.scenario_results_root/f'{self.timeslices}ts_{self.aparser.runtag}'/f'shadowprice_ELC02_{self.timeslices}ts.png',
                                 show=False)
                 
                 utils.print_update(level=1,
@@ -635,9 +639,9 @@ class RunModel:
                 self.duals_df,self.binding_constraints,self.non_binding_constraints=self.get_constraints(self.solved_model)
                 self.get_summary_report(self.binding_constraints,
                         self.non_binding_constraints,
-                        self.scenario_results_root/f'{self.timeslices}ts'/'constraints_summary.txt')
+                        self.scenario_results_root/f'{self.timeslices}ts_{self.aparser.runtag}'/'constraints_summary.txt')
                 
-                duals_save_to=self.scenario_results_root/f'{self.timeslices}ts'/'EBa11_EnergyBalanceEachTS5_duals.csv'
+                duals_save_to=self.scenario_results_root/f'{self.timeslices}ts_{self.aparser.runtag}'/'EBa11_EnergyBalanceEachTS5_duals.csv'
                 utils.print_update(level=2,
                     message=f'Duals extracted and saved to csv @ {duals_save_to} ')
                 self.duals_df.to_csv(duals_save_to)

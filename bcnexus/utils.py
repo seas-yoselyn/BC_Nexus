@@ -68,7 +68,9 @@ def check_machine_cores():
     if n_physical_cores < 8:
         print_warning(f"Warning: Your machine has only {n_physical_cores} physical cores. \n Model building and runs may be slow. Consider using a machine with at least 4 physical cores for better performance.")
     return n_physical_cores, n_logical_cores
-def build_scenario_ui(scenarios_cfg: dict = None):
+def build_scenario_ui(scenarios_cfg: dict = None,
+                      default_hour_grouping: int = 4,
+                      default_clusters: int = 4):
     scenarios_cfg = scenarios_cfg or load_config(model_structure.clews_scenario_cfg_path)
 
     # Scenario dropdown
@@ -93,6 +95,7 @@ def build_scenario_ui(scenarios_cfg: dict = None):
         1, 24,
         description='Hour grouping:',
         description_width=120,
+        default=default_hour_grouping,
         autodisplay=False
     )
 
@@ -100,6 +103,7 @@ def build_scenario_ui(scenarios_cfg: dict = None):
         1, 10,
         description='Clusters:',
         description_width=120,
+        default=default_clusters,
         autodisplay=False
     )
 
@@ -184,11 +188,12 @@ def display_dropdown(
 
 def display_range_slider(min_val: int, 
                          max_val: int, 
+                         default:int=None,
                          description: str = 'None',
                          description_width:int=110,
                          autodisplay: bool = True) -> widgets.IntSlider:
     slider = widgets.IntSlider(
-        value=(min_val + max_val) // 2,
+        value=default if default is not None else (min_val + max_val) // 2,
         min=min_val,
         max=max_val,
         step=1,

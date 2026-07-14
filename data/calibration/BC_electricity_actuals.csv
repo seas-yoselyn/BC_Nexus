@@ -1,0 +1,22 @@
+YEAR,VARIABLE,TECH_GROUP,MODEL_TECH,VALUE_GWH,VALUE_PJ,SOURCE,NOTES
+2021,generation_total,ALL,,71700,258.1,CER BC Energy Profile (EF2023),Total BC generation all producers
+2021,generation,HYDRO,PWRHYD,,,StatCan 25-10-0020-01,TO FILL from StatCan; approx 87-90% of total per CER
+2021,generation,BIOMASS,PWRBIO,,,StatCan 25-10-0020-01,TO FILL
+2021,generation,WIND,PWRWND,,,StatCan 25-10-0020-01,TO FILL
+2021,generation,NATURAL_GAS,PWRNGS,,,StatCan 25-10-0020-01,TO FILL
+2021,generation,SOLAR,PWRSOL,,,StatCan 25-10-0020-01,TO FILL
+2022,generation_total,ALL,,,,StatCan 25-10-0020-01,TO FILL; ~3% from natural gas and other fuels per CER
+2023,generation_total,ALL,,56100,202.0,StatCan Electricity Year in Review 2023,Drought year; generation down 21.5% y/y
+2023,generation,BIOMASS,PWRBIO,3900,14.0,CER Renewable Energy in Canada BC,7.0% of total; mostly forestry wood waste
+2023,generation,WIND,PWRWND,1800,6.5,CER Renewable Energy in Canada BC,
+2023,generation,SOLAR,PWRSOL,7,0.03,CER Renewable Energy in Canada BC,
+2023,generation,HYDRO,PWRHYD,,,StatCan 25-10-0020-01,Derive as total minus non-hydro once gas value filled
+2023,net_imports,ALL,,11200,40.3,CER BC Energy Profile,Net interprovincial+international inflows; BC net importer in 2023 (drought)
+2024,generation_total,ALL,,,,StatCan 25-10-0020-01,TO FILL; Site C unit 1 online Oct 2024
+2025,generation_total,ALL,,,,StatCan 25-10-0020-01,TO FILL; all 6 Site C units expected in service fall 2025
+2020,consumption,INDUSTRIAL,DEMINDELCB02,23300,83.9,CER BC Energy Profile (EF2023),Model 2021: 88.7 PJ - consistent
+2020,consumption,RESIDENTIAL,DEMRESELCB02,20200,72.7,CER BC Energy Profile (EF2023),Model 2021: 65.7 PJ - check growth assumption
+2020,consumption,COMMERCIAL,DEMCOMELCB02,14500,52.2,CER BC Energy Profile (EF2023),Model 2021: 53.0 PJ - consistent
+2021,capacity_total,ALL,,,18514 MW,CER BC Energy Profile,Model total approx 17.7 GW hydro-dominated - consistent
+2021,capacity,HYDRO,PWRHYD,,15953 MW,CER BC Energy Profile,Model: 17.73 GW (12.42+5.30) - slightly high; verify IPP hydro split
+2021,capacity,WIND,PWRWND,,702 MW,CER BC Energy Profile,Model: 728 MW across PWRWNDB01-08 - consistent

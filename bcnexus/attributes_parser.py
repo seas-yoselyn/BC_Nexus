@@ -1,9 +1,11 @@
+from datetime import datetime
+
 import yaml
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Dict
 import logging as log
-
+from datetime import datetime
 # Local Package
 from bcnexus.clews import model_structure as clews_const
 from bcnexus import utils
@@ -50,7 +52,8 @@ class AttributesParser:
     # Define constants for defaults
         self.DEFAULT_STORAGE_ALGORITHM:str = "Kotzur"
         self.supported_storage_algorithms:list = ["Kotzur", "Niet"]
-
+        self.runtag:str = datetime.now().strftime("%Y_%d_%m")  # Timestamp for tagging runs
+      
     # CLEWs Builder related paths
         self.clews_data_root=utils.ensure_path('data/clews_data')
         self.clews_build_data_root=utils.ensure_path(self.clews_data_root / 'clews_build_data')
@@ -78,6 +81,13 @@ class AttributesParser:
         self.clewsb_config:Dict[str,dict] = AttributesParser.load_config(self.clews_builder_config_path)
         
         self.log = log.getLogger(__name__)
+    
+    def get_runtag(self):
+        """
+        Generates a timestamp string in the format "YYYY_DD_MM_HHMM" for tagging runs.
+        """
+        self.runtag = datetime.now().strftime("%Y_%d_%m_%H%M")  
+
     
     def build_clews_builder_skeleton(self):
         """

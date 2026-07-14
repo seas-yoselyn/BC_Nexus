@@ -1,12 +1,10 @@
-import argparse
-import plotly.express as px24
+import sys
 from pathlib import Path
+
 from bcnexus import utils
 from bcnexus.clews.datapackage import GetDataPackage
-from bcnexus.vis import plot_Climate
-from bcnexus.vis import plot_Energy
-from bcnexus.vis import plot_Land
-import sys
+from bcnexus.vis import plot_Climate, plot_Energy, plot_Land
+
 print_level_base=1
 def save_plots(nexus_plots:dict,
                plots_save_to:str|Path):
@@ -34,9 +32,10 @@ def get_plots(nexus_scenario:str='Base_CNZ',
          timeslices:int=24,
          storage_algorithm:str="Kotzur",
          solver:str="gurobi",
+         results_csvs:Path=None,
          plots_save_to:str|Path=None):
 
-    nexus_results_root=Path(f'results/clews/Model_{storage_algorithm}_{nexus_scenario}/{timeslices}ts_csvs_{solver}')
+    nexus_results_root=Path(results_csvs) if results_csvs else Path(f'results/clews/Model_{storage_algorithm}_{nexus_scenario}/{timeslices}ts_csvs_{solver}')
     result_pack=GetDataPackage(nexus_results_root)
     if result_pack is None:
         utils.print_update("no results found")
@@ -73,24 +72,23 @@ def get_plots(nexus_scenario:str='Base_CNZ',
                                                                                                                                                         'gwh',
                                                                                                                                                         nexus_scenario)
     nexus_energy_plots["generation_from_fuels"]=plot_Energy.get_annual_generation_plot(result_pack.get_dataframe('ProductionByTechnology'), 
-                                                                                    nexus_scenario)
+                                                                                    nexus_scenario,timeslices)
     nexus_energy_plots["capacity_investments"]=plot_Energy.get_capacity_plot(result_pack.get_dataframe('NewCapacity'),
                                                                                 nexus_scenario,
                                                                                 investment=True)
     nexus_energy_plots["capacity_total"]=plot_Energy.get_capacity_plot(result_pack.get_dataframe('TotalCapacityAnnual'),nexus_scenario,investment=False)
-    nexus_energy_plots["power_generation_timeslices"]=plot_Energy.get_generation_timeseries_plot(result_pack.get_dataframe('RateOfUseByTechnology'),24,nexus_scenario)
-    nexus_energy_plots["power_generation_annual"]=plot_Energy.get_annual_power_generation_plot(result_pack.get_dataframe('ProductionByTechnologyAnnual'),nexus_scenario)
+    nexus_energy_plots["power_generation_timeslices"]=plot_Energy.get_generation_timeseries_plot(result_pack.get_dataframe('RateOfProductionByTechnology'),24,nexus_scenario)
+    nexus_energy_plots["power_generation_annual"]=plot_Energy.get_annual_power_generation_plot(result_pack.get_dataframe('ProductionByTechnologyAnnual'),nexus_scenario,timeslices)
     nexus_energy_plots["capital_investment_power"]=plot_Energy.get_capital_investments(result_pack.get_dataframe('CapitalInvestment'),nexus_scenario)
     
     save_plots(nexus_plots,
                plots_save_to)
-    return nexus_energy_plots
-
-    
+    return nexus_plots
 
 def main(nexus_scenario: str, 
          storage_algorithm: str, 
          timeslices: int,
+         results_csvs: str,
          plots_save_to:str,):
     
     print("Running CLEWs plotter:")
@@ -101,6 +99,7 @@ def main(nexus_scenario: str,
     get_plots(nexus_scenario=nexus_scenario,
               storage_algorithm=storage_algorithm,
               timeslices=timeslices,
+              results_csvs=results_csvs,
               plots_save_to=plots_save_to)
     
 

@@ -115,14 +115,15 @@ def plot_consumption_by_fuel(usebytech: pd.DataFrame,
 
 def plot_combined_stacked_energy_consumption(UseByTechnology: pd.DataFrame,
                                              plot_unit:str='gwh',
-                                             scenario:str=None):
+                                             scenario:str=None,
+                                             timeslices:int=None):
 
 
     df=UseByTechnology
     
     if 'gwh' in plot_unit.lower():
         consumption_plot_unit=bcnexus_const.units_mapping['consumption_gwh']
-        df['VALUE'] = df['VALUE'] * utils.get_PJ_to_GWh_conversion_factor() # Convert PJ to GWh
+        df['VALUE'] = df['VALUE'] * utils.get_PJ_to_GWh_conversion_factor(timeslices) # Convert PJ to GWh
     else:
         consumption_plot_unit=bcnexus_const.units_mapping['consumption_pj']
     # Plot 1: Energy Consumption by Sector (Stacked Bar chart)
@@ -134,7 +135,8 @@ def plot_combined_stacked_energy_consumption(UseByTechnology: pd.DataFrame,
     return fig_sector,fig_fuel
 
 def get_annual_generation_plot(ProductionByTechnology:pd.DataFrame,
-                        scenario:str):
+                        scenario:str,
+                        timeslices:int):
     generation_plot_unit = bcnexus_const.units_mapping['generation_gwh']
     df=utils.get_labels(ProductionByTechnology)
     
@@ -207,10 +209,10 @@ def get_capacity_plot(capacity: pd.DataFrame,
     fig.update_layout(xaxis=dict(tickmode='linear'))
     return fig
 
-def get_generation_timeseries_plot(RateOfUseByTechnology,
+def get_generation_timeseries_plot(RateOfProductionByTechnology: pd.DataFrame,
                                    timeslices: int,
                                    scenario: str):
-    df = utils.get_labels(RateOfUseByTechnology)
+    df = utils.get_labels(RateOfProductionByTechnology)
 
     # Assign power_techs and filter
     df.loc[:, 'power_techs'] = df['TECHNOLOGY'].apply(
@@ -228,7 +230,7 @@ def get_generation_timeseries_plot(RateOfUseByTechnology,
     df.loc[:, 'SEQUENTIAL_TS_LABEL'] = df['SEQUENTIAL_TIMESLICE'].astype(str).apply(lambda x: f"{x[:4]} {x[4:]}")
     
     df = df.sort_values(by='SEQUENTIAL_TIMESLICE')
-    df['VALUE_MW'] = df['VALUE'] * utils.get_PJ_to_GWh_conversion_factor(timeslices)  # MW = PJ × 1E9 / seconds in timeslice
+    df['VALUE_MW'] = df['VALUE'] * utils.get_PJ_to_GWh_conversion_factor()  # MW = PJ × 1E9 / seconds in timeslice
 
     # Create a stacked area plot for each technology
     Nexus_timeslice_activity_fig = px.area(
@@ -267,15 +269,19 @@ def get_generation_timeseries_plot(RateOfUseByTechnology,
     
     return Nexus_timeslice_activity_fig
 
-def get_annual_power_generation_plot(ProductionByTechnologyAnnual: pd.DataFrame, 
-                      scenario: str):
+def get_annual_power_generation_plot(ProductionByTechnologyAnnual: pd.DataFrame,scenario: str, timeslices: int):
     df = utils.add_power_tech_labels(ProductionByTechnologyAnnual,'energy')
     df = df[df['power_techs_labels'].notna()]  # Filter rows where 'power_techs_labels' is not NaN
     df = df.copy()  # Ensure we are working with a copy
     df.loc[:, 'VALUE_GWh'] = df['VALUE'] * utils.get_PJ_to_GWh_conversion_factor()
 
     # Group data
-    grouped_data = df.groupby(['YEAR', 'power_techs', 'power_techs_labels'], as_index=False)['VALUE'].sum()
+    elc_df = df[df['FUEL'] == 'ELCB01']
+    grouped_data = elc_df.groupby(
+        ['YEAR', 'power_techs', 'power_techs_labels'], as_index=False
+    )['VALUE'].sum()
+    grouped_data['VALUE_GWh'] = grouped_data['VALUE'] * utils.get_PJ_to_GWh_conversion_factor()  # no timeslices arg
+
 
     # Build a dict to map techs to labels
     tech_to_label = dict(zip(grouped_data['power_techs'], grouped_data['power_techs_labels']))
@@ -284,10 +290,10 @@ def get_annual_power_generation_plot(ProductionByTechnologyAnnual: pd.DataFrame,
     fig = px.bar(
         grouped_data,
         x='YEAR',
-        y='VALUE',
+        y='VALUE_GWh',
         color='power_techs',
         opacity=0.8,
-        labels={'VALUE': bcnexus_const.units_mapping['capacity'], 'YEAR': 'Year'},
+        labels={'VALUE_GWh': bcnexus_const.units_mapping['generation_gwh'], 'YEAR': 'Year'},
         color_discrete_map=bcnexus_const.custom_colors
     )
 

@@ -1340,6 +1340,70 @@ def add_technologies_capital_cost(
     
     return df_combined
 
+
+
+def add_technologies_variable_cost(
+    filtered_df: pd.DataFrame,
+    tech_key: str,
+    tech_info: Dict[str, Any],
+    start_year: int,
+    last_year: int,
+    region: str,
+    column_name: str = 'TECHNOLOGY',
+    cost_name: str = 'variable_cost'
+    ) -> pd.DataFrame:
+    """
+    Adds new rows to the filtered DataFrame based on the technology details from the provided dictionary.
+    Returns a DataFrame with the new technologies added.
+
+    Args:
+        filtered_df (pd.DataFrame): The DataFrame to which new rows will be added.
+        tech_key (str): The key for the technology in the tech_info dictionary.
+        tech_info (Dict[str, Any]): Dictionary containing technology information including the capital cost.
+        start_year (int): The starting year for the new rows.
+        last_year (int): The ending year for the new rows.
+        region (str): The region for which the new rows are being added.
+        column_name (str): The name of the column to be used for the technology (default is 'TECHNOLOGY').
+        cost_name (str): The name of the key in tech_info that holds the variable cost (default is 'variable_cost').
+
+    Returns:
+        pd.DataFrame: The DataFrame with the new rows added.
+    """
+    # Skip technologies that do not define a variable cost in the builder config
+    if cost_name not in tech_info:
+        return filtered_df
+
+    variable_cost = tech_info[cost_name]  # Variable cost from YAML
+    # Check if variable_cost is a list
+    if isinstance(variable_cost, str) and variable_cost.startswith('[') and variable_cost.endswith(']'):
+        variable_cost = eval(variable_cost)  # Convert string to list
+
+    new_rows = []
+
+    # Generate rows for each year from start_year to last_year
+    for i, year in enumerate(range(start_year, last_year + 1)):
+        if isinstance(variable_cost, list):
+            value = variable_cost[i] if i < len(variable_cost) else variable_cost[-1]
+        else:
+            value = variable_cost
+        new_rows.append({
+            'REGION': region,
+            column_name: tech_key,  # Use the key from the YAML as the technology name
+            'MODE_OF_OPERATION': 1,  # EL_20260713 default mode; template rows (e.g. land techs) keep their own modes
+            'YEAR': year,
+            'VALUE': value
+        })
+
+    df_new_rows = pd.DataFrame(new_rows)
+
+    # Verify that new rows were generated correctly
+    #utils.print_update(level=3,message=f"Generated {df_new_rows.shape[0]} new rows for technology {tech_key}")
+
+    # Combine the new rows with the filtered DataFrame
+    df_combined = pd.concat([filtered_df, df_new_rows], ignore_index=True)
+
+    return df_combined
+
 def add_technologies_operational_life(filtered_df, tech_key, tech_info, region, column_name='TECHNOLOGY', operational_name='operational_life'):
     """
     Add new rows to the filtered DataFrame based on the technology details from the YAML.
@@ -1778,5 +1842,5 @@ def main(
     utils.print_update(level=3,message="\n>> Updating SPECIFIED DEMAND PROFILE...")
     update_specified_demand_profile(combined_model_config_path,
                                     clews_builder_config_path)
-    return 
-""" 
+    return
+"""
