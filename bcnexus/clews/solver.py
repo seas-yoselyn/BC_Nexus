@@ -32,6 +32,7 @@ def sol_gurobi(lp_path: str,
         m.Params.BarHomogeneous = 1   # more robust barrier for numerically hard LPs
         m.Params.LogFile = log_path  # don't write log to file
         m.optimize()
+        
         utils.print_update(level=3,message=f"{50*'-'}")
         utils.print_update(level=4,message="Model run completed. Please check the log for detailed report.")
         return m
@@ -290,3 +291,36 @@ def plot_shadow_price(constraint_df_ELC_aggr:pd.DataFrame,
         pass
 
 
+def get_infeasibility_report(lp_path:str,
+                             save_to:str):
+    """
+    This function checks if the model is infeasible and generates an infeasibility report.
+    If the model is infeasible, it computes the Irreducible Infeasible Subsystem (IIS) and saves it to a file.
+    
+    :note: 
+    - computeIIS() finds an Irreducible Inconsistent Subsystem: a minimal subset of your model's constraints and variable bounds that is infeasible together, but becomes feasible if you remove any single member. It's Gurobi's answer to "which constraints are actually fighting each other?"
+    - Why that matters: your LP had 716,315 rows. "Infeasible" alone tells you nothing about where. The IIS reduced the conflict to exactly one constraint — E8_AnnualEmissionsLimit(REGION1,CO2,2027) <= -1 — which is what let us diagnose the missing-years default in seconds instead of auditing 42 CSVs.
+    - Mechanically: after optimize() returns status INFEASIBLE, computeIIS() runs a secondary algorithm (essentially repeated feasibility tests, deletion-filtering style) that marks each constraint/bound with an attribute (IISConstr, IISLB, IISUB). m.write('infeasible.ilp') then dumps only the marked members — that small file you pasted. It can be expensive on large models (it re-solves many times), which is why you run it on demand rather than every run.
+    - Two interpretive cautions. First, an IIS is minimal, not unique — a model can contain several independent conflicts, and you get one at a time. That's why I said the empty LHS was the more important signal: fixing the 2027 limit alone would likely have surfaced another IIS, or worse, none — the hollow-data model solving "successfully." Second, the IIS names the constraints in conflict, not the culprit. In your case the constraint E8 wasn't wrong; the data feeding it was. The IIS localizes; the diagnosis is still yours to make — which is the right division of labor between solver and modeller.
+    
+    :param lp_path: Path to the LP file.
+    :param save_to: Path where the infeasibility report will be saved.
+    """
+    try:
+        m = gp.read(lp_path)
+        m.setParam('DualReductions', 0)
+        m.optimize()
+        
+        if m.Status == gp.GRB.INFEASIBLE:
+            m.computeIIS()
+            save_to = Path(save_to)
+            save_to.parent.mkdir(parents=True, exist_ok=True)  # Ensure parent directories exist
+            m.write(str(save_to))  # Save the IIS report
+            utils.print_update(level=4,message=f'Infeasible model detected. Infeasibility report written to {save_to}')
+        else:
+            utils.print_update(level=4,message="Model is feasible. No infeasibility report generated.")
+    
+    except gp.GurobiError as e:
+        utils.print_update(level=4,message='Error code ' + str(e.errno) + ': ' + str(e))
+    except AttributeError:
+        utils.print_update(level=4,message='Encountered an attribute error')

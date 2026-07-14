@@ -141,8 +141,7 @@ class RunModel:
         
         self.org_model_file=self.aparser.get_model_file_path(storage_algorithm=self.storage_algorithm)
         self.LP_file=self.input_csvs.parent/self.run_scenario/f'{self.run_scenario}.lp'
-        self.scenario_results_root=self.aparser.get_scenario_results_path(scenario=self.run_scenario,
-                                                                          storage_algorithm=self.storage_algorithm)
+        self.scenario_results_root=self.aparser.get_scenario_results_path(scenario=self.run_scenario, storage_algorithm=self.storage_algorithm)
         # self.visual_config:dict=self.aparser.get_visual_configs()
         self.plots_save_to:Path=self.aparser.get_plots_save_to()
         self.clewsBuilder.get_clustering_attributes()
@@ -363,7 +362,7 @@ class RunModel:
         if results_save_to:
             self.otoole_results_dir=utils.ensure_path(results_save_to)
         else:
-            self.otoole_results_dir = utils.ensure_path(self.scenario_results_root / f'{self.timeslices}ts_{self.aparser.runtag} '/f'{self.timeslices}ts_csvs_{solver_name}')
+            self.otoole_results_dir = utils.ensure_path(self.scenario_results_root / f'{self.timeslices}ts'/f'{self.timeslices}ts_csvs_{solver_name}_{self.aparser.runtag}')
         
         if debug_mode:
             otoole_results_cmd= f"otoole -v results {solver_name} csv {self.solution_path} {self.otoole_results_dir} csv {self.input_csvs} {self.otoole_yaml_file}"
@@ -587,7 +586,7 @@ class RunModel:
         utils.print_update(level=2,
                 message=f'Timeslices: {self.timeslices}')
             
-        self.solver_log_save_to=self.scenario_results_root/f'{self.timeslices}ts'/'gurobi.log'
+        self.solver_log_save_to=self.scenario_results_root/f'{self.timeslices}ts/gurobi_{self.aparser.runtag}.log'
         self.solver_log_save_to.parent.mkdir(parents=True,exist_ok=True)
          
         utils.print_update(level=1,
@@ -602,7 +601,7 @@ class RunModel:
             message=f'Solving the LP problem with {solver} solver')
         
         #### solution (from solver), LP (from solver) file directories
-        self.solution_path = self.scenario_results_root/f'{self.timeslices}ts_{self.aparser.runtag}'/f'{self.timeslices}ts_solution_{solver_name}.sol'
+        self.solution_path = self.scenario_results_root/f'{self.timeslices}ts'/f'{self.timeslices}ts_solution_{solver_name}_{self.aparser.runtag}.sol'
         
 
         if solver_name=='gurobi':
@@ -632,7 +631,7 @@ class RunModel:
                 utils.print_update(level=1,
                     message='Extracting the shadow price of Electricity (ELCB02) from Electricity Balance Constraint')
                 self.shadow_price_ELCB02=self.get_shadow_price_ELCB02(self.solved_model,
-                                plot_save_to=self.scenario_results_root/f'{self.timeslices}ts_{self.aparser.runtag}'/f'shadowprice_ELC02_{self.timeslices}ts.png',
+                                plot_save_to=self.scenario_results_root/f'{self.timeslices}ts'/f'shadowprice_ELC02_{self.timeslices}ts_{self.aparser.runtag}.png',
                                 show=False)
                 
                 utils.print_update(level=1,
@@ -640,9 +639,9 @@ class RunModel:
                 self.duals_df,self.binding_constraints,self.non_binding_constraints=self.get_constraints(self.solved_model)
                 self.get_summary_report(self.binding_constraints,
                         self.non_binding_constraints,
-                        self.scenario_results_root/f'{self.timeslices}ts_{self.aparser.runtag}'/'constraints_summary.txt')
+                        self.scenario_results_root/f'{self.timeslices}ts'/f'constraints_summary_{self.aparser.runtag}.txt')
                 
-                duals_save_to=self.scenario_results_root/f'{self.timeslices}ts_{self.aparser.runtag}'/'EBa11_EnergyBalanceEachTS5_duals.csv'
+                duals_save_to=self.scenario_results_root/f'{self.timeslices}ts'/f'EBa11_EnergyBalanceEachTS5_duals_{self.aparser.runtag}.csv'
                 utils.print_update(level=2,
                     message=f'Duals extracted and saved to csv @ {duals_save_to} ')
                 self.duals_df.to_csv(duals_save_to)
@@ -682,7 +681,7 @@ class RunModel:
         memory_usage = process.memory_info().rss  # Resident Set Size (RSS) in bytes
 
         # Log runtime and memory usage
-        log_save_to=Path(self.run_scenario/self.scenario_results_root/f'{self.timeslices}ts')
+        log_save_to=Path(self.run_scenario/self.scenario_results_root/f'{self.timeslices}ts'/f'runtime_memory_log_{self.aparser.runtag}.txt')
         RunModel.log_runtime_and_memory(self.run_scenario, self.timeslices, self.clustering_attributes, start_time, memory_usage, log_save_to, machine_id)
 
     @staticmethod
