@@ -150,8 +150,7 @@ def update_clews_builder_config(scenario_config_path:Path)->tuple:
     solar_df = pd.read_csv(solar_csv_file_path)
     solar_future_df = pd.read_csv(RESource_data_root / RESource_data_cfg['future_solar_sites'])
     solar_committed_df = pd.read_csv(RESource_data_root / RESource_data_cfg['committed_solar_sites'])
-    solar_future_with_committed_df = get_VRE_committed_candidate_combine(solar_future_df,    
-                                                                            solar_committed_df)
+    solar_future_with_committed_df = get_VRE_committed_candidate_combine(solar_future_df,solar_committed_df)
 
     
     tpp_df :pd.DataFrame= pd.read_csv(tpp_csv_file_path)
@@ -636,7 +635,7 @@ def create_schema_VRE(df:pd.DataFrame,
                 'capacity': row['facility_installed_capacity'] / 1000, # GW
                 'operational_life': closure_year - start_year,
                 'capital_cost': row['overnight_capital_cost_CAD_per_kW'], # $/kW
-                'variable_cost': row['variable_om_cost_CAD_per_MWh'],
+                'variable_cost': float(row['variable_om_cost_CAD_per_MWh']) if pd.notna(row['variable_om_cost_CAD_per_MWh']) and row['variable_om_cost_CAD_per_MWh'] > 0 else 0.001, # $/kW-yr, same as NREL's ATB 
                 'closure_year': closure_year,
                 'status': 'existing'
             }
@@ -651,7 +650,7 @@ def create_schema_VRE(df:pd.DataFrame,
                             'start_year': int(row['start_year']),  # int
                             'operational_life': row['Operational_life'],  # Years
                             'capital_cost': row['capex'],  # in $/kW, same as NREL's ATB
-                            'variable_cost': row['vom'],  # $/kW-yr, same as NREL's ATB
+                            'variable_cost': float(row['vom']) if pd.notna(row['vom']) and row['vom'] > 0 else 0.001,  # $/kW-yr, same as NREL's ATB
                             'potential': row['potential_capacity'] / 1E3,  # need to be in GW to harmonize units
                             'status': 'future'  # Str
                         }
@@ -1659,13 +1658,14 @@ def create_schema_hydro(df, cascade_groups, id_prefix):
         start_year = int(row['start_year']) if not math.isnan(row['start_year']) else 0
         data[item_id] = {
             'type': 'reservoir',
-            #'capacity': str(capacity_vector.tolist()), 
-            'capacity': float(total_capacity), 
+            #'capacity': str(capacity_vector.tolist()),
+            'capacity': float(total_capacity),
             'operational_life' : 100 if (closure_year - start_year) < 0 else (closure_year - start_year),
             'capital_cost': float(first_row['capital_cost_CAD_per_kW']),
             'closure_year': 2050,
             'input ratio': 1,
-            'status': 'existing'
+            'status': 'existing',
+            'variable_cost': 0.01 # EL_20260713 tie-breaker cost (M$/PJ) to remove LP degeneracy (free-energy overproduction)
         }
         
         # Increment the index for the next group
@@ -1695,7 +1695,8 @@ def create_schema_hydro(df, cascade_groups, id_prefix):
         'operational_life': 100 if (closure_year - start_year) < 0 else (closure_year - start_year),
         'capital_cost': float(first_row_ror['capital_cost_CAD_per_kW']),
         'closure_year': 2050,
-        'status': 'existing'
+        'status': 'existing',
+        'variable_cost': 0.01 # EL_20260713 tie-breaker cost (M$/PJ) to remove LP degeneracy (free-energy overproduction)
     }
     
     return data

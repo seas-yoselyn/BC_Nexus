@@ -522,7 +522,7 @@ class RunModel:
     
     def run(self,
             input_csvs: str | Path=None,
-            build:bool=False,
+            build:bool=True,
             include_livestock:bool=True,
             solver_name='gurobi',
             threads:int=32,
