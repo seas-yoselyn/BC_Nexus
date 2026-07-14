@@ -28,7 +28,9 @@ def sol_gurobi(lp_path: str,
         m.Params.Method = 2  # 2 = barrier
         m.Params.Threads = threads  # limit solve to use max {threads}
         m.Params.NumericFocus = 2
-        # m.Params.ScaleFlag = 2  # aggressive scaling for wide coefficient ranges
+        m.Params.Crossover = 0     # biggest single win: skip crossover, barrier solution suffices for LPs
+
+        m.Params.ScaleFlag = 2  # aggressive scaling for wide coefficient ranges
         m.Params.BarHomogeneous = 1   # more robust barrier for numerically hard LPs
         m.Params.LogFile = log_path  # don't write log to file
         m.optimize()

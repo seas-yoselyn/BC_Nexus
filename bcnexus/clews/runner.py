@@ -681,7 +681,7 @@ class RunModel:
         memory_usage = process.memory_info().rss  # Resident Set Size (RSS) in bytes
 
         # Log runtime and memory usage
-        log_save_to=Path(self.run_scenario/self.scenario_results_root/f'{self.timeslices}ts'/f'runtime_memory_log_{self.aparser.runtag}.txt')
+        log_save_to=Path(self.scenario_results_root/f'{self.timeslices}ts'/f'runtime_memory_log_{self.aparser.runtag}.txt')
         RunModel.log_runtime_and_memory(self.run_scenario, self.timeslices, self.clustering_attributes, start_time, memory_usage, log_save_to, machine_id)
 
     @staticmethod
@@ -693,7 +693,7 @@ class RunModel:
                                save_to:str|Path,
                                machine_id:Optional[str]=None):
         # Ensure the directory exists
-        log_dir_path = Path(save_to)
+        log_dir_path = Path(save_to).parent
         log_dir_path.mkdir(parents=True, exist_ok=True)
         log_path = log_dir_path / "runtime_memory_log.txt"
         runtime = time.time() - start_time
