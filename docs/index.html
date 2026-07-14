@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="EL">
+<title>BCNexus · CLEWs Climate–Land–Energy–Water Model</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#070b12; --panel:rgba(255,255,255,.045); --brd:rgba(255,255,255,.09);
+  --text:#eaf0f7; --muted:#9aa7b6; --green:#3bb54a; --blue:#1f8fe0; --yellow:#f4cf12;
+  --accent:#3bb54a; --glass:14px;
+}
+[data-theme="light"]{
+  --bg:#f3f6fa; --panel:rgba(13,30,55,.04); --brd:rgba(13,30,55,.12);
+  --text:#16202e; --muted:#516074; --accent:#1f8fe0;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;letter-spacing:.006em;overflow-x:hidden}
+/* animated ambient glows */
+body::before,body::after{content:"";position:fixed;border-radius:50%;filter:blur(120px);z-index:0;opacity:.45;pointer-events:none;animation:drift 18s ease-in-out infinite alternate}
+body::before{width:640px;height:640px;background:radial-gradient(circle,var(--green),transparent 65%);top:-220px;left:-160px}
+body::after{width:620px;height:620px;background:radial-gradient(circle,var(--blue),transparent 65%);bottom:-240px;right:-180px;animation-delay:-9s}
+@keyframes drift{from{transform:translate(0,0) scale(1)}to{transform:translate(40px,30px) scale(1.12)}}
+a{color:inherit;text-decoration:none}
+.wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:0 26px}
+
+/* reveal on scroll */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.2,.7,.3,1),transform .7s cubic-bezier(.2,.7,.3,1)}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}body::before,body::after{animation:none}}
+
+/* top bar */
+header.bar{position:sticky;top:0;z-index:40;backdrop-filter:blur(var(--glass));
+  background:linear-gradient(to bottom,rgba(7,11,18,.82),rgba(7,11,18,.32));border-bottom:1px solid var(--brd)}
+[data-theme="light"] header.bar{background:linear-gradient(to bottom,rgba(243,246,250,.92),rgba(243,246,250,.5))}
+.bar-in{display:flex;align-items:center;gap:18px;height:62px;max-width:1180px;margin:0 auto;padding:0 26px}
+.brand{display:flex;align-items:center;gap:11px;font-weight:700;font-size:1.02rem}
+.brand img{height:34px;filter:drop-shadow(0 0 10px rgba(59,181,74,.45))}
+.navlinks{display:flex;gap:3px;margin-left:6px}
+.navlinks a{padding:7px 12px;border-radius:9px;font-size:.86rem;color:var(--muted);font-weight:500;transition:.18s}
+.navlinks a:hover{color:var(--text);background:var(--panel)}
+.bar-right{margin-left:auto;display:flex;gap:9px;align-items:center}
+.ib{display:inline-flex;align-items:center;gap:7px;padding:8px 12px;border-radius:10px;font-size:.84rem;font-weight:500;
+  border:1px solid var(--brd);background:var(--panel);color:var(--text);cursor:pointer;transition:.18s}
+.ib:hover{border-color:var(--accent);box-shadow:0 0 0 3px rgba(59,181,74,.12),0 0 18px -4px var(--accent)}
+.ib svg{width:16px;height:16px}
+/* small glowing present button */
+.present-pill{position:relative;border-color:rgba(59,181,74,.5)}
+.present-pill::after{content:"";position:absolute;inset:0;border-radius:10px;box-shadow:0 0 16px -2px var(--green);
+  animation:pulse 2.6s ease-in-out infinite;pointer-events:none}
+@keyframes pulse{0%,100%{opacity:.35}50%{opacity:.9}}
+@media(max-width:840px){.navlinks{display:none}.ib .lbl{display:none}}
+
+/* hero */
+.hero{text-align:center;padding:76px 0 50px}
+.hero .logo-xl{height:148px;width:auto;margin-bottom:14px;filter:drop-shadow(0 6px 26px rgba(31,143,224,.4));animation:float 6s ease-in-out infinite}
+.brand img{height:34px;width:auto}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.hero h1{font-size:clamp(2.2rem,5.2vw,3.7rem);line-height:1.04;margin:0 0 14px;font-weight:800;letter-spacing:-.02em}
+.grad{background:linear-gradient(100deg,var(--green),var(--blue) 50%,var(--yellow),var(--green));background-size:300% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;animation:flow 8s linear infinite}
+@keyframes flow{to{background-position:300% 0}}
+.hero p.lede{max-width:690px;margin:0 auto 26px;color:var(--muted);font-size:1.13rem;line-height:1.6}
+.cta{display:flex;gap:13px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:9px;padding:13px 22px;border-radius:12px;font-weight:600;font-size:.96rem;cursor:pointer;transition:.2s;border:1px solid transparent}
+.btn.primary{background:linear-gradient(100deg,var(--green),var(--blue));color:#fff;box-shadow:0 8px 30px -8px var(--blue);background-size:200% 100%}
+.btn.primary:hover{transform:translateY(-2px);background-position:100% 0;box-shadow:0 14px 38px -8px var(--blue),0 0 22px -2px var(--green)}
+.btn.ghost{background:var(--panel);border-color:var(--brd);color:var(--text)}
+.btn.ghost:hover{border-color:var(--accent);box-shadow:0 0 22px -6px var(--accent)}
+.chips{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:30px}
+.chip{font-size:.78rem;padding:6px 13px;border-radius:999px;border:1px solid var(--brd);background:var(--panel);color:var(--muted)}
+.chip b{color:var(--text);font-weight:600}
+
+/* sections */
+section{padding:52px 0;scroll-margin-top:74px}
+.eyebrow{display:inline-block;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--accent);margin-bottom:10px}
+h2.title{font-size:clamp(1.6rem,3vw,2.2rem);margin:0 0 10px;font-weight:800;letter-spacing:-.015em}
+.sec-lede{color:var(--muted);max-width:740px;font-size:1.04rem;margin-bottom:30px}
+
+/* cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.card{position:relative;background:var(--panel);border:1px solid var(--brd);border-radius:18px;padding:26px 24px;
+  backdrop-filter:blur(var(--glass));transition:.25s;overflow:hidden;display:block;color:inherit}
+.card::after{content:"";position:absolute;inset:0;border-radius:18px;padding:1px;opacity:0;transition:.25s;
+  background:linear-gradient(120deg,var(--green),var(--blue),var(--yellow));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.card:hover{transform:translateY(-5px);border-color:transparent;box-shadow:0 18px 50px -20px var(--blue)}
+.card:hover::after{opacity:.9}
+.card .ico{width:48px;height:48px;border-radius:13px;display:grid;place-items:center;font-size:1.5rem;margin-bottom:15px;
+  background:linear-gradient(135deg,rgba(59,181,74,.18),rgba(31,143,224,.18));border:1px solid var(--brd)}
+.card h3{margin:0 0 8px;font-size:1.16rem;font-weight:700}
+.card p{margin:0;color:var(--muted);font-size:.94rem;line-height:1.55}
+.card .more{display:inline-block;margin-top:14px;font-size:.86rem;font-weight:600;color:var(--accent)}
+
+/* nexus */
+.nexus{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:16px;margin-top:6px}
+.node{position:relative;text-align:center;padding:24px 14px;border-radius:16px;border:1px solid var(--brd);background:var(--panel);transition:.25s;color:inherit;display:block;overflow:hidden}
+.node::after{content:"open ↗";position:absolute;top:10px;right:12px;font-size:.66rem;color:var(--muted);opacity:0;transition:.2s}
+.node:hover{transform:translateY(-5px);box-shadow:0 16px 40px -18px currentColor}
+.node:hover::after{opacity:.8}
+.node .dot{font-size:1.9rem;margin-bottom:8px;display:block}
+.node h4{margin:0 0 5px;font-size:1.04rem;color:var(--text)}
+.node small{color:var(--muted);font-size:.82rem;line-height:1.42;display:block}
+.node.climate{color:var(--yellow)} .node.land{color:var(--green)} .node.energy,.node.water{color:var(--blue)}
+
+/* facts */
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:18px}
+.fact{padding:22px;border-radius:16px;border:1px solid var(--brd);background:var(--panel)}
+.fact .n{font-size:1.5rem;font-weight:800;background:linear-gradient(100deg,var(--green),var(--blue));-webkit-background-clip:text;background-clip:text;color:transparent}
+.fact .l{color:var(--muted);font-size:.9rem;margin-top:5px;line-height:1.5}
+.fact .tiny{display:block;margin-top:8px;font-size:.76rem;color:var(--muted);opacity:.85}
+.fact .tiny code{font-family:'JetBrains Mono',monospace;color:var(--accent);font-size:.92em}
+
+/* compare */
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:680px){.cmp{grid-template-columns:1fr}}
+.badge{font-size:.7rem;padding:2px 9px;border-radius:999px;font-weight:700}
+.badge.k{background:rgba(244,207,18,.16);color:var(--yellow)}
+.badge.n{background:rgba(31,143,224,.16);color:var(--blue)}
+.card ul{margin:10px 0 0;padding-left:18px;color:var(--muted);font-size:.92rem;line-height:1.6}
+.mono{font-family:'JetBrains Mono',monospace;font-size:.85em;color:var(--accent)}
+
+/* constraints translate block */
+.translate{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:8px}
+@media(max-width:760px){.translate{grid-template-columns:1fr}}
+.tr{padding:18px 20px;border-radius:14px;border:1px solid var(--brd);background:var(--panel)}
+.tr h4{margin:0 0 6px;font-size:1rem;display:flex;align-items:center;gap:8px}
+.tr p{margin:0;color:var(--muted);font-size:.9rem;line-height:1.55}
+.map{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 6px}
+.map .m{flex:1;min-width:200px;border:1px solid var(--brd);border-radius:13px;padding:14px 16px;background:var(--panel)}
+.map .m b{color:var(--text)} .map .m span{color:var(--accent);font-weight:600}
+.arrow{font-size:1.1rem;color:var(--muted);align-self:center}
+
+/* interactive workflow */
+.flowbox{border:1px solid var(--brd);background:var(--panel);border-radius:18px;padding:22px;backdrop-filter:blur(var(--glass))}
+.flow{display:flex;align-items:stretch;gap:6px;overflow-x:auto;padding-bottom:6px}
+.stage{flex:0 0 auto;min-width:150px;border:1px solid var(--brd);border-radius:15px;padding:13px 13px 15px;background:rgba(255,255,255,.02);position:relative}
+.stage.scn{border-style:dashed}
+.stage>.cap{font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:9px;text-align:center}
+.fbox{display:flex;flex-direction:column;gap:3px;border:1px solid var(--brd);background:var(--panel);border-radius:11px;
+  padding:10px 12px;margin:7px 0;cursor:pointer;transition:.18s;position:relative}
+.fbox:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 8px 22px -12px var(--accent)}
+.fbox.on{border-color:var(--accent);box-shadow:0 0 0 2px rgba(59,181,74,.25)}
+.fbox .t{font-weight:700;font-size:.92rem;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.fbox .d{font-size:.76rem;color:var(--muted);line-height:1.35}
+.fbox.rec{border-color:rgba(59,181,74,.55);background:linear-gradient(120deg,rgba(59,181,74,.12),transparent)}
+.fbox.script{border-color:rgba(31,143,224,.55)}
+.fbox.insight{border-color:rgba(244,207,18,.5);background:linear-gradient(120deg,rgba(244,207,18,.12),transparent)}
+.tagmini{font-size:.62rem;font-weight:700;padding:1px 7px;border-radius:999px;text-transform:uppercase;letter-spacing:.04em}
+.tagmini.rec{background:rgba(59,181,74,.2);color:var(--green)}
+.tagmini.opt{background:rgba(255,255,255,.08);color:var(--muted)}
+.reddot{width:9px;height:9px;border-radius:50%;background:#e23b3b;box-shadow:0 0 8px #e23b3b;display:inline-block;animation:pulse 1.6s infinite}
+.solverline{display:flex;gap:5px;flex-wrap:wrap;margin-top:3px}
+.solverline span{font-size:.66rem;padding:2px 7px;border-radius:6px;border:1px solid var(--brd);color:var(--muted)}
+.solverline span.def{border-color:var(--green);color:var(--green)}
+.conn{flex:0 0 auto;align-self:center;color:var(--accent);font-size:1.4rem;padding:0 1px;animation:nudge 1.6s ease-in-out infinite}
+@keyframes nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(3px)}}
+.insightbig{flex:0 0 auto;align-self:center;text-align:center;border:1px solid rgba(244,207,18,.5);border-radius:15px;
+  padding:16px 16px;background:linear-gradient(135deg,rgba(244,207,18,.14),rgba(226,59,59,.08));cursor:pointer;min-width:150px;transition:.2s}
+.insightbig:hover{transform:translateY(-3px);box-shadow:0 14px 34px -16px var(--yellow)}
+.insightbig .ic{font-size:1.5rem;letter-spacing:2px}
+.insightbig .t{font-weight:800;font-size:.96rem;margin-top:6px;line-height:1.2}
+#flowinfo{margin-top:16px;border:1px solid var(--brd);border-radius:14px;padding:0 18px;background:rgba(255,255,255,.02);
+  max-height:0;overflow:hidden;opacity:0;transition:.3s}
+#flowinfo.show{max-height:340px;opacity:1;padding:16px 18px}
+#flowinfo h4{margin:0 0 6px;font-size:1.05rem;display:flex;align-items:center;gap:9px}
+#flowinfo p{margin:0;color:var(--muted);font-size:.92rem;line-height:1.55}
+#flowinfo .hint{color:var(--muted);font-size:.78rem;margin-top:10px;opacity:.8}
+.legend{margin-top:12px;color:var(--muted);font-size:.84rem;display:flex;gap:18px;flex-wrap:wrap;align-items:center}
+.legend .dotr{display:inline-block;width:10px;height:10px;border-radius:50%;background:#e23b3b;box-shadow:0 0 10px #e23b3b;margin-right:6px;vertical-align:middle}
+
+footer{padding:46px 0 70px;color:var(--muted);font-size:.86rem;border-top:1px solid var(--brd);margin-top:30px}
+footer a{color:var(--accent)}
+
+/* presentation mode (fullscreen) */
+body.present{overflow:hidden}
+body.present header.bar,body.present footer{display:none}
+body.present .wrap>section{display:none}
+body.present .wrap>section.active{display:flex;flex-direction:column;justify-content:center;
+  position:fixed;inset:0;padding:5vh 7vw;max-width:none;margin:0;animation:slidein .42s ease;overflow-y:auto}
+@keyframes slidein{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.deck-ui{display:none}
+body.present .deck-ui{display:flex;position:fixed;z-index:60;bottom:20px;left:50%;transform:translateX(-50%);
+  gap:14px;align-items:center;background:rgba(8,12,20,.72);backdrop-filter:blur(12px);border:1px solid var(--brd);border-radius:999px;padding:8px 16px}
+[data-theme="light"] body.present .deck-ui{background:rgba(255,255,255,.82)}
+.deck-ui button{background:none;border:none;color:var(--text);cursor:pointer;font-size:1.05rem;padding:4px 8px;border-radius:8px}
+.deck-ui button:hover{background:var(--panel)}
+.deck-ui .count{font-size:.85rem;color:var(--muted);min-width:54px;text-align:center;font-variant-numeric:tabular-nums}
+.deck-dots{display:flex;gap:7px}
+.deck-dots i{width:8px;height:8px;border-radius:50%;background:var(--brd);cursor:pointer;transition:.2s}
+.deck-dots i.on{background:var(--accent);box-shadow:0 0 10px var(--accent);width:22px;border-radius:4px}
+.exit-hint{position:fixed;top:18px;right:22px;z-index:60;font-size:.8rem;color:var(--muted);display:none}
+body.present .exit-hint{display:block}
+.present-only{display:none}
+body.present .present-only{display:block}
+/* keep the logo stable & contained in fullscreen presentation */
+body.present .hero{padding:3vh 7vw}
+body.present .hero .logo-xl{animation:none;height:clamp(76px,11vh,120px);margin-bottom:10px}
+body.present .hero h1{margin-top:0}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="bar-in">
+    <a class="brand" href="#top"><img src="resources/BCNexus_logo_animated.svg" alt="BCNexus logo"><span>BCNexus</span></a>
+    <nav class="navlinks">
+      <a href="#what">Overview</a>
+      <a href="#inside">Contents</a>
+      <a href="#clews">CLEWs</a>
+      <a href="#workflow">Workflow</a>
+      <a href="#constraints">Constraints</a>
+      <a href="#variants">Variants</a>
+      <a href="#structure">Structure</a>
+      <a href="#suite">Suite</a>
+    </nav>
+    <div class="bar-right">
+      <a class="ib" href="https://github.com/DeltaE/BC_Nexus" target="_blank" rel="noopener" title="Source code on GitHub">
+        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        <span class="lbl">Source</span>
+      </a>
+      <button class="ib present-pill" id="presentBtn" title="Presentation mode (fullscreen)">⛶<span class="lbl">&nbsp;Present</span></button>
+      <button class="ib" id="themeBtn" title="Toggle theme">🌙</button>
+    </div>
+  </div>
+</header>
+
+<div class="exit-hint">Esc to exit · ← → to navigate</div>
+
+<div class="wrap" id="top">
+
+<!-- 1 HERO -->
+<section class="hero" id="hero">
+  <img class="logo-xl" src="resources/BCNexus_logo_animated.svg" alt="BCNexus logo">
+  <h1>The <span class="grad">BCNexus</span> CLEWs Model</h1>
+  <p class="lede">A least-cost optimisation model of British Columbia's coupled <b>Climate, Land, Energy and Water</b>
+  systems — built on OSeMOSYS, extended with land-use accounting, documented here block by block.</p>
+  <div class="cta">
+    <a class="btn primary" href="resources/BCNexus_CLEWs_model_documentation.html" target="_blank" rel="noopener">📖 Open code documentation</a>
+    <a class="btn ghost" href="https://github.com/DeltaE/BC_Nexus" target="_blank" rel="noopener">⌥ View source code</a>
+  </div>
+  <div class="chips">
+    <span class="chip">Framework <b>OSeMOSYS</b></span>
+    <span class="chip">Extension <b>CLEWs</b></span>
+    <span class="chip">Solver <b>GLPK · CBC · Gurobi · CPLEX</b></span>
+    <span class="chip">Region <b>British Columbia</b></span>
+    <span class="chip">Language <b>GNU MathProg</b></span>
+  </div>
+</section>
+
+<!-- 2 OVERVIEW -->
+<section id="what" class="reveal">
+  <span class="eyebrow">What it is</span>
+  <h2 class="title">A model that connects energy decisions to land and water</h2>
+  <p class="sec-lede">BCNexus identifies technological pathways to meet BC's decarbonization targets — through
+  electrification and alternative carriers such as hydrogen — while accounting for the water, food and land-use
+  implications of expanding electricity supply. It couples three subsystems (Water, Food/land, Energy) to climate.</p>
+  <div class="facts">
+    <div class="fact"><div class="n">WFE → Climate</div><div class="l">Water · Food/land · Energy subsystems coupled through CO₂ emissions</div></div>
+    <div class="fact"><div class="n">Flexible time</div><div class="l">User-defined temporal resolution — time-slices &amp; seasons chosen to capture both <b>diurnal</b> and <b>seasonal</b> attributes of VRE supply and demand</div></div>
+    <div class="fact"><div class="n">Bottom-up</div><div class="l">Explicit technologies, fuels and flows form a reference energy system</div></div>
+    <div class="fact"><div class="n">LP</div><div class="l">Linear cost optimisation over a multi-year horizon
+      <span class="tiny">Becomes a <b>MILP</b> when integer unit-builds are activated via <code>CapacityOfOneTechnologyUnit[r,t,y]</code> (and reserve/maintenance integer options) — see OSeMOSYS capacity constraints.</span></div></div>
+  </div>
+</section>
+
+<!-- 3 CONTENTS -->
+<section id="inside" class="reveal">
+  <span class="eyebrow">What's inside</span>
+  <h2 class="title">Explore the documentation</h2>
+  <p class="sec-lede">Everything is built directly from the GNU MathProg source of the two model files in the
+  <a href="https://github.com/DeltaE/BC_Nexus" target="_blank" rel="noopener" style="color:var(--accent)">DeltaE/BC_Nexus</a> repository. Each card opens in a new tab.</p>
+  <div class="cards">
+    <a class="card" target="_blank" rel="noopener" href="resources/BCNexus_CLEWs_model_documentation.html#anatomy">
+      <div class="ico">🧱</div><h3>Block-by-block code</h3>
+      <p>Sets, parameters, variables, objective and all 14 constraint blocks — each with the real constraint labels and condensed code.</p><span class="more">Open documentation ↗</span></a>
+    <a class="card" target="_blank" rel="noopener" href="resources/BCNexus_CLEWs_model_documentation.html#osemosys-clews">
+      <div class="ico">🌱</div><h3>OSeMOSYS vs CLEWs</h3>
+      <p>Exactly what CLEWs adds: one per-mode activity variable, four parameters, and constraints LU1–LU4. The rest is standard OSeMOSYS.</p><span class="more">See the difference ↗</span></a>
+    <a class="card" target="_blank" rel="noopener" href="resources/BCNexus_CLEWs_model_documentation.html#variants">
+      <div class="ico">🔋</div><h3>Kotzur vs Niet</h3>
+      <p>The only divergence between the two files is storage chronology — timeslice-by-timeslice vs typical-day seasonal storage.</p><span class="more">Compare variants ↗</span></a>
+    <a class="card" target="_blank" rel="noopener" href="resources/BCNexus_CLEWs_model_documentation.html#objective">
+      <div class="ico">💰</div><h3>Objective &amp; costs</h3>
+      <p>How total discounted system cost is assembled — capital, O&amp;M, emission penalties, salvage and storage.</p><span class="more">Read the objective ↗</span></a>
+    <a class="card" target="_blank" rel="noopener" href="resources/BCNexus_CLEWs_model_documentation.html#landuse">
+      <div class="ico">🗺️</div><h3>Land-use constraints ★</h3>
+      <p>The CLEWs heart: LU1–LU4 bound land-use activity per mode in level and in year-on-year rate of change.</p><span class="more">Inspect LU1–LU4 ↗</span></a>
+    <a class="card" target="_blank" rel="noopener" href="https://github.com/DeltaE/BC_Nexus">
+      <div class="ico">⌥</div><h3>Source code</h3>
+      <p>The authoritative model files, otoole configs and run workflow live in the BC_Nexus repository.</p><span class="more">Browse the repo ↗</span></a>
+  </div>
+</section>
+
+<!-- 4 CLEWS -->
+<section id="clews" class="reveal">
+  <span class="eyebrow">Key concept · click a domain</span>
+  <h2 class="title">The CLEWs nexus</h2>
+  <p class="sec-lede">CLEWs — <b>Climate, Land, Energy, Water Systems</b> — is an integrated framework and an extension of
+  OSeMOSYS. Rather than optimising energy in isolation, it captures feedbacks between the four domains. Open any node for
+  a detailed explainer (new tab).</p>
+  <div class="nexus">
+    <a class="node climate" target="_blank" rel="noopener" href="resources/clews_climate.html"><span class="dot">🌡️</span><h4>Climate</h4><small>CO₂ &amp; other emissions linking every subsystem; caps and carbon prices</small></a>
+    <a class="node land" target="_blank" rel="noopener" href="resources/clews_land.html"><span class="dot">🌾</span><h4>Land / Food</h4><small>Agriculture &amp; land cover via technology <i>modes</i>; bounded by LU1–LU4</small></a>
+    <a class="node energy" target="_blank" rel="noopener" href="resources/clews_energy.html"><span class="dot">⚡</span><h4>Energy</h4><small>Electricity, fuels, hydrogen — the OSeMOSYS reference-energy-system core</small></a>
+    <a class="node water" target="_blank" rel="noopener" href="resources/clews_water.html"><span class="dot">💧</span><h4>Water</h4><small>Water demand &amp; availability carried as commodities through energy balances</small></a>
+  </div>
+  <p class="sec-lede" style="margin-top:26px">The coupling is elegant: land parcels are <b>technologies</b>, the way land
+  is used is a <b>mode of operation</b>, and water and crop products flow as <b>fuels</b>. So land allocation, water demand
+  and agricultural emissions are all expressed through the same energy primitives — no separate sub-models needed.</p>
+</section>
+
+<!-- 5 WORKFLOW -->
+<section id="workflow" class="reveal">
+  <span class="eyebrow">How a scenario runs</span>
+  <h2 class="title">From raw data to policy insight</h2>
+  <p class="sec-lede">Each scenario flows through interfacing tools, a model run, and result processing. The documented
+  GNU MathProg file is the <b>Model Script</b> — marked below.</p>
+  <div class="flowbox">
+    <div class="flow" id="flow">
+      <div class="stage">
+        <div class="cap">Input</div>
+        <div class="fbox" data-k="raw"><div class="t">📥 Raw Data</div><div class="d">Unprocessed BC inputs</div></div>
+      </div>
+      <div class="conn">→</div>
+      <div class="stage scn">
+        <div class="cap">Scenario 1…n · Data prep</div>
+        <div class="fbox rec" data-k="otoole"><div class="t">otoole <span class="tagmini rec">recommended</span></div><div class="d">Python CLI · data ↔ datafile</div></div>
+        <div class="fbox" data-k="clicsand"><div class="t">clicSAND <span class="tagmini opt">option</span></div><div class="d">Spreadsheet GUI</div></div>
+        <div class="fbox" data-k="momani"><div class="t">MoManI <span class="tagmini opt">option</span></div><div class="d">Browser interface</div></div>
+      </div>
+      <div class="conn">→</div>
+      <div class="stage scn">
+        <div class="cap">Model Run · Cloud / PC</div>
+        <div class="fbox" data-k="datafile"><div class="t">📄 Input Datafile</div><div class="d">Sets &amp; parameters (.txt)</div></div>
+        <div class="fbox script" data-k="script"><div class="t">⚙️ Model Script <span class="reddot"></span></div><div class="d">GNU MathProg — documented here</div></div>
+        <div class="fbox" data-k="solver"><div class="t">🧮 Solver</div>
+          <div class="solverline"><span class="def">GLPK</span><span>CBC</span><span>Gurobi</span><span>CPLEX</span></div></div>
+      </div>
+      <div class="conn">→</div>
+      <div class="stage scn">
+        <div class="cap">Result Processing</div>
+        <div class="fbox" data-k="results"><div class="t">📊 Result Datafile</div><div class="d">CSV outputs</div></div>
+        <div class="fbox" data-k="viz"><div class="t">📈 Visualization</div><div class="d">Charts &amp; dashboards</div></div>
+      </div>
+      <div class="conn">→</div>
+      <div class="insightbig fbox" data-k="insight" style="margin:0">
+        <div class="ic">🏛️ 📊 ✅</div>
+        <div class="t">Insights for<br>Policy Support</div>
+      </div>
+    </div>
+
+    <div id="flowinfo"><h4 id="fi-t"></h4><p id="fi-d"></p><div class="hint">Click another box to explore · hover any box for a quick label</div></div>
+
+    <div class="legend"><span><span class="dotr"></span>The <b>Model Script</b> is the GNU MathProg file documented on this site.</span>
+      <a href="https://github.com/DeltaE/BC_Nexus/tree/main/workflow/scripts" target="_blank" rel="noopener">Run workflow ↗</a>
+      <span style="opacity:.8">Tip: click any box for details.</span></div>
+  </div>
+</section>
+
+<!-- 6 CONSTRAINTS / TRANSLATE -->
+<section id="constraints" class="reveal">
+  <span class="eyebrow">The core idea</span>
+  <h2 class="title">Critical constraints — and how everything becomes "energy"</h2>
+  <p class="sec-lede">CLEWs models climate, land and water without bespoke sub-models. The trick is representational: every
+  domain is re-expressed in the OSeMOSYS vocabulary of <b>technologies, modes, fuels and activity</b>. A handful of
+  constraints then govern the whole coupled system.</p>
+
+  <div class="map">
+    <div class="m"><b>A parcel of land</b><br><span>→ TECHNOLOGY</span></div>
+    <div class="arrow">+</div>
+    <div class="m"><b>How land is used (crop / practice)</b><br><span>→ MODE_OF_OPERATION</span></div>
+    <div class="arrow">+</div>
+    <div class="m"><b>Water, crops, heat, electricity</b><br><span>→ FUEL (commodity)</span></div>
+    <div class="arrow">=</div>
+    <div class="m"><b>One unified flow problem</b><br><span>→ RateOfActivity</span></div>
+  </div>
+
+  <div class="translate">
+    <div class="tr"><h4>⚖️ Energy balance <span class="mono">EBa11 / EBb4</span></h4>
+      <p>For every fuel — energy <i>or</i> water <i>or</i> crop — production ≥ demand + use + net trade in each timeslice.
+      This single template enforces electricity balance, water availability and crop supply alike.</p></div>
+    <div class="tr"><h4>🏭 Capacity adequacy <span class="mono">CAa4 / CAb1</span></h4>
+      <p>Activity ≤ installed capacity × capacity factor. Bounds how hard a power plant — or an irrigation scheme, or a
+      field — can operate, tying operation to investment.</p></div>
+    <div class="tr"><h4>🗺️ Land use <span class="mono">LU1–LU4</span></h4>
+      <p>Per-mode annual activity is bounded in level (max/min area) and in rate of change (how fast a land use may expand
+      or contract). This is the CLEWs-defining constraint set.</p></div>
+    <div class="tr"><h4>🌡️ Emissions <span class="mono">E8 / E9</span></h4>
+      <p>Activity × emission factor is summed and capped annually and over the horizon, and priced into the objective —
+      the climate thread that couples all domains.</p></div>
+  </div>
+  <p class="sec-lede" style="margin-top:22px">Because water and land flows ride on the <i>same</i> balance and capacity
+  equations as energy, the optimiser trades off a tonne of CO₂ saved by wind against one saved by a bioenergy crop —
+  including that crop's land and irrigation-water cost — inside one linear program.</p>
+</section>
+
+<!-- 7 VARIANTS -->
+<section id="variants" class="reveal">
+  <span class="eyebrow">Two model files</span>
+  <h2 class="title">Niet &amp; Kotzur variants</h2>
+  <p class="sec-lede">Both files are identical except for how the storage state of charge is tracked in time; both carry
+  the same CLEWs land-use extension. Niet and Kotzur are two of four temporal-representation methods (Cluster, Kotzur,
+  Welsch, Niet) benchmarked in the
+  <a href="https://github.com/DeltaE/storage-in-OSeMOSYS" target="_blank" rel="noopener" style="color:var(--accent)">storage-in-OSeMOSYS</a>
+  study on storage with temporal aggregation — best practices and algorithms.</p>
+  <div class="cmp">
+    <div class="card"><h3>model_BCNexus_Niet <span class="badge n">standard</span></h3>
+      <p style="color:var(--muted)">Classic OSeMOSYS storage.</p>
+      <ul><li>State of charge tracked <b>timeslice-by-timeslice</b> within a representative year</li>
+      <li>Variable <span class="mono">StorageLevelTSStart[r,s,l,y]</span></li>
+      <li>Refilling balanced over all timeslices (SC8)</li></ul></div>
+    <div class="card"><h3>model_BCNexus_Kotzur <span class="badge k">seasonal</span></h3>
+      <p style="color:var(--muted)">Typical-day (Kotzur) storage.</p>
+      <ul><li>Adds the <span class="mono">DAYSCRO</span> chronological-day set</li>
+      <li>Tracks charge across <b>ordered typical days</b> for inter-seasonal storage</li>
+      <li>Fewer variables — efficient for long-duration storage</li></ul></div>
+  </div>
+  <div class="card" style="margin-top:18px">
+    <h3 style="margin-top:0">🔋 Why storage representation matters</h3>
+    <p style="color:var(--muted)">When a full year (8760 h) is compressed into a few representative days to keep the
+    optimisation tractable, the storage state of charge must still be chained correctly across those days — otherwise
+    long-duration and seasonal storage is mis-valued. The two variants here are different answers to that problem:
+    Niet keeps an explicit intra-year timeslice chronology, while Kotzur reconstructs inter-day cycling from clustered
+    typical days. The trade-off between accuracy and variable count is exactly what the
+    <a href="https://github.com/DeltaE/storage-in-OSeMOSYS" target="_blank" rel="noopener">storage-in-OSeMOSYS</a>
+    framework (Cluster · Kotzur · Welsch · Niet) was built to quantify, using k-means clustering of capacity-factor and
+    demand profiles to pick representative days.</p>
+  </div>
+</section>
+
+<!-- 8 STRUCTURE (5 phases) -->
+<section id="structure" class="reveal">
+  <span class="eyebrow">How the file reads</span>
+  <h2 class="title">Five phases, top to bottom</h2>
+  <p class="sec-lede">A MathProg OSeMOSYS file is processed in order. Declarations come first (sets and their data), then
+  the objective, the constraints, and finally the solve and result export.</p>
+  <div class="cards">
+    <div class="card"><div class="ico">①</div><h3>Sets &amp; Parameters</h3><p>Index domains (years, technologies, fuels, timeslices, regions, modes, storage) and the exogenous data defined over them — costs, demands, efficiencies, emission factors, land limits.</p></div>
+    <div class="card"><div class="ico">②</div><h3>Variables</h3><p>Decision &amp; accounting unknowns the solver chooses; <span class="mono">RateOfActivity</span> is the master from which most constraints are built.</p></div>
+    <div class="card"><div class="ico">③</div><h3>Objective</h3><p>A single <span class="mono">minimize cost</span> over total discounted system cost — capital, O&amp;M, emission penalties, salvage and storage.</p></div>
+    <div class="card"><div class="ico">④</div><h3>Constraints</h3><p>14 blocks: capacity adequacy, energy balance, accounting, storage, costs, capacity/activity limits, reserve margin, RE target, emissions, and land use.</p></div>
+    <div class="card"><div class="ico">⑤</div><h3>Solve &amp; output</h3><p><span class="mono">solve;</span> invokes GLPK, then ~30 <span class="mono">table tout … OUT "CSV"</span> statements export results for post-processing.</p></div>
+  </div>
+  <div style="text-align:center;margin-top:30px">
+    <a class="btn primary" href="resources/BCNexus_CLEWs_model_documentation.html" target="_blank" rel="noopener">📖 Open the full code documentation ↗</a>
+  </div>
+</section>
+
+<!-- 9 SUITE -->
+<section id="suite" class="reveal">
+  <span class="eyebrow">Part of a larger toolchain</span>
+  <h2 class="title">The Combined Modelling BC suite</h2>
+  <p class="sec-lede">BCNexus does not stand alone. It is one component of an end-to-end, soft-linked modelling workflow
+  for British Columbia that couples capacity expansion, renewable-resource assessment and operational power-system
+  simulation.</p>
+  <div class="card" style="display:flex;gap:26px;align-items:center;flex-wrap:wrap">
+    <a href="https://github.com/DeltaE/BC_Combined_Modelling" target="_blank" rel="noopener" style="flex:0 0 auto">
+      <img src="resources/CombinedModellingBC_logo.svg" alt="Combined Modelling BC" style="height:96px;width:auto;display:block"></a>
+    <div style="flex:1;min-width:260px">
+      <div class="nexus" style="margin:0">
+        <a class="node energy" target="_blank" rel="noopener" href="https://github.com/DeltaE/BC_Nexus"><img src="resources/BCNexus_logo_animated.svg" alt="BCNexus" style="height:46px;width:auto;margin:0 auto 8px;display:block"><h4>BCNexus</h4><small>CLEWs capacity expansion (this model)</small></a>
+        <a class="node land" target="_blank" rel="noopener" href="https://github.com/DeltaE/RESource"><img src="resources/RESource_logo.png" alt="RESource" style="height:46px;width:auto;margin:0 auto 8px;display:block" onerror="this.outerHTML='&lt;span class=&quot;dot&quot;&gt;🌬️&lt;/span&gt;'"><h4>RESource</h4><small>VRE / renewable resource assessment</small></a>
+        <a class="node water" target="_blank" rel="noopener" href="https://github.com/DeltaE/PyPSA_BC"><img src="resources/PyPSA_BC_logo.png" alt="PyPSA-BC" style="height:46px;width:auto;margin:0 auto 8px;display:block;border-radius:8px" onerror="this.outerHTML='&lt;span class=&quot;dot&quot;&gt;🔌&lt;/span&gt;'"><h4>PyPSA-BC</h4><small>Operational power-system model</small></a>
+        <a class="node climate" target="_blank" rel="noopener" href="https://github.com/DeltaE/BC_Combined_Modelling"><span class="dot">🔗</span><h4>Soft-linking</h4><small>Tool tying the chain together</small></a>
+      </div>
+      <p style="margin:16px 0 0;color:var(--muted);font-size:.94rem">Explore the umbrella project:
+      <a href="https://github.com/DeltaE/BC_Combined_Modelling" target="_blank" rel="noopener" style="color:var(--accent)">DeltaE/BC_Combined_Modelling ↗</a></p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a href="https://github.com/eliasinul" target="_blank" rel="noopener"
+     style="display:inline-flex;align-items:center;gap:12px;padding:9px 16px 9px 9px;border:1px solid var(--brd);border-radius:999px;background:var(--panel);margin-bottom:22px;transition:.2s;color:var(--text)"
+     onmouseover="this.style.borderColor='var(--accent)';this.style.boxShadow='0 0 20px -6px var(--accent)'"
+     onmouseout="this.style.borderColor='var(--brd)';this.style.boxShadow='none'">
+    <img src="https://github.com/eliasinul.png" alt="Muhammad Eliasinul Islam" style="width:38px;height:38px;border-radius:50%;object-fit:cover" onerror="this.style.display='none'">
+    <span style="display:flex;flex-direction:column;line-height:1.25">
+      <b style="font-size:.92rem">Connect with the developer</b>
+      <span style="font-size:.8rem;color:var(--muted)">Muhammad Eliasinul Islam · @eliasinul ↗</span>
+    </span>
+  </a>
+  <p style="margin:0 0 6px">Prepared for EL · June 2026 · content sourced from the
+  <a href="https://github.com/DeltaE/BC_Nexus/wiki" target="_blank" rel="noopener">BC_Nexus wiki</a>,
+  <a href="https://github.com/DeltaE/BC_Nexus" target="_blank" rel="noopener">source repository</a>,
+  <a href="https://osemosys.readthedocs.io/en/latest/" target="_blank" rel="noopener">OSeMOSYS docs</a>,
+  <a href="https://github.com/DeltaE/storage-in-OSeMOSYS" target="_blank" rel="noopener">storage-in-OSeMOSYS</a> and
+  <a href="https://github.com/DeltaE/BC_Combined_Modelling" target="_blank" rel="noopener">BC_Combined_Modelling</a>.</p>
+  <p style="margin:0;color:var(--muted)">BCNexus is a research model by the Delta E+ group. This page documents the published model code; it is not an official project page.</p>
+</footer>
+</div>
+
+<div class="deck-ui">
+  <button id="prev" title="Previous (left)">&#8249;</button>
+  <div class="deck-dots" id="dots"></div>
+  <span class="count" id="count">1 / 9</span>
+  <button id="next" title="Next (right)">&#8250;</button>
+  <button id="exit" title="Exit (Esc)">&#10005;</button>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement, tBtn=document.getElementById('themeBtn');
+  function setTheme(t){root.setAttribute('data-theme',t);tBtn.textContent=(t==='dark')?'🌙':'☀️';}
+  setTheme('dark');
+  tBtn.onclick=function(){setTheme(root.getAttribute('data-theme')==='dark'?'light':'dark');};
+
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+
+  var slides=Array.prototype.slice.call(document.querySelectorAll('.wrap > section'));
+  var cur=0, dotsWrap=document.getElementById('dots'), count=document.getElementById('count');
+  slides.forEach(function(s,i){var d=document.createElement('i');d.onclick=function(){go(i)};dotsWrap.appendChild(d);});
+  function render(){
+    slides.forEach(function(s,i){s.classList.toggle('active',i===cur);});
+    Array.prototype.forEach.call(dotsWrap.children,function(d,i){d.classList.toggle('on',i===cur);});
+    count.textContent=(cur+1)+' / '+slides.length;
+  }
+  function go(i){cur=Math.max(0,Math.min(slides.length-1,i));render();}
+  function enter(){
+    document.body.classList.add('present');cur=0;render();
+    var el=document.documentElement;
+    if(el.requestFullscreen)el.requestFullscreen().catch(function(){});
+    else if(el.webkitRequestFullscreen)el.webkitRequestFullscreen();
+  }
+  function exit(){
+    document.body.classList.remove('present');
+    if(document.fullscreenElement&&document.exitFullscreen)document.exitFullscreen().catch(function(){});
+  }
+  document.getElementById('presentBtn').onclick=enter;
+  document.getElementById('next').onclick=function(){go(cur+1)};
+  document.getElementById('prev').onclick=function(){go(cur-1)};
+  document.getElementById('exit').onclick=exit;
+  document.addEventListener('keydown',function(e){
+    if(!document.body.classList.contains('present'))return;
+    if(e.key==='ArrowRight'||e.key===' ')go(cur+1);
+    else if(e.key==='ArrowLeft')go(cur-1);
+    else if(e.key==='Escape')exit();
+  });
+  document.addEventListener('fullscreenchange',function(){
+    if(!document.fullscreenElement)document.body.classList.remove('present');
+  });
+
+  var FLOW={
+    raw:["📥 Raw Data","Unprocessed BC inputs: energy balances and demand projections, techno-economic technology data, resource potentials (hydro, wind, solar), plus land/crop and water data. These feed data preparation."],
+    otoole:["otoole — recommended interfacing tool","Open-source Python command-line package that converts data between CSV/Excel and the OSeMOSYS datafile, validates inputs, and post-processes results back into CSVs. The interfacing tool used in the BCNexus workflow."],
+    clicsand:["clicSAND — alternative","'Simple And Nearly Done': a spreadsheet-based graphical front-end that builds the model and calls a solver without coding. A lower-barrier option."],
+    momani:["MoManI — alternative","Model Management Infrastructure: a browser-based interface for editing model structure, sets, parameters and data."],
+    datafile:["📄 Input Datafile","The GNU MathProg data file (.txt/.dat) holding every set and parameter for one scenario; produced by the data-prep tools and consumed by the model script."],
+    script:["⚙️ Model Script — documented here","The GNU MathProg model file (model_BCNexus_Niet.m / _Kotzur.m) — the OSeMOSYS+CLEWs formulation documented block-by-block on this site (red marker)."],
+    solver:["🧮 Solver","The optimiser that solves the LP/MILP. GLPK (glpsol) is the open-source default; CBC is another free option; Gurobi and CPLEX are commercial solvers, much faster on large or mixed-integer problems."],
+    results:["📊 Result Datafile","CSV outputs written by the model — capacity, activity, production, costs, emissions, trade and storage (~30 tables), read back by otoole."],
+    viz:["📈 Visualization","Charts and dashboards built from the result CSVs to interpret pathways, costs and emissions across scenarios."],
+    insight:["🏛️ Insights for Policy Support","The end purpose: evidence on least-cost decarbonization pathways for BC — electrification and hydrogen strategy, and land &amp; water trade-offs of expanding electricity supply — to inform policy."]
+  };
+  var fi=document.getElementById('flowinfo'),ft=document.getElementById('fi-t'),fd=document.getElementById('fi-d');
+  document.querySelectorAll('#flow .fbox').forEach(function(b){
+    var k=b.getAttribute('data-k'); if(FLOW[k])b.title=FLOW[k][0];
+    b.addEventListener('click',function(){
+      document.querySelectorAll('#flow .fbox').forEach(function(x){x.classList.remove('on')});
+      if(!FLOW[k])return; b.classList.add('on');
+      ft.innerHTML=FLOW[k][0]; fd.innerHTML=FLOW[k][1]; fi.classList.add('show');
+    });
+  });
+
+  var links=document.querySelectorAll('.navlinks a');
+  window.addEventListener('scroll',function(){
+    var y=window.scrollY+90, act='';
+    slides.forEach(function(s){if(s.offsetTop<=y)act=s.id;});
+    links.forEach(function(l){l.style.color=(l.getAttribute('href')==='#'+act)?'var(--text)':'';});
+  });
+})();
+</script>
+</body>
+</html>

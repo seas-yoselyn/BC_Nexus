@@ -1,0 +1,91 @@
+<!DOCTYPE html><html lang="en" data-theme="dark"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="EL"><title>Energy · BCNexus CLEWs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#070b12;--panel:rgba(255,255,255,.04);--brd:rgba(255,255,255,.09);--text:#eaf0f7;--muted:#9aa7b6;
+--green:#3bb54a;--blue:#1f8fe0;--yellow:#f4cf12;--accent:#1f8fe0}
+[data-theme="light"]{--bg:#f3f6fa;--panel:rgba(13,30,55,.035);--brd:rgba(13,30,55,.12);--text:#16202e;--muted:#516074}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);
+-webkit-font-smoothing:antialiased;letter-spacing:.006em;line-height:1.65;overflow-x:hidden}
+body::before{content:"";position:fixed;width:680px;height:680px;border-radius:50%;filter:blur(130px);opacity:.45;z-index:0;
+background:radial-gradient(circle,#1f8fe0,transparent 65%);top:-260px;right:-180px;pointer-events:none}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{position:relative;z-index:1;max-width:920px;margin:0 auto;padding:0 26px}
+header.bar{position:sticky;top:0;z-index:40;backdrop-filter:blur(14px);background:linear-gradient(to bottom,rgba(7,11,18,.82),rgba(7,11,18,.3));border-bottom:1px solid var(--brd)}
+[data-theme="light"] header.bar{background:linear-gradient(to bottom,rgba(243,246,250,.9),rgba(243,246,250,.5))}
+.bar-in{display:flex;align-items:center;gap:16px;height:60px;max-width:920px;margin:0 auto;padding:0 26px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700}.brand img{height:30px;filter:drop-shadow(0 0 9px #1f8fe0)}
+.bar-right{margin-left:auto;display:flex;gap:9px}
+.ib{display:inline-flex;align-items:center;gap:7px;padding:7px 12px;border-radius:10px;font-size:.84rem;font-weight:500;
+border:1px solid var(--brd);background:var(--panel);color:var(--text);cursor:pointer}
+.ib:hover{border-color:var(--accent);box-shadow:0 0 16px -4px var(--accent);text-decoration:none}.ib svg{width:15px;height:15px}
+.hero{padding:60px 0 26px;text-align:center}
+.emoji{font-size:3.4rem;filter:drop-shadow(0 0 22px #1f8fe0)}
+h1{font-size:clamp(2rem,5vw,3rem);margin:12px 0 8px;font-weight:800;letter-spacing:-.02em}
+h1 .g{background:linear-gradient(100deg,#1f8fe0,var(--text));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lede{color:var(--muted);font-size:1.12rem;max-width:680px;margin:0 auto}
+.tag{display:inline-block;margin-top:14px;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--accent)}
+section{padding:26px 0}
+h2{font-size:1.45rem;margin:30px 0 10px;font-weight:800;letter-spacing:-.01em}
+h3{font-size:1.08rem;margin:22px 0 6px}
+p{color:var(--text)}p.m{color:var(--muted)}
+.card{background:var(--panel);border:1px solid var(--brd);border-radius:16px;padding:22px 24px;margin:16px 0;backdrop-filter:blur(12px)}
+.callout{border-left:4px solid var(--accent);background:rgba(255,255,255,.03);padding:14px 18px;border-radius:0 12px 12px 0;margin:16px 0}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92rem}
+th,td{text-align:left;padding:9px 12px;border:1px solid var(--brd);vertical-align:top}
+th{background:var(--panel);font-weight:600}
+code{font-family:'JetBrains Mono',monospace;font-size:.86em;background:var(--panel);border:1px solid var(--brd);border-radius:5px;padding:1px 6px;color:var(--accent)}
+.pill{display:inline-block;font-size:.8rem;padding:5px 12px;border-radius:999px;border:1px solid var(--brd);background:var(--panel);margin:3px 5px 3px 0;color:var(--muted)}
+.pill b{color:var(--text)}
+.nav-comp{display:flex;gap:8px;flex-wrap:wrap;margin:30px 0 10px}
+.nav-comp a{flex:1;min-width:120px;text-align:center;padding:12px;border-radius:12px;border:1px solid var(--brd);background:var(--panel);font-weight:600;font-size:.9rem;color:var(--text)}
+.nav-comp a:hover{border-color:var(--accent);box-shadow:0 0 16px -5px var(--accent);text-decoration:none}
+.nav-comp a.self{border-color:var(--accent);box-shadow:0 0 14px -5px var(--accent)}
+footer{padding:40px 0 70px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--brd);margin-top:30px}
+.tbtn{cursor:pointer}
+</style></head><body>
+<header class="bar"><div class="bar-in">
+<a class="brand" href="../index.html"><img src="BCNexus_logo_animated.svg" alt="logo"><span>BCNexus</span></a>
+<div class="bar-right">
+<a class="ib" href="../index.html#clews">‹ Nexus</a>
+<a class="ib" href="https://github.com/DeltaE/BC_Nexus/wiki" target="_blank">Wiki</a>
+<button class="ib tbtn" id="t">🌙</button>
+</div></div></header>
+<div class="wrap">
+<div class="hero"><div class="emoji">⚡</div>
+<h1>Energy <span class="g">component</span></h1>
+<p class="lede">The OSeMOSYS reference-energy-system core — electricity, fuels and hydrogen pathways to decarbonize British Columbia.</p><div class="tag">CLEWs · Energy</div></div>
+<div class="nav-comp">
+<a href="clews_climate.html">🌡️ Climate</a>
+<a href="clews_land.html">🌾 Land / Food</a>
+<a href="clews_energy.html" class="self">⚡ Energy</a>
+<a href="clews_water.html">💧 Water</a>
+</div>
+
+<section>
+<h2>The 'E' — the modelling backbone</h2>
+<p>Energy is the original OSeMOSYS domain and the structural core of BCNexus. It is a <b>bottom-up reference energy system</b>: primary resources are mined or imported, converted by technologies into energy carriers, and delivered to satisfy sectoral demands (industry, residential, commercial, transport, agriculture). The model chooses least-cost capacity and operation across the whole chain.</p>
+<div class="callout">The whole energy subsystem runs on three primitives: <code>InputActivityRatio</code> / <code>OutputActivityRatio</code> wire fuels through technologies, <code>RateOfActivity</code> is how hard each technology runs, and the energy-balance constraints force supply ≥ demand + use + trade in every timeslice.</div>
+</section>
+<section><h2>Carriers &amp; resources (base model)</h2>
+<div>
+<span class="pill"><b>ELC</b> Electricity</span><span class="pill"><b>HYD</b> Hydropower</span><span class="pill"><b>WND</b> Wind</span>
+<span class="pill"><b>SOL</b> Solar</span><span class="pill"><b>GEO</b> Geothermal</span><span class="pill"><b>NGS</b> Natural gas</span>
+<span class="pill"><b>DSL</b> Diesel</span><span class="pill"><b>GSL</b> Gasoline</span><span class="pill"><b>BIO</b> Biomass</span>
+<span class="pill"><b>COA</b> Coal</span><span class="pill"><b>URN</b> Uranium</span><span class="pill"><b>RPP</b> Refined petroleum</span>
+</div>
+<p style="margin-top:12px">Technology classes: <span class="pill"><b>PWR</b> Power plant</span><span class="pill"><b>MIN</b> non-renewable mining</span><span class="pill"><b>RNW</b> renewable resource</span><span class="pill"><b>IMP/EXP</b> trade</span></p>
+</section>
+<section><h2>What the model is trying to find</h2>
+<p>The core policy question: which technological pathways — heavy electrification plus alternative carriers such as <b>hydrogen</b> — meet BC's decarbonization targets at least cost. Variable renewables (solar, wind) make the intra-day timeslice resolution and the storage formulation (see the Niet vs Kotzur variants) especially important.</p></section>
+
+<footer><p>Sourced from the <a href="https://github.com/DeltaE/BC_Nexus/wiki" target="_blank">BC_Nexus wiki</a>
+and interpreted against the model code. Prepared for EL · June 2026.</p></footer>
+</div>
+<script>var r=document.documentElement,b=document.getElementById('t');
+function s(t){r.setAttribute('data-theme',t);b.textContent=t==='dark'?'🌙':'☀️';}s('dark');
+b.onclick=function(){s(r.getAttribute('data-theme')==='dark'?'light':'dark');};</script>
+</body></html>
