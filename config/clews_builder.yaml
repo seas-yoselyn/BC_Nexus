@@ -111,7 +111,7 @@ TECHNOLOGIES:
       operational_life: 100
       status: existing
       type: reservoir
-      variable_cost: 0.01
+      variable_cost: 0.001
     PWRHYDB02:
       capacity: 5.314639999999999
       capital_cost: 4007.9
@@ -147,7 +147,7 @@ TECHNOLOGIES:
       name: BC_SNM00_GEN
       operational_life: 30
       status: existing
-      variable_cost: 0.0
+      variable_cost: 0.001
     PWRSOLB02:
       capital_cost: 1482.68328030212
       name: ShTSaQU Solar Project
@@ -163,7 +163,7 @@ TECHNOLOGIES:
       potential: 2.5424415086023138
       start_year: 2031
       status: future
-      variable_cost: 0.0
+      variable_cost: 0.001
     PWRSOLB04:
       capital_cost: 1366.5982035504765
       name: Okanagan-Similkameen_1
@@ -171,7 +171,7 @@ TECHNOLOGIES:
       potential: 0.818628590723552
       start_year: 2031
       status: future
-      variable_cost: 0.0
+      variable_cost: 0.001
     PWRSOLB05:
       capital_cost: 1366.5982035504765
       name: KootenayBoundary_1
@@ -179,7 +179,7 @@ TECHNOLOGIES:
       potential: 0.5088347024614553
       start_year: 2031
       status: future
-      variable_cost: 0.0
+      variable_cost: 0.001
     PWRSOLB06:
       capital_cost: 1366.5982035504765
       name: NorthOkanagan_1
@@ -187,7 +187,7 @@ TECHNOLOGIES:
       potential: 1.5721971121991396
       start_year: 2031
       status: future
-      variable_cost: 0.0
+      variable_cost: 0.001
     PWRSOLB07:
       capital_cost: 1366.5982035504765
       name: CentralKootenay_1
@@ -195,7 +195,7 @@ TECHNOLOGIES:
       potential: 1.246208714771974
       start_year: 2031
       status: future
-      variable_cost: 0.0
+      variable_cost: 0.001
     PWRSOLB08:
       capital_cost: 1366.5982035504765
       name: KootenayBoundary_2
@@ -203,7 +203,7 @@ TECHNOLOGIES:
       potential: 0.6493399097824525
       start_year: 2031
       status: future
-      variable_cost: 0.0
+      variable_cost: 0.001
     PWRSOLB09:
       capital_cost: 1366.5982035504765
       name: Okanagan-Similkameen_2
@@ -211,7 +211,7 @@ TECHNOLOGIES:
       potential: 0.8551635306301747
       start_year: 2031
       status: future
-      variable_cost: 0.0
+      variable_cost: 0.001
     PWRSOLB10:
       capital_cost: 1366.5982035504765
       name: Thompson-Nicola_1
@@ -219,7 +219,7 @@ TECHNOLOGIES:
       potential: 1.8071859308289384
       start_year: 2031
       status: future
-      variable_cost: 0.0
+      variable_cost: 0.001
   PWRURN:
     PWRURNB01: {}
   PWRWND:
@@ -230,7 +230,7 @@ TECHNOLOGIES:
       name: BC_BMW00_GEN
       operational_life: 25
       status: existing
-      variable_cost: 0.0
+      variable_cost: 0.001
     PWRWNDB02:
       capacity: 0.0992
       capital_cost: 2278.07
@@ -238,7 +238,7 @@ TECHNOLOGIES:
       name: BC_CSS00_GEN
       operational_life: 20
       status: existing
-      variable_cost: 0.0
+      variable_cost: 0.001
     PWRWNDB03:
       capacity: 0.144
       capital_cost: 2278.07
@@ -246,7 +246,7 @@ TECHNOLOGIES:
       name: BC_DKW00_GEN
       operational_life: 25
       status: existing
-      variable_cost: 0.0
+      variable_cost: 0.001
     PWRWNDB04:
       capacity: 0.1846
       capital_cost: 2278.07
@@ -254,7 +254,7 @@ TECHNOLOGIES:
       name: BC_MKL00_GEN
       operational_life: 25
       status: existing
-      variable_cost: 0.0
+      variable_cost: 0.001
     PWRWNDB05:
       capacity: 0.015
       capital_cost: 2278.07
@@ -262,7 +262,7 @@ TECHNOLOGIES:
       name: BC_MLW00_GEN
       operational_life: 40
       status: existing
-      variable_cost: 0.0
+      variable_cost: 0.001
     PWRWNDB06:
       capacity: 0.015
       capital_cost: 2278.07
@@ -270,7 +270,7 @@ TECHNOLOGIES:
       name: BC_PSW00_GEN
       operational_life: 40
       status: existing
-      variable_cost: 0.0
+      variable_cost: 0.001
     PWRWNDB07:
       capacity: 0.1422
       capital_cost: 2278.07
@@ -278,7 +278,7 @@ TECHNOLOGIES:
       name: BC_QTY00_GEN
       operational_life: 25
       status: existing
-      variable_cost: 0.0
+      variable_cost: 0.001
     PWRWNDB08:
       capacity: 0.015
       capital_cost: 2278.07
@@ -286,7 +286,7 @@ TECHNOLOGIES:
       name: BC_SHC00_GEN
       operational_life: 40
       status: existing
-      variable_cost: 0.0
+      variable_cost: 0.001
     PWRWNDB09:
       capacity: 0.015
       capital_cost: 2278.07
@@ -294,7 +294,7 @@ TECHNOLOGIES:
       name: BC_SUK00_GEN
       operational_life: 40
       status: existing
-      variable_cost: 0.0
+      variable_cost: 0.001
     PWRWNDB10:
       capacity: 0.015
       capital_cost: 2278.07
@@ -302,7 +302,7 @@ TECHNOLOGIES:
       name: BC_ZBK00_GEN
       operational_life: 40
       status: existing
-      variable_cost: 0.0
+      variable_cost: 0.001
     PWRWNDB11:
       capital_cost: 1735.2745158554371
       name: Stewart Creek Wind Project
@@ -382,7 +382,7 @@ TECHNOLOGIES:
       potential: 1.1
       start_year: 2033
       status: future
-      variable_cost: 0.0
+      variable_cost: 0.001
     PWRWNDB21:
       capital_cost: 1564.55696742041
       name: FraserValley_1
@@ -390,7 +390,7 @@ TECHNOLOGIES:
       potential: 1.5
       start_year: 2033
       status: future
-      variable_cost: 0.0
+      variable_cost: 0.001
     PWRWNDB22:
       capital_cost: 1564.55696742041
       name: Kitimat-Stikine_1
@@ -398,7 +398,7 @@ TECHNOLOGIES:
       potential: 5.0
       start_year: 2033
       status: future
-      variable_cost: 0.0
+      variable_cost: 0.001
     PWRWNDB23:
       capital_cost: 1564.55696742041
       name: PeaceRiver_1
@@ -406,7 +406,7 @@ TECHNOLOGIES:
       potential: 5.0
       start_year: 2033
       status: future
-      variable_cost: 0.0
+      variable_cost: 0.001
     PWRWNDB24:
       capital_cost: 1564.55696742041
       name: EastKootenay_1
@@ -414,7 +414,7 @@ TECHNOLOGIES:
       potential: 2.9
       start_year: 2033
       status: future
-      variable_cost: 0.0
+      variable_cost: 0.001
     PWRWNDB25:
       capital_cost: 1564.55696742041
       name: Thompson-Nicola_1
@@ -422,7 +422,7 @@ TECHNOLOGIES:
       potential: 5.0
       start_year: 2033
       status: future
-      variable_cost: 0.0
+      variable_cost: 0.001
     PWRWNDB26:
       capital_cost: 1564.55696742041
       name: Columbia-Shuswap_1
@@ -430,7 +430,7 @@ TECHNOLOGIES:
       potential: 0.8
       start_year: 2033
       status: future
-      variable_cost: 0.0
+      variable_cost: 0.001
     PWRWNDB27:
       capital_cost: 1564.55696742041
       name: Thompson-Nicola_2
@@ -438,4 +438,4 @@ TECHNOLOGIES:
       potential: 0.9
       start_year: 2033
       status: future
-      variable_cost: 0.0
+      variable_cost: 0.001

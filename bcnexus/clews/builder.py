@@ -681,7 +681,7 @@ class BuildModel:
         for k_param, v_df in Params_dfs.items():
                     if 'YEAR' in v_df.columns:
                         for index, row in v_df.iterrows():
-                            if row['YEAR'] < self.start_year or row['YEAR'] > self.last_year:
+                            if int(row['YEAR']) < self.start_year or int(row['YEAR']) > self.last_year:
                                 v_df.drop(index, inplace=True)
                         v_df.to_csv(csvs_dir / f'{k_param}.csv', index=False)
         """ 
@@ -690,7 +690,7 @@ class BuildModel:
             v_df=pd.read_csv(csvs_dir / 'ReserveMarginTagFuel.csv')
             if 'YEAR' in v_df.columns:
                 for index, row in v_df.iterrows():
-                    if row['YEAR'] < self.start_year or row['YEAR'] > self.last_year:
+                    if int(row['YEAR']) < self.start_year or int(row['YEAR']) > self.last_year:
                         v_df.drop(index, inplace=True)
                 v_df.to_csv(csvs_dir / f'{k_param}.csv', index=False)
                 utils.print_update(level=3,message='ReserveMarginTagFuel.csv updated @ {csvs_dir}')
