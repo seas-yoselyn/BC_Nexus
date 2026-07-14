@@ -1,9 +1,4 @@
-[submodule "BC_Nexus"]
-    path = models/BC_Nexus
-    url = https://github.com/DeltaE/BC_Nexus
-    branch = main
-
 [submodule "BC_Nexus.wiki"]
-    path = models/BC_Nexus.wiki
+    path = BC_Nexus.wiki
     url = https://github.com/DeltaE/BC_Nexus.wiki.git
     branch = main
