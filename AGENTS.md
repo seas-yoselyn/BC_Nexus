@@ -1,7 +1,8 @@
 # AGENTS.md — agent contract for the BCNexus repository
 
-Author: Md Eliasinul Islam · Delta E+ Research Group, Simon Fraser University
-Scope: everything under this repository root. Read this file before editing code.
+__Author__: Md Eliasinul Islam · Delta E+ Research Group, Simon Fraser University
+
+__Scope__: everything under this repository root. Read this file before editing code.
 
 ---
 
@@ -127,7 +128,7 @@ the report rather than killing the run. Preserve that contract.
    mix in the demand projection is an assumption, not a model finding. See
    `data/calibration/README.md` §4 before reporting any end-use fuel level.
 6. **Style edits go in the template**, colour edits go in `palette.py`, never inline.
-7. **Author attribution** on generated documents is *Md Eliasinul Islam*.
+7. **Author attribution** on generated documents is *__[Md Eliasinul Islam](https://github.com/eliasinul)__*.
 8. Prose follows scientific-writing conventions: declarative, no filler, claims
    traceable to a file or a source.
 
