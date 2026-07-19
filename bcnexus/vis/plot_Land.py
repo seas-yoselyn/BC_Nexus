@@ -2,6 +2,7 @@ import pandas as pd
 from bcnexus import constants
 # import plotly.express as px
 import plotly.graph_objects as go
+from bcnexus.vis import palette
 
 
 # ---------------------------------------------------------------- labels
@@ -107,7 +108,9 @@ def plot_land_area_by_crop(prod: pd.DataFrame, scenario: str = None):
     fig = go.Figure()
     for crop in pivot.sum().sort_values(ascending=False).index:
         fig.add_trace(go.Scatter(x=pivot.index, y=pivot[crop], name=crop,
-                                 stackgroup="one", mode="lines"))
+                                 stackgroup="one", mode="lines",
+                                 line=dict(color=palette.color(crop)),
+                                 fillcolor=palette.color(crop)))
     return _layout(fig, f"Cropland area by crop{sfx}", "Thousand Square Km", "Crop")
 
 
@@ -129,7 +132,8 @@ def plot_irrigated_vs_rainfed(prod: pd.DataFrame, scenario: str = None):
 
     fig = go.Figure()
     for reg in pivot.columns:
-        fig.add_trace(go.Bar(x=pivot.index, y=pivot[reg], name=reg))
+        fig.add_trace(go.Bar(x=pivot.index, y=pivot[reg], name=reg,
+                             marker_color=palette.color(reg)))
     fig.update_layout(barmode="stack")
 
     agrwat = prod[prod.FUEL.str.startswith("AGRWAT")]
@@ -160,7 +164,8 @@ def _delta_bars(d: pd.DataFrame, group_col: str, title: str, legend: str):
     for cls in delta.columns:
         if delta[cls].abs().sum() < 1e-9:
             continue  # skip static classes to keep the plot readable
-        fig.add_trace(go.Bar(x=delta.index, y=delta[cls], name=cls))
+        fig.add_trace(go.Bar(x=delta.index, y=delta[cls], name=cls,
+                             marker_color=palette.color(cls)))
     fig.update_layout(barmode="relative")
     fig.add_hline(y=0, line_width=1, line_color="grey")
     return _layout(fig, title, "Δ Thousand Square Km", legend)
@@ -294,7 +299,8 @@ def plot_effective_yield(prod: pd.DataFrame, scenario: str = None):
     fig = go.Figure()
     for crop, dd in y.groupby("Crop"):
         fig.add_trace(go.Scatter(x=dd.YEAR, y=dd.Yield, name=crop,
-                                 mode="lines+markers"))
+                                 mode="lines+markers",
+                                 line=dict(color=palette.color(crop))))
     return _layout(fig, f"Effective yield by crop{sfx}", "Mt per 1000 km²", "Crop")
 
 
@@ -306,7 +312,8 @@ def plot_forest_trajectory(cap: pd.DataFrame, scenario: str = None):
         return None
     g = d.groupby("YEAR", as_index=False).VALUE.sum()
     fig = go.Figure(go.Scatter(x=g.YEAR, y=g.VALUE, mode="lines+markers",
-                               fill="tozeroy", name="Forest"))
+                               fill="tozeroy", name="Forest",
+                               line=dict(color=palette.color("Forest"))))
     net = g.VALUE.iloc[-1] - g.VALUE.iloc[0]
     fig.add_annotation(x=g.YEAR.iloc[-1], y=g.VALUE.iloc[-1],
                        text=f"net {net:+.2f} kkm²", showarrow=True, arrowhead=2)

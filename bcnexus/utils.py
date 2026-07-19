@@ -202,12 +202,12 @@ def button_select(options: list,
 def build_scenario_ui(scenarios_cfg: dict = None,
                       default_hour_grouping: int = 4,
                       default_clusters: int = 4,
-                      default_scenarios: list = ['Base_CNZ_noCCS'],
+                      default_scenarios: list = None,
                       default_storage: str = 'Kotzur',
                       default_solver: str = 'Gurobi',
                       default_compiler: str = 'Glpk',
-                      default_threads: int = 16,
-                      theme: str = 'light',
+                      default_threads: int = 8,
+                      theme: str = 'dark',
                       guide_url: str = 'docs/resources/temporal_resolution_explorer.html'):
     """Scenario/temporal configuration UI for the BCNexus notebook.
 

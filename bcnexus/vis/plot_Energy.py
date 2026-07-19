@@ -490,15 +490,16 @@ def _nexus_links(prod_y: pd.DataFrame, use_y: pd.DataFrame) -> list:
         v = prod_y[prod_y.FUEL.str.startswith(pref)].VALUE.sum()
         if v > 0:
             links.append(("Water", tgt, v))
-    # biomass -> sectors
-    smap = {"DEMIND": "Industry", "DEMRES": "Residential",
-            "DEMCOM": "Commercial", "PWR": "Power"}
+    # biomass -> sectors  (DEM<SEC>BIO: IND/RES/COM/TRA/PWR/AGR)
+    _SEC = {"IND": "Industry", "RES": "Residential", "COM": "Commercial",
+            "TRA": "Transport", "PWR": "Power", "AGR": "Agriculture"}
     bio = use_y[use_y.FUEL == "BIO"]
     for t, v in bio.groupby("TECHNOLOGY").VALUE.sum().items():
-        for pref, tgt in smap.items():
-            if t.startswith(pref):
-                links.append(("Biomass", tgt, v))
-                break
+        tgt = _SEC.get(t[3:6]) if t.startswith("DEM") else None
+        if tgt is None:                      # e.g. PWRBIO* generation techs
+            tgt = next((lbl for code, lbl in _SEC.items()
+                        if t.startswith(code)), "Other")
+        links.append(("Biomass", tgt, v))
     # electricity -> sectors
     elc = prod_y[prod_y.FUEL.str.match(r"^(RES|COM|IND|TRA)ELC")]
     for f, v in elc.groupby("FUEL").VALUE.sum().items():

@@ -354,3 +354,6 @@ class Checker:
             utils.print_update(level=4, message=f"Summary saved to {summary_save_to}")
         except Exception as e:
            utils.print_update(level=4, message=f"Error writing to file: {e}")
+
+# backward-compat alias
+GetDataPackage.get_dataframe = GetDataPackage.get_df

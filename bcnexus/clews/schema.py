@@ -150,7 +150,8 @@ def update_clews_builder_config(scenario_config_path:Path)->tuple:
     solar_df = pd.read_csv(solar_csv_file_path)
     solar_future_df = pd.read_csv(RESource_data_root / RESource_data_cfg['future_solar_sites'])
     solar_committed_df = pd.read_csv(RESource_data_root / RESource_data_cfg['committed_solar_sites'])
-    solar_future_with_committed_df = get_VRE_committed_candidate_combine(solar_future_df,solar_committed_df)
+    solar_future_with_committed_df = get_VRE_committed_candidate_combine(solar_future_df,    
+                                                                            solar_committed_df)
 
     
     tpp_df :pd.DataFrame= pd.read_csv(tpp_csv_file_path)
@@ -635,7 +636,7 @@ def create_schema_VRE(df:pd.DataFrame,
                 'capacity': row['facility_installed_capacity'] / 1000, # GW
                 'operational_life': closure_year - start_year,
                 'capital_cost': row['overnight_capital_cost_CAD_per_kW'], # $/kW
-                'variable_cost': float(row['variable_om_cost_CAD_per_MWh']) if pd.notna(row['variable_om_cost_CAD_per_MWh']) and row['variable_om_cost_CAD_per_MWh'] > 0 else 0.001, # $/kW-yr, same as NREL's ATB 
+                'variable_cost': row['variable_om_cost_CAD_per_MWh'],
                 'closure_year': closure_year,
                 'status': 'existing'
             }
@@ -650,7 +651,7 @@ def create_schema_VRE(df:pd.DataFrame,
                             'start_year': int(row['start_year']),  # int
                             'operational_life': row['Operational_life'],  # Years
                             'capital_cost': row['capex'],  # in $/kW, same as NREL's ATB
-                            'variable_cost': float(row['vom']) if pd.notna(row['vom']) and row['vom'] > 0 else 0.001,  # $/kW-yr, same as NREL's ATB
+                            'variable_cost': row['vom'],  # $/kW-yr, same as NREL's ATB
                             'potential': row['potential_capacity'] / 1E3,  # need to be in GW to harmonize units
                             'status': 'future'  # Str
                         }
@@ -1656,6 +1657,10 @@ def create_schema_hydro(df, cascade_groups, id_prefix):
             closure_year = int(2100)
             
         start_year = int(row['start_year']) if not math.isnan(row['start_year']) else 0
+        # EL_20260713 capacity-weighted variable O&M of the aggregated group, CAD/MWh -> $/GJ (=M$/PJ) via /3.6;
+        # fallback 0.001 keeps a nonzero tie-breaker against LP degeneracy (free-energy overproduction)
+        vom_CAD_per_MWh = ((df_filtered['variable_om_cost_CAD_per_MWh'] * df_filtered['capacity']).sum()
+                           / df_filtered['capacity'].sum())
         data[item_id] = {
             'type': 'reservoir',
             #'capacity': str(capacity_vector.tolist()),
@@ -1665,7 +1670,7 @@ def create_schema_hydro(df, cascade_groups, id_prefix):
             'closure_year': 2050,
             'input ratio': 1,
             'status': 'existing',
-            'variable_cost': 0.001 # EL_20260713 tie-breaker cost (M$/PJ) to remove LP degeneracy (free-energy overproduction)
+            'variable_cost': round(float(vom_CAD_per_MWh) / 3.6, 4) if pd.notna(vom_CAD_per_MWh) and vom_CAD_per_MWh > 0 else 0.001
         }
         
         # Increment the index for the next group
@@ -1688,6 +1693,9 @@ def create_schema_hydro(df, cascade_groups, id_prefix):
     # Generate item ID based on the prefix and index
     item_id_ror = f'{id_prefix}{idx:02d}'
 
+    # EL_20260713 capacity-weighted variable O&M, CAD/MWh -> $/GJ (=M$/PJ) via /3.6; 0.001 fallback as degeneracy tie-breaker
+    vom_ror_CAD_per_MWh = ((df_ror_filtered['variable_om_cost_CAD_per_MWh'] * df_ror_filtered['capacity']).sum()
+                           / df_ror_filtered['capacity'].sum())
     data[item_id_ror] = {
         'type': 'ror',
 
@@ -1696,7 +1704,7 @@ def create_schema_hydro(df, cascade_groups, id_prefix):
         'capital_cost': float(first_row_ror['capital_cost_CAD_per_kW']),
         'closure_year': 2050,
         'status': 'existing',
-        'variable_cost': 0.01 # EL_20260713 tie-breaker cost (M$/PJ) to remove LP degeneracy (free-energy overproduction)
+        'variable_cost': round(float(vom_ror_CAD_per_MWh) / 3.6, 4) if pd.notna(vom_ror_CAD_per_MWh) and vom_ror_CAD_per_MWh > 0 else 0.001
     }
     
     return data

@@ -12,6 +12,7 @@ All water volumes in BCM (model convention); verify against otoole config.
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+from bcnexus.vis import palette
 
 _SUPPLY = {"WTRPRC": "Precipitation", "WTRSUR": "Surface water",
            "WTRGRC": "Groundwater recharge"}
@@ -50,9 +51,11 @@ def plot_water_balance(prod: pd.DataFrame, scenario: str = None):
         return None
     fig = go.Figure()
     for flow, d in sup.groupby("Flow"):
-        fig.add_trace(go.Bar(x=d.YEAR, y=d.VALUE, name=f"{flow} (supply)"))
+        fig.add_trace(go.Bar(x=d.YEAR, y=d.VALUE, name=f"{flow} (supply)",
+                             marker_color=palette.color(flow)))
     for flow, d in use.groupby("Flow"):
-        fig.add_trace(go.Bar(x=d.YEAR, y=-d.VALUE, name=f"{flow} (use)"))
+        fig.add_trace(go.Bar(x=d.YEAR, y=-d.VALUE, name=f"{flow} (use)",
+                             marker_color=palette.color(flow)))
     fig.update_layout(barmode="relative")
     fig.add_hline(y=0, line_width=1, line_color="grey")
     return _layout(fig, f"Water balance: supply vs use{sfx}", "BCM (use shown negative)")
@@ -66,6 +69,7 @@ def plot_water_use_by_purpose(prod: pd.DataFrame, scenario: str = None):
     if use.empty:
         return None
     fig = px.area(use, x="YEAR", y="VALUE", color="Flow",
+                  color_discrete_map=palette.map_for(use.Flow),
                   title=f"Water withdrawals by purpose{sfx}")
     return _layout(fig, f"Water withdrawals by purpose{sfx}", "BCM", "Purpose")
 
@@ -104,7 +108,8 @@ def plot_hydro_water_energy(prod: pd.DataFrame,
         return None
     g = hyd.groupby("YEAR", as_index=False).VALUE.sum()
     fig = go.Figure()
-    fig.add_trace(go.Bar(x=g.YEAR, y=g.VALUE, name="Hydro generation (PJ)"))
+    fig.add_trace(go.Bar(x=g.YEAR, y=g.VALUE, name="Hydro generation (PJ)",
+                         marker_color=palette.color("Hydro")))
     if storage_level is not None:
         s = storage_level[storage_level.STORAGE.str.contains(
             "HYDRO|WATER|DAM", case=False, na=False)]

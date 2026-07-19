@@ -1,6 +1,8 @@
 import sys
 from pathlib import Path
 
+import pandas as pd
+
 from bcnexus import utils
 from bcnexus.clews.datapackage import GetDataPackage
 from bcnexus.vis import plot_Climate, plot_Energy, plot_Land, plot_Water
@@ -85,6 +87,8 @@ def save_combined_html(nexus_plots: dict,
                        plotly_js: str = "inline",
                        layout: str = "2",
                        runlog=None,
+                       constants=None,
+                       sets=None,
                        constraints=None,
                        solver_meta=None,
                        gurobi_log=None,
@@ -101,6 +105,7 @@ def save_combined_html(nexus_plots: dict,
                                 scenario_info=scenario_info, run_meta=run_meta,
                                 extra_info=extra_info, plotly_js=plotly_js,
                                 layout=layout, runlog=runlog,
+                                constants=constants, sets=sets,
                                 constraints=constraints, solver_meta=solver_meta,
                                 gurobi_log=gurobi_log, **kwargs)
     utils.print_update(level=print_level_base+1,
@@ -113,13 +118,15 @@ def get_plots(nexus_scenario:str='Base_CNZ',
          storage_algorithm:str="Kotzur",
          solver:str="gurobi",
          results_csvs:Path=None,
-         plots_save_to:str|Path=None,
+         input_csvs:str|Path=None,
+         plots_save_to:str|Path='vis',
          save_individual:bool=False,
          extra_info:str="",
          layout:str="2",
          runlog=None,
          constraints=None,
          gurobi_log=None,
+         date_tag:str=None,
          auto_diagnostics:bool=True):
     """Build all CLEW plots and save the combined tabbed HTML report
     (CLEW_report_<scenario>_<ts>ts_<solver>.html).
@@ -137,6 +144,12 @@ def get_plots(nexus_scenario:str='Base_CNZ',
             'binding'/'non_binding'). When provided, a solver-diagnostics
             button appears beside it. Skipped when None.
     gurobi_log: OPTIONAL path to gurobi.log; solve stats join the solver panel.
+    input_csvs: folder holding the model's INPUT csvs (sets + parameters).
+            Needed for the Constants tab (set sizes) and the Inputs tab —
+            the results folder contains result variables only, no SET files.
+            When None, it is auto-discovered near the results path.
+    date_tag: optional YYYY_MM_DD suffix for the report filename. When None it
+            is inferred from the results path (the dated folder inside <N>ts).
     auto_diagnostics: when True (default) and the above are not given
             explicitly, look for runtime_memory_log.txt, constraints_summary.txt
             and gurobi.log in the results directory's PARENT (the run dir,
@@ -144,33 +157,133 @@ def get_plots(nexus_scenario:str='Base_CNZ',
     """
 
     nexus_results_root=Path(results_csvs) if results_csvs else Path(f'results/clews/Model_{storage_algorithm}_{nexus_scenario}/{timeslices}ts_csvs_{solver}')
+    # infer the dated folder (…/<N>ts/YYYY_MM_DD/result_csvs_x) for the filename
+    if date_tag is None:
+        import re as _re
+        for _part in nexus_results_root.parts[::-1]:
+            if _re.fullmatch(r'\d{4}_\d{2}_\d{2}', _part):
+                date_tag = _part
+                break
+
     result_pack=GetDataPackage(nexus_results_root)
     if result_pack is None:
         utils.print_update("no results found")
         sys.exit(1)
     
-    # diagnostics live in the run dir (parent of the result-csv folder)
-    if auto_diagnostics:
-        _run_dir = nexus_results_root.parent
-        if runlog is None and (_run_dir / 'runtime_memory_log.txt').exists():
-            runlog = _run_dir / 'runtime_memory_log.txt'
-        if constraints is None and (_run_dir / 'constraints_summary.txt').exists():
-            constraints = _run_dir / 'constraints_summary.txt'
-        if gurobi_log is None:
-            for _cand in (_run_dir / f'{solver}.log', _run_dir / 'gurobi.log'):
-                if _cand.exists():
-                    gurobi_log = _cand
-                    break
+    # ---- diagnostics: search the results dir, its parent (run dir) and the
+    #      scenario root, so both the new ({N}ts/result_csvs_x) and legacy
+    #      ({N}ts_csvs_x_<runtag>) layouts are covered.
+    def _find(*names):
+        roots = [nexus_results_root,
+                 nexus_results_root.parent,
+                 nexus_results_root.parent.parent]
+        for root in roots:
+            for name in names:
+                cand = root / name
+                if cand.exists():
+                    return cand
+        # last resort: shallow recursive search under the scenario root
+        for name in names:
+            hits = sorted(nexus_results_root.parent.parent.rglob(name),
+                          key=lambda f: f.stat().st_mtime, reverse=True)
+            if hits:
+                return hits[0]
+        return None
 
-    vis_save_to_root = Path('vis/bccm')
-    plots_save_to=plots_save_to or vis_save_to_root/nexus_scenario/'bc_nexus'
-    if not plots_save_to.exists():
-        plots_save_to.mkdir(parents=True, exist_ok=True)
+    if auto_diagnostics:
+        if runlog is None:
+            runlog = _find('runtime_memory_log.txt')
+        if constraints is None:
+            constraints = _find('constraints_summary.txt')
+        if gurobi_log is None:
+            gurobi_log = _find(f'{solver}.log', 'gurobi.log', 'cbc.log')
+        utils.print_update(level=print_level_base+1,
+            message=(f"diagnostics -> runlog: {runlog or 'not found'} | "
+                     f"constraints: {constraints or 'not found'} | "
+                     f"solver log: {gurobi_log or 'not found'}"))
+
+    plots_save_to=utils.ensure_path(plots_save_to)
 
     nexus_ts_plots={}
-    plot_categories = ['Climate', 'Land', 'Energy', 'Water', str(timeslices)]
+    plot_categories = ['Inputs', 'Climate', 'Land', 'Energy',
+                       'Water', str(timeslices)]
     nexus_plots = {category: {} for category in plot_categories}
     nexus_plots[f'{timeslices}'] = nexus_ts_plots
+
+    # ---- locate the INPUT csvs (sets live here, not in the results folder)
+    def _find_input_dir():
+        if input_csvs:
+            return Path(input_csvs)
+        # search upward from the results folder, then the usual build locations
+        seeds = [nexus_results_root.parent.parent.parent,
+                 Path('data/clews_data/clews_build_data'),
+                 Path('data/clews_data')]
+        for seed in seeds:
+            try:
+                hits = sorted(seed.rglob('TECHNOLOGY.csv'),
+                              key=lambda f: f.stat().st_mtime, reverse=True)
+            except Exception:
+                hits = []
+            for h in hits:
+                # prefer a folder that also carries the demand file
+                if (h.parent / 'AccumulatedAnnualDemand.csv').exists():
+                    return h.parent
+            if hits:
+                return hits[0].parent
+        return None
+
+    _input_dir = _find_input_dir()
+    utils.print_update(level=print_level_base+1,
+        message=f"input csvs -> {_input_dir or 'not found (Constants/Inputs limited)'}")
+
+    # ---- Constants: model configuration at a glance ----------------------
+    _sets = {}
+    if _input_dir is not None:
+        for _s in ('TECHNOLOGY', 'FUEL', 'TIMESLICE', 'MODE_OF_OPERATION',
+                   'YEAR', 'STORAGE', 'EMISSION', 'SEASON', 'DAYTYPE', 'REGION'):
+            _f = Path(_input_dir) / f'{_s}.csv'
+            if _f.exists():
+                try:
+                    _sets[_s.replace('_', ' ').title()] = len(pd.read_csv(_f))
+                except Exception:
+                    pass
+    _years = result_pack.get_df('YEAR')
+    if _years is None and _input_dir is not None and (Path(_input_dir)/'YEAR.csv').exists():
+        _years = pd.read_csv(Path(_input_dir)/'YEAR.csv')
+    _meta = {
+        'Scenario': nexus_scenario,
+        'Storage algorithm': storage_algorithm,
+        'Timeslices': timeslices,
+        'Solver': solver,
+        'Horizon': (f"{int(_years.VALUE.min())}\u2013{int(_years.VALUE.max())}"
+                    if _years is not None else '\u2014'),
+        'Run tag': date_tag or '\u2014',
+        'Input CSVs': str(_input_dir) if _input_dir else 'not found',
+        'Results': str(nexus_results_root),
+    }
+    # constants travel to the report as a panel (small button), not a tab
+
+    # ---- Inputs tab (all prescribed values) ------------------------------
+    if _input_dir is not None:
+        try:
+            from bcnexus.vis import plot_Inputs as _pI
+            nexus_plots['Inputs'] = _pI.build_input_plots(
+                _input_dir, scenario=nexus_scenario)
+            # reference energy system gets its own full-viewport page
+            _map_fig = _safe(_pI.plot_model_structure, _input_dir,
+                             scenario=nexus_scenario)
+            if _map_fig is not None:
+                _map_path = _report.save_model_map(
+                    _map_fig,
+                    Path(plots_save_to) /
+                    (f'CLEW_model_map_{nexus_scenario}'
+                     f'{"_" + date_tag if date_tag else ""}.html'),
+                    scenario=nexus_scenario)
+                utils.print_update(level=print_level_base+1,
+                    message=f"Model map saved @ {_map_path}")
+        except Exception as e:
+            utils.print_update(level=print_level_base+1,
+                message=f"Inputs tab skipped: {type(e).__name__}: {e}")
 
     nexus_climate_plots={}
     nexus_plots['Climate'] = nexus_climate_plots
@@ -265,11 +378,14 @@ def get_plots(nexus_scenario:str='Base_CNZ',
         nexus_plots,
         scenario=nexus_scenario,
         save_to=Path(plots_save_to) /
-                f'CLEW_report_{nexus_scenario}_{timeslices}ts_{solver}.html',
+                (f'CLEW_report_{storage_algorithm}_{nexus_scenario}_{timeslices}ts_{solver}'
+                 f'{"_" + date_tag if date_tag else ""}.html'),
         scenario_info=_get_scenario_info(nexus_scenario),
         run_meta=f"{storage_algorithm} · {timeslices} timeslices · {solver}",
         extra_info=extra_info,
         layout=layout,
+        constants=_meta,
+        sets=_sets,
         runlog=runlog,
         constraints=constraints,
         gurobi_log=gurobi_log,

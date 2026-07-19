@@ -31,8 +31,21 @@ DELTAE_URL = "https://www.sfu.ca/see/research/delta-e.html"
 _HERE = Path(__file__).parent
 TEMPLATE_PATH = _HERE / "templates" / "report_template.html"
 LOGO_PATH = _HERE / "assets" / "deltae_logo.png"
+BRAND_LOGO_PATH = _HERE / "assets" / "BCNexus logo.png"
 
-TAB_ORDER = ["Climate", "Land", "Energy", "Water"]
+TAB_ORDER = ["Inputs", "Climate", "Land", "Energy", "Water"]
+
+# Shown at the top of the Inputs tab (and the Energy sub-tab), where the
+# distinction between a prescribed input and an optimisation result matters.
+READ_NOTE = (
+    "<div class='readnote'><b>Reading these plots.</b> End-use fuel demand is "
+    "exogenous: the demand technologies are unit-efficiency pass-throughs, so "
+    "the fuel mix shown in the projection is an input assumption, not an "
+    "optimisation outcome. Consult <code>data/calibration/README.md</code> "
+    "before reporting an end-use fuel level as a model finding.</div>")
+
+# result genres folded under the "Outputs" super-tab
+OUTPUT_GENRES = ["Climate", "Land", "Energy", "Water"]
 _COLS = {"1": "1fr", "2": "1fr 1fr", "3": "1fr 1fr 1fr"}
 
 _GH_SVG = (
@@ -59,6 +72,16 @@ def logo_data_uri(logo_path: str | Path = None) -> str:
         return "data:image/png;base64," + base64.b64encode(p.read_bytes()).decode()
     except Exception:
         return ""
+
+
+def brand_logo_data_uri(logo_path: str | Path = None) -> str:
+    """Base64 data-URI for the BCNexus brand mark.
+
+    Both marks in assets/ are white-on-transparent, so they are placed on the
+    dark header as-is; on light backgrounds the templates apply a CSS
+    `filter:invert(1)` (class `.wm`) rather than shipping a second file.
+    """
+    return logo_data_uri(logo_path or BRAND_LOGO_PATH)
 
 
 
@@ -249,30 +272,200 @@ def _constraints_html(cons: dict) -> str:
             f"<div class='rl-note'>Source: constraints_summary.txt.</div></div>")
 
 
+
+# ---------------------------------------------------------------- constants
+
+def _constants_html(meta: dict, sets: dict = None) -> str:
+    """Panel markup for the model-configuration button (same style as the
+    run/solver diagnostics panels)."""
+    if not meta and not sets:
+        return ""
+    rows = "".join(f"<div class='rl-row'><span class='rl-k'>{k}</span>"
+                   f"<span class='rl-v'>{v}</span></div>" for k, v in (meta or {}).items())
+    set_rows = "".join(f"<div class='rl-row'><span class='rl-k'>{k}</span>"
+                       f"<span class='rl-v'>{v}</span></div>"
+                       for k, v in (sets or {}).items())
+    return (f"<div class='runlog' id='constantslog'>"
+            f"<div class='rl-title'>Model configuration</div>{rows}"
+            + (f"<div class='cn-h'>Sets</div>{set_rows}" if set_rows else "")
+            + f"<div class='rl-note'>Constants for this run.</div></div>")
+
+
+def build_constants_figure(meta: dict, sets: dict = None, structure: dict = None):
+    """Compact 'model configuration' visual: a labelled table of the run's
+    constants (region, horizon, storage algorithm, timeslices, solver, ...)
+    plus set sizes. Rendered as a plotly table so it lives in the same tab
+    machinery as the plots.
+    """
+    import plotly.graph_objects as go
+    rows = list(meta.items())
+    if sets:
+        rows += [("", "")] + [(f"Set: {k}", v) for k, v in sets.items()]
+    if structure:
+        rows += [("", "")] + list(structure.items())
+    if not rows:
+        return None
+    fig = go.Figure(go.Table(
+        columnwidth=[46, 54],
+        header=dict(values=["<b>Configuration</b>", "<b>Value</b>"],
+                    fill_color="#123c46", font=dict(color="white", size=13),
+                    align="left", height=30),
+        cells=dict(values=[[r[0] for r in rows], [str(r[1]) for r in rows]],
+                   fill_color=[["#f6f7f9" if i % 2 else "white"
+                                for i in range(len(rows))]],
+                   align="left", height=25, font=dict(size=12))))
+    fig.update_layout(margin=dict(t=8, b=8, l=4, r=4),
+                      height=min(90 + 25 * len(rows), 760))
+    return fig
+
+
 def _render_tabs(nexus_plots: dict) -> tuple[str, str, list]:
-    """-> (buttons_html, tabs_html, kept_genre_names)"""
+    """-> (buttons_html, tabs_html, kept_tab_names)
+
+    Top-level tabs are Constants, Inputs and Outputs. The C/L/E/W genres are
+    nested inside Outputs as labelled sections, so the reader moves
+    configuration -> assumptions -> results rather than straight to results.
+    """
     import plotly.io as pio
 
-    genres = [g for g in TAB_ORDER if nexus_plots.get(g)] + \
-             [g for g in nexus_plots if g not in TAB_ORDER and nexus_plots.get(g)]
-    buttons, sections, kept = "", "", []
-    for genre in genres:
-        figs = {n: f for n, f in nexus_plots[genre].items()
-                if f is not None and hasattr(f, "to_html")}
-        if not figs:
-            continue
-        kept.append(genre)
-        cards = "".join(
+    def _cards(figs: dict) -> str:
+        return "".join(
             f"<div class='card'><h3>{name.replace('_', ' ').strip('(').title()}</h3>"
             + pio.to_html(fig, include_plotlyjs=False, full_html=False,
                           default_height=460)
             + "</div>"
             for name, fig in figs.items())
+
+    def _keep(genre) -> dict:
+        return {n: f for n, f in (nexus_plots.get(genre) or {}).items()
+                if f is not None and hasattr(f, "to_html")}
+
+    buttons, sections, kept = "", "", []
+
+    # --- Constants and Inputs: plain tabs
+    for tab in ("Inputs",):
+        figs = _keep(tab)
+        if not figs:
+            continue
+        kept.append(tab)
+        buttons += (f"<button class='tb' id='b{tab}' onclick=\"show('{tab}')\">"
+                    f"{tab}<span class='n'>{len(figs)}</span></button>")
+        sections += (f"<div class='sec' id='{tab}' style='display:none'>"
+                     f"{READ_NOTE}"
+                     f"<div class='grid'>{_cards(figs)}</div></div>")
+
+    # --- Outputs: C/L/E/W as sticky SUB-TABS inside one tab
+    sub_buttons, sub_panes, out_n, first_sub = "", "", 0, None
+    for genre in OUTPUT_GENRES:
+        figs = _keep(genre)
+        if not figs:
+            continue
+        out_n += len(figs)
+        first_sub = first_sub or genre
+        sub_buttons += (f"<button class='stb' id='s{genre}' "
+                        f"onclick=\"showSub('{genre}')\">{genre}"
+                        f"<span class='n'>{len(figs)}</span></button>")
+        _note = READ_NOTE if genre == "Energy" else ""
+        sub_panes += (f"<div class='subsec' id='sub{genre}' style='display:none'>"
+                      f"{_note}<div class='grid'>{_cards(figs)}</div></div>")
+    if sub_panes:
+        kept.append("Outputs")
+        buttons += ("<button class='tb' id='bOutputs' onclick=\"show('Outputs')\">"
+                    f"Outputs<span class='n'>{out_n}</span></button>")
+        sections += (f"<div class='sec' id='Outputs' style='display:none'>"
+                     f"<div class='subtabs'>{sub_buttons}</div>"
+                     f"{sub_panes}</div>")
+
+    # --- anything else the caller added (e.g. a timeslice genre)
+    for genre in nexus_plots:
+        if genre in ("Constants", "Inputs") or genre in OUTPUT_GENRES:
+            continue
+        if genre == "Constants":
+            continue
+        figs = _keep(genre)
+        if not figs:
+            continue
+        kept.append(genre)
         buttons += (f"<button class='tb' id='b{genre}' onclick=\"show('{genre}')\">"
                     f"{genre}<span class='n'>{len(figs)}</span></button>")
         sections += (f"<div class='sec' id='{genre}' style='display:none'>"
-                     f"<div class='grid'>{cards}</div></div>")
+                     f"<div class='grid'>{_cards(figs)}</div></div>")
+
     return buttons, sections, kept
+
+
+
+def save_model_map(fig, save_to: str | Path, scenario: str = None,
+                   plotly_js: str = "inline",
+                   subtitle: str = "Reference energy system — fuel to technology "
+                                   "to fuel, from InputActivityRatio / "
+                                   "OutputActivityRatio (structure, not flows)"):
+    """Write the reference-energy-system figure as its OWN html page.
+
+    Kept out of the tabbed report on purpose: the map needs the full viewport
+    to be readable. Returns the path written, or None when fig is None.
+    """
+    if fig is None:
+        return None
+    import plotly.io as pio
+    from plotly.offline import get_plotlyjs
+
+    js = (f"<script>{get_plotlyjs()}</script>" if plotly_js == "inline"
+          else '<script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>')
+    body = pio.to_html(fig, include_plotlyjs=False, full_html=False,
+                       default_height=920)
+    _brand = brand_logo_data_uri()
+    brand_html = (f"<img class='brand' src='{_brand}' alt='BCNexus'>"
+                  if _brand else "")
+    title = f"BCNexus Model Map{f' · {scenario}' if scenario else ''}"
+    html = f"""<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{title}</title>{js}
+<style>
+:root{{--bg:#f6f7f9;--fg:#1a202c;--card:#fff;--border:#e2e8f0;--muted:#64748b;
+--head:#123c46;--accent:#0284c7;--font:Cambria,Georgia,serif}}
+html.dark{{--bg:#0f1621;--fg:#e2e8f0;--card:#1a2332;--border:#2d3a4f;
+--muted:#8b9bb3;--head:#0a0f16;--accent:#38bdf8}}
+*{{box-sizing:border-box}}
+body{{font-family:var(--font);margin:0;background:var(--bg);color:var(--fg)}}
+header{{background:var(--head);color:#fff;padding:16px 26px;display:flex;
+align-items:flex-start;justify-content:space-between;gap:18px}}
+h1{{margin:0;font-size:15px;font-weight:500;text-transform:uppercase;
+letter-spacing:.5px;opacity:.75}}
+h1 .scen{{display:block;margin-top:5px;font-size:26px;font-weight:700;
+text-transform:none;letter-spacing:0;opacity:1;
+border-left:4px solid var(--accent);padding-left:11px}}
+.sub{{margin:10px 0 0;font-size:13.5px;opacity:.9;max-width:900px;line-height:1.5}}
+.btn{{background:none;border:1px solid rgba(255,255,255,.3);color:#fff;
+border-radius:8px;width:34px;height:34px;cursor:pointer;font-size:15px}}
+.btn:hover{{background:rgba(255,255,255,.14)}}
+.wrap{{padding:18px 22px}}
+.card{{background:var(--card);border:1px solid var(--border);border-radius:12px;
+padding:8px 14px 14px}}
+.brandrow{{display:flex;align-items:center;gap:14px}}
+img.brand{{height:52px;width:auto;display:block;flex:none}}
+</style></head><body>
+<header>
+  <div><div class="brandrow">{brand_html}<h1>CLEWs<span class="scen">Model Map</span></h1></div>
+       <p class="sub">{subtitle}</p></div>
+  <div>
+    <button class="btn" onclick="document.documentElement.classList.toggle('dark');
+      document.querySelectorAll('.js-plotly-plot').forEach(function(p){{
+        var d=document.documentElement.classList.contains('dark');
+        Plotly.relayout(p, d?{{paper_bgcolor:'#1a2332',plot_bgcolor:'#1a2332','font.color':'#e2e8f0'}}
+                           :{{paper_bgcolor:'#ffffff',plot_bgcolor:'#ffffff','font.color':'#2a3f5f'}});}});"
+      title="Toggle dark mode">&#9680;</button>
+    <button class="btn" onclick="if(!document.fullscreenElement)
+      {{document.documentElement.requestFullscreen();}}else{{document.exitFullscreen();}}"
+      title="Fullscreen">&#9906;</button>
+  </div>
+</header>
+<div class="wrap"><div class="card">{body}</div></div>
+</body></html>"""
+    save_to = Path(save_to)
+    save_to.parent.mkdir(parents=True, exist_ok=True)
+    save_to.write_text(html, encoding="utf-8")
+    return save_to
 
 
 def build_report(nexus_plots: dict,
@@ -288,6 +481,8 @@ def build_report(nexus_plots: dict,
                  deltae_url: str = DELTAE_URL,
                  logo_path: str | Path = None,
                  runlog: str | Path | dict = None,
+                 constants: dict = None,
+                 sets: dict = None,
                  constraints: str | Path | dict = None,
                  solver_meta: dict = None,
                  gurobi_log: str | Path = None,
@@ -327,7 +522,10 @@ def build_report(nexus_plots: dict,
                      else '<script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>')
 
     logo = logo_data_uri(logo_path)
+    brand = brand_logo_data_uri()
     tokens = {
+        "brand_html": (f"<img class='brand' src='{brand}' alt='BCNexus'>"
+                       if brand else ""),
         "scenario": scenario,
         "info_html": f"<p class='info'>{scenario_info}</p>" if scenario_info else "",
         "meta_html": f"<p class='meta'>{run_meta}</p>" if run_meta else "",
@@ -336,6 +534,8 @@ def build_report(nexus_plots: dict,
         "plotly_script": plotly_script,
         "buttons_html": buttons_html,
         "tabs_html": tabs_html,
+        # GitHub / About / Delta E+ now live on the master index page, so the
+        # per-run report stays uncluttered. Tokens kept for custom templates.
         "gh": (f"<a class='ic' href='{github_url}' target='_blank' "
                f"title='Source code on GitHub'>{_GH_SVG}</a>") if github_url else "",
         "site": (f"<a class='about' href='{site_url}' target='_blank' "
@@ -376,7 +576,16 @@ def build_report(nexus_plots: dict,
                                  "&#8942;&#8942;</button>"
                                  if tokens["constraints_html"] else "")
 
+    # optional model-configuration panel (button sits after the diagnostics)
+    tokens["constants_html"] = _constants_html(constants or {}, sets or {})
+    tokens["constants_btn"] = ("<button class='tb-ic' id='constantsBtn' "
+                               "onclick=\"togglePanel('constantslog','constantsBtn')\" "
+                               "title='Model configuration (sets, horizon, solver)'>"
+                               "&#9881;&#65038;</button>"
+                               if tokens["constants_html"] else "")
     tokens["kept0"] = kept[0] if kept else ""   # first tab shown on load
+    tokens["sub0"] = next((g for g in OUTPUT_GENRES
+                           if (nexus_plots.get(g) or {})), "")
     for key, val in tokens.items():
         tpl = tpl.replace("{{" + key + "}}", val)
 

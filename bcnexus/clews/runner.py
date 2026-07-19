@@ -97,13 +97,25 @@ class RunModel:
                 storage_algorithm:str=None,
                 input_csvs:str|Path=None,
                 scenario_config_path:str|Path=None,
-                clustering_attributes:dict=None
+                clustering_attributes:dict=None,
+                date_tag:str|bool=True
                ):
+        """date_tag: adds a dated sub-folder inside <N>ts so runs from
+        different days are kept side by side (same-day re-runs overwrite).
+        True -> today's YYYY_MM_DD; a string -> that literal tag;
+        False/None -> no dated folder (flat <N>ts/, previous behaviour).
+        """
         
         self.scenario_config_path:Path=Path(scenario_config_path) if scenario_config_path else Path('config/scenarios_bcnexus.yaml')
         self.aparser=AttributesParser(self.scenario_config_path)
         
         self.run_scenario=str(run_scenario)
+        if date_tag is True:
+            self.date_tag = time.strftime('%Y_%m_%d')
+        elif date_tag:
+            self.date_tag = str(date_tag)
+        else:
+            self.date_tag = None
         self.storage_algorithm=storage_algorithm if storage_algorithm else self.aparser.DEFAULT_STORAGE_ALGORITHM
         self.scenario_cfg:dict=self.aparser.scenario_dict.get('SCENARIOS').get(self.run_scenario)
         self.input_csvs=Path(input_csvs) if input_csvs else self.aparser.get_scenario_inputs_path(scenario=self.run_scenario,
@@ -157,6 +169,8 @@ class RunModel:
         """
         self.timeslices = len(pd.read_csv(self.input_csvs / 'TIMESLICE.csv'))
         d = self.scenario_results_root / f'{self.timeslices}ts'
+        if getattr(self, 'date_tag', None):
+            d = d / self.date_tag          # .../<N>ts/YYYY_MM_DD/
         d.mkdir(parents=True, exist_ok=True)
         return d
 
@@ -607,16 +621,44 @@ class RunModel:
 
         return self.solution_path if self.solution_path.exists() else None
 
-    def stage_results(self, solver_name: str = 'gurobi'):
-        """#6: .sol -> result CSVs via otoole. Re-derives solution path if needed."""
-        if not hasattr(self, 'solution_path'):
+    def stage_results(self, solver_name: str = 'gurobi',
+                      solution_file: str | Path = None):
+        """#6: .sol -> result CSVs via otoole.
+
+        Usable as a standalone entry point (e.g. re-extracting results from an
+        earlier solve): when `solution_path` is not already in memory it is
+        re-derived from run_dir(), and if that exact name is absent the run dir
+        is searched for any *.sol. Pass `solution_file` to be explicit.
+
+        Returns the results directory, or None (with the reason printed).
+        """
+        if solution_file is not None:
+            self.solution_path = Path(solution_file)
+        elif not hasattr(self, 'solution_path'):
             out = self.run_dir()
             self.solution_path = out / f'{self.timeslices}ts_solution_{solver_name}.sol'
+
         if not self.solution_path.exists():
-            utils.print_update(level=1, message='X Solution file not found.')
-            return None
+            # tolerate naming drift (different solver tag, legacy runtag suffix)
+            found = sorted(self.run_dir().glob('*.sol'),
+                           key=lambda f: f.stat().st_mtime, reverse=True)
+            if found:
+                utils.print_update(level=2,
+                    message=f'Expected {self.solution_path.name}; using {found[0].name}')
+                self.solution_path = found[0]
+            else:
+                utils.print_error(
+                    f'X No solution file (.sol) in {self.run_dir()} — '
+                    f'run stage_solve() first, or pass solution_file=...')
+                return None
+
+        utils.print_update(level=1,
+            message=f'Extracting results from {self.solution_path}')
         self.results_dir = self.get_result_csvs(solution_file=self.solution_path,
                                                 solver_name=solver_name)
+        if self.results_dir is None:
+            utils.print_error('X otoole result extraction returned nothing — '
+                              'check the otoole command output above.')
         return self.results_dir
 
     def run(self,
@@ -682,27 +724,32 @@ class RunModel:
                 message='X No solution available; skipping result extraction.')
 
         self.results_dir = self.stage_results(solver_name=solver_name)
-        self.vis_dir = Path(str(self.results_dir).replace('results', 'vis', 1))
-        
- 
+        self.vis_dir_scenario = Path(str(self.results_dir).replace('results', 'vis', 1))
+
+        # Log runtime and memory usage BEFORE plotting: the report reads
+        # runtime_memory_log.txt from the run dir, so writing it afterwards
+        # left the run-diagnostics panel empty.
+        memory_usage = process.memory_info().rss  # Resident Set Size (RSS) in bytes
+        RunModel.log_runtime_and_memory(scenario=self.run_scenario,
+                                        timeslices=self.timeslices,
+                                        clustering_attributes=self.clustering_attributes,
+                                        start_time=start_time,
+                                        memory_usage=memory_usage,
+                                        save_to=self.run_dir(),
+                                        threads=threads,
+                                        machine_id=machine_id)
 
         plotter_args=dict(
             nexus_scenario=self.run_scenario,
             storage_algorithm=self.storage_algorithm,
             timeslices=self.timeslices,
+            solver=solver_name,
             results_csvs=self.results_dir,
             save_individual=save_individual_plots,
-            plots_save_to=self.vis_dir if save_individual_plots else 'vis/clews'
+            plots_save_to=self.vis_dir_scenario if save_individual_plots else 'vis'
         )
         # plotter.main(**plotter_args)
         plotter.get_plots(**plotter_args)
-        # Calculate runtime and memory usage
-        memory_usage = process.memory_info().rss  # Resident Set Size (RSS) in bytes
-
-        # Log runtime and memory usage
-        # (was: Path(self.run_scenario/self.scenario_results_root/...) — str/Path
-        #  TypeError waiting to happen; run_dir() is the deterministic branch dir)
-        RunModel.log_runtime_and_memory(scenario=self.run_scenario, timeslices=self.timeslices, clustering_attributes=self.clustering_attributes, start_time=start_time, memory_usage=memory_usage, save_to=self.run_dir(), threads=threads, machine_id=machine_id)
 
     @staticmethod
     def log_runtime_and_memory(scenario:str, 

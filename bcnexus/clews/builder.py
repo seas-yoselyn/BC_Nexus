@@ -644,7 +644,7 @@ class BuildModel:
         schema_processor.new_yaml_param(self.otoole_yaml_file, 'DaySplit', self.day_split)
         utils.print_update(level=2,message=f"DaySplit param added to {self.otoole_yaml_file}")
 
-        schema_processor.new_yaml_param(self.otoole_yaml_file, 'StorageMaxCapacity', self.StorageMaxCapacity)
+        # schema_processor.new_yaml_param(self.otoole_yaml_file, 'StorageMaxCapacity', self.StorageMaxCapacity)
         schema_processor.new_yaml_param(self.otoole_yaml_file, 'ResidualStorageCapacity', self.ResidualStorageCapacity)
         utils.print_update(level=2,message=f"ResidualStorageCapacity param added to {self.otoole_yaml_file}")
         
@@ -692,8 +692,8 @@ class BuildModel:
                 for index, row in v_df.iterrows():
                     if int(row['YEAR']) < self.start_year or int(row['YEAR']) > self.last_year:
                         v_df.drop(index, inplace=True)
-                v_df.to_csv(csvs_dir / f'{k_param}.csv', index=False)
-                utils.print_update(level=3,message='ReserveMarginTagFuel.csv updated @ {csvs_dir}')
+                v_df.to_csv(csvs_dir / 'ReserveMarginTagFuel.csv', index=False)
+                utils.print_update(level=3,message=f'ReserveMarginTagFuel.csv updated @ {csvs_dir}')
             
         return SETS_dfs, Params_dfs
         """

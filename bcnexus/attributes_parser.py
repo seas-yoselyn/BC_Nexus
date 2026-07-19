@@ -52,7 +52,7 @@ class AttributesParser:
     # Define constants for defaults
         self.DEFAULT_STORAGE_ALGORITHM:str = "Kotzur"
         self.supported_storage_algorithms:list = ["Kotzur", "Niet"]
-        self.runtag:str = datetime.now().strftime("%Y%m%d")  # Timestamp for tagging runs
+        self.runtag:str = datetime.now().strftime("%Y_%d_%m")  # Timestamp for tagging runs
       
     # CLEWs Builder related paths
         self.clews_data_root=utils.ensure_path('data/clews_data')
@@ -121,8 +121,8 @@ class AttributesParser:
     def get_SETs_Path(self):
         return Path('data/clews_data/SETs')
     
-    # def get_plots_save_to(self)->Path:
-    #     return utils.ensure_path('vis/plots')
+    def get_plots_save_to(self)->Path:
+        return utils.ensure_path('vis/plots')
     
     def get_SETs_save_to(self):
         SETS_save_to:Path=Path('data/clews/SETs')
@@ -140,7 +140,6 @@ class AttributesParser:
         try:
             start_year=int(clews_snapshot['start'])
             last_year=int(clews_snapshot['end'])
-            print(f"{__name__} | CLEWs snapshot configuration: start_year={start_year}, last_year={last_year}")
             return (start_year, last_year)
         except (KeyError, TypeError, ValueError) as e:
             raise ValueError(f"{__name__} | Invalid snapshot configuration at 'bcnexus/clews/model_structure.py': {e}")
@@ -256,8 +255,8 @@ class AttributesParser:
         try:
             if not battery_storage_cfg:
                 raise ValueError(f"{__name__} | Battery storage configuration is missing in clews_builder.yaml under STORAGE -> BATTERY.")
-            StorageMaxCapacity =  float(battery_storage_cfg.get('storage_max_capacity', 9999999999))
-            ResidualStorageCapacity =  float(battery_storage_cfg.get('residual_storage_capacity', 0))
+            StorageMaxCapacity =  int(battery_storage_cfg.get('storage_max_capacity', 9999999999))
+            ResidualStorageCapacity =  int(battery_storage_cfg.get('residual_storage_capacity', 0))
         except Exception as e:
             utils.print_error(f"{__name__} | Error retrieving battery storage configuration: {e}")
             

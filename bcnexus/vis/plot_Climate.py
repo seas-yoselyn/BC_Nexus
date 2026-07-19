@@ -3,6 +3,7 @@ from bcnexus.clews import model_structure
 import plotly.graph_objects as go
 import pandas as pd
 import plotly.express as px
+from bcnexus.vis import palette
 import numpy as np
 from bcnexus import utils
 
@@ -213,6 +214,7 @@ def plot_sector_emission_intensity(AnnualTechnologyEmission: pd.DataFrame,
     if intensity.empty:
         return None
     fig = px.line(intensity, x="YEAR", y="Intensity", color="Sector",
+                  color_discrete_map=palette.map_for(intensity.Sector),
                   markers=True, title=f"Final-energy emission intensity{sfx}")
     fig.update_layout(yaxis_title="g CO2 / MJ", xaxis_title="Year",
                       template="plotly_white", hovermode="x unified")
@@ -231,6 +233,7 @@ def plot_emissions_penalty_cost(DiscountedTechnologyEmissionsPenalty: pd.DataFra
     d["Sector"] = d.TECHNOLOGY.map(_sector_of)
     g = d.groupby(["YEAR", "Sector"], as_index=False).VALUE.sum()
     fig = px.bar(g, x="YEAR", y="VALUE", color="Sector",
+                 color_discrete_map=palette.map_for(g.Sector),
                  title=f"Discounted emissions penalty by sector{sfx}")
     fig.update_layout(yaxis_title="M$", xaxis_title="Year", barmode="stack",
                       template="plotly_white", hovermode="x unified")

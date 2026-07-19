@@ -150,3 +150,88 @@ reservoir (PWRHYDB01) ≈ 1.16, run-of-river (PWRHYDB02) ≈ 0.58; fallback 0.00
 tie-breaker. Do **not** re-add these manually to the yaml — they are wiped and regenerated.
 
 ---
+
+## 4. Biomass in end-use sectors (2026-07-19)
+
+Diagnosed from `Model_Kotzur_Base_CNZ_noCCS / 24ts` results.
+
+### 4.1 What the model does
+
+| | 2021 | 2035 | 2050 |
+|---|---|---|---|
+| Total biomass (`RNWBIO`) | 268.0 PJ | 374.6 PJ | 357.0 PJ |
+| Share of final energy | 22.4 % | 24.8 % | 21.6 % |
+| CO₂ attributed to biomass | 13.9 Mt (24 % of gross) | — | 20.9 Mt (32 %) |
+
+Destination (PJ):
+
+| Sector | 2021 | 2030 | 2040 | 2050 |
+|---|---|---|---|---|
+| Industry (`DEMINDBIO`) | 185.8 | 245.7 | 262.2 | 270.7 |
+| Transport (`DEMTRABIO`) | 30.5 | 52.8 | 53.0 | 57.7 |
+| Residential (`DEMRESBIO`) | 11.8 | 17.9 | 16.9 | 16.9 |
+| Commercial (`DEMCOMBIO`) | 0.8 | 11.7 | 11.1 | 11.4 |
+| Power (`DEMPWRBIO`) | 39.1 | 39.4 | 7.8 | 0.2 |
+
+Only the power-sector share responds to decarbonisation; end-use biomass grows throughout.
+
+### 4.2 Root cause — biomass is prescribed, not chosen
+
+The `DEM<SEC>BIO` technologies are **1:1 pass-throughs** (BIO in = sector fuel out, 100 %
+efficiency; verified for IND/TRA/RES/COM in 2050). Each end-use fuel carries its **own exogenous
+demand**, so the optimiser cannot substitute between fuels in end-use sectors. Evidence: every
+industrial fuel grows in near-fixed proportion 2021 → 2050 —
+
+| Industrial fuel | 2021 | 2050 | Growth |
+|---|---|---|---|
+| INDNGS | 218.4 | 335.6 | +54 % |
+| INDBIO | 185.8 | 270.7 | +46 % |
+| INDELCB02 | 88.7 | 166.6 | +88 % |
+| INDDSL | 96.4 | 127.6 | +32 % |
+
+No fuel is displaced. The biomass level therefore reflects the **demand projection's fuel split**
+(CER Energy Futures sectoral fuels), not an economic choice by the model.
+
+**Consequence:** placing an upper limit on `RNWBIO` would render the model infeasible (or force
+unserved demand) rather than shift industry to electricity. A supply cap alone is the wrong fix.
+
+### 4.3 Plausibility of the level
+
+Published BC estimates (technical potential, verify before citing):
+
+| Estimate | Value | Scope |
+|---|---|---|
+| Residues available beyond current forest-industry demand | 110–176 PJ/yr | incremental supply |
+| Residues + silviculture plantations | 273 PJ/yr (≈ 24 % of BC energy) | total potential |
+| Model 2021 / 2050 | 268 / 357 PJ | unconstrained |
+
+The 2021 level is plausible: BC industry (pulping liquor, hog fuel) is unusually biomass-intensive.
+The 2050 level sits between the "total potential" and "existing + full incremental" brackets while
+BC's pulp sector is contracting — defensible only if stated as an assumption of the demand
+projection, never as a model result.
+
+Sources: BC Hydro *Wood Based Biomass Energy Potential of British Columbia*; BC Hydro
+*Wood Based Biomass in BC and its Potential for New Electricity Generation* (2015);
+Energy Policy, *GHG emission reduction potential and cost of bioenergy in BC* (2020);
+CER *Canada's Bioenergy Diversity and Potential* (2023). **TO VERIFY:** whether the 273 PJ figure
+double-counts residues already burned in-industry, and the BC industrial biomass baseline against
+StatCan RESD Table 25-10-0029.
+
+### 4.4 Actions
+
+1. **Verify the demand split** — reconcile prescribed `INDBIO` demand with CER Energy Futures
+   and StatCan RESD. If the projection holds industrial biomass roughly flat while the model grows
+   it +46 %, the error is in demand construction, not supply.
+2. **Enable fuel switching (structural)** — for end-use fuel choice to be endogenous, sectors must
+   demand *useful energy* with competing conversion technologies, rather than one fixed demand per
+   fuel. Larger change; required before any "biomass vs electrification" claim.
+3. **Add a supply constraint only after (2)** — `TotalTechnologyAnnualActivityUpperLimit` on
+   `RNWBIO` at 273 PJ (citable ceiling), with 176 and 450 PJ as sensitivity bounds.
+4. **Decide biogenic-carbon convention** — biomass carries 20.9 Mt (32 % of gross) in 2050 under
+   full stack accounting. Under IPCC convention, biogenic CO₂ from sustainable harvest is reported
+   in LULUCF, not energy. State the choice explicitly and apply it consistently.
+
+> **Do not report** biomass levels as a model finding until (1) and (2) are resolved; at present
+> they restate the demand projection's assumptions.
+
+---

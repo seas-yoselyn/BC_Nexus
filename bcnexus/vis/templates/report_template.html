@@ -3,7 +3,8 @@
      Tokens filled by bcnexus.vis.report.build_report():
        {{scenario}} {{info_html}} {{meta_html}} {{extra_html}}
        {{plotly_script}} {{buttons_html}} {{tabs_html}}
-       {{gh}} {{site}} {{logo_html}} {{cols}} {{layout}}
+       {{brand_html}} {{cols}} {{layout}}
+     (GitHub / About / Delta E+ live on the master index, not here)
 -->
 <!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,21 +12,22 @@
 {{plotly_script}}
 <style>
 :root{--bg:#f6f7f9;--fg:#1a202c;--card:#fff;--border:#e2e8f0;--muted:#64748b;
---head:#123c46;--headfg:#fff;--accent:#0e7c86;--accentfg:#ffffff;
---glow:0 0 0 2px rgba(14,124,134,.22),0 0 12px rgba(14,124,134,.45);
---font:Arial,Helvetica,sans-serif;--cols:{{cols}}}
+--head:#e9edf1;--headfg:#1a202c;--hbd:rgba(0,0,0,.16);--hbh:rgba(0,0,0,.06);--accent:#0284c7;--accentfg:#fff;--accent-soft:rgba(56,189,248,.13);
+--glow:0 0 0 3px rgba(56,189,248,.28);
+--font:Cambria,Georgia,serif;--cols:{{cols}}}
 html.dark{--bg:#0f1621;--fg:#e2e8f0;--card:#1a2332;--border:#2d3a4f;--muted:#8b9bb3;
---head:#0a0f16;--headfg:#e2e8f0;--accent:#22e0c8;--accentfg:#04242b;
---glow:0 0 12px rgba(34,224,200,.85),0 0 28px rgba(34,224,200,.5)}
+--head:#0a0f16;--headfg:#e2e8f0;--hbd:rgba(255,255,255,.24);--hbh:rgba(255,255,255,.14);--accent:#38bdf8;--accentfg:#06212e;--accent-soft:rgba(56,189,248,.16);
+--glow:0 0 0 3px rgba(56,189,248,.30)}
 *{box-sizing:border-box}
 body{font-family:var(--font);margin:0;background:var(--bg);color:var(--fg);
 transition:background .2s,color .2s}
-header{background:var(--head);color:var(--headfg);padding:16px 24px;display:flex;
+header{background:var(--head);color:var(--headfg);transition:background .2s,color .2s;
+border-bottom:1px solid var(--border);padding:16px 24px;display:flex;
 align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap}
 header h1{margin:0;font-size:15px;font-weight:500;letter-spacing:.4px;
 text-transform:uppercase;opacity:.75}
 header h1 .scen{display:block;margin-top:5px;font-size:27px;font-weight:700;
-letter-spacing:0;text-transform:none;opacity:1;color:#fff;
+letter-spacing:0;text-transform:none;opacity:1;color:var(--fg);
 border-left:4px solid var(--accent);padding-left:11px}
 html.dark header h1 .scen{color:var(--accent)}
 .info{margin:11px 0 0;max-width:900px;font-size:15px;opacity:.93;line-height:1.55}
@@ -33,7 +35,7 @@ html.dark header h1 .scen{color:var(--accent)}
 .extra{margin:11px 0 0;max-width:900px;font-size:13px;line-height:1.45;
 display:inline-flex;align-items:center;gap:9px;padding:8px 14px 8px 10px;
 border-radius:8px;background:rgba(255,196,61,.14);border:1px solid rgba(255,196,61,.55);
-color:#ffe6a8}
+color:#7a5b00}
 .extra .badge{flex:none;display:inline-flex;align-items:center;justify-content:center;
 width:19px;height:19px;border-radius:50%;background:#ffc43d;color:#3d2c00;
 font-weight:700;font-size:12px;font-family:Arial,sans-serif;
@@ -42,45 +44,80 @@ animation:pulse 2s ease-in-out infinite}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 3px rgba(255,196,61,.22),0 0 10px rgba(255,196,61,.75)}
 50%{box-shadow:0 0 0 5px rgba(255,196,61,.10),0 0 18px rgba(255,196,61,1)}}
 html.dark .extra{background:rgba(255,196,61,.10);color:#ffdf9e}
+.extra b{color:inherit}
 .toolbar{display:flex;align-items:center;gap:8px;flex-shrink:0}
 .ic,.btn{display:inline-flex;align-items:center;justify-content:center;width:32px;
-height:32px;border-radius:7px;border:1px solid rgba(255,255,255,.22);color:var(--headfg);
+height:32px;border-radius:7px;border:1px solid var(--hbd);color:var(--headfg);
 background:none;cursor:pointer;text-decoration:none;font-size:15px;line-height:1}
-.ic:hover,.btn:hover{background:rgba(255,255,255,.14)}
-.about{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 13px;
-border-radius:7px;border:1px solid rgba(255,255,255,.3);color:var(--headfg);
-text-decoration:none;font-size:12.5px;font-weight:600;white-space:nowrap;
-font-family:var(--font)}
-.about:hover{background:rgba(255,255,255,.14);border-color:var(--accent)}
-select.sel{height:32px;border-radius:7px;border:1px solid rgba(255,255,255,.22);
+.ic:hover,.btn:hover{background:var(--hbh);border-color:var(--accent);color:var(--accent)}
+.about{display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 15px;
+border-radius:9px;border:1.5px solid #2f6f8f;color:#2f6f8f;
+text-decoration:none;font-size:13px;font-weight:600;white-space:nowrap;
+font-family:var(--font);background:rgba(47,111,143,.08);transition:all .18s}
+.about:hover{background:#2f6f8f;color:#fff}
+html.dark .about{border-color:#6fb3d6;color:#6fb3d6;background:rgba(111,179,214,.10)}
+html.dark .about:hover{background:#6fb3d6;color:#0f1621}
+select.sel{height:32px;border-radius:7px;border:1px solid var(--hbd);
 background:none;color:var(--headfg);font-size:12px;padding:0 6px;font-family:var(--font)}
 select.sel option{color:#1a202c}
-.logo img{height:38px;width:auto;border-radius:8px;display:block;background:#fff;padding:3px}
-.logo{margin-left:4px}
+.logo img{height:40px;width:auto;display:block}
+.logo{margin-left:6px;display:inline-flex;align-items:center}
+/* BCNexus brand mark, top-left. The asset is white-on-transparent, which is
+   correct on the dark header — no invert needed here. */
+.hleft{min-width:0}
+.brandrow{display:flex;align-items:center;gap:14px}
+img.brand{height:56px;width:auto;display:block;flex:none;filter:invert(1)}
+html.dark img.brand{filter:none}
+@media(max-width:700px){img.brand{height:40px}}
 .tabs{position:relative;padding:12px 20px;background:var(--card);
 border-bottom:1px solid var(--border);position:sticky;top:0;z-index:5;
 display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .tb{border:1.5px solid var(--border);background:transparent;padding:13px 30px;
 font-size:16px;font-weight:600;letter-spacing:.4px;cursor:pointer;border-radius:10px;
-color:var(--fg);font-family:var(--font);transition:all .18s}
-.tb:hover{border-color:var(--accent)}
-.tb.on{background:transparent;color:var(--accent);border-color:var(--accent);
-border-width:2px;box-shadow:var(--glow)}
-html.dark .tb.on{background:transparent;color:var(--accent);
-text-shadow:0 0 8px rgba(34,224,200,.55)}
+color:var(--fg);font-family:var(--font);will-change:transform;
+transition:background .16s ease,color .16s ease,border-color .16s ease,
+box-shadow .16s ease,transform .12s ease}
+.tb:hover{border-color:var(--accent);background:var(--hbh);transform:translateY(-1px)}
+.tb:active{transform:translateY(0) scale(.985)}
+.tb:focus-visible,.stb:focus-visible,.cw:focus-visible{outline:none;box-shadow:var(--glow)}
+.tb.on{background:var(--accent-soft);color:var(--accent);
+border-color:var(--accent);border-width:2px;box-shadow:var(--glow)}
+html.dark .tb.on{background:var(--accent-soft);color:var(--accent)}
 .tb .n{font-size:11px;opacity:.7;margin-left:7px;font-weight:500}
 /* run-info icon button — same height/shape as the C/L/E/W tabs, icon only */
 .tb-ic{border:1.5px solid var(--border);background:transparent;cursor:pointer;
 border-radius:10px;color:var(--fg);padding:0;width:52px;height:52px;font-size:19px;
 line-height:1;display:inline-flex;align-items:center;justify-content:center;
 transition:all .18s}
-.tb-ic:hover{border-color:var(--accent);color:var(--accent)}
+.tb-ic:hover{border-color:var(--accent);color:var(--accent);background:var(--hbh)}
 .tb-ic.on{color:var(--accent);border-color:var(--accent);border-width:2px;
 box-shadow:var(--glow)}
 .grid{display:grid;grid-template-columns:var(--cols);gap:16px;padding:20px 24px}
 .card{background:var(--card);border:1px solid var(--border);border-radius:10px;
 padding:6px 10px;overflow:hidden}
 .card h3{margin:8px 6px 2px;font-size:14px;font-weight:600;opacity:.85}
+.readnote{margin:20px 24px 0;padding:13px 17px;border-left:3px solid var(--accent);
+background:var(--accent-soft);border-radius:0 10px 10px 0;font-size:13.4px;
+line-height:1.6;max-width:1050px}
+.readnote b{font-weight:700}
+/* section heading inside the Outputs tab (C/L/E/W) */
+/* sticky sub-tab bar for C/L/E/W inside Outputs — stays reachable while scrolling */
+.subtabs{position:sticky;top:78px;z-index:4;display:flex;gap:8px;flex-wrap:wrap;
+padding:10px 24px;background:var(--bg);border-bottom:1px solid var(--border);
+box-shadow:0 4px 10px -8px rgba(0,0,0,.35)}
+.stb{border:1.5px solid var(--border);background:transparent;cursor:pointer;
+border-radius:8px;padding:8px 18px;font-size:13.5px;font-weight:600;
+color:var(--fg);font-family:var(--font);transition:all .18s}
+.stb:hover{border-color:var(--accent);background:var(--hbh)}
+.stb.on{background:var(--accent-soft);color:var(--accent);
+border-color:var(--accent);border-width:2px;box-shadow:var(--glow)}
+.stb .n{font-size:10.5px;opacity:.65;margin-left:6px;font-weight:500}
+.sec > .grid:first-child{padding-top:20px}
+/* panes fade in; disabled for readers who prefer reduced motion */
+@keyframes fadein{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.sec.shown,.subsec.shown{animation:fadein .2s ease both}
+@media(prefers-reduced-motion:reduce){.sec.shown,.subsec.shown{animation:none}
+.tb,.stb,.cw,.tb-ic{transition:none}}
 /* run diagnostics panel (only rendered when runlog= is passed) */
 .runlog{display:none;position:absolute;left:20px;top:100%;margin-top:8px;z-index:20;
 min-width:330px;background:var(--card);color:var(--fg);border:1px solid var(--border);
@@ -97,7 +134,24 @@ border-bottom:1px dashed var(--border)}
 .rl-note{margin-top:9px;font-size:11px;color:var(--muted);font-style:italic}
 #constraintslog{min-width:430px;max-width:560px;max-height:70vh;overflow:auto}
 #gurobilog{min-width:340px;max-height:70vh;overflow:auto}
+#constantslog{min-width:360px;max-height:70vh;overflow:auto}
 .tb-sep{width:1px;height:34px;background:var(--border);margin:0 4px}
+.tb-spacer{flex:1 1 auto}
+.colswrap{display:inline-flex;align-items:center;gap:8px;margin-right:10px}
+.colslabel{font-size:11.5px;color:var(--muted);white-space:nowrap;
+text-transform:uppercase;letter-spacing:.5px}
+.colsw{display:inline-flex;border:1.5px solid var(--border);border-radius:9px;
+overflow:hidden}
+.cw{border:none;background:transparent;color:var(--fg);font-family:var(--font);
+font-size:13px;font-weight:600;width:34px;height:34px;cursor:pointer;
+border-right:1px solid var(--border);transition:all .18s}
+.cw:last-child{border-right:none}
+.cw:hover{background:var(--hbh)}
+.cw.on{background:var(--accent-soft);color:var(--accent);box-shadow:var(--glow)}
+html.dark .cw:hover{background:rgba(255,255,255,.08)}
+/* wide, spacious canvas for the model map */
+.wide-grid{grid-template-columns:1fr !important;padding:24px 28px}
+.card.wide{padding:10px 16px 16px}
 .cn-h{margin:11px 0 5px;font-size:11.5px;font-weight:700;text-transform:uppercase;
 letter-spacing:.4px;color:var(--fg)}
 .cn-h span{font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted)}
@@ -110,42 +164,68 @@ border-radius:5px;border:1px solid var(--border)}
 @media(max-width:1000px){.grid{grid-template-columns:1fr}}
 </style></head><body>
 <header>
-  <div><h1>BCNexus — CLEW Report<span class="scen">{{scenario}}</span></h1>{{info_html}}{{meta_html}}{{extra_html}}</div>
+  <div class="hleft">
+    <div class="brandrow">{{brand_html}}
+      <h1>CLEW Report<span class="scen">{{scenario}}</span></h1>
+    </div>{{info_html}}{{meta_html}}{{extra_html}}</div>
   <div class="toolbar">
-    <select class="sel" id="laySel" onchange="setCols(this.value)" title="Plot layout">
-      <option value="1">1 × col</option>
-      <option value="2" selected>2 × col</option>
-      <option value="3">3 × col</option>
-    </select>
     <select class="sel" id="fontSel" onchange="setFont(this.value)" title="Font">
+      <option value="Cambria,Georgia,serif" selected>Cambria</option>
       <option value="Arial,Helvetica,sans-serif">Arial</option>
       <option value="'Times New Roman',Times,serif">Times New Roman</option>
-      <option value="Cambria,Georgia,serif">Cambria</option>
     </select>
     <button class="btn" onclick="toggleDark()" title="Toggle dark mode">◐</button>
     <button class="btn" onclick="toggleFS()" title="Fullscreen">⛶</button>
-    {{gh}}{{site}}{{logo_html}}
   </div>
 </header>
 <div class="tabs">{{buttons_html}}
   <span class="tb-sep"></span>
-  {{runlog_btn}}{{gurobi_btn}}{{constraints_btn}}
-  {{runlog_html}}{{gurobi_html}}{{constraints_html}}</div>
+  {{runlog_btn}}{{gurobi_btn}}{{constraints_btn}}{{constants_btn}}
+  <span class="tb-spacer"></span>
+  <div class="colswrap" title="Number of plots shown per row">
+    <span class="colslabel">Plots per row</span>
+    <div class="colsw">
+      <button class="cw" data-c="1" onclick="setCols('1')">1</button>
+      <button class="cw" data-c="2" onclick="setCols('2')">2</button>
+      <button class="cw" data-c="3" onclick="setCols('3')">3</button>
+    </div>
+  </div>
+  {{runlog_html}}{{gurobi_html}}{{constraints_html}}{{constants_html}}</div>
 {{tabs_html}}
 <script>
-document.getElementById('laySel').value='{{layout}}';
+setCols('{{layout}}');
 function plots(){return document.querySelectorAll('.js-plotly-plot');}
 function show(g){
-  document.querySelectorAll('.sec').forEach(d=>d.style.display='none');
+  document.querySelectorAll('.sec').forEach(d=>{d.style.display='none';d.classList.remove('shown');});
   document.querySelectorAll('.tb').forEach(b=>b.classList.remove('on'));
-  document.getElementById(g).style.display='block';
+  var pane=document.getElementById(g);
+  pane.style.display='block'; void pane.offsetWidth; pane.classList.add('shown');
   document.getElementById('b'+g).classList.add('on');
+  if(g==='Outputs' && !document.querySelector('.subsec[style*="block"]')){
+    showSub('{{sub0}}');
+  }
+  window.scrollTo({top:0,behavior:'instant'});
+  window.dispatchEvent(new Event('resize'));
+  restyleAll();
+}
+function showSub(g){
+  document.querySelectorAll('.subsec').forEach(d=>{d.style.display='none';d.classList.remove('shown');});
+  document.querySelectorAll('.stb').forEach(b=>b.classList.remove('on'));
+  var pane=document.getElementById('sub'+g), btn=document.getElementById('s'+g);
+  if(pane){pane.style.display='block'; void pane.offsetWidth; pane.classList.add('shown');}
+  if(btn) btn.classList.add('on');
+  // keep the sub-tab bar in view rather than jumping to the page top
+  var bar=document.querySelector('.subtabs');
+  if(bar){var y=bar.getBoundingClientRect().top+window.scrollY-78;
+          if(window.scrollY>y) window.scrollTo({top:y,behavior:'instant'});}
   window.dispatchEvent(new Event('resize'));
   restyleAll();
 }
 function setCols(n){
   const map={'1':'1fr','2':'1fr 1fr','3':'1fr 1fr 1fr'};
   document.documentElement.style.setProperty('--cols',map[n]||'1fr 1fr');
+  document.querySelectorAll('.cw').forEach(function(b){
+    b.classList.toggle('on', b.dataset.c===String(n));});
   setTimeout(()=>{plots().forEach(p=>{if(p.offsetParent!==null)Plotly.Plots.resize(p);});},60);
 }
 function setFont(f){
@@ -170,7 +250,7 @@ function togglePanel(panelId, btnId){
   var willOpen = !p.classList.contains('on');
   // close any other open panel first
   var PANELS={runlog:'runlogBtn', gurobilog:'gurobiBtn',
-              constraintslog:'constraintsBtn'};
+              constraintslog:'constraintsBtn', constantslog:'constantsBtn'};
   Object.keys(PANELS).forEach(function(id){
     var q=document.getElementById(id); if(q) q.classList.remove('on');
     var qb=document.getElementById(PANELS[id]); if(qb) qb.classList.remove('on');
@@ -180,7 +260,7 @@ function togglePanel(panelId, btnId){
 document.addEventListener('click',function(e){
   if(e.target.closest && e.target.closest('.tb-ic')) return;
   var PANELS={runlog:'runlogBtn', gurobilog:'gurobiBtn',
-              constraintslog:'constraintsBtn'};
+              constraintslog:'constraintsBtn', constantslog:'constantsBtn'};
   Object.keys(PANELS).forEach(function(id){
     var p=document.getElementById(id);
     if(!p||!p.classList.contains('on'))return;
