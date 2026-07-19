@@ -1,0 +1,112 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BCNexus — Temporal Resolution Explorer</title>
+<style>
+:root{--bg:#f6f7f9;--fg:#1a202c;--card:#fff;--border:#e2e8f0;--muted:#64748b;
+--head:#123c46;--accent:#0e7c86;--font:Arial,Helvetica,sans-serif}
+*{box-sizing:border-box}
+body{font-family:var(--font);margin:0;background:var(--bg);color:var(--fg)}
+header{background:var(--head);color:#fff;padding:16px 24px}
+header h1{margin:0;font-size:15px;font-weight:500;text-transform:uppercase;opacity:.75;letter-spacing:.4px}
+header .t{display:block;margin-top:5px;font-size:25px;font-weight:700;border-left:4px solid #0fd9c3;padding-left:11px}
+.wrap{padding:20px 24px;display:grid;grid-template-columns:340px 1fr;gap:18px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px 18px}
+.card h3{margin:0 0 10px;font-size:14px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}
+label{display:block;font-size:13px;font-weight:600;margin:14px 0 5px}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.val{float:right;font-weight:700;color:var(--accent)}
+.ts{font-size:38px;font-weight:700;color:var(--accent);line-height:1.1}
+.tsub{font-size:12.5px;color:var(--muted);margin-top:2px}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;margin-top:8px}
+.light{background:#e6f4ea;color:#1e7d32}.moderate{background:#fff3e0;color:#b26a00}.heavy{background:#fdecea;color:#c62828}
+table{width:100%;border-collapse:collapse;margin-top:6px;font-size:13px}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--border)}
+th{color:var(--muted);font-size:11.5px;text-transform:uppercase;letter-spacing:.4px}
+.gridwrap{display:flex;flex-wrap:wrap;gap:14px;margin-top:6px}
+.day{border:1px solid var(--border);border-radius:8px;padding:8px}
+.day .lbl{font-size:11px;color:var(--muted);margin-bottom:5px}
+.slots{display:flex;gap:2px}
+.slot{width:12px;height:34px;border-radius:2px;background:var(--accent);opacity:.85}
+.note{font-size:12.5px;color:var(--muted);line-height:1.55;margin-top:10px}
+.k{font-weight:700;color:var(--fg)}
+@media(max-width:900px){.wrap{grid-template-columns:1fr}}
+</style></head><body>
+<header><h1>BCNexus · CLEWs</h1><span class="t">Temporal Resolution Explorer</span></header>
+<div class="wrap">
+  <div class="card">
+    <h3>Choose</h3>
+    <label>Hour grouping <span class="val" id="hv">4</span></label>
+    <input type="range" id="h" min="1" max="24" value="4" oninput="upd()">
+    <label>Clusters (representative days) <span class="val" id="kv">4</span></label>
+    <input type="range" id="k" min="1" max="10" value="4" oninput="upd()">
+    <div style="margin-top:18px">
+      <div class="ts" id="ts">24</div>
+      <div class="tsub">timeslices = (24 / hour grouping) x clusters</div>
+      <span class="badge light" id="badge">light solve</span>
+    </div>
+    <div class="note">
+      <span class="k">Hour grouping</span> merges consecutive hours into one bracket:
+      grouping 4 gives 6 brackets per representative day; grouping 1 keeps hourly detail.<br><br>
+      <span class="k">Clusters</span> are the representative day types the year is
+      compressed into (e.g. winter peak, summer average). More clusters capture more
+      seasonal and weather variety.
+    </div>
+  </div>
+  <div>
+    <div class="card">
+      <h3>What you are modelling</h3>
+      <div class="gridwrap" id="days"></div>
+      <div class="note" id="explain"></div>
+    </div>
+    <div class="card" style="margin-top:18px">
+      <h3>Trade-offs</h3>
+      <table>
+        <tr><th>Setting</th><th>Captures well</th><th>Misses</th><th>Typical use</th></tr>
+        <tr><td>Coarse<br><span style="color:#64748b">e.g. 6h x 1-2 clusters</span></td>
+            <td>Annual energy balance, capacity mix trends</td>
+            <td>Peak hours, storage cycling, ramping</td>
+            <td>Fast screening, scenario sweeps</td></tr>
+        <tr><td>Moderate<br><span style="color:#64748b">e.g. 4h x 4 clusters</span></td>
+            <td>Seasonal patterns, daily storage arbitrage</td>
+            <td>Sub-4h ramps, extreme events</td>
+            <td>Default reporting runs</td></tr>
+        <tr><td>Fine<br><span style="color:#64748b">e.g. 1-2h x 6-10 clusters</span></td>
+            <td>Intraday dynamics, VRE variability, storage state</td>
+            <td>Little — but solve time and memory grow fast</td>
+            <td>Storage/flexibility studies</td></tr>
+      </table>
+      <div class="note">Storage algorithm matters here: <span class="k">Kotzur</span>
+      links representative periods so seasonal storage state carries across the year —
+      it is the choice when reservoir or long-duration storage behaviour is part of the
+      research question. <span class="k">Niet</span> uses the simpler intra-period
+      formulation. Both are visible in the notebook UI; only one applies per run.</div>
+    </div>
+  </div>
+</div>
+<script>
+function upd(){
+  const h=+document.getElementById('h').value, k=+document.getElementById('k').value;
+  document.getElementById('hv').textContent=h; document.getElementById('kv').textContent=k;
+  const per=Math.floor(24/h), ts=per*k;
+  document.getElementById('ts').textContent=ts;
+  const b=document.getElementById('badge');
+  let c = ts<=24?['light','light solve']:(ts<=96?['moderate','moderate solve']:['heavy','heavy solve']);
+  b.className='badge '+c[0]; b.textContent=c[1];
+  let html='';
+  for(let d=1;d<=k;d++){
+    let slots='';
+    for(let s=0;s<per;s++) slots+="<div class='slot' style='opacity:"+(0.45+0.5*s/Math.max(per-1,1)).toFixed(2)+"'></div>";
+    html+="<div class='day'><div class='lbl'>Day type "+d+" — "+per+" brackets x "+h+"h</div><div class='slots'>"+slots+"</div></div>";
+  }
+  document.getElementById('days').innerHTML=html;
+  document.getElementById('explain').innerHTML =
+    "The year is represented by <span class='k'>"+k+"</span> day type"+(k>1?'s':'')+
+    ", each split into <span class='k'>"+per+"</span> bracket"+(per>1?'s':'')+" of <span class='k'>"+h+
+    " hour"+(h>1?'s':'')+"</span> — <span class='k'>"+ts+" timeslices</span> per model year. "+
+    (h>6?"Coarse brackets smooth away peak hours; storage and peaking plant will look cheaper than reality. "
+        :"Fine brackets retain intraday shape, at higher solve cost. ")+
+    (k<3?"Few clusters means limited seasonal variety — check that winter peaks are represented."
+        :"Several clusters give reasonable seasonal coverage.");
+}
+upd();
+</script></body></html>

@@ -121,8 +121,8 @@ class AttributesParser:
     def get_SETs_Path(self):
         return Path('data/clews_data/SETs')
     
-    def get_plots_save_to(self)->Path:
-        return utils.ensure_path('vis/plots')
+    # def get_plots_save_to(self)->Path:
+    #     return utils.ensure_path('vis/plots')
     
     def get_SETs_save_to(self):
         SETS_save_to:Path=Path('data/clews/SETs')
@@ -256,8 +256,8 @@ class AttributesParser:
         try:
             if not battery_storage_cfg:
                 raise ValueError(f"{__name__} | Battery storage configuration is missing in clews_builder.yaml under STORAGE -> BATTERY.")
-            StorageMaxCapacity =  int(battery_storage_cfg.get('storage_max_capacity', 9999999999))
-            ResidualStorageCapacity =  int(battery_storage_cfg.get('residual_storage_capacity', 0))
+            StorageMaxCapacity =  float(battery_storage_cfg.get('storage_max_capacity', 9999999999))
+            ResidualStorageCapacity =  float(battery_storage_cfg.get('residual_storage_capacity', 0))
         except Exception as e:
             utils.print_error(f"{__name__} | Error retrieving battery storage configuration: {e}")
             

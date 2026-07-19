@@ -644,7 +644,7 @@ class BuildModel:
         schema_processor.new_yaml_param(self.otoole_yaml_file, 'DaySplit', self.day_split)
         utils.print_update(level=2,message=f"DaySplit param added to {self.otoole_yaml_file}")
 
-        # schema_processor.new_yaml_param(self.otoole_yaml_file, 'StorageMaxCapacity', self.StorageMaxCapacity)
+        schema_processor.new_yaml_param(self.otoole_yaml_file, 'StorageMaxCapacity', self.StorageMaxCapacity)
         schema_processor.new_yaml_param(self.otoole_yaml_file, 'ResidualStorageCapacity', self.ResidualStorageCapacity)
         utils.print_update(level=2,message=f"ResidualStorageCapacity param added to {self.otoole_yaml_file}")
         

@@ -48,7 +48,7 @@ class GetDataPackage:
  
         return self.all_dfs_dict
 
-    def get_dataframe(self, filename: str) -> pd.DataFrame:
+    def get_df(self, filename: str) -> pd.DataFrame:
         """
         Retrieve a specific DataFrame by filename (excluding .csv extension).
         

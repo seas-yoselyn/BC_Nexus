@@ -1,6 +1,6 @@
 STORAGE:
   BATTERY:
-    capital_cost_storage: 100000
+    capital_cost_storage: 9999
     mode_of_operation_charge: 1
     mode_of_operation_discharge: 57
     operational_life_storage: 25
@@ -10,7 +10,7 @@ STORAGE:
     technology_from_storage: BATTERY_STORAGE
     technology_to_storage: BATTERY_STORAGE
   HYDRODAM01:
-    capital_cost_storage: 999999
+    capital_cost_storage: 99999
     mode_of_operation_charge: 1
     mode_of_operation_discharge: 57
     operational_life_storage: 100
@@ -28,15 +28,10 @@ TECHNOLOGIES:
   CCS:
     CCS01:
       capital_cost: 9999
-      operational_life: 25
-      total_annual_max_capacity: 0.2
+      operational_life: 20
+      total_annual_max_capacity: 0
       total_annual_max_capacity_investment:
       - 0
-      - 0
-      - 0
-      - 0
-      - 0
-      - 1
   HDG:
     HDG02: {}
   INFLOW:
@@ -221,7 +216,29 @@ TECHNOLOGIES:
       status: future
       variable_cost: 0.001
   PWRURN:
-    PWRURNB01: {}
+    PWRURNB01:
+      capital_cost: 31452
+      efficiency: 0.3333
+      input_fuel: PWRURN
+      operational_life: 35
+      total_annual_max_capacity: null
+      total_annual_max_capacity_investment:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 1
+      total_annual_min_capacity: null
   PWRWND:
     PWRWNDB01:
       capacity: 0.102

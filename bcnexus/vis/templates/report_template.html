@@ -1,0 +1,198 @@
+<!-- BCNexus CLEW report template
+     Edit layout/styling HERE, not in Python.
+     Tokens filled by bcnexus.vis.report.build_report():
+       {{scenario}} {{info_html}} {{meta_html}} {{extra_html}}
+       {{plotly_script}} {{buttons_html}} {{tabs_html}}
+       {{gh}} {{site}} {{logo_html}} {{cols}} {{layout}}
+-->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BCNexus CLEW Report — {{scenario}}</title>
+{{plotly_script}}
+<style>
+:root{--bg:#f6f7f9;--fg:#1a202c;--card:#fff;--border:#e2e8f0;--muted:#64748b;
+--head:#123c46;--headfg:#fff;--accent:#0e7c86;--accentfg:#ffffff;
+--glow:0 0 0 2px rgba(14,124,134,.22),0 0 12px rgba(14,124,134,.45);
+--font:Arial,Helvetica,sans-serif;--cols:{{cols}}}
+html.dark{--bg:#0f1621;--fg:#e2e8f0;--card:#1a2332;--border:#2d3a4f;--muted:#8b9bb3;
+--head:#0a0f16;--headfg:#e2e8f0;--accent:#22e0c8;--accentfg:#04242b;
+--glow:0 0 12px rgba(34,224,200,.85),0 0 28px rgba(34,224,200,.5)}
+*{box-sizing:border-box}
+body{font-family:var(--font);margin:0;background:var(--bg);color:var(--fg);
+transition:background .2s,color .2s}
+header{background:var(--head);color:var(--headfg);padding:16px 24px;display:flex;
+align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap}
+header h1{margin:0;font-size:15px;font-weight:500;letter-spacing:.4px;
+text-transform:uppercase;opacity:.75}
+header h1 .scen{display:block;margin-top:5px;font-size:27px;font-weight:700;
+letter-spacing:0;text-transform:none;opacity:1;color:#fff;
+border-left:4px solid var(--accent);padding-left:11px}
+html.dark header h1 .scen{color:var(--accent)}
+.info{margin:11px 0 0;max-width:900px;font-size:15px;opacity:.93;line-height:1.55}
+.meta{margin:8px 0 0;font-size:12.5px;opacity:.6;letter-spacing:.3px}
+.extra{margin:11px 0 0;max-width:900px;font-size:13px;line-height:1.45;
+display:inline-flex;align-items:center;gap:9px;padding:8px 14px 8px 10px;
+border-radius:8px;background:rgba(255,196,61,.14);border:1px solid rgba(255,196,61,.55);
+color:#ffe6a8}
+.extra .badge{flex:none;display:inline-flex;align-items:center;justify-content:center;
+width:19px;height:19px;border-radius:50%;background:#ffc43d;color:#3d2c00;
+font-weight:700;font-size:12px;font-family:Arial,sans-serif;
+box-shadow:0 0 0 3px rgba(255,196,61,.25),0 0 12px rgba(255,196,61,.9);
+animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 3px rgba(255,196,61,.22),0 0 10px rgba(255,196,61,.75)}
+50%{box-shadow:0 0 0 5px rgba(255,196,61,.10),0 0 18px rgba(255,196,61,1)}}
+html.dark .extra{background:rgba(255,196,61,.10);color:#ffdf9e}
+.toolbar{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.ic,.btn{display:inline-flex;align-items:center;justify-content:center;width:32px;
+height:32px;border-radius:7px;border:1px solid rgba(255,255,255,.22);color:var(--headfg);
+background:none;cursor:pointer;text-decoration:none;font-size:15px;line-height:1}
+.ic:hover,.btn:hover{background:rgba(255,255,255,.14)}
+.about{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 13px;
+border-radius:7px;border:1px solid rgba(255,255,255,.3);color:var(--headfg);
+text-decoration:none;font-size:12.5px;font-weight:600;white-space:nowrap;
+font-family:var(--font)}
+.about:hover{background:rgba(255,255,255,.14);border-color:var(--accent)}
+select.sel{height:32px;border-radius:7px;border:1px solid rgba(255,255,255,.22);
+background:none;color:var(--headfg);font-size:12px;padding:0 6px;font-family:var(--font)}
+select.sel option{color:#1a202c}
+.logo img{height:38px;width:auto;border-radius:8px;display:block;background:#fff;padding:3px}
+.logo{margin-left:4px}
+.tabs{position:relative;padding:12px 20px;background:var(--card);
+border-bottom:1px solid var(--border);position:sticky;top:0;z-index:5;
+display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.tb{border:1.5px solid var(--border);background:transparent;padding:13px 30px;
+font-size:16px;font-weight:600;letter-spacing:.4px;cursor:pointer;border-radius:10px;
+color:var(--fg);font-family:var(--font);transition:all .18s}
+.tb:hover{border-color:var(--accent)}
+.tb.on{background:transparent;color:var(--accent);border-color:var(--accent);
+border-width:2px;box-shadow:var(--glow)}
+html.dark .tb.on{background:transparent;color:var(--accent);
+text-shadow:0 0 8px rgba(34,224,200,.55)}
+.tb .n{font-size:11px;opacity:.7;margin-left:7px;font-weight:500}
+/* run-info icon button — same height/shape as the C/L/E/W tabs, icon only */
+.tb-ic{border:1.5px solid var(--border);background:transparent;cursor:pointer;
+border-radius:10px;color:var(--fg);padding:0;width:52px;height:52px;font-size:19px;
+line-height:1;display:inline-flex;align-items:center;justify-content:center;
+transition:all .18s}
+.tb-ic:hover{border-color:var(--accent);color:var(--accent)}
+.tb-ic.on{color:var(--accent);border-color:var(--accent);border-width:2px;
+box-shadow:var(--glow)}
+.grid{display:grid;grid-template-columns:var(--cols);gap:16px;padding:20px 24px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;
+padding:6px 10px;overflow:hidden}
+.card h3{margin:8px 6px 2px;font-size:14px;font-weight:600;opacity:.85}
+/* run diagnostics panel (only rendered when runlog= is passed) */
+.runlog{display:none;position:absolute;left:20px;top:100%;margin-top:8px;z-index:20;
+min-width:330px;background:var(--card);color:var(--fg);border:1px solid var(--border);
+border-radius:10px;padding:14px 16px;box-shadow:0 10px 30px rgba(0,0,0,.18);
+font-size:13px;text-align:left}
+.runlog.on{display:block}
+.rl-title{font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.5px;
+color:var(--muted);margin-bottom:8px}
+.rl-row{display:flex;justify-content:space-between;gap:18px;padding:4px 0;
+border-bottom:1px dashed var(--border)}
+.rl-row:last-of-type{border-bottom:none}
+.rl-k{color:var(--muted)}
+.rl-v{font-weight:600;text-align:right}
+.rl-note{margin-top:9px;font-size:11px;color:var(--muted);font-style:italic}
+#constraintslog{min-width:430px;max-width:560px;max-height:70vh;overflow:auto}
+#gurobilog{min-width:340px;max-height:70vh;overflow:auto}
+.tb-sep{width:1px;height:34px;background:var(--border);margin:0 4px}
+.cn-h{margin:11px 0 5px;font-size:11.5px;font-weight:700;text-transform:uppercase;
+letter-spacing:.4px;color:var(--fg)}
+.cn-h span{font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted)}
+.cn-wrap{display:flex;flex-wrap:wrap;gap:5px}
+.cn{font-family:ui-monospace,Consolas,monospace;font-size:11px;padding:2px 7px;
+border-radius:5px;border:1px solid var(--border)}
+.cn-b{background:rgba(217,83,79,.12);border-color:rgba(217,83,79,.45)}
+.cn-nb{background:rgba(120,140,160,.10);color:var(--muted)}
+.cn-empty{font-size:11.5px;color:var(--muted);font-style:italic}
+@media(max-width:1000px){.grid{grid-template-columns:1fr}}
+</style></head><body>
+<header>
+  <div><h1>BCNexus — CLEW Report<span class="scen">{{scenario}}</span></h1>{{info_html}}{{meta_html}}{{extra_html}}</div>
+  <div class="toolbar">
+    <select class="sel" id="laySel" onchange="setCols(this.value)" title="Plot layout">
+      <option value="1">1 × col</option>
+      <option value="2" selected>2 × col</option>
+      <option value="3">3 × col</option>
+    </select>
+    <select class="sel" id="fontSel" onchange="setFont(this.value)" title="Font">
+      <option value="Arial,Helvetica,sans-serif">Arial</option>
+      <option value="'Times New Roman',Times,serif">Times New Roman</option>
+      <option value="Cambria,Georgia,serif">Cambria</option>
+    </select>
+    <button class="btn" onclick="toggleDark()" title="Toggle dark mode">◐</button>
+    <button class="btn" onclick="toggleFS()" title="Fullscreen">⛶</button>
+    {{gh}}{{site}}{{logo_html}}
+  </div>
+</header>
+<div class="tabs">{{buttons_html}}
+  <span class="tb-sep"></span>
+  {{runlog_btn}}{{gurobi_btn}}{{constraints_btn}}
+  {{runlog_html}}{{gurobi_html}}{{constraints_html}}</div>
+{{tabs_html}}
+<script>
+document.getElementById('laySel').value='{{layout}}';
+function plots(){return document.querySelectorAll('.js-plotly-plot');}
+function show(g){
+  document.querySelectorAll('.sec').forEach(d=>d.style.display='none');
+  document.querySelectorAll('.tb').forEach(b=>b.classList.remove('on'));
+  document.getElementById(g).style.display='block';
+  document.getElementById('b'+g).classList.add('on');
+  window.dispatchEvent(new Event('resize'));
+  restyleAll();
+}
+function setCols(n){
+  const map={'1':'1fr','2':'1fr 1fr','3':'1fr 1fr 1fr'};
+  document.documentElement.style.setProperty('--cols',map[n]||'1fr 1fr');
+  setTimeout(()=>{plots().forEach(p=>{if(p.offsetParent!==null)Plotly.Plots.resize(p);});},60);
+}
+function setFont(f){
+  document.documentElement.style.setProperty('--font',f);
+  plots().forEach(p=>Plotly.relayout(p,{'font.family':f}));
+}
+function isDark(){return document.documentElement.classList.contains('dark');}
+function restyleAll(){
+  const d=isDark();
+  const lay=d?{paper_bgcolor:'#1a2332',plot_bgcolor:'#1a2332','font.color':'#e2e8f0',
+               'xaxis.gridcolor':'#2d3a4f','yaxis.gridcolor':'#2d3a4f',
+               'legend.bgcolor':'rgba(0,0,0,0)'}
+            :{paper_bgcolor:'#ffffff',plot_bgcolor:'#ffffff','font.color':'#2a3f5f',
+               'xaxis.gridcolor':'#e2e8f0','yaxis.gridcolor':'#e2e8f0',
+               'legend.bgcolor':'rgba(0,0,0,0)'};
+  plots().forEach(p=>{if(p.offsetParent!==null)Plotly.relayout(p,lay);});
+}
+function toggleDark(){document.documentElement.classList.toggle('dark');restyleAll();}
+function togglePanel(panelId, btnId){
+  var p=document.getElementById(panelId), b=document.getElementById(btnId);
+  if(!p) return;
+  var willOpen = !p.classList.contains('on');
+  // close any other open panel first
+  var PANELS={runlog:'runlogBtn', gurobilog:'gurobiBtn',
+              constraintslog:'constraintsBtn'};
+  Object.keys(PANELS).forEach(function(id){
+    var q=document.getElementById(id); if(q) q.classList.remove('on');
+    var qb=document.getElementById(PANELS[id]); if(qb) qb.classList.remove('on');
+  });
+  if(willOpen){ p.classList.add('on'); if(b) b.classList.add('on'); }
+}
+document.addEventListener('click',function(e){
+  if(e.target.closest && e.target.closest('.tb-ic')) return;
+  var PANELS={runlog:'runlogBtn', gurobilog:'gurobiBtn',
+              constraintslog:'constraintsBtn'};
+  Object.keys(PANELS).forEach(function(id){
+    var p=document.getElementById(id);
+    if(!p||!p.classList.contains('on'))return;
+    if(!p.contains(e.target)){
+      p.classList.remove('on');
+      var b=document.getElementById(PANELS[id]); if(b) b.classList.remove('on');
+    }
+  });
+});
+function toggleFS(){
+  if(!document.fullscreenElement){document.documentElement.requestFullscreen();}
+  else{document.exitFullscreen();}
+}
+show('{{kept0}}');
+</script></body></html>

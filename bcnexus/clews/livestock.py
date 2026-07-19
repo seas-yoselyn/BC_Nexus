@@ -112,75 +112,85 @@ def update_IARlist(
                    source_land_tech:str,
                    ):
     """
-    Updates and extends the IAR (Input Activity Ratio) and OAR (Output Activity Ratio) lists for livestock-related technologies.
-    This function iterates over regions, technologies, and fuels defined in the provided livestock sets and model structure.
-    It generates new entries for IAR and OAR lists based on livestock yield factors and land regions, and appends them to the existing lists.
-    Args:
-        IARList_existing (list): Existing list of IAR entries to be updated.
-        OARList_existing (list): Existing list of OAR entries to be updated.
-        livestock_sets (dict): Dictionary containing sets of 'TECHNOLOGY' and 'FUEL' relevant to livestock.
-        source_land_tech (str, optional): Technology identifier to use for land supply entries.
-    Returns:
-        tuple: A tuple containing:
-            - IARlist_updated (list): The updated IAR list including new entries.
-            - OARlist_updated (list): The updated OAR list including new entries.
-    Note:
-        - This function relies on the global `model_structure` object for region, technology, fuel, and mode definitions.
-        - The function modifies the input lists in place and also returns them for convenience.
-    """
-    
-    IARList_new = []
-    OARList_new=[]
+    Updates and extends the IAR/OAR lists for livestock-related technologies.
 
-    seen_oar = set()
-    seen_iar = set()
+    Args:
+        IARList_existing (list): Existing IAR entries; extended in place.
+        OARList_existing (list): Existing OAR entries; extended in place.
+        livestock_sets (dict): {'TECHNOLOGY': [...], 'FUEL': [...]} for livestock.
+        source_land_tech (str): Technology supplying land to livestock.
+
+    Returns:
+        tuple: (IARlist_updated, OARlist_updated)
+
+    Note:
+        The de-duplication sets are SEEDED FROM THE EXISTING LISTS. Without
+        this, the land-supply block re-emits keys the main builder already
+        wrote (e.g. (REGION1, PWRBCWB01, ELCB01, 1, 2021)) and GLPK aborts
+        with "OutputActivityRatio[...] already defined". Relies on the global
+        `model_structure` for regions, land regions, modes and yield factors.
+    """
+
+    IARList_new = []
+    OARList_new = []
+
+    # seed with what already exists so livestock never re-defines a key
+    seen_oar = {tuple(e['c']) for e in OARList_existing}
+    seen_iar = {tuple(e['c']) for e in IARList_existing}
+
+    skipped_oar = skipped_iar = 0
+
     for region in model_structure.Regions.keys():
         for tech in livestock_sets.get('TECHNOLOGY'):
             for fuel in livestock_sets.get('FUEL'):
-                # OAR: produce supply
+
+                # OAR: livestock produce
                 if fuel[-3:] in model_structure.LivestockYieldFactors.keys():
                     for mode in model_structure.LivestockProduce_Modes.keys():
-                        for year_iter in range(model_structure.snapshot['start'], model_structure.snapshot['start']+1):
-                            key = (region, tech, fuel, model_structure.LivestockProduce_Modes.get(fuel[-3:]), year_iter)
-                            if key not in seen_oar:
-                                entry = {
-                                    'c': list(key),
-                                    'v': model_structure.LivestockYieldFactors.get(fuel[-3:], 1)
-                                }
-                                OARList_new.append(entry)
-                                seen_oar.add(key)
-                # OAR & IAR: land supply
+                        for year_iter in range(model_structure.snapshot['start'],
+                                               model_structure.snapshot['start'] + 1):
+                            key = (region, tech, fuel,
+                                   model_structure.LivestockProduce_Modes.get(fuel[-3:]),
+                                   year_iter)
+                            if key in seen_oar:
+                                skipped_oar += 1
+                                continue
+                            OARList_new.append({
+                                'c': list(key),
+                                'v': model_structure.LivestockYieldFactors.get(fuel[-3:], 1)
+                            })
+                            seen_oar.add(key)
+
+                # OAR & IAR: land supply to livestock
                 if fuel[-3:] in model_structure.LandRegions:
-                    for year_iter in range(model_structure.snapshot['start'], model_structure.snapshot['start']+1):
+                    for year_iter in range(model_structure.snapshot['start'],
+                                           model_structure.snapshot['start'] + 1):
                         tech_land = source_land_tech
                         mode = 1
                         key = (region, tech_land, fuel, mode, year_iter)
-                        if key not in seen_oar:
-                            entry = {
-                                'c': list(key),
-                                'v': 1
-                            }
-                            OARList_new.append(entry)
+
+                        if key in seen_oar:
+                            skipped_oar += 1
+                        else:
+                            OARList_new.append({'c': list(key), 'v': 1})
                             seen_oar.add(key)
-                        if key not in seen_iar:
-                            entry_iar = {
-                                'c': list(key),
-                                'v': 1
-                            }
-                            IARList_new.append(entry_iar)
+
+                        if key in seen_iar:
+                            skipped_iar += 1
+                        else:
+                            IARList_new.append({'c': list(key), 'v': 1})
                             seen_iar.add(key)
-                            
-                            
-    # IARList_updated=IARList_existing.extend(IARList_new)
+
     OARList_existing.extend(OARList_new)
-    OARlist_updated=OARList_existing
-    
     IARList_existing.extend(IARList_new)
-    IARlist_updated=IARList_existing
-    IARlist_updated=IARList_existing
-    
-    utils.print_update(level=print_level_base,message="Livestock Ratios updated.")
-    return IARlist_updated,OARlist_updated
+
+    utils.print_update(
+        level=print_level_base,
+        message=(f"Livestock Ratios updated: +{len(OARList_new)} OAR, "
+                 f"+{len(IARList_new)} IAR "
+                 f"(skipped {skipped_oar} OAR / {skipped_iar} IAR already defined)."))
+
+    return IARList_existing, OARList_existing
 
 def update_mode_of_operation_csv(source_csv_files_path:str|Path, 
                                  new_modes_dict):

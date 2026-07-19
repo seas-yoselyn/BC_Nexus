@@ -464,7 +464,7 @@ ResidualCapacity:
   - YEAR
   type: param
 ResidualStorageCapacity:
-  default: 0
+  default: 0.0
   dtype: float
   indices:
   - REGION

@@ -559,6 +559,19 @@ def BuildCLEWsModel():
             "#000000","Land resource in " + LandRegion + ".")
             # And add a mode for each crop combination and create the IAR and OAR
             for mode, modeCombo in enumerate(ModeList):
+                # EL_20260719: Skip agricultural modes whose cluster-mean yield is
+                # negligible. These arise as a dilution artifact of averaging yields
+                # over clusters dominated by non-crop cells, and they inject e-8
+                # scale OAR coefficients into the LP matrix (numerical conditioning).
+                # Threshold mirrors the 1e-4 guard applied to IrrigationValue below.
+                # Skipping here removes the whole mode (land IAR, precipitation IAR,
+                # crop OAR, irrigation, ET, groundwater) so no free land sink remains.
+                _combo_label = modeCombo[:-2] + " " + IrrigationTypeList[modeCombo[-1]] + " " + IntensityList[modeCombo[-2]]
+                if _combo_label in Clusters[0].strip().split(','):
+                    _yield_check = float(Clusters[clustercount].split(',')[
+                        Clusters[0].strip().split(',').index(_combo_label)]) * CropYieldFactors[modeCombo[:-2][0:3]]
+                    if _yield_check < 0.0001:
+                        continue
                 # Add the IAR for the combo into the correct mode.
                 AddActivityListItems(Years, Region, "LNDAGR" + LandRegion + "C" + Clusters[clustercount].split(',')[0].zfill(2),
                 "L" + modeCombo + LandRegion, IARList, value = "1",  g = str(mode + 1))
