@@ -358,6 +358,15 @@ def get_plots(nexus_scenario:str='Base_CNZ',
     nexus_energy_plots['nexus_sankey'] = _safe(
         plot_Energy.plot_nexus_sankey_slider, _prod, _use,
         scenario=nexus_scenario, step=1)
+    # Energy-only Sankeys, same year slider. Split primary/delivered so that
+    # fuels burned for conversion are not compared against carriers that have
+    # already been converted.
+    nexus_energy_plots['primary_energy_sankey'] = _safe(
+        plot_Energy.plot_primary_energy_sankey_slider, _prod, _use,
+        scenario=nexus_scenario, step=1)
+    nexus_energy_plots['delivered_energy_sankey'] = _safe(
+        plot_Energy.plot_delivered_energy_sankey_slider, _use,
+        scenario=nexus_scenario, step=1)
 
     # ---- one colour vocabulary across every figure ------------------------
     # Legacy plots colour by CODE keys (custom_colors) while their legends show

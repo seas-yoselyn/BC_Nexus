@@ -581,3 +581,198 @@ def plot_nexus_sankey_slider(ProductionByTechnologyAnnual: pd.DataFrame,
                           text="Widths comparable within a subsystem only "
                                "(land kkm², water BCM, energy PJ).")])
     return fig
+
+
+# =====================================================================
+# Energy-only Sankeys: primary (resource -> conversion -> carrier -> use)
+# and delivered (carrier -> sector). Split deliberately: mixing primary
+# fuel with final energy on one canvas makes the fuel that goes through a
+# conversion step look larger than the carrier that has already paid for it.
+# =====================================================================
+_SECTOR_OF = {"IND": "Industry", "RES": "Residential", "COM": "Commercial",
+              "TRA": "Transport", "PWR": "Power", "AGR": "Agriculture"}
+_FUEL_OF = {"BIO": "Biomass", "NGS": "Natural Gas", "DSL": "Diesel",
+            "GSL": "Gasoline", "HDG": "Hydrogen", "HFO": "Heavy Fuel Oil",
+            "JFL": "Jet Fuel", "LPG": "LPG", "COA": "Coal",
+            "RPP": "Refined Petroleum Products"}
+_RESOURCE_OF = {"HYD": "Hydro", "WND": "Wind", "SOL": "Solar", "BIO": "Biomass",
+                "NGS": "Natural Gas", "COA": "Coal", "URN": "Uranium",
+                "GAS": "Natural Gas"}
+
+
+def _carrier_label(fuel: str):
+    """Energy-carrier label for a FUEL code, or None for non-energy commodities.
+
+    Water (WTR/…WAT), land (L…) and the PWR* resource commodities are not
+    carriers delivered to end use and are filtered out here.
+    """
+    f = str(fuel)
+    if "ELC" in f:
+        return "Electricity"
+    if f.startswith(("WTR", "AGRWAT", "PUBWAT", "PWRWAT", "LND")):
+        return None
+    if f.startswith("PWR"):                      # PWRHYD / PWRWND resources
+        return None
+    return _FUEL_OF.get(f[:3])
+
+
+def _delivered_links(use_y: pd.DataFrame) -> list:
+    """Carrier -> sector final-energy flows for ONE year (PJ)."""
+    d = use_y[use_y.TECHNOLOGY.astype(str).str.startswith("DEM")]
+    links = []
+    for (tech, fuel), v in d.groupby(["TECHNOLOGY", "FUEL"]).VALUE.sum().items():
+        sector = _SECTOR_OF.get(str(tech)[3:6])
+        carrier = _carrier_label(fuel)
+        # DEMPWR* are primary resources entering generation, not final energy
+        if sector in (None, "Power") or carrier is None:
+            continue
+        links.append((carrier, sector, float(v)))
+    return links
+
+
+def _primary_links(prod_y: pd.DataFrame, use_y: pd.DataFrame) -> list:
+    """Resource -> generation -> electricity -> use, plus direct fuel use (PJ).
+
+    The electricity chain is closed: generation input, conversion loss,
+    transmission loss, storage and delivered electricity all appear, so the
+    node balances instead of showing only the delivered tail.
+    """
+    GEN, ELC = "Power generation", "Electricity"
+    links, gen_in = [], 0.0
+
+    # resources into generation (PWRHYD / PWRWND / PWRSOL / PWRBIO ...)
+    res = use_y[use_y.TECHNOLOGY.astype(str).str.startswith("PWR") &
+                use_y.FUEL.astype(str).str.startswith("PWR")]
+    for fuel, v in res.groupby("FUEL").VALUE.sum().items():
+        label = _RESOURCE_OF.get(str(fuel)[3:6])
+        if label is None or v <= 0:
+            continue
+        links.append((label, GEN, float(v)))
+        gen_in += float(v)
+
+    # generation output and conversion loss
+    gen_out = float(prod_y[prod_y.FUEL == "ELCB01"].VALUE.sum())
+    if gen_out > 0:
+        links.append((GEN, ELC, gen_out))
+    if gen_in - gen_out > 0:
+        links.append((GEN, "Conversion loss", gen_in - gen_out))
+
+    # transmission loss, and storage as a two-way node.
+    # ELCB02 is produced BOTH by transmission and by storage discharge, so the
+    # transmission loss must be taken against transmission output only —
+    # otherwise discharge silently cancels the loss (and can invert it).
+    trn_in = float(use_y[use_y.FUEL == "ELCB01"].VALUE.sum())
+    _b02 = prod_y[prod_y.FUEL == "ELCB02"]
+    _is_sto = _b02.TECHNOLOGY.astype(str).str.contains("STORAGE", case=False)
+    trn_out = float(_b02[~_is_sto].VALUE.sum())
+    discharge = float(_b02[_is_sto].VALUE.sum())
+    if trn_in - trn_out > 0:
+        links.append((ELC, "Transmission loss", trn_in - trn_out))
+
+    charge = float(use_y[(use_y.FUEL == "ELCB02") &
+                         use_y.TECHNOLOGY.astype(str)
+                         .str.contains("STORAGE", case=False)].VALUE.sum())
+    if charge > 0:
+        links.append((ELC, "Storage", charge))
+    if discharge > 0:
+        links.append(("Storage", ELC, discharge))
+
+    # delivered energy: electricity from the ELC node, other carriers direct
+    for carrier, sector, v in _delivered_links(use_y):
+        links.append((carrier, sector, v))
+    return links
+
+
+def _sankey_slider(per_year: dict, title: str, note: str, scenario: str = None):
+    """Shared builder: one Sankey trace per year, visibility driven by a slider."""
+    sfx = f" [{scenario}]" if scenario else ""
+    nodes = sorted({n for links in per_year.values()
+                    for s, t, _ in links for n in (s, t)})
+    idx = {n: i for i, n in enumerate(nodes)}
+    node_colors = [palette.color(n) for n in nodes]
+
+    fig = go.Figure()
+    for i, (y, links) in enumerate(per_year.items()):
+        fig.add_trace(go.Sankey(
+            visible=(i == 0), name=str(y),
+            node=dict(label=nodes, pad=18, thickness=14, color=node_colors,
+                      line=dict(width=0)),
+            link=dict(source=[idx[s] for s, _, _ in links],
+                      target=[idx[t] for _, t, _ in links],
+                      value=[v for _, _, v in links],
+                      color=["rgba(140,160,180,.35)"] * len(links))))
+    steps = [dict(method="update", label=str(y),
+                  args=[{"visible": [j == i for j in range(len(per_year))]},
+                        {"title": f"{title}, {y}{sfx}"}])
+             for i, y in enumerate(per_year)]
+    fig.update_layout(
+        title=f"{title}, {list(per_year)[0]}{sfx}", template="plotly_white",
+        sliders=[dict(active=0, currentvalue={"prefix": "Year: ",
+                                              "font": {"size": 14}},
+                      pad={"t": 40, "b": 10}, steps=steps)],
+        margin=dict(t=60, b=90, l=20, r=20),
+        annotations=[dict(x=0, y=-0.16, xref="paper", yref="paper",
+                          showarrow=False, font=dict(size=11, color="grey"),
+                          text=note)])
+    return fig
+
+
+def _years_of(prod: pd.DataFrame, years, step):
+    all_years = sorted(prod.YEAR.unique())
+    return [int(y) for y in (years or all_years)][::max(int(step), 1)]
+
+
+def plot_primary_energy_sankey_slider(ProductionByTechnologyAnnual: pd.DataFrame,
+                                      UseByTechnology: pd.DataFrame,
+                                      years: list = None, scenario: str = None,
+                                      min_flow: float = 0.5, step: int = 1):
+    """PRIMARY energy Sankey with a year slider — everything in PJ.
+
+    Resources enter generation, conversion and transmission losses and storage
+    are shown explicitly, and non-electric fuels run straight to their sectors.
+    Because the electricity chain is closed, the electricity node balances
+    (generation in = losses + storage + delivered) rather than showing only the
+    delivered tail, which is what made electricity look small next to biomass.
+
+    Args:
+        years: subset of model years (default: all).
+        min_flow: hide links below this many PJ.
+        step: use every n-th year, e.g. step=5.
+    """
+    per_year = {}
+    for y in _years_of(ProductionByTechnologyAnnual, years, step):
+        links = [(s, t, v) for s, t, v in _primary_links(
+            ProductionByTechnologyAnnual[ProductionByTechnologyAnnual.YEAR == y],
+            UseByTechnology[UseByTechnology.YEAR == y]) if v >= min_flow]
+        if links:
+            per_year[y] = links
+    if not per_year:
+        return None
+    return _sankey_slider(per_year, "Primary energy flows",
+                          "All flows in PJ. Resource inputs to generation are "
+                          "primary energy; losses and storage close the "
+                          "electricity balance.", scenario)
+
+
+def plot_delivered_energy_sankey_slider(UseByTechnology: pd.DataFrame,
+                                        years: list = None, scenario: str = None,
+                                        min_flow: float = 0.5, step: int = 1):
+    """DELIVERED (final) energy Sankey with a year slider — carrier -> sector.
+
+    Every flow is final energy at the point of use, so carrier widths are
+    directly comparable: electricity is counted after conversion, and the fuel
+    burned to generate it is not double counted here. Use together with
+    `plot_primary_energy_sankey_slider`, which shows the conversion side.
+    """
+    per_year = {}
+    for y in _years_of(UseByTechnology, years, step):
+        links = [(s, t, v) for s, t, v in
+                 _delivered_links(UseByTechnology[UseByTechnology.YEAR == y])
+                 if v >= min_flow]
+        if links:
+            per_year[y] = links
+    if not per_year:
+        return None
+    return _sankey_slider(per_year, "Delivered (final) energy",
+                          "All flows in PJ of final energy at the point of use; "
+                          "carrier widths are directly comparable.", scenario)
