@@ -549,7 +549,7 @@ class RunModel:
     # previous stage *in the same process*. run() composes them; snakemake
     # calls them one process each via bcnexus/stages.py.
 
-    def stage_build(self, include_livestock: bool = True) -> Path:
+    def stage_build(self, include_livestock: bool = True, include_agrivoltaic: bool = False) -> Path:
         """#1-#3: CLEWs builder -> temporal profiles -> storage-case schema.
 
         Starts from a FRESH csv template (idempotent): re-running this stage on
@@ -560,6 +560,7 @@ class RunModel:
             message=f'CLEWs Builder: SETs and Params for scenario: {self.run_scenario}')
         self.clewsBuilder.get_csv_template(force_replace=True)
         self.clewsBuilder.build(include_livestock=include_livestock,
+                                include_agrivoltaic=include_agrivoltaic,
                                 update_clews_builder=True)
         self.clewsBuilder.update_temporal_profiles()
         utils.copy_csv_files(src_folder=self.clewsBuilder.clews_build_input_csv_dir,
@@ -673,7 +674,8 @@ class RunModel:
             input_csvs: str | Path=None,
             build:bool=False,
             save_individual_plots:bool=False,
-            include_livestock:bool=False,
+            include_livestock:bool=True,
+            include_agrivoltaic:bool=False,
             solver_name='gurobi',
             threads:int=32,
             machine_id:str=None):
@@ -709,7 +711,7 @@ class RunModel:
 
     #1           
         if build:
-            self.stage_build(include_livestock=include_livestock)
+            self.stage_build(include_livestock=include_livestock, include_agrivoltaic=include_agrivoltaic)
         else:
             utils.print_update(level=1,
                 message=f'Skipping CLEWs builder; using SETs/Params from {input_csvs or self.input_csvs}')
