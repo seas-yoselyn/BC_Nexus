@@ -147,7 +147,7 @@ class BuildModel:
         self.get_LandCluster_data()
     
     #2. Build base SETs and Ratios
-        SetNames,NewSetItems,IARList,OARList,EARList=    sets_n_ratios.build(self.SETs_save_to)
+        SetNames,NewSetItems,IARList,OARList=    sets_n_ratios.build(self.SETs_save_to)
     
     #3. Collect Livestock data and build SETs including livestock data
         if include_livestock:
@@ -174,7 +174,6 @@ class BuildModel:
                 NewSetItems=NewSetItems,
                 IARList=IARList,
                 OARList=OARList,
-                EARList=OARList,
                 csv_save_to=self.SETs_save_to,
             )
 

@@ -1098,3 +1098,43 @@ Memory Usage: 559.82 MB
 Linux User: root
 CPU Cores/Threads Used: 32
 --------------------------------------------------
+Scenario: Base_CNZ
+Timeslices: 10
+Clustering Attributes - Hour Grouping: 12 , No of Clusters: 5 
+Runtime: 1059.29 seconds (17.65 minutes)
+Run Start Time: 2026-07-01 16:00:12
+Run End Time: 2026-07-01 16:17:51
+Memory Usage: 1678.86 MB
+Linux User: root
+CPU Cores/Threads Used: 32
+--------------------------------------------------
+Scenario: Base_CNZ
+Timeslices: 10
+Clustering Attributes - Hour Grouping: 12 , No of Clusters: 5 
+Runtime: 157.17 seconds (2.62 minutes)
+Run Start Time: 2026-07-01 16:20:44
+Run End Time: 2026-07-01 16:23:22
+Memory Usage: 2357.90 MB
+Linux User: root
+CPU Cores/Threads Used: 32
+--------------------------------------------------
+Scenario: Base_CNZ
+Timeslices: 10
+Clustering Attributes - Hour Grouping: 12 , No of Clusters: 5 
+Runtime: 176.55 seconds (2.94 minutes)
+Run Start Time: 2026-07-01 20:33:59
+Run End Time: 2026-07-01 20:36:56
+Memory Usage: 1570.63 MB
+Linux User: root
+CPU Cores/Threads Used: 32
+--------------------------------------------------
+Scenario: Base_CNZ
+Timeslices: 10
+Clustering Attributes - Hour Grouping: 12 , No of Clusters: 5 
+Runtime: 75.36 seconds (1.26 minutes)
+Run Start Time: 2026-08-02 19:04:35
+Run End Time: 2026-08-02 19:05:51
+Memory Usage: 236.14 MB
+Linux User: root
+CPU Cores/Threads Used: 32
+--------------------------------------------------

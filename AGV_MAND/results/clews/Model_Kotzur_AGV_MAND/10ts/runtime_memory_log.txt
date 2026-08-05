@@ -1,0 +1,20 @@
+Scenario: AGV_MAND
+Timeslices: 10
+Clustering Attributes - Hour Grouping: 12 , No of Clusters: 5 
+Runtime: 300.18 seconds (5.00 minutes)
+Run Start Time: 2026-07-02 17:51:56
+Run End Time: 2026-07-02 17:56:56
+Memory Usage: 1856.10 MB
+Linux User: root
+CPU Cores/Threads Used: 32
+--------------------------------------------------
+Scenario: AGV_MAND
+Timeslices: 10
+Clustering Attributes - Hour Grouping: 12 , No of Clusters: 5 
+Runtime: 259.37 seconds (4.32 minutes)
+Run Start Time: 2026-07-02 18:15:17
+Run End Time: 2026-07-02 18:19:36
+Memory Usage: 1867.08 MB
+Linux User: root
+CPU Cores/Threads Used: 32
+--------------------------------------------------

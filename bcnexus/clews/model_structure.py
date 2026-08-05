@@ -81,10 +81,10 @@ NamingConvention = {
   'WHE': 'Wheat',
   'WND': 'Wind',
   'CCS' :'Carbon Capture and Storage',
-  'BEF': 'Beef', # EL_20250606, for YOSE
-  'MIL': 'Milk',# EL_20250606, for YOSE
-  'PIG': 'Swine', 
-  'SHP': 'Sheep',
+  #'BEF': 'Beef', # EL_20250606, for YOSE
+  #'MIL': 'Milk',# EL_20250606, for YOSE
+  #'PIG': 'Swine', 
+  #'SHP': 'Sheep',
 }
 
 # The data for region RG1 will be in file data/clustering_results_RG1.csv
@@ -122,8 +122,9 @@ LandUseCodes= {
   'BLT': 'Built-up land',
   'WAT': 'Water bodies',
   'OTH': 'Other agricultural land',
-  # 'PAS': 'Pastures for livestock', # 20250606, for YOSE's work
-  # 'AGV': 'Agrivoltaic land', # New land use code so that a new MOO is created; 20250606, for YOSE's work
+  'PSN': 'Natural pasture',
+  'PSC': 'Cultivated pasture',
+  'PCF': 'Confined livestock operations',
 }
 
 # Evapotranspiration values for water balances for other land uses.
@@ -292,16 +293,13 @@ PowerPlants= {
 # Emissions to be tracked in the model.
 Emissions= {
   'CO2': ['Carbon dioxide emissions.','#00cc66'],
-  'CH4_FER': ['Methane emissions from enteric fermentation', '#ff6600'],
-  'CH4_MAN': ['Methane emissions from manure management', '#9933cc'],
-  'N2O_MAN': ['Nitrous oxide emissions from manure management', '#9933cc'],
-  'N2O_DIR': ['Direct nitrous oxide emissions from agricultural soils', '#9933cc'],
-  'N2O_IND': ['Indirect nitrous oxide emissions from agricultural soils', '#9933cc'],
+  'CH4_FER': ['Methane emissions from enteric fermentation', '#ff6600'],#Given in MtonCH4 will fix
+  'CH4_MAN': ['Methane emissions from manure management', '#9933cc'],#Given in MtonCH4 will fix
+  'N2O_MAN': ['Nitrous oxide emissions from manure management', '#9933cc'],#Given in MtonN2O will fix
+  'N2O_DIR': ['Direct nitrous oxide emissions from agricultural soils', '#9933cc'], #Given in MtonCO2e
+  'N2O_IND': ['Indirect nitrous oxide emissions from agricultural soils', '#9933cc'], #Given in MtonCO2e
 }
 
-
-EF_N2O_DIR = 0.0000308
-EF_N2O_IND = 0.0000134
 
 # Crop yield factors for calibrating the model.  Codes here must match crop codes in the land use data.
 # -------->>>>>>>>>>>>>>>>>>> needs to be automated
@@ -374,7 +372,6 @@ LivestockStockingDensity = {
 }
 
 # Commodity yield: ktons per 1000 heads
-# Used as Level 3 OAR — how much product per head
 LivestockCommodityYield = {
     'BEF': 0.3888,   
     'MIL': 5.472,
@@ -391,8 +388,7 @@ LivestockLandArea = {
     'SHP':  0.153,
 }
 
-# Water-balance parameters for livestock land use
-# Taken from Geoclews, values for grassland
+# Water-balance parameters for livestock land use from GeoCLEWs
 LivestockEvapotranspirationPercent = {
     'BEFN': 0.694,   
     'BEFC': 0.694,   
@@ -405,8 +401,8 @@ LivestockEvapotranspirationPercent = {
 # Taken from Geoclews, values for grassland
 LivestockGroundwaterPercentofExcess = {
     'BEFN': 0.051,   # GRS proxy
-    'BEFC': 0.060,   # placeholder
-    'MIL':  0.060,   # placeholder
+    'BEFC': 0.051,   # GRS proxy
+    'MIL':  0.051,   # GRS proxy
     'PIG':  0.072,   # BLT proxy
     'SHP':  0.051,   # GRS proxy
 }

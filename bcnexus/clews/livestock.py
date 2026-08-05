@@ -171,10 +171,6 @@ def update_IARlist(IARList_existing: list,
                              region, lnd_tech, base_land_fuel, 1, year, 1)
                     _add_oar(seen_oar, OARList_new,
                              region, lnd_tech, alloc_fuel, 1, year, 1)
-                    # Level 1 — natural water balance (mode 1)
-                    # Mirrors the non-crop land-use water-balance pattern from sets_n_ratios.py.
-                    # Parameters defined in model_structure.py and flagged as placeholders for
-                    # BC-specific calibration (FAO, Mekonnen & Hoekstra, AAFC, NRC).
                     prc = ms.LivestockRegionalPrecipitation.get(land_region, 0)
                     if prc > 0:
                         et_frac = ms.LivestockEvapotranspirationPercent[pathway]
@@ -306,7 +302,7 @@ def _append_livestock_to_csvs(IARList: list,
                 message=f"Removed {before - after} stale livestock rows from {ratio_file.name}"
             )
 
-    # Append TECHNOLOGY and FUEL sets
+
     for set_name, livestock_set in livestock_sets.items():
         set_file       = csv_save_to / f'{set_name}.csv'
         existing_df    = pd.read_csv(set_file)

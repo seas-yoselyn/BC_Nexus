@@ -23,7 +23,6 @@ def UpdateSETS(SetNames:list,
                  NewSetItems:list, 
                  IARList:list, 
                  OARList:list,
-                 EARList:list,
                  csv_save_to:str):
     
     csv_save_to = Path(csv_save_to)
@@ -55,14 +54,6 @@ def UpdateSETS(SetNames:list,
     with oar_file.open('w') as f:
         f.write('REGION,TECHNOLOGY,FUEL,MODE_OF_OPERATION,YEAR,VALUE\n')
         for item in OARList:
-            f.write(','.join(map(str, item['c'])) + ',' + str(item['v']) + '\n')
-
-    # And output the EAR for otoole:
-    ear_file = csv_save_to / 'EmissionActivityRatio.csv'
-    utils.print_update(level=PRINT_LEVEL_BASE+1,message=f"Writing Emission Activity Ratios to {ear_file}")
-    with ear_file.open('w') as f:
-        f.write('REGION,TECHNOLOGY,EMISSION,MODE_OF_OPERATION,YEAR,VALUE\n')
-        for item in EARList:
             f.write(','.join(map(str, item['c'])) + ',' + str(item['v']) + '\n')
             
     # mop_file = csv_save_to / 'MODE_OF_OPERATION.csv'
@@ -601,13 +592,7 @@ def BuildCLEWsModel():
                         # Direct + indirect N2O from agricultural soils
                         # Applied only to crop modes (this if-branch); non-crop
                         # land uses (FOR, SET, etc.) are added in a separate loop.
-                        AddActivityListItems(Years, Region,
-                        "LNDAGR" + LandRegion + "C" + Clusters[clustercount].split(',')[0].zfill(2),
-                        "N2O_DIR", EARList, g = str(mode + 1), v = str(clews_const.EF_N2O_DIR))
-                        AddActivityListItems(Years, Region,
-                        "LNDAGR" + LandRegion + "C" + Clusters[clustercount].split(',')[0].zfill(2),
-                        "N2O_IND", EARList, g = str(mode + 1), v = str(clews_const.EF_N2O_IND))
-
+                        
                         # IAR for Irrigation
                         Location = IrrigationWaterDeficitClusters[0].strip().split(',').index(CropComboLabel)
                         IrrigationValue = float(IrrigationWaterDeficitClusters[clustercount].split(',')[Location])
@@ -803,7 +788,6 @@ def build(save_to='SETs'):
                 NewSetItems, 
                 IARList, 
                 OARList,
-                EARList, 
                 save_to)
     
     clews_set_builder_limitaitons=clews_const.Limitations
@@ -814,8 +798,7 @@ def build(save_to='SETs'):
     return (SetNames, 
             NewSetItems, 
             IARList, 
-            OARList, 
-            EARList)
+            OARList)
 
 def check_landcluster_data(landcluser_config:dict,
                            land_to_grid_map:dict):

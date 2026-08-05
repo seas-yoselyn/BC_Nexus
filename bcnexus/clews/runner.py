@@ -215,6 +215,14 @@ class RunModel:
             {'file_path': self.input_csvs / 'AccumulatedAnnualDemand.csv', 
              'attribute_name': 'accumulated_annual_demand', 
              'column_name': 'FUEL'},
+
+            {'file_path': self.input_csvs / 'SpecifiedAnnualDemand.csv',
+             'attribute_name': 'specified_annual_demand',
+             'column_name': 'FUEL'},
+
+            {'file_path': self.input_csvs / 'TotalTechnologyAnnualActivityLowerLimit.csv',
+             'attribute_name': 'total_annual_activity_lower_limit',
+             'column_name': 'TECHNOLOGY'}, 
             
             {'file_path': self.input_csvs / 'AnnualEmissionLimit.csv', 
              'attribute_name': 'annual_emission_limit', 

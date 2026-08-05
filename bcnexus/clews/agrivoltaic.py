@@ -3,10 +3,6 @@
 Agrivoltaic Modelling
 ======================================================
 
-AGV operates with the same methodology as crops based on cluster,
-but with AGV-specific factors related to shade and water
-Each cluster's GeoCLEWs water and yield values are used directly
-
 """
 
 from __future__ import annotations
@@ -376,17 +372,8 @@ def _add(seen, lst, region, tech, fuel, mode, year, value):
         seen.add(key)
 
 
-# ==========================================================================
-# 4.  Cleanup of β-1 residue
-# ==========================================================================
-
 def _purge_beta1_residue(csv_save_to: Path,
                         ms: object = model_structure) -> None:
-    """Remove old β-1 AGV-mode rows that lived on LNDAGRBC1C{cid} techs.
-    Identified as: rows on LNDAGR* techs whose MODE_OF_OPERATION is not
-    used by any non-AGV technology (i.e. orphaned modes ≥ the highest
-    'regular' mode that survived). Safe to run repeatedly."""
-
     cluster_tech_pat = r'^LNDAGR[A-Z0-9]+C\d{2}$'
 
     for ratio_file in ('InputActivityRatio.csv', 'OutputActivityRatio.csv'):
@@ -397,22 +384,15 @@ def _purge_beta1_residue(csv_save_to: Path,
         tech = df['TECHNOLOGY'].astype(str)
         mode = df['MODE_OF_OPERATION'].astype(int)
 
-        # Modes used by anything that isn't a cluster ag tech are "live".
         live_modes = set(mode[~tech.str.match(cluster_tech_pat)].tolist())
-        # Modes only ever used by cluster ag techs that match the
-        # historical AGV-mode footprint (high mode numbers) — drop.
         cluster_mode_counts = (
             mode[tech.str.match(cluster_tech_pat)]
             .value_counts()
         )
-        # Heuristic: any mode used only on cluster techs AND not present
-        # in live_modes is a stale AGV mode → drop those rows entirely.
         cluster_only_modes = set(cluster_mode_counts.index) - live_modes
         if not cluster_only_modes:
             continue
 
-        # Cross-reference with the *current* regular-ag mode list from
-        # the modes file to avoid eating legitimate crop modes.
         mop_path = csv_save_to / 'MODE_OF_OPERATION.csv'
         if mop_path.exists():
             current_modes = set(pd.read_csv(mop_path)['VALUE'].astype(int))
