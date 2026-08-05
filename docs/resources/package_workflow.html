@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="EL">
+<title>bcnexus · Package &amp; Workflow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#070b12;--panel:rgba(255,255,255,.045);--brd:rgba(255,255,255,.09);--text:#eaf0f7;--muted:#9aa7b6;
+--green:#3bb54a;--blue:#1f8fe0;--yellow:#f4cf12;--accent:#3bb54a;--glass:14px}
+[data-theme="light"]{--bg:#f3f6fa;--panel:rgba(13,30,55,.04);--brd:rgba(13,30,55,.12);--text:#16202e;--muted:#516074;--accent:#1f8fe0}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);
+-webkit-font-smoothing:antialiased;letter-spacing:.006em;overflow-x:hidden}
+body::before,body::after{content:"";position:fixed;border-radius:50%;filter:blur(120px);z-index:0;opacity:.4;pointer-events:none}
+body::before{width:600px;height:600px;background:radial-gradient(circle,var(--green),transparent 65%);top:-220px;left:-160px}
+body::after{width:600px;height:600px;background:radial-gradient(circle,var(--blue),transparent 65%);bottom:-240px;right:-180px}
+a{color:inherit;text-decoration:none}
+.wrap{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 24px}
+header.bar{position:sticky;top:0;z-index:40;backdrop-filter:blur(14px);background:linear-gradient(to bottom,rgba(7,11,18,.82),rgba(7,11,18,.3));border-bottom:1px solid var(--brd)}
+[data-theme="light"] header.bar{background:linear-gradient(to bottom,rgba(243,246,250,.92),rgba(243,246,250,.5))}
+.bar-in{display:flex;align-items:center;gap:16px;height:60px;max-width:1200px;margin:0 auto;padding:0 24px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700}.brand img{height:32px}
+.bar-right{margin-left:auto;display:flex;gap:9px}
+.ib{display:inline-flex;align-items:center;gap:7px;padding:7px 12px;border-radius:10px;font-size:.84rem;font-weight:500;border:1px solid var(--brd);background:var(--panel);color:var(--text);cursor:pointer}
+.ib:hover{border-color:var(--accent);box-shadow:0 0 16px -4px var(--accent)}.ib svg{width:15px;height:15px}
+.hero{text-align:center;padding:52px 0 20px}
+.hero h1{font-size:clamp(1.9rem,4.5vw,3rem);margin:0 0 10px;font-weight:800;letter-spacing:-.02em}
+.grad{background:linear-gradient(100deg,var(--green),var(--blue) 60%,var(--yellow));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{max-width:720px;margin:0 auto;color:var(--muted);font-size:1.06rem}
+.mono{font-family:'JetBrains Mono',monospace}
+.eyebrow{display:inline-block;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--accent);margin:34px 0 8px}
+h2.t{font-size:1.5rem;margin:0 0 6px;font-weight:800}
+.lede{color:var(--muted);max-width:760px;margin-bottom:20px}
+/* split: tree + detail */
+.split{display:grid;grid-template-columns:1.15fr .85fr;gap:18px;align-items:start}
+@media(max-width:820px){.split{grid-template-columns:1fr}}
+.treebox,.detail,.flowbox{background:var(--panel);border:1px solid var(--brd);border-radius:16px;padding:18px 20px;backdrop-filter:blur(var(--glass))}
+.detail{position:sticky;top:76px;min-height:220px}
+.tree{font-family:'JetBrains Mono',monospace;font-size:.85rem;line-height:1.5}
+.tree .grp{color:var(--muted);margin:10px 0 3px;font-size:.74rem;text-transform:uppercase;letter-spacing:.08em}
+.node{display:inline-flex;align-items:center;gap:7px;padding:3px 9px;margin:2px 0;border-radius:7px;cursor:pointer;border:1px solid transparent;transition:.15s}
+.node:hover{background:rgba(255,255,255,.05);border-color:var(--brd)}
+.node.on{border-color:var(--accent);background:rgba(59,181,74,.12);box-shadow:0 0 0 2px rgba(59,181,74,.15)}
+.node .dir{color:var(--yellow)} .node .py{color:var(--blue)}
+.node .tag{font-size:.6rem;padding:1px 6px;border-radius:999px;font-weight:700;letter-spacing:.03em}
+.tag.core{background:rgba(59,181,74,.2);color:var(--green)} .tag.helper{background:rgba(31,143,224,.18);color:var(--blue)}
+.tag.vis{background:rgba(244,207,18,.18);color:var(--yellow)}
+.detail h3{margin:0 0 4px;font-size:1.08rem}
+.detail .file{font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--accent);margin-bottom:10px;word-break:break-all}
+.detail p{margin:0;color:var(--text);font-size:.93rem;line-height:1.6}
+.detail .empty{color:var(--muted)}
+.indent{padding-left:16px;border-left:1px solid var(--brd);margin-left:6px}
+/* workflow */
+.flow{display:flex;flex-direction:column;gap:0}
+.lane{display:flex;align-items:stretch;gap:10px;flex-wrap:wrap}
+.phase{flex:1;min-width:240px;border:1px dashed var(--brd);border-radius:14px;padding:12px;margin:8px 0}
+.phase>.cap{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.step{display:flex;flex-direction:column;gap:3px;border:1px solid var(--brd);background:var(--panel);border-radius:10px;padding:9px 12px;margin:6px 0;cursor:pointer;transition:.16s}
+.step:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 8px 20px -12px var(--accent)}
+.step.on{border-color:var(--accent);box-shadow:0 0 0 2px rgba(59,181,74,.22)}
+.step .s{font-weight:700;font-size:.9rem} .step .m{font-size:.74rem;color:var(--muted)}
+.step .mono{color:var(--accent);font-size:.76rem}
+.down{align-self:center;color:var(--accent);font-size:1.3rem;line-height:1;margin:2px 0}
+.badge{font-size:.62rem;font-weight:700;padding:1px 7px;border-radius:999px;background:rgba(31,143,224,.16);color:var(--blue)}
+.badge.b{background:rgba(59,181,74,.18);color:var(--green)}
+#flowinfo{margin-top:14px;border:1px solid var(--brd);border-radius:12px;background:rgba(255,255,255,.02);max-height:0;overflow:hidden;opacity:0;transition:.3s}
+#flowinfo.show{max-height:320px;opacity:1;padding:15px 18px}
+#flowinfo h4{margin:0 0 5px;font-size:1rem}#flowinfo p{margin:0;color:var(--muted);font-size:.9rem;line-height:1.55}
+.datapath{font-family:'JetBrains Mono',monospace;font-size:.82rem;background:rgba(255,255,255,.03);border:1px solid var(--brd);border-radius:12px;padding:14px 16px;line-height:1.9;color:var(--muted);overflow-x:auto}
+.datapath b{color:var(--text)} .datapath .mg{color:var(--yellow)} .datapath .ac{color:var(--accent)}
+footer{padding:40px 0 70px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--brd);margin-top:40px}
+footer a{color:var(--accent)}
+</style>
+</head>
+<body>
+<header class="bar"><div class="bar-in">
+  <a class="brand" href="../index.html"><img src="BCNexus_logo_animated.svg" alt="logo"><span>BCNexus</span></a>
+  <div class="bar-right">
+    <a class="ib" href="../index.html">‹ Home</a>
+    <a class="ib" href="https://github.com/DeltaE/BC_Nexus/tree/main/bcnexus" target="_blank" rel="noopener">Package source ↗</a>
+    <button class="ib" id="themeBtn">🌙</button>
+  </div>
+</div></header>
+
+<div class="wrap">
+  <div class="hero">
+    <h1>The <span class="grad">bcnexus</span> package &amp; workflow</h1>
+    <p>How the Python package is organised, and how one <span class="mono">RunModel.run()</span> call turns raw CSVs into
+    a solved CLEWs model and results. Click any module or step for details.</p>
+  </div>
+
+  <!-- PACKAGE STRUCTURE -->
+  <span class="eyebrow">Package structure</span>
+  <h2 class="t">Modules at a glance</h2>
+  <p class="lede">A simplified map of <span class="mono">bcnexus/</span>. The <b>clews/</b> sub-package is the engine —
+  a <b>Runner</b> (orchestrator) that drives a <b>Builder</b> plus helper modules; <b>vis/</b> renders results.</p>
+  <div class="split">
+    <div class="treebox">
+      <div class="tree" id="tree">
+        <div class="grp">bcnexus / &nbsp;(package root)</div>
+        <div class="node" data-k="cli"><span class="py">cli.py</span></div>
+        <div class="node" data-k="utils"><span class="py">utils.py</span></div>
+        <div class="node" data-k="attributes_parser"><span class="py">attributes_parser.py</span></div>
+        <div class="node" data-k="constants"><span class="py">constants.py</span></div>
+        <div class="node" data-k="plots"><span class="py">plots.py</span></div>
+
+        <div class="grp">bcnexus / clews / &nbsp;— the CLEWs engine</div>
+        <div class="indent">
+          <div class="node" data-k="runner"><span class="py">runner.py</span><span class="tag core">Runner</span></div>
+          <div class="node" data-k="builder"><span class="py">builder.py</span><span class="tag core">Builder</span></div>
+          <div class="node" data-k="model_structure"><span class="py">model_structure.py</span><span class="tag helper">helper</span></div>
+          <div class="node" data-k="schema"><span class="py">schema.py</span><span class="tag helper">helper</span></div>
+          <div class="node" data-k="sets_n_ratios"><span class="py">sets_n_ratios.py</span><span class="tag helper">helper</span></div>
+          <div class="node" data-k="update_global_params"><span class="py">update_global_params.py</span><span class="tag helper">helper</span></div>
+          <div class="node" data-k="update_yearly_params"><span class="py">update_yearly_params.py</span><span class="tag helper">helper</span></div>
+          <div class="node" data-k="preprocess_data_Kotzur"><span class="py">preprocess_data_Kotzur.py</span><span class="tag helper">storage</span></div>
+          <div class="node" data-k="preprocess_data_Niet"><span class="py">preprocess_data_Niet.py</span><span class="tag helper">storage</span></div>
+          <div class="node" data-k="solver"><span class="py">solver.py</span><span class="tag helper">helper</span></div>
+          <div class="node" data-k="datapackage"><span class="py">datapackage.py</span><span class="tag helper">helper</span></div>
+          <div class="node" data-k="livestock"><span class="py">livestock.py</span><span class="tag helper">optional</span></div>
+        </div>
+
+        <div class="grp">bcnexus / vis / &nbsp;— visualization</div>
+        <div class="indent">
+          <div class="node" data-k="dashboard"><span class="dir">dashboard/</span><span class="tag vis">Dash</span></div>
+          <div class="node" data-k="plots_vis"><span class="py">plot_Energy · plot_Land · plot_Climate · …</span><span class="tag vis">plots</span></div>
+          <div class="node" data-k="vis_utils"><span class="py">vis_utils.py</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="detail" id="detail">
+      <h3 id="d-title">Pick a module</h3>
+      <div class="file" id="d-file"></div>
+      <p class="empty" id="d-body">Click any file on the left to see what it does and where it sits in the workflow.</p>
+    </div>
+  </div>
+
+  <!-- WORKFLOW -->
+  <span class="eyebrow">How it connects to the workflow</span>
+  <h2 class="t">One <span class="mono">run()</span> call, end to end</h2>
+  <p class="lede">Creating a <span class="mono">RunModel</span> auto-creates a <span class="mono">BuildModel</span>
+  (<span class="mono">ClewsBuilder</span>). Calling <span class="mono">.run(build=True, threads=N)</span> executes the whole
+  pipeline. Click any step for detail.</p>
+  <div class="flowbox">
+    <div class="flow">
+      <div class="phase">
+        <div class="cap">① Configure</div>
+        <div class="lane">
+          <div class="step" data-k="ui" style="flex:1"><div class="s">🎛️ Scenario config UI</div><div class="m mono">utils.build_scenario_ui()</div></div>
+          <div class="step" data-k="args" style="flex:1"><div class="s">📦 model_builder_args</div><div class="m">scenario · storage_algorithm · clustering</div></div>
+        </div>
+      </div>
+      <div class="down">↓</div>
+      <div class="phase">
+        <div class="cap">② Instantiate <span class="badge">clews/runner.py</span> <span class="badge b">clews/builder.py</span></div>
+        <div class="lane">
+          <div class="step" data-k="runmodel" style="flex:1"><div class="s">🧩 RunModel(**args)</div><div class="m">creates ClewsBuilder inside</div></div>
+          <div class="step" data-k="run" style="flex:1"><div class="s">🚀 bcnexusRun.run(build=True, threads=N)</div><div class="m">drives everything below</div></div>
+        </div>
+      </div>
+      <div class="down">↓</div>
+      <div class="phase">
+        <div class="cap">③ Builder phase <span class="badge b">writes data/clews_data</span></div>
+        <div class="lane">
+          <div class="step" data-k="build" style="flex:2"><div class="s">🏗️ Build SETs &amp; params + temporal clustering + storage case</div>
+            <div class="m">model_structure · schema · sets_n_ratios · update_global/yearly_params · preprocess_data_Kotzur/Niet</div></div>
+        </div>
+      </div>
+      <div class="down">↓</div>
+      <div class="phase">
+        <div class="cap">④ Runner phase — solve</div>
+        <div class="lane">
+          <div class="step" data-k="prepare" style="flex:1"><div class="s">📄 Prepare datafile</div><div class="m">otoole · datapackage report</div></div>
+          <div class="step" data-k="lp" style="flex:1"><div class="s">📝 Write LP</div><div class="m">GLPK</div></div>
+          <div class="step" data-k="solve" style="flex:1"><div class="s">🧮 Solve</div><div class="m mono">solver.py · Gurobi / CBC</div></div>
+          <div class="step" data-k="solution" style="flex:1"><div class="s">💾 Write solution</div><div class="m">.sol · duals / shadow price</div></div>
+        </div>
+      </div>
+      <div class="down">↓</div>
+      <div class="phase">
+        <div class="cap">⑤ Results &amp; visuals</div>
+        <div class="lane">
+          <div class="step" data-k="results" style="flex:1"><div class="s">📊 Get result CSVs</div><div class="m mono">get_result_csvs() · otoole</div></div>
+          <div class="step" data-k="vis" style="flex:1"><div class="s">📈 Plots &amp; dashboard</div><div class="m mono">plots.main() · vis/dashboard</div></div>
+        </div>
+      </div>
+    </div>
+    <div id="flowinfo"><h4 id="f-t"></h4><p id="f-d"></p></div>
+  </div>
+
+  <!-- DATA FLOW -->
+  <span class="eyebrow">Data flow on disk</span>
+  <h2 class="t">Where files live</h2>
+  <p class="lede">Everything happens inside <span class="mono">data/clews_data</span>. The build creates
+  <span class="mono">clews_build_data/</span> with three sub-folders; results and plots land in their own trees.
+  Set <span class="mono">build=False</span> to reuse a built structure and only re-cluster.</p>
+  <div class="datapath">
+<b>data/clews_data/clews_build_data/</b>
+  ├─ <span class="ac">input_csvs/</span>            templates, updated per <b>clews_builder.yaml</b>
+  ├─ <span class="ac">inputs_csv_8760/</span>       hourly (8760 h) profiles used for clustering
+  └─ <span class="ac">Model_</span><span class="mg">&lt;storage_algorithm&gt;</span><b>/</b><span class="mg">&lt;scenario&gt;</span><b>/</b>   final datafiles
+<b>results/clews/</b>Model_<span class="mg">&lt;storage_algorithm&gt;</span>_<span class="mg">&lt;scenario&gt;</span><b>/</b>   result CSVs (via otoole)
+<b>vis/</b><span class="mg">&lt;scenario&gt;</span><b>/</b><span class="mg">&lt;timeslices&gt;</span>ts_<span class="mg">&lt;RUNTAG&gt;</span><b>/</b>              saved figures
+  </div>
+
+  <footer>
+    <p>Reconstructed from <a href="https://github.com/DeltaE/BC_Nexus/tree/main/bcnexus" target="_blank" rel="noopener">bcnexus package source</a>
+    and <a href="https://github.com/DeltaE/BC_Nexus/blob/main/BCNexus.ipynb" target="_blank" rel="noopener">BCNexus.ipynb</a>.
+    An improved, interactive take on the BCNexus_2025 workflow diagram. Prepared for EL · June 2026.</p>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement,b=document.getElementById('themeBtn');
+  function s(t){root.setAttribute('data-theme',t);b.textContent=t==='dark'?'🌙':'☀️';}s('dark');
+  b.onclick=function(){s(root.getAttribute('data-theme')==='dark'?'light':'dark');};
+
+  var PKG={
+    cli:["cli.py","bcnexus/cli.py","Command-line entry points for running the model from a terminal."],
+    utils:["utils.py","bcnexus/utils.py","Backend helpers used across the package: builds the scenario config UI (build_scenario_ui), checks available CPU cores (check_machine_cores), and handles common file I/O."],
+    attributes_parser:["attributes_parser.py","bcnexus/attributes_parser.py","AttributesParser — reads model and scenario attributes/configuration (e.g. the CLEWs builder config and config.yaml) and exposes them to the builder and runner."],
+    constants:["constants.py","bcnexus/constants.py","Shared constant values referenced throughout the package."],
+    plots:["plots.py","bcnexus/plots.py","Top-level plotting entry point (plots.main) that renders the result figures for a given scenario, storage algorithm and timeslice count."],
+    runner:["runner.py — RunModel (orchestrator)","bcnexus/clews/runner.py","RunModel is the conductor of the whole pipeline: it updates scenario data, prepares the datafile, writes the LP, calls the solver, writes the solution, and collects result CSVs. Creating a RunModel automatically instantiates a BuildModel ('ClewsBuilder'), reachable via bcnexusRun.ClewsBuilder."],
+    builder:["builder.py — BuildModel / ClewsBuilder","bcnexus/clews/builder.py","The Builder updates baseline data and temporal clustering and builds the SETS from the model structure. It writes CSVs into data/clews_data/clews_build_data/input_csvs. It is instantiated inside RunModel when build=True."],
+    model_structure:["model_structure.py","bcnexus/clews/model_structure.py","Defines the CLEWs model constants and structure — regions, technologies, commodities — that drive SETS and Input/OutputActivityRatio generation. (Authored by EL, 2024; Region is REGION1='BC', with CLEWs regions built from technologies & commodities rather than OSeMOSYS regions.)"],
+    schema:["schema.py — clews_schema","bcnexus/clews/schema.py","Validates and shapes the CLEWs builder configuration (the builder config/schema layer)."],
+    sets_n_ratios:["sets_n_ratios.py","bcnexus/clews/sets_n_ratios.py","Generates the SETS plus InputActivityRatio.csv and OutputActivityRatio.csv from the model structure — replacing the legacy clewsy step."],
+    update_global_params:["update_global_params.py","bcnexus/clews/update_global_params.py","Updates global (non-year) parameters, e.g. CapacityToActivityUnit (C2A) ratios such as 31.536 PJ/GW·yr for power technologies."],
+    update_yearly_params:["update_yearly_params.py","bcnexus/clews/update_yearly_params.py","Updates year-indexed parameters: CapitalCost, OperationalLife, AvailabilityFactor, TechnologyToStorage / FromStorage, TotalAnnualMaxCapacity, and similar."],
+    preprocess_data_Kotzur:["preprocess_data_Kotzur.py","bcnexus/clews/preprocess_data_Kotzur.py","Builds the Kotzur storage case — the DAYSCRO chronological-day set and typical-day conversions (Conversionld/ldc) that enable seasonal storage across representative days."],
+    preprocess_data_Niet:["preprocess_data_Niet.py","bcnexus/clews/preprocess_data_Niet.py","Builds the Niet storage case — standard timeslice-by-timeslice storage chronology within the representative year."],
+    solver:["solver.py","bcnexus/clews/solver.py","Writes the LP (via GLPK), solves it with gurobipy (Gurobi) or the free CBC / GLPK, writes the solution file, and extracts duals / shadow prices (e.g. for ELCB02)."],
+    datapackage:["datapackage.py — GetDataPackage","bcnexus/clews/datapackage.py","Builds the otoole datapackage and produces the summary & input-validation report on the prepared data."],
+    livestock:["livestock.py","bcnexus/clews/livestock.py","Optional livestock modelling workflow, activated with include_livestock=True on run()."],
+    dashboard:["vis/dashboard/","bcnexus/vis/dashboard/","The Dash application (app.py) that serves the interactive results dashboard locally at 127.0.0.1:8050."],
+    plots_vis:["vis/plot_*.py","bcnexus/vis/","Domain result plots — plot_Energy, plot_Land, plot_Climate, plot_demand, plot_energy_consumption, plot_results_BC_Nexus."],
+    vis_utils:["vis/vis_utils.py","bcnexus/vis/vis_utils.py","Shared helper functions for the visualization modules."]
+  };
+  var dt=document.getElementById('d-title'),df=document.getElementById('d-file'),db=document.getElementById('d-body');
+  document.querySelectorAll('#tree .node').forEach(function(n){
+    n.addEventListener('click',function(){
+      var k=n.getAttribute('data-k'); if(!PKG[k])return;
+      document.querySelectorAll('#tree .node').forEach(function(x){x.classList.remove('on')}); n.classList.add('on');
+      dt.textContent=PKG[k][0]; df.textContent=PKG[k][1]; db.classList.remove('empty'); db.textContent=PKG[k][2];
+    });
+  });
+
+  var FLOW={
+    ui:["Scenario config UI","utils.build_scenario_ui() renders dropdowns for scenario, storage algorithm (Kotzur / Niet), hour_grouping and n_clusters — which together set the timeslice count (e.g. 24 h ÷ 4 h-groups × 5 clusters = 30 timeslices)."],
+    args:["model_builder_args","A dict collecting run_scenario, storage_algorithm and clustering_attributes (hour_grouping, n_clusters). It is unpacked into RunModel(**args)."],
+    runmodel:["RunModel(**args)","Creates the orchestrator instance (bcnexusRun). It automatically instantiates a BuildModel called ClewsBuilder inside it, reachable via bcnexusRun.ClewsBuilder."],
+    run:["bcnexusRun.run(build=True, include_livestock=False, threads=N)","The single call that executes the whole pipeline. build=True regenerates SETs, ratios and template params; set build=False to keep the built structure and only change the temporal clustering. threads is capped by your CPU (utils.check_machine_cores())."],
+    build:["Builder phase — build SETs, params, clustering, storage case","Using model_structure, schema, sets_n_ratios, update_global_params and update_yearly_params, the Builder writes the CSVs, applies temporal clustering to the 8760-hour profiles, and builds the chosen storage case via preprocess_data_Kotzur / _Niet. Output lands in data/clews_data/clews_build_data."],
+    prepare:["Prepare datafile","otoole assembles the GNU MathProg datafile from the prepared CSVs; datapackage.py issues a summary and input-validation report."],
+    lp:["Write LP","The model file plus data are compiled into an LP file using GLPK."],
+    solve:["Solve","solver.py solves the LP with Gurobi (gurobipy) or the free CBC / GLPK, using the requested thread count."],
+    solution:["Write solution","The solved model object is written to a .sol file; duals and shadow prices (e.g. for the ELCB02 electricity commodity) can be extracted and plotted."],
+    results:["Get result CSVs","get_result_csvs() exports the result tables as CSVs (via otoole) into results/clews/Model_<algorithm>_<scenario>."],
+    vis:["Plots & dashboard","plots.main() renders per-scenario figures; the Dash app in vis/dashboard serves an interactive dashboard at 127.0.0.1:8050."]
+  };
+  var fi=document.getElementById('flowinfo'),ft=document.getElementById('f-t'),fd=document.getElementById('f-d');
+  document.querySelectorAll('.flow .step').forEach(function(st){
+    var k=st.getAttribute('data-k'); if(FLOW[k])st.title=FLOW[k][0];
+    st.addEventListener('click',function(){
+      document.querySelectorAll('.flow .step').forEach(function(x){x.classList.remove('on')}); st.classList.add('on');
+      if(!FLOW[k])return; ft.textContent=FLOW[k][0]; fd.textContent=FLOW[k][1]; fi.classList.add('show');
+    });
+  });
+})();
+</script>
+</body>
+</html>

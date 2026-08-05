@@ -27,7 +27,9 @@ def sol_gurobi(lp_path: str,
         m.Params.LogToConsole = 0  # don't send log to console
         m.Params.Method = 2  # 2 = barrier
         m.Params.Threads = threads  # limit solve to use max {threads}
-        m.Params.NumericFocus = 0  # 0 = automatic; 3 = slow and careful
+        m.Params.NumericFocus = 2
+        m.Params.ScaleFlag = 2  # aggressive scaling for wide coefficient ranges
+        m.Params.BarHomogeneous = 1   # more robust barrier for numerically hard LPs
         m.Params.LogFile = log_path  # don't write log to file
         m.optimize()
         utils.print_update(level=3,message=f"{50*'-'}")

@@ -1,0 +1,26 @@
+# Workflow matrix — which runs `snakemake` executes.
+# Scenario DEFINITIONS live in config/scenarios_bcnexus.yaml (unchanged);
+# this file only selects which ones to run and under what temporal setup.
+
+scenarios:            # must match keys in config/scenarios_bcnexus.yaml
+  - Base_CNZ
+  - Base_CNZ_noCCS
+  # - CNZ_LIMITED_CO2
+  # - CNZ_LIMITED_CO2_PLTY
+  # - HYDROGEN
+
+storage_algorithms:
+  - Kotzur
+  # - Niet
+
+temporal_configs:     # [hour_grouping, n_clusters]
+  - [4, 1]
+  # - [2, 4]
+  # - [1, 8]
+
+solver: gurobi        # gurobi | cbc
+solver_threads: 8
+
+data:                 # DVC-tracked input drops (gate files/dirs)
+  clews_build_inputs: data/clews_data/csv_template
+  resource_drop: data/RESource

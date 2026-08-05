@@ -48,7 +48,7 @@ class GetDataPackage:
  
         return self.all_dfs_dict
 
-    def get_dataframe(self, filename: str) -> pd.DataFrame:
+    def get_df(self, filename: str) -> pd.DataFrame:
         """
         Retrieve a specific DataFrame by filename (excluding .csv extension).
         
@@ -354,3 +354,6 @@ class Checker:
             utils.print_update(level=4, message=f"Summary saved to {summary_save_to}")
         except Exception as e:
            utils.print_update(level=4, message=f"Error writing to file: {e}")
+
+# backward-compat alias
+GetDataPackage.get_dataframe = GetDataPackage.get_df

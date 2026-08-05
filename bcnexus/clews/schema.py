@@ -1340,6 +1340,70 @@ def add_technologies_capital_cost(
     
     return df_combined
 
+
+
+def add_technologies_variable_cost(
+    filtered_df: pd.DataFrame,
+    tech_key: str,
+    tech_info: Dict[str, Any],
+    start_year: int,
+    last_year: int,
+    region: str,
+    column_name: str = 'TECHNOLOGY',
+    cost_name: str = 'variable_cost'
+    ) -> pd.DataFrame:
+    """
+    Adds new rows to the filtered DataFrame based on the technology details from the provided dictionary.
+    Returns a DataFrame with the new technologies added.
+
+    Args:
+        filtered_df (pd.DataFrame): The DataFrame to which new rows will be added.
+        tech_key (str): The key for the technology in the tech_info dictionary.
+        tech_info (Dict[str, Any]): Dictionary containing technology information including the capital cost.
+        start_year (int): The starting year for the new rows.
+        last_year (int): The ending year for the new rows.
+        region (str): The region for which the new rows are being added.
+        column_name (str): The name of the column to be used for the technology (default is 'TECHNOLOGY').
+        cost_name (str): The name of the key in tech_info that holds the variable cost (default is 'variable_cost').
+
+    Returns:
+        pd.DataFrame: The DataFrame with the new rows added.
+    """
+    # Skip technologies that do not define a variable cost in the builder config
+    if cost_name not in tech_info:
+        return filtered_df
+
+    variable_cost = tech_info[cost_name]  # Variable cost from YAML
+    # Check if variable_cost is a list
+    if isinstance(variable_cost, str) and variable_cost.startswith('[') and variable_cost.endswith(']'):
+        variable_cost = eval(variable_cost)  # Convert string to list
+
+    new_rows = []
+
+    # Generate rows for each year from start_year to last_year
+    for i, year in enumerate(range(start_year, last_year + 1)):
+        if isinstance(variable_cost, list):
+            value = variable_cost[i] if i < len(variable_cost) else variable_cost[-1]
+        else:
+            value = variable_cost
+        new_rows.append({
+            'REGION': region,
+            column_name: tech_key,  # Use the key from the YAML as the technology name
+            'MODE_OF_OPERATION': 1,  # EL_20260713 default mode; template rows (e.g. land techs) keep their own modes
+            'YEAR': year,
+            'VALUE': value
+        })
+
+    df_new_rows = pd.DataFrame(new_rows)
+
+    # Verify that new rows were generated correctly
+    #utils.print_update(level=3,message=f"Generated {df_new_rows.shape[0]} new rows for technology {tech_key}")
+
+    # Combine the new rows with the filtered DataFrame
+    df_combined = pd.concat([filtered_df, df_new_rows], ignore_index=True)
+
+    return df_combined
+
 def add_technologies_operational_life(filtered_df, tech_key, tech_info, region, column_name='TECHNOLOGY', operational_name='operational_life'):
     """
     Add new rows to the filtered DataFrame based on the technology details from the YAML.
@@ -1593,15 +1657,20 @@ def create_schema_hydro(df, cascade_groups, id_prefix):
             closure_year = int(2100)
             
         start_year = int(row['start_year']) if not math.isnan(row['start_year']) else 0
+        # EL_20260713 capacity-weighted variable O&M of the aggregated group, CAD/MWh -> $/GJ (=M$/PJ) via /3.6;
+        # fallback 0.001 keeps a nonzero tie-breaker against LP degeneracy (free-energy overproduction)
+        vom_CAD_per_MWh = ((df_filtered['variable_om_cost_CAD_per_MWh'] * df_filtered['capacity']).sum()
+                           / df_filtered['capacity'].sum())
         data[item_id] = {
             'type': 'reservoir',
-            #'capacity': str(capacity_vector.tolist()), 
-            'capacity': float(total_capacity), 
+            #'capacity': str(capacity_vector.tolist()),
+            'capacity': float(total_capacity),
             'operational_life' : 100 if (closure_year - start_year) < 0 else (closure_year - start_year),
             'capital_cost': float(first_row['capital_cost_CAD_per_kW']),
             'closure_year': 2050,
             'input ratio': 1,
-            'status': 'existing'
+            'status': 'existing',
+            'variable_cost': round(float(vom_CAD_per_MWh) / 3.6, 4) if pd.notna(vom_CAD_per_MWh) and vom_CAD_per_MWh > 0 else 0.001
         }
         
         # Increment the index for the next group
@@ -1624,6 +1693,9 @@ def create_schema_hydro(df, cascade_groups, id_prefix):
     # Generate item ID based on the prefix and index
     item_id_ror = f'{id_prefix}{idx:02d}'
 
+    # EL_20260713 capacity-weighted variable O&M, CAD/MWh -> $/GJ (=M$/PJ) via /3.6; 0.001 fallback as degeneracy tie-breaker
+    vom_ror_CAD_per_MWh = ((df_ror_filtered['variable_om_cost_CAD_per_MWh'] * df_ror_filtered['capacity']).sum()
+                           / df_ror_filtered['capacity'].sum())
     data[item_id_ror] = {
         'type': 'ror',
 
@@ -1631,7 +1703,8 @@ def create_schema_hydro(df, cascade_groups, id_prefix):
         'operational_life': 100 if (closure_year - start_year) < 0 else (closure_year - start_year),
         'capital_cost': float(first_row_ror['capital_cost_CAD_per_kW']),
         'closure_year': 2050,
-        'status': 'existing'
+        'status': 'existing',
+        'variable_cost': round(float(vom_ror_CAD_per_MWh) / 3.6, 4) if pd.notna(vom_ror_CAD_per_MWh) and vom_ror_CAD_per_MWh > 0 else 0.001
     }
     
     return data
@@ -1778,5 +1851,5 @@ def main(
     utils.print_update(level=3,message="\n>> Updating SPECIFIED DEMAND PROFILE...")
     update_specified_demand_profile(combined_model_config_path,
                                     clews_builder_config_path)
-    return 
-""" 
+    return
+"""

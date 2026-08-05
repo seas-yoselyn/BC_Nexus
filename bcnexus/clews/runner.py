@@ -78,12 +78,12 @@ import pandas as pd
 import psutil
 import yaml
 
+import bcnexus.plots as plotter
 from bcnexus import utils
 
 # local packages
 from bcnexus.attributes_parser import AttributesParser
-from bcnexus.clews import preprocess_data_Kotzur, preprocess_data_Niet, solver
-from bcnexus.clews import schema
+from bcnexus.clews import preprocess_data_Kotzur, preprocess_data_Niet, schema, solver
 from bcnexus.clews.builder import BuildModel
 
 warnings.filterwarnings("ignore")
@@ -97,13 +97,25 @@ class RunModel:
                 storage_algorithm:str=None,
                 input_csvs:str|Path=None,
                 scenario_config_path:str|Path=None,
-                clustering_attributes:dict=None
+                clustering_attributes:dict=None,
+                date_tag:str|bool=True
                ):
+        """date_tag: adds a dated sub-folder inside <N>ts so runs from
+        different days are kept side by side (same-day re-runs overwrite).
+        True -> today's YYYY_MM_DD; a string -> that literal tag;
+        False/None -> no dated folder (flat <N>ts/, previous behaviour).
+        """
         
         self.scenario_config_path:Path=Path(scenario_config_path) if scenario_config_path else Path('config/scenarios_bcnexus.yaml')
         self.aparser=AttributesParser(self.scenario_config_path)
         
         self.run_scenario=str(run_scenario)
+        if date_tag is True:
+            self.date_tag = time.strftime('%Y_%m_%d')
+        elif date_tag:
+            self.date_tag = str(date_tag)
+        else:
+            self.date_tag = None
         self.storage_algorithm=storage_algorithm if storage_algorithm else self.aparser.DEFAULT_STORAGE_ALGORITHM
         self.scenario_cfg:dict=self.aparser.scenario_dict.get('SCENARIOS').get(self.run_scenario)
         self.input_csvs=Path(input_csvs) if input_csvs else self.aparser.get_scenario_inputs_path(scenario=self.run_scenario,
@@ -144,8 +156,24 @@ class RunModel:
         self.scenario_results_root=self.aparser.get_scenario_results_path(scenario=self.run_scenario,
                                                                           storage_algorithm=self.storage_algorithm)
         # self.visual_config:dict=self.aparser.get_visual_configs()
-        self.plots_save_to:Path=self.aparser.get_plots_save_to()
+        # self.plots_save_to:Path=self.aparser.get_plots_save_to()
         self.clewsBuilder.get_clustering_attributes()
+
+    # ---------------------------------------------------------------- paths
+    def run_dir(self) -> Path:
+        """Deterministic output directory for this (scenario, algo, temporal) branch.
+
+        Replaces the runtag-suffixed directory so an orchestrator (snakemake)
+        can declare real file targets. One branch == one directory, re-entrant.
+        Run history/versioning is DVC's job, not the filesystem's.
+        """
+        self.timeslices = len(pd.read_csv(self.input_csvs / 'TIMESLICE.csv'))
+        d = self.scenario_results_root / f'{self.timeslices}ts'
+        if getattr(self, 'date_tag', None):
+            d = d / self.date_tag          # .../<N>ts/YYYY_MM_DD/
+        d.mkdir(parents=True, exist_ok=True)
+        return d
+
     def process_scenario_data(self):
         utils.print_update(level=4,
                     message="Processing Scenario Data...")
@@ -355,7 +383,8 @@ class RunModel:
     def get_result_csvs(self,
                         solution_file:str|Path=None,
                         solver_name='gurobi',
-                        debug_mode:Optional[bool]=False):
+                        debug_mode:Optional[bool]=False,
+                        results_save_to:Optional[Path]=None)->Path:
         """
         Args:
             solution_file (str | Path, optional): _description_. Defaults to None.
@@ -367,7 +396,11 @@ class RunModel:
         ### Extract the CSV results from GUROBI Solution/Result datafile
         utils.print_update(level=2,
                     message=f"Initiating otoole interface to extract results; input csvs : {self.input_csvs} , config file: {self.otoole_yaml_file}")
-        self.otoole_results_dir = utils.ensure_path(self.scenario_results_root / f'{self.timeslices}ts_csvs_{solver_name}')
+        if results_save_to:
+            self.otoole_results_dir=utils.ensure_path(results_save_to)
+        else:
+            # deterministic per-branch results dir (runtag removed; history is DVC's job)
+            self.otoole_results_dir = utils.ensure_path(self.run_dir() / f'result_csvs_{solver_name}')
         
         if debug_mode:
             otoole_results_cmd= f"otoole -v results {solver_name} csv {self.solution_path} {self.otoole_results_dir} csv {self.input_csvs} {self.otoole_yaml_file}"
@@ -467,20 +500,7 @@ class RunModel:
                                 save_to=plot_save_to,
                                 show=show)
         return constraint_df_ELC_aggr
-    """ 
-    @staticmethod      
-    def get_visuals(model_results_direc:str|Path,
-                    visual_configs:dict,
-                    plots_save_to:str|Path):
-        
-        plot_capacity.create_plot(model_results_direc=model_results_direc,
-                                            visual_configs=visual_configs,
-                                            plots_save_to=plots_save_to)
-        
-        plot_emission.create_plot(model_results_direc=model_results_direc,
-                                            visual_configs=visual_configs,
-                                            plots_save_to=plots_save_to)   
-    """    
+
     @staticmethod
     def get_summary_report(binding_constraints: pd.DataFrame,
                         non_binding_constraints: pd.DataFrame,
@@ -524,11 +544,136 @@ class RunModel:
         except Exception as e:
             utils.print_update(level=2,message=f"Error writing to file: {e}")
     
+    # ---------------------------------------------------------------- stages
+    # Each stage: file inputs -> file outputs, no reliance on state set by a
+    # previous stage *in the same process*. run() composes them; snakemake
+    # calls them one process each via bcnexus/stages.py.
+
+    def stage_build(self, include_livestock: bool = True) -> Path:
+        """#1-#3: CLEWs builder -> temporal profiles -> storage-case schema.
+
+        Starts from a FRESH csv template (idempotent): re-running this stage on
+        an already-built directory must not append duplicate rows (GLPK fails
+        on e.g. 'OutputActivityRatio[...] already defined' otherwise).
+        """
+        utils.print_update(level=1,
+            message=f'CLEWs Builder: SETs and Params for scenario: {self.run_scenario}')
+        self.clewsBuilder.get_csv_template(force_replace=True)
+        self.clewsBuilder.build(include_livestock=include_livestock,
+                                update_clews_builder=True)
+        self.clewsBuilder.update_temporal_profiles()
+        utils.copy_csv_files(src_folder=self.clewsBuilder.clews_build_input_csv_dir,
+                             dest_folder=self.clewsBuilder.storage_case_input_csvs,
+                             all_files=True)
+        self.clewsBuilder.update_storage_case_temporal_schema()
+        return Path(self.clewsBuilder.storage_case_input_csvs)
+
+    def stage_scenario(self) -> Path:
+        """#4a: apply scenario overrides from scenarios config onto built CSVs."""
+        utils.print_update(level=1,
+            message=f'Loading scenario config @ {self.scenario_cfg}')
+        self.process_scenario_data()
+        return Path(self.input_csvs)
+
+    def stage_datafile(self) -> tuple:
+        """#4b: CSVs -> otoole datafile + model file selection."""
+        utils.print_update(level=1, message='Preparing model and data files.')
+        self.data_file, self.model_file = self.get_model_run_files()
+        return Path(self.data_file), Path(self.model_file)
+
+    def stage_lp(self) -> Path:
+        """#5a: glpsol -> LP file. Re-derives datafile paths if not in memory."""
+        if not hasattr(self, 'data_file'):
+            self.stage_datafile()
+        self.write_LP_file(self.model_file, self.data_file, self.LP_file)
+        return Path(self.LP_file)
+
+    def stage_solve(self, solver_name: str = 'gurobi', threads: int = 32):
+        """#5b: solve LP -> .sol; gurobi path also writes duals, binding-constraint
+        summary, and the ELCB02 shadow-price plot. Returns solution path or None."""
+        out = self.run_dir()
+        self.solution_path = out / f'{self.timeslices}ts_solution_{solver_name}.sol'
+        self.solver_log_save_to = out / f'{solver_name}.log'
+
+        utils.print_update(level=1,
+            message=f'Solving the LP problem with {solver_name} solver')
+
+        if solver_name == 'gurobi':
+            self.solved_model = self.solve_model_gurobi(self.LP_file,
+                                                        log_path=self.solver_log_save_to,
+                                                        threads=threads)
+            if not solver.get_solve_status(self.solved_model):
+                utils.print_error(
+                    f'X Model not solved, check logs @ {self.solver_log_save_to}')
+                return None
+            if self.solution_path.exists():
+                self.solution_path.unlink()
+            self.write_solution(self.solved_model, self.solution_path)
+
+            # post-solve diagnostics (moved verbatim from run() tail)
+            self.shadow_price_ELCB02 = self.get_shadow_price_ELCB02(
+                self.solved_model,
+                plot_save_to=out / f'shadowprice_ELC02_{self.timeslices}ts.png',
+                show=False)
+            self.duals_df, self.binding_constraints, self.non_binding_constraints = \
+                self.get_constraints(self.solved_model)
+            self.get_summary_report(self.binding_constraints,
+                                    self.non_binding_constraints,
+                                    out / 'constraints_summary.txt')
+            self.duals_df.to_csv(out / 'EBa11_EnergyBalanceEachTS5_duals.csv')
+
+        elif solver_name == 'cbc':
+            self.solve_model_cbc(lp_path=self.LP_file,
+                                 solution_path=self.solution_path,
+                                 threads=threads)
+
+        return self.solution_path if self.solution_path.exists() else None
+
+    def stage_results(self, solver_name: str = 'gurobi',
+                      solution_file: str | Path = None):
+        """#6: .sol -> result CSVs via otoole.
+
+        Usable as a standalone entry point (e.g. re-extracting results from an
+        earlier solve): when `solution_path` is not already in memory it is
+        re-derived from run_dir(), and if that exact name is absent the run dir
+        is searched for any *.sol. Pass `solution_file` to be explicit.
+
+        Returns the results directory, or None (with the reason printed).
+        """
+        if solution_file is not None:
+            self.solution_path = Path(solution_file)
+        elif not hasattr(self, 'solution_path'):
+            out = self.run_dir()
+            self.solution_path = out / f'{self.timeslices}ts_solution_{solver_name}.sol'
+
+        if not self.solution_path.exists():
+            # tolerate naming drift (different solver tag, legacy runtag suffix)
+            found = sorted(self.run_dir().glob('*.sol'),
+                           key=lambda f: f.stat().st_mtime, reverse=True)
+            if found:
+                utils.print_update(level=2,
+                    message=f'Expected {self.solution_path.name}; using {found[0].name}')
+                self.solution_path = found[0]
+            else:
+                utils.print_error(
+                    f'X No solution file (.sol) in {self.run_dir()} — '
+                    f'run stage_solve() first, or pass solution_file=...')
+                return None
+
+        utils.print_update(level=1,
+            message=f'Extracting results from {self.solution_path}')
+        self.results_dir = self.get_result_csvs(solution_file=self.solution_path,
+                                                solver_name=solver_name)
+        if self.results_dir is None:
+            utils.print_error('X otoole result extraction returned nothing — '
+                              'check the otoole command output above.')
+        return self.results_dir
+
     def run(self,
             input_csvs: str | Path=None,
             build:bool=False,
-            include_livestock:bool=True,
-            include_agrivoltaic:bool=False,
+            save_individual_plots:bool=False,
+            include_livestock:bool=False,
             solver_name='gurobi',
             threads:int=32,
             machine_id:str=None):
@@ -564,131 +709,55 @@ class RunModel:
 
     #1           
         if build:
-            utils.print_update(level=1,
-                message=f' Running CLEWs Builder to prepare SETs and Params for scenario: {self.run_scenario} ')
-            if build:
-                self.clewsBuilder.build(include_livestock=include_livestock,
-                                include_agrivoltaic=include_agrivoltaic,
-                                update_clews_builder=build)
+            self.stage_build(include_livestock=include_livestock)
         else:
             utils.print_update(level=1,
-                message=f'Skipping CLEWs builder and using prepared SETs and Params from {input_csvs}')
-    #2
-        self.clewsBuilder.update_temporal_profiles()
-        utils.copy_csv_files(src_folder=self.clewsBuilder.clews_build_input_csv_dir,
-                                dest_folder=self.clewsBuilder.storage_case_input_csvs,
-                                all_files=True)
-        # utils.print_update(level=1,
-        #             message='Preparing the summary reports for input data')
-        # clewsBuild.collect_input_checker_report(self.input_csvs)
-    #3
-        self.clewsBuilder.update_storage_case_temporal_schema()
-    #4    
-        utils.print_update(level=1,
-                message=f' Loading scenario config @ {self.scenario_cfg}')
-        self.process_scenario_data()
-        
-        self.timeslices=len(pd.read_csv(self.input_csvs/'TIMESLICE.csv')) # We need this for directories
-        utils.print_update(level=2,
-                message=f'Timeslices: {self.timeslices}')
-            
-        self.solver_log_save_to=self.scenario_results_root/f'{self.timeslices}ts'/'gurobi.log'
-        self.solver_log_save_to.parent.mkdir(parents=True,exist_ok=True)
-         
-        utils.print_update(level=1,
-            message='Preparing model and data files. ')
-        self.data_file,self.model_file=self.get_model_run_files()
-    #5
-        self.write_LP_file(self.model_file,
-                           self.data_file,
-                           self.LP_file)
-        
-        utils.print_update(level=1,
-            message=f'Solving the LP problem with {solver} solver')
-        
-        #### solution (from solver), LP (from solver) file directories
-        self.solution_path = self.scenario_results_root/f'{self.timeslices}ts'/f'{self.timeslices}ts_solution_{solver_name}.sol'
-        
+                message=f'Skipping CLEWs builder; using SETs/Params from {input_csvs or self.input_csvs}')
+            # temporal/storage schema still refresh, as before (#2-#3)
+            self.clewsBuilder.update_temporal_profiles()
+            utils.copy_csv_files(src_folder=self.clewsBuilder.clews_build_input_csv_dir,
+                                 dest_folder=self.clewsBuilder.storage_case_input_csvs,
+                                 all_files=True)
+            self.clewsBuilder.update_storage_case_temporal_schema()
 
-        if solver_name=='gurobi':
-            self.solved_model=self.solve_model_gurobi(self.LP_file,
-                                        log_path=self.solver_log_save_to,
-                                        threads=threads)
-                
-
-            if self.solver_log_save_to.exists():
-                self.solver_log_save_to.unlink()
-            
-            
-            # save_to can't be a path object as gurobipy's write method doesn't handle pathobject,only string
-            solved_successful:bool = solver.get_solve_status(self.solved_model)
+        self.stage_scenario()
         
-            if solved_successful :
-                utils.print_update(level=2,
-                                message="Optimization successful. An optimal solution is available.")
-                utils.print_update(level=1,
-                        message=f'Writing the Solution to : {self.solution_path}')
-                if self.solution_path.exists():
-                        self.solution_path.unlink()
-                    
-                self.write_solution(self.solved_model,
-                            self.solution_path)
-                
-                utils.print_update(level=1,
-                    message='Extracting the shadow price of Electricity (ELCB02) from Electricity Balance Constraint')
-                self.shadow_price_ELCB02=self.get_shadow_price_ELCB02(self.solved_model,
-                                plot_save_to=self.scenario_results_root/f'{self.timeslices}ts'/f'shadowprice_ELC02_{self.timeslices}ts.png',
-                                show=False)
-                
-                utils.print_update(level=1,
-                    message='Preparing the summary reports for constraints, from solved model')
-                self.duals_df,self.binding_constraints,self.non_binding_constraints=self.get_constraints(self.solved_model)
-                self.get_summary_report(self.binding_constraints,
-                        self.non_binding_constraints,
-                        self.scenario_results_root/f'{self.timeslices}ts'/'constraints_summary.txt')
-                
-                duals_save_to=self.scenario_results_root/f'{self.timeslices}ts'/'EBa11_EnergyBalanceEachTS5_duals.csv'
-                utils.print_update(level=2,
-                    message=f'Duals extracted and saved to csv @ {duals_save_to} ')
-                self.duals_df.to_csv(duals_save_to)
-            
-            else:
-                utils.print_error(f'X Model not solved, check the logs for more details @ {self.solver_log_save_to}')
-            
-        if solver_name=='cbc':
-            self.solve_model_cbc(lp_path=self.LP_file,
-                                 solution_path=self.solution_path,
-                                 threads=threads)
-
-        # Wait until the solution file exists
-        if self.solution_path.exists():
-                utils.print_update(level=1,
-                message=f'Extracting results from Solution : {self.solution_path}')
-                self.results_dir=self.get_result_csvs(solution_file=self.solution_path,
-                                     solver_name=solver_name)
-                
-                utils.print_update(level=1, message="Creating the visuals...")  # handles the result folder creation
-                if self.results_dir is not None:
-                    """ 
-                    self.get_visuals(model_results_direc=self.results_dir,
-                                     visual_configs=self.visual_config,
-                                     plots_save_to=self.plots_save_to)
-                    """
-                    # utils.print_update(level=1, message="type bash command `bash dashboard.sh' from root directory for the interactive dashboard")  # handles the result folder creation
-
-                else:
-                    utils.print_update(level=2, message="Otoole Results files (.csvs) incomplete")  # handles the result folder creation
-        
+        self.stage_datafile()
+        self.stage_lp()
+        sol = self.stage_solve(solver_name=solver_name, threads=threads)
+        if sol is not None:
+            self.stage_results(solver_name=solver_name)
         else:
-            utils.print_update(level=1, message="X The Solution file not found. Solution writing takes some time. Please wait until the file is written/exists.")  # handles the result folder creation
+            utils.print_update(level=1,
+                message='X No solution available; skipping result extraction.')
 
-        
-        # Calculate runtime and memory usage
+        self.results_dir = self.stage_results(solver_name=solver_name)
+        self.vis_dir_scenario = Path(str(self.results_dir).replace('results', 'vis', 1))
+
+        # Log runtime and memory usage BEFORE plotting: the report reads
+        # runtime_memory_log.txt from the run dir, so writing it afterwards
+        # left the run-diagnostics panel empty.
         memory_usage = process.memory_info().rss  # Resident Set Size (RSS) in bytes
+        RunModel.log_runtime_and_memory(scenario=self.run_scenario,
+                                        timeslices=self.timeslices,
+                                        clustering_attributes=self.clustering_attributes,
+                                        start_time=start_time,
+                                        memory_usage=memory_usage,
+                                        save_to=self.run_dir(),
+                                        threads=threads,
+                                        machine_id=machine_id)
 
-        # Log runtime and memory usage
-        log_save_to=Path(self.run_scenario/self.scenario_results_root/f'{self.timeslices}ts')
-        RunModel.log_runtime_and_memory(self.run_scenario, self.timeslices, self.clustering_attributes, start_time, memory_usage, log_save_to, machine_id)
+        plotter_args=dict(
+            nexus_scenario=self.run_scenario,
+            storage_algorithm=self.storage_algorithm,
+            timeslices=self.timeslices,
+            solver=solver_name,
+            results_csvs=self.results_dir,
+            save_individual=save_individual_plots,
+            plots_save_to=self.vis_dir_scenario if save_individual_plots else 'vis'
+        )
+        # plotter.main(**plotter_args)
+        plotter.get_plots(**plotter_args)
 
     @staticmethod
     def log_runtime_and_memory(scenario:str, 
@@ -697,6 +766,7 @@ class RunModel:
                                start_time:float, 
                                memory_usage:float, 
                                save_to:str|Path,
+                               threads:int=None,
                                machine_id:Optional[str]=None):
         # Ensure the directory exists
         log_dir_path = Path(save_to)
@@ -731,7 +801,8 @@ class RunModel:
                     log_file.write(f"Machine ID: Error retrieving ({e})\n")
             else:
                 log_file.write(f"Machine ID: {machine_id}\n")
-            log_file.write(f"CPU Cores/Threads Used: {cpu_count}\n")
+            log_file.write(f" Total Cores/Threads in Machine {cpu_count}\n ; Used in simulation : {threads} | ")
+
             log_file.write("-" * 50 + "\n")
         
 if __name__ == "__main__":

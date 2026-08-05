@@ -1,0 +1,116 @@
+# BCNexus Snakemake workflow (v3 scaffold)
+# Author: Md Eliasinul Islam
+#
+# Scenario matrix is declared in workflow_v3/config.yaml. Each combination of
+# {scenario} x {algo} x {ts-config} is an independent DAG branch: parallel runs,
+# crash-resume, and rebuild-only-what-changed. Scenario definitions themselves
+# stay in config/scenarios_bcnexus.yaml (the overlay stage reads it, unchanged).
+#
+# Run examples:
+#   snakemake -c4                                # full declared matrix
+#   snakemake -c1 results/Base_CNZ_Kotzur_hg4_nc1/.results.done   # one branch
+#   snakemake -n                                 # dry run / audit the DAG
+
+import itertools
+
+configfile: "workflow_v3/config.yaml"
+
+RUNS = [
+    f"{s}_{a}_hg{hg}_nc{nc}"
+    for s, a, (hg, nc) in itertools.product(
+        config["scenarios"], config["storage_algorithms"],
+        [tuple(t) for t in config["temporal_configs"]],
+    )
+]
+
+def parts(w):
+    """RUN wildcard -> component args."""
+    s, a, hg, nc = w.run.rsplit("_", 3)
+    return dict(scenario=s, algo=a, hg=hg[2:], nc=nc[2:])
+
+wildcard_constraints:
+    run = r"[A-Za-z0-9_]+_(Kotzur|Niet)_hg\d+_nc\d+"
+
+rule all:
+    input:
+        expand("results/{run}/.results.done", run=RUNS)
+
+# ---------------------------------------------------------------- data gates
+# DVC-tracked input drops. Snakemake only checks existence/mtime; DVC owns
+# the content versioning. `dvc pull` before `snakemake`.
+rule data_ready:
+    input:
+        clews = config["data"]["clews_build_inputs"],
+        resource = config["data"]["resource_drop"],
+    output:
+        touch("results/.data_ready")
+
+# ---------------------------------------------------------------- stages
+rule build_sets:
+    message: "CLEWs builder: SETs/params/temporal schema [{wildcards.run}]"
+    input:
+        "results/.data_ready",
+        cfg = "config/clews_builder.yaml",
+    output:
+        touch("results/{run}/.build.done")
+    params:
+        p = parts
+    shell:
+        "python -m bcnexus.stages build -s {params.p[scenario]} -a {params.p[algo]} "
+        "-hg {params.p[hg]} -nc {params.p[nc]}"
+
+rule scenario_overlay:
+    message: "Scenario overrides from scenarios_bcnexus.yaml [{wildcards.run}]"
+    input:
+        "results/{run}/.build.done",
+        cfg = "config/scenarios_bcnexus.yaml",
+    output:
+        touch("results/{run}/.scenario.done")
+    params:
+        p = parts
+    shell:
+        "python -m bcnexus.stages scenario-overlay -s {params.p[scenario]} -a {params.p[algo]} "
+        "-hg {params.p[hg]} -nc {params.p[nc]}"
+
+rule datafile:
+    input:  "results/{run}/.scenario.done"
+    output: touch("results/{run}/.datafile.done")
+    params: p = parts
+    shell:
+        "python -m bcnexus.stages datafile -s {params.p[scenario]} -a {params.p[algo]} "
+        "-hg {params.p[hg]} -nc {params.p[nc]}"
+
+rule lp:
+    input:  "results/{run}/.datafile.done"
+    output: touch("results/{run}/.lp.done")
+    params: p = parts
+    shell:
+        "python -m bcnexus.stages lp -s {params.p[scenario]} -a {params.p[algo]} "
+        "-hg {params.p[hg]} -nc {params.p[nc]}"
+
+rule solve:
+    input:  "results/{run}/.lp.done"
+    output: touch("results/{run}/.solve.done")
+    params:
+        p = parts,
+        solver = config.get("solver", "gurobi"),
+    threads: config.get("solver_threads", 8)
+    retries: 1
+    shell:
+        "python -m bcnexus.stages solve -s {params.p[scenario]} -a {params.p[algo]} "
+        "-hg {params.p[hg]} -nc {params.p[nc]} --solver {params.solver} --threads {threads}"
+
+rule extract_results:
+    input:  "results/{run}/.solve.done"
+    output: touch("results/{run}/.results.done")
+    params: p = parts
+    shell:
+        "python -m bcnexus.stages results -s {params.p[scenario]} -a {params.p[algo]} "
+        "-hg {params.p[hg]} -nc {params.p[nc]}"
+
+# NOTE on sentinels: stages currently write into RunModel's own directory
+# convention (scenario_results_root/{ts}ts/...), so rules use .done sentinels
+# rather than declaring those paths. Once stage outputs are stable, replace
+# sentinels with real file targets (datafile.txt, model.lp, model.sol,
+# result CSVs) — that upgrade gives content-aware rebuilds and is the
+# end state this scaffold is aiming for.

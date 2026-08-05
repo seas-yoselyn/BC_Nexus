@@ -1,4 +1,3 @@
-
 STORAGE:
   BATTERY:
     capital_cost_storage: 100000
@@ -29,17 +28,15 @@ TECHNOLOGIES:
   PWRBSW:
     PWRBSWB01:
       availability_factor: 0.7036363636363636
-      capacity: '[0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15,
-        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]'
+      capacity: '[0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]'
       capital_cost: 2076.52
       efficiency: 0.40095671388167753
       operational_life: 15
       variable_cost: 8.1
   PWRBCW:
-    PWRBCWB01: 
+    PWRBCWB01:
       availability_factor: 0.7036363636363636
-      capacity: '[0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15,
-        0.0]'
+      capacity: '[0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.0]'
       capital_cost: 2076.52
       efficiency: 0.40095671388167753
       operational_life: 15
@@ -48,8 +45,7 @@ TECHNOLOGIES:
     PWRURNB01: {}
   CCS:
     CCS01: {}
-  HDG:  
-    HDG02: {}
+  HDG:
     HDG02: {}
   PWRGEO:
     PWRGEOB01: {}
@@ -81,22 +77,14 @@ TECHNOLOGIES:
   PWRBIO:
     PWRBIOB01:
       availability_factor: 0.8495454545454544
-      capacity: '[0.022000000000000002, 0.022000000000000002, 0.022000000000000002,
-        0.022000000000000002, 0.022000000000000002, 0.021, 0.021, 0.021, 0.021, 0.02,
-        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-        0.0, 0.0, 0.0, 0.0, 0.0, 0.0]'
+      capacity: '[0.022000000000000002, 0.022000000000000002, 0.022000000000000002, 0.022000000000000002, 0.022000000000000002, 0.021, 0.021, 0.021, 0.021, 0.02, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]'
       capital_cost: 2076.52
       efficiency: 0.40095671388167753
       operational_life: 15
       variable_cost: 8.1
     PWRBIOB02:
       availability_factor: 0.5039091806515301
-      capacity: '[1.0130000000000001, 1.0130000000000001, 1.0130000000000001, 1.0130000000000001,
-        0.9450000000000001, 0.9450000000000001, 0.9450000000000001, 0.9450000000000001,
-        0.9450000000000001, 0.9450000000000001, 0.9430000000000001, 0.9430000000000001,
-        0.9430000000000001, 0.9430000000000001, 0.921, 0.921, 0.919, 0.919, 0.919,
-        0.906, 0.8170000000000001, 0.7240000000000001, 0.604, 0.40499999999999997,
-        0.34900000000000003, 0.22899999999999998, 0.057, 0.057, 0.057, 0.057, 0.057]'
+      capacity: '[1.0130000000000001, 1.0130000000000001, 1.0130000000000001, 1.0130000000000001, 0.9450000000000001, 0.9450000000000001, 0.9450000000000001, 0.9450000000000001, 0.9450000000000001, 0.9450000000000001, 0.9430000000000001, 0.9430000000000001, 0.9430000000000001, 0.9430000000000001, 0.921, 0.921, 0.919, 0.919, 0.919, 0.906, 0.8170000000000001, 0.7240000000000001, 0.604, 0.40499999999999997, 0.34900000000000003, 0.22899999999999998, 0.057, 0.057, 0.057, 0.057, 0.057]'
       capital_cost: 5299.51
       efficiency: 0.2527512322320797
       operational_life: 30
@@ -120,27 +108,21 @@ TECHNOLOGIES:
   PWRNGS:
     PWRNGSB01:
       availability_factor: 0.8905405405405405
-      capacity: '[0.37, 0.37, 0.37, 0.37, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.0,
-        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-        0.0, 0.0, 0.0, 0.0, 0.0]'
+      capacity: '[0.37, 0.37, 0.37, 0.37, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]'
       capital_cost: 1356.32
       efficiency: 0.5331471304895431
       operational_life: 30
       variable_cost: 2.44
     PWRNGSB02:
       availability_factor: 0.8700000000000001
-      capacity: '[0.11, 0.11, 0.11, 0.11, 0.11, 0.11, 0.11, 0.11, 0.11, 0.11, 0.11,
-        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-        0.0, 0.0, 0.0, 0.0, 0.0]'
+      capacity: '[0.11, 0.11, 0.11, 0.11, 0.11, 0.11, 0.11, 0.11, 0.11, 0.11, 0.11, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]'
       capital_cost: 1356.32
       efficiency: 0.4531396593802225
       operational_life: 37
       variable_cost: 7.63
     PWRNGSB03:
       availability_factor: 0.2700000000000001
-      capacity: '[0.046, 0.046, 0.046, 0.046, 0.046, 0.046, 0.046, 0.046, 0.046, 0.046,
-        0.046, 0.046, 0.046, 0.046, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]'
+      capacity: '[0.046, 0.046, 0.046, 0.046, 0.046, 0.046, 0.046, 0.046, 0.046, 0.046, 0.046, 0.046, 0.046, 0.046, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]'
       capital_cost: 1238.83
       efficiency: 0.35841823898456676
       operational_life: 60
@@ -153,7 +135,7 @@ TECHNOLOGIES:
       name: BC_SNM00_GEN
       operational_life: 20
       status: existing
-      variable_cost: 0.0
+      variable_cost: 0.001
 
   PWRWND:
     PWRWNDB01:
@@ -163,7 +145,7 @@ TECHNOLOGIES:
       name: BC_BMW00_GEN
       operational_life: 20
       status: existing
-      variable_cost: 0.0
+      variable_cost: 0.001
     PWRWNDB02:
       capacity: 0.099
       capital_cost: 1970.44
@@ -171,7 +153,7 @@ TECHNOLOGIES:
       name: BC_CSS00_GEN
       operational_life: 20
       status: existing
-      variable_cost: 0.0
+      variable_cost: 0.001
     PWRWNDB03:
       capacity: 0.144
       capital_cost: 1970.44
@@ -179,7 +161,7 @@ TECHNOLOGIES:
       name: BC_DKW00_GEN
       operational_life: 20
       status: existing
-      variable_cost: 0.0
+      variable_cost: 0.001
     PWRWNDB04:
       capacity: 0.195
       capital_cost: 1970.44
@@ -187,7 +169,7 @@ TECHNOLOGIES:
       name: BC_MKL00_GEN
       operational_life: 20
       status: existing
-      variable_cost: 0.0
+      variable_cost: 0.001
     PWRWNDB05:
       capacity: 0.015
       capital_cost: 1970.44
@@ -195,7 +177,7 @@ TECHNOLOGIES:
       name: BC_MLW00_GEN
       operational_life: 20
       status: existing
-      variable_cost: 0.0
+      variable_cost: 0.001
     PWRWNDB06:
       capacity: 0.015
       capital_cost: 1970.44
@@ -203,7 +185,7 @@ TECHNOLOGIES:
       name: BC_PSW00_GEN
       operational_life: 20
       status: existing
-      variable_cost: 0.0
+      variable_cost: 0.001
     PWRWNDB07:
       capacity: 0.142
       capital_cost: 1970.44
@@ -211,7 +193,7 @@ TECHNOLOGIES:
       name: BC_QTY00_GEN
       operational_life: 20
       status: existing
-      variable_cost: 0.0
+      variable_cost: 0.001
     PWRWNDB08:
       capacity: 0.015
       capital_cost: 1970.44
@@ -219,4 +201,4 @@ TECHNOLOGIES:
       name: BC_SHC00_GEN
       operational_life: 20
       status: existing
-      variable_cost: 0.0
+      variable_cost: 0.001

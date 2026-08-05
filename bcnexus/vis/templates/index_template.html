@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<!--
+BCNexus CLEW master index — landing page + run browser.
+
+Tokens substituted by vis/index.py:
+  {{title}} {{manifest}} {{brand_html}} {{logo_html}} {{gh_icon}}
+  {{gh}} {{site}} {{deltae}} {{generated}} {{n_runs}}
+
+The manifest is a JSON array baked in at build time (a browser opened from
+file:// cannot list a directory). Re-run build_index() after new runs.
+
+Both logo assets are white-on-transparent: on the dark header they are used
+as-is; on the light landing canvas the class `.wm` applies filter:invert(1),
+which is removed again in dark mode.
+-->
+<html lang="en" class="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{title}}</title>
+<style>
+:root{--bg:#f6f7f9;--fg:#1a202c;--card:#fff;--border:#e2e8f0;--muted:#64748b;
+--head:#123c46;--headfg:#fff;--accent:#0284c7;--accent-soft:rgba(56,189,248,.13);
+--glow:0 0 0 3px rgba(56,189,248,.28);--font:Cambria,Georgia,serif}
+html.dark{--bg:#070b11;--fg:#e6edf5;--card:#0f1620;--border:#243044;--muted:#8b9bb3;
+--head:#04070c;--headfg:#e6edf5;--accent:#38bdf8;--accent-soft:rgba(56,189,248,.16);
+--glow:0 0 0 3px rgba(56,189,248,.30)}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;font-family:var(--font);background:var(--bg);color:var(--fg);
+display:flex;flex-direction:column;transition:background .2s,color .2s}
+
+/* white-on-transparent marks placed on a light canvas */
+.wm{filter:invert(1)}
+html.dark .wm{filter:none}
+
+header{background:var(--head);color:var(--headfg);padding:12px 22px;
+display:flex;align-items:center;gap:16px;flex-wrap:wrap;flex:none}
+header img.brand{height:56px;width:auto;display:block}
+header .word{font-size:15px;letter-spacing:1.1px;
+opacity:.78;font-weight:600;border-left:1px solid rgba(255,255,255,.25);padding-left:14px}
+.spacer{flex:1}
+.hbtn{display:inline-flex;align-items:center;justify-content:center;gap:7px;
+height:32px;padding:0 12px;border-radius:8px;cursor:pointer;font-size:12.5px;
+font-weight:600;font-family:var(--font);color:var(--headfg);text-decoration:none;
+border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.10)}
+.hbtn.icon{width:34px;padding:0}
+.hbtn:hover{background:rgba(255,255,255,.22)}
+.hbtn svg{fill:#fff}
+header a.logo img{height:40px;display:block}
+
+/* ---------------------------------------------------------- landing ---- */
+#landing{flex:1;overflow:auto}
+.hero{padding:64px 34px 38px;max-width:900px;margin:0 auto;text-align:center;
+display:flex;flex-direction:column;align-items:center;gap:0}
+.hero img.mark{height:190px;width:auto;display:block;margin-bottom:18px}
+.hero h1{margin:0 0 12px;font-size:40px;font-weight:700;letter-spacing:-.4px}
+.hero .tag{margin:0 auto;font-size:16.5px;color:var(--muted);max-width:680px;
+line-height:1.65}
+.hero .cta{margin-top:26px;display:flex;gap:11px;flex-wrap:wrap;justify-content:center}
+.cta a,.cta button{display:inline-flex;align-items:center;gap:8px;height:40px;
+padding:0 19px;border-radius:10px;font-family:var(--font);font-size:14px;
+font-weight:600;cursor:pointer;text-decoration:none;
+border:1.5px solid var(--border);background:var(--card);color:var(--fg)}
+.cta .primary{background:#0d151f;border-color:var(--accent);color:var(--accent);
+box-shadow:0 0 0 1px rgba(56,189,248,.22),0 0 14px rgba(56,189,248,.22)}
+.cta .primary:hover{background:#111c29;
+box-shadow:0 0 0 1px rgba(56,189,248,.35),0 0 20px rgba(56,189,248,.38)}
+html:not(.dark) .cta .primary{background:#16222e;color:#7fd0f5;border-color:#2c6f92;
+box-shadow:0 0 0 1px rgba(56,189,248,.18),0 0 12px rgba(56,189,248,.20)}
+.cta a:hover,.cta button:hover{box-shadow:var(--glow);transform:translateY(-1px)}
+.cta a,.cta button{transition:box-shadow .16s ease,transform .12s ease,
+background .16s ease,border-color .16s ease}
+@media(prefers-reduced-motion:reduce){.cta a,.cta button,.seg button{transition:none}}
+.cta .primary svg,.cta a svg{fill:currentColor}
+
+.stats{max-width:1000px;margin:0 auto;padding:0 34px;
+display:flex;gap:13px;flex-wrap:wrap}
+.stat{flex:1 1 150px;background:var(--card);border:1px solid var(--border);
+border-radius:12px;padding:14px 17px}
+.stat .n{font-size:27px;font-weight:700;line-height:1.1}
+.stat .n.date{font-size:16px;font-weight:600;line-height:1.35;padding:5px 0 4px}
+.stat .l{font-size:11px;text-transform:uppercase;letter-spacing:.7px;
+color:var(--muted);margin-top:3px}
+
+.section{max-width:1180px;margin:0 auto;padding:30px 34px 8px}
+.section h2{font-size:13px;text-transform:uppercase;letter-spacing:1.1px;
+color:var(--muted);margin:0 0 14px;font-weight:700}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:13px}
+.c{background:var(--card);border:1px solid var(--border);border-radius:12px;
+padding:15px 17px}
+.c h3{margin:0 0 6px;font-size:14.5px;font-weight:700}
+.c h3 code{font-family:ui-monospace,Consolas,monospace;font-size:13px;
+color:var(--accent);background:var(--accent-soft);padding:1px 6px;border-radius:5px}
+.c p{margin:0;font-size:13.2px;line-height:1.55;color:var(--muted)}
+.note{max-width:1180px;margin:22px auto 0;padding:15px 18px;
+border-left:3px solid var(--accent);background:var(--accent-soft);
+border-radius:0 10px 10px 0;font-size:13.4px;line-height:1.6}
+.note b{font-weight:700}
+.landfoot{max-width:1180px;margin:26px auto 0;padding:14px 34px 34px;
+border-top:1px solid var(--border);font-size:12px;color:var(--muted)}
+
+/* ---------------------------------------------------------- browser ---- */
+#browser{flex:1;min-height:0;display:none;flex-direction:column}
+.bar{position:sticky;top:0;z-index:5;display:flex;align-items:flex-end;gap:16px;
+flex-wrap:wrap;padding:12px 22px;background:var(--bg);flex:none;
+border-bottom:1px solid var(--border);box-shadow:0 4px 10px -8px rgba(0,0,0,.35)}
+.f{display:flex;flex-direction:column;gap:4px}
+.f label{font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;
+color:var(--muted);font-weight:700}
+.f select{height:34px;min-width:150px;border-radius:8px;padding:0 9px;font-size:13px;
+font-family:var(--font);background:var(--card);color:var(--fg);
+border:1.5px solid var(--border);cursor:pointer}
+.f select:focus{outline:none;border-color:var(--accent);box-shadow:var(--glow)}
+.seg{display:inline-flex;border:1.5px solid var(--border);border-radius:9px;overflow:hidden}
+.seg button{border:none;background:transparent;color:var(--fg);font-family:var(--font);
+font-size:12.5px;font-weight:600;padding:0 14px;height:34px;cursor:pointer;
+border-right:1px solid var(--border)}
+.seg button:last-child{border-right:none}
+.seg button{transition:background .16s ease,color .16s ease,box-shadow .16s ease}
+.seg button:hover{background:rgba(127,127,127,.10)}
+.seg button.on{background:var(--accent-soft);color:var(--accent);box-shadow:var(--glow)}
+.count{font-size:12px;color:var(--muted);padding-bottom:9px}
+main{flex:1;min-height:0;display:flex;flex-direction:column}
+iframe{flex:1;width:100%;border:none;background:var(--card)}
+.empty{padding:60px 24px;text-align:center;color:var(--muted);font-size:14.5px}
+.tablewrap{flex:1;overflow:auto;padding:16px 22px}
+table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);
+border:1px solid var(--border);border-radius:10px;overflow:hidden}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--border)}
+th{font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted)}
+tr:last-child td{border-bottom:none}
+td a{color:var(--accent);text-decoration:none;font-weight:600}
+td a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+
+<header>
+  {{brand_html}}
+  <span class="word">BCNexus Report</span>
+  <div class="spacer"></div>
+  <button class="hbtn" id="homeBtn" title="Landing page">⌂ Home</button>
+  <button class="hbtn" onclick="document.documentElement.classList.toggle('dark')" title="Light / dark">◐</button>
+  <button class="hbtn" id="newtab" title="Open current report in a new tab">↗</button>
+  <a class="hbtn" href="{{site}}" target="_blank" rel="noopener" title="About the model">About the model</a>
+  <a class="hbtn icon" href="{{gh}}" target="_blank" rel="noopener" title="Source code on GitHub">{{gh_icon}}</a>
+  {{logo_html}}
+</header>
+
+<!-- ------------------------------------------------------------ landing -->
+<div id="landing">
+  <div class="hero">
+    <img class="mark wm" src="{{brand_src}}" alt="BCNexus">
+    <div>
+      <p class="tag">An OSeMOSYS-based <b>Climate–Land–Energy–Water</b> systems model of
+      British Columbia. Least-cost pathways under decarbonisation policy, with the
+      land, water and emission consequences carried explicitly rather than inferred.</p>
+      <div class="cta">
+        <button class="primary" id="browseBtn">Browse {{n_runs}} runs →</button>
+        <a href="{{gh}}" target="_blank" rel="noopener">{{gh_icon}} Repository</a>
+        <a href="{{site}}" target="_blank" rel="noopener">About the model</a>
+        <a href="{{deltae}}" target="_blank" rel="noopener">Delta E+</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats" id="stats"></div>
+
+
+
+
+  <div class="landfoot">
+    Index generated {{generated}} · {{n_runs}} runs · BCNexus is developed by the
+    <a href="{{deltae}}" target="_blank" rel="noopener" style="color:var(--accent)">Delta E+
+    Research Group</a>, Simon Fraser University ·
+    <a href="{{gh}}" target="_blank" rel="noopener" style="color:var(--accent)">DeltaE/BC_Nexus</a> ·
+    <a href="{{site}}" target="_blank" rel="noopener" style="color:var(--accent)">documentation</a>
+  </div>
+</div>
+
+<!-- ------------------------------------------------------------ browser -->
+<div id="browser">
+  <div class="bar">
+    <div class="f"><label>Scenario</label><select id="scenario"></select></div>
+    <div class="f"><label>Timeslices</label><select id="ts"></select></div>
+    <div class="f"><label>Storage algorithm</label><select id="algo"></select></div>
+    <div class="f"><label>Solver</label><select id="solver"></select></div>
+    <div class="f"><label>Run date</label><select id="date"></select></div>
+    <div class="f"><label>View</label>
+      <div class="seg" id="view">
+        <button data-v="report" class="on">Report</button>
+        <button data-v="map">Model map</button>
+        <button data-v="table">All runs</button>
+      </div>
+    </div>
+    <div class="count" id="count"></div>
+  </div>
+  <main>
+    <iframe id="frame" title="report"></iframe>
+    <div class="tablewrap" id="tablewrap" style="display:none"></div>
+    <div class="empty" id="empty" style="display:none"></div>
+  </main>
+</div>
+
+<script>
+const RUNS = {{manifest}};
+const F = ["scenario","ts","algo","solver","date"];
+const el = id => document.getElementById(id);
+let view = "report";
+
+/* ---- landing stats ---- */
+(function(){
+  const uniq = k => [...new Set(RUNS.map(r => r[k]))];
+  const dates = uniq("date").filter(d => d !== "undated").sort();
+  const MONTHS = ["January","February","March","April","May","June","July",
+                  "August","September","October","November","December"];
+  const pretty = s => {                       // 2026_07_19 -> July 19, 2026
+    const m = /^(\d{4})_(\d{2})_(\d{2})$/.exec(s || "");
+    return m ? `${MONTHS[+m[2] - 1]} ${+m[3]}, ${m[1]}` : (s || "—");
+  };
+  const cards = [
+    [RUNS.length, "runs indexed", false],
+    [uniq("scenario").length, "scenarios", false],
+    [uniq("ts").length, "temporal resolutions", false],
+    [uniq("solver").length, "solvers", false],
+    [pretty(dates[dates.length - 1]), "latest run", true],
+  ];
+  el("stats").innerHTML = cards.map(([n, l, isDate]) =>
+    `<div class="stat"><div class="n${isDate ? " date" : ""}">${n}</div>` +
+    `<div class="l">${l}</div></div>`).join("");
+})();
+
+/* ---- navigation ---- */
+function show(page){
+  el("landing").style.display  = page === "landing" ? "block" : "none";
+  el("browser").style.display  = page === "landing" ? "none"  : "flex";
+  if (page !== "landing") render();
+}
+el("homeBtn").addEventListener("click", () => show("landing"));
+el("browseBtn").addEventListener("click", () => show("browser"));
+
+/* rows matching every filter except `skip` — gives cascading option lists */
+function matching(skip){
+  return RUNS.filter(r => F.every(f => {
+    if (f === skip) return true;
+    const v = el(f).value;
+    return !v || v === "*" || String(r[f]) === v;
+  }));
+}
+function fill(f){
+  const cur = el(f).value;
+  const opts = [...new Set(matching(f).map(r => String(r[f])))].sort((a,b)=>{
+    const na = parseFloat(a), nb = parseFloat(b);
+    return (!isNaN(na) && !isNaN(nb)) ? nb - na : a.localeCompare(b);
+  });
+  el(f).innerHTML = opts.map(o => `<option value="${o}">${o}</option>`).join("");
+  if (opts.includes(cur)) el(f).value = cur;
+}
+function selected(){
+  return RUNS.find(r => F.every(f => String(r[f]) === el(f).value));
+}
+function render(){
+  F.forEach(fill);
+  const r = selected();
+  const hits = matching(null).length;
+  el("count").textContent = hits ? `${hits} run(s) match` : "";
+
+  el("frame").style.display = "none";
+  el("tablewrap").style.display = "none";
+  el("empty").style.display = "none";
+
+  if (view === "table"){ drawTable(); el("tablewrap").style.display = "block"; return; }
+  if (!r){ el("empty").textContent = "No run matches this combination."; el("empty").style.display="block"; return; }
+  const src = view === "map" ? r.map : r.report;
+  if (!src){
+    el("empty").textContent = "No model map was written for this scenario/date.";
+    el("empty").style.display = "block";
+    return;
+  }
+  el("frame").src = src;
+  el("frame").style.display = "block";
+}
+function drawTable(){
+  const rows = matching(null).map(r => `<tr>
+    <td>${r.scenario}</td><td>${r.ts}</td><td>${r.algo}</td>
+    <td>${r.solver}</td><td>${r.date}</td>
+    <td><a href="${r.report}" target="_blank">report</a></td>
+    <td>${r.map ? `<a href="${r.map}" target="_blank">map</a>` : "&mdash;"}</td>
+    <td style="color:var(--muted)">${r.size || ""}</td></tr>`).join("");
+  el("tablewrap").innerHTML = `<table><thead><tr>
+    <th>Scenario</th><th>TS</th><th>Algorithm</th><th>Solver</th><th>Date</th>
+    <th>Report</th><th>Map</th><th>Size</th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+
+F.forEach(f => el(f).addEventListener("change", render));
+document.querySelectorAll("#view button").forEach(b =>
+  b.addEventListener("click", () => {
+    document.querySelectorAll("#view button").forEach(x => x.classList.remove("on"));
+    b.classList.add("on"); view = b.dataset.v; render();
+  }));
+el("newtab").addEventListener("click", () => {
+  const r = selected(); if (!r) return;
+  const u = view === "map" ? r.map : r.report; if (u) window.open(u, "_blank");
+});
+
+if (!RUNS.length){
+  el("browseBtn").disabled = true;
+  el("browseBtn").textContent = "No runs found";
+}
+show("landing");
+</script>
+</body>
+</html>

@@ -11,12 +11,143 @@ Decarbonizing B.C.’s energy system
 - [High level overview of the modelling components](https://www.sfu.ca/see/research/delta-e/projects/decarbonization-of-bc-s-energy-system.html)
 - [How to run the model](https://github.com/DeltaE/BC-CLEWS-Model/wiki/How-to-Run-the-Model)
 
+# Repository layout
+
+| Path | Contents |
+|---|---|
+| `codebase/bcnexus/` | the Python package: model builder, runner, stage CLI, plots — see [`codebase/bcnexus/Readme.md`](codebase/bcnexus/Readme.md) |
+| `codebase/workflow_v3/` | Snakemake orchestration over the stage CLI |
+| `config/` | scenario definitions, builder schema, dashboard colours |
+| `data/` | otoole input CSVs, RESource drops, calibration notes |
+| `models/` | OSeMOSYS GNU MathProg formulations (Kotzur / Niet storage) |
+| `vis/` | generated per-run reports and model maps |
+| `report/` | the master index, `BCNexus_report_v1.html` |
+| `docs/` | resources, including the temporal-resolution explorer |
+| `AGENTS.md` | contract for AI agents and new contributors working in this repo |
+
+# Running the model
+
+Two entry points compose the **same** `stage_*` methods, so results do not
+depend on which you choose.
+
+**Notebook / interactive**
+
+```python
+from bcnexus.clews.runner import RunModel
+m = RunModel(run_scenario='Base_CNZ_noCCS', storage_algorithm='Kotzur',
+             clustering_attributes={'hour_grouping': 4, 'n_clusters': 1})
+m.run(build=True, threads=16)
+```
+
+**Stage CLI** — each stage reads and writes files, so a run can resume after a
+crash and scenarios can execute in parallel:
+
+```bash
+python -m bcnexus.stages solve -s Base_CNZ_noCCS -a Kotzur -hg 4 -nc 1 --threads 16
+```
+
+Results are written to `<scenario_results>/<N>ts/<YYYY_MM_DD>/`; the timeslice
+count is read from `TIMESLICE.csv` rather than assumed.
+
+# Make targets
+
+Run from the repository root; `make help` prints this list with current
+variable values. On Windows use Git Bash/WSL, install make into the conda
+environment (`conda install -c conda-forge make`), or use `make.bat`.
+
+**Environment**
+
+| Target | Action |
+|---|---|
+| `make setup` | create the conda environment, install the package, init submodules |
+| `make update` | update the environment from `env/environment.yml` |
+| `make export` | export the environment back to `env/environment.yml` |
+| `make submodules` | initialise and update submodules |
+| `make clean` | remove the `bc_nexus` conda environment |
+
+**Legacy entry points** (`workflow/scripts`)
+
+| Target | Action |
+|---|---|
+| `make nexus` | run the model via `BCNexus.py` |
+| `make nexus_plots` | plot results for `NEXUS_SCENARIO` / `NEXUS_TIMESLICES` |
+| `make plots` | scenario plots (calls `nexus_plots`) |
+
+**Stage pipeline** (`bcnexus.stages` — resumable, Snakemake-facing)
+
+| Target | Action |
+|---|---|
+| `make build` | stages 1–3: builder → temporal clustering → storage schema |
+| `make overlay` | stage 4a: apply scenario overrides |
+| `make datafile` | stage 4b: CSVs → otoole datafile |
+| `make lp` | stage 5: datafile → `.lp` via glpsol |
+| `make solve` | stage 6: `.lp` → `.sol` |
+| `make results` | stage 7: `.sol` → result CSVs + report, then reindex |
+| `make run` | the whole pipeline for one scenario |
+| `make workflow` | the Snakemake scenario matrix, then reindex |
+
+**Reporting**
+
+| Target | Action |
+|---|---|
+| `make index` | rebuild `report/BCNexus_report_v1.html` |
+| `make index-all` | same, also scanning sub-folders (dated run dirs) |
+| `make clean-index` | delete the index only; reports untouched |
+
+**Variables** — `NEXUS_SCENARIO`, `NEXUS_TIMESLICES` (legacy targets);
+`SCEN`, `ALGO`, `HG`, `NC`, `SOLVER`, `THREADS`, `VIS`, `INDEX` (stage targets).
+
+```bash
+make run SCEN=Base_CNZ_noCCS HG=4 NC=1 THREADS=16
+make solve SCEN=CNZ_LIMITED_CO2 SOLVER=cbc
+make nexus_plots NEXUS_SCENARIO=CNZ_1 NEXUS_TIMESLICES=96
+make index VIS=vis INDEX=report/BCNexus_report_v1.html
+```
+
+# Reporting
+
+`plots.get_plots()` writes one self-contained HTML report per run plus a
+standalone reference-energy-system page:
+
+```
+vis/CLEW_report_<algo>_<scenario>_<N>ts_<solver>_<YYYY_MM_DD>.html
+vis/CLEW_model_map_<scenario>_<YYYY_MM_DD>.html
+```
+
+The report has Inputs and Outputs tabs (Outputs holds sticky Climate / Land /
+Energy / Water sub-tabs), a floating bar with a 1–2–3 column switch, run,
+solver, constraint and configuration diagnostics panels, reader-side dark mode
+and font choice, and inlined plotly.js so it works offline.
+
+`bcnexus.vis.index` builds a master index across every report in a folder,
+with cascading dropdowns for scenario, timeslices, storage algorithm, solver
+and run date, plus an "All runs" table:
+
+```bash
+make index          # -> report/BCNexus_report_v1.html
+# equivalently: python -m bcnexus.vis.index vis report/BCNexus_report_v1.html
+```
+
+The index lives in `report/` (created if absent) and links back into `vis/`
+with relative paths, so the two folders must keep their relative position. The
+manifest is baked in at build time — a page opened from `file://` cannot list a
+directory — so re-run after new runs; `make results` and `make workflow` do
+this automatically.
+
+# Interpreting results
+
+End-use fuel demand is **exogenous** in this model: the `DEM*` technologies are
+100 %-efficiency pass-throughs, so the fuel mix in the demand projection is an
+assumption of the input data, not an optimisation outcome. Read
+`data/calibration/README.md` before reporting any end-use fuel level as a model
+finding.
+
 # Contributors 
 
 -  [Nastaran Arianpoo](https://www.linkedin.com/in/nastaran-arianpoo-ph-d-97301025/)
-     - Model<sub>v1</sub> Developement on top of OSeMOSYS framework, momani user-interface based data intake,git-wiki
+     - pre-Model<sub>v1</sub> Developement on top of OSeMOSYS framework, momani user-interface based data intake,git-wiki
 - [Md Eliasinul Islam](https://www.linkedin.com/in/eliasinul/)
-     - Model<sub>v1</sub> workflow automation, visualization, bug-fixes, otoole user-interface based data intake and result processing, model version control and git management, git-wiki 
+     - Model<sub>v1-2</sub> workflow automation, visualization, bug-fixes, otoole user-interface based data intake and result processing, model version control and git management, git-wiki 
      - PICS project data schema, project data sync automation
      - Data automation, timeslice downscaling automation of Model<sub>v2</sub> developemnt
 - Bruno Borba

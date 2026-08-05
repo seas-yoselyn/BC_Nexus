@@ -96,7 +96,7 @@ def run_model(scenario: str, attributes: Dict[str, Any]) -> None:
             build=False,
             include_livestock=False,
             solver_name="gurobi",
-            threads=32,
+            threads=16,
             machine_id="srye-deltae-07",
         )
         print(f"[OK] Scenario '{scenario}' completed successfully.")

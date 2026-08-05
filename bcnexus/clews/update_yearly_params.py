@@ -32,6 +32,7 @@ FILES = {
     'capital_cost_storage': CLEWS_BUILD_DATA_DIR / 'CapitalCostStorage.csv',
     'technology_to_storage': CLEWS_BUILD_DATA_DIR / 'TechnologyToStorage.csv',
     'technology_from_storage': CLEWS_BUILD_DATA_DIR / 'TechnologyFromStorage.csv',
+    'variable_cost': CLEWS_BUILD_DATA_DIR / 'VariableCost.csv',
 }
 
 def get_committed_sites(committed_sites_dict:dict[list])->list:
@@ -202,6 +203,43 @@ def update_capex(
     df_filtered.to_csv(capital_cost_file, index=False)
 
     utils.print_update(level=4, message=f"updated: {capital_cost_file}")
+    
+def update_variable_cost(
+   
+    clews_builder_config:dict,
+):
+
+    
+    ### UPDATE CAPITAL COST
+    ##################################################################################################
+    utils.print_update(level=3,message="Updating VARIABLE COST...")
+    variable_cost_file = FILES['variable_cost'] #config['FILES']['variable_cost_file']
+    
+    techs = clews_builder_config['TECHNOLOGIES']
+    storage_techs = clews_builder_config['STORAGE_TECHNOLOGY']
+    
+    # Delete technologies based on TECHS
+    df_filtered = schema.delete_technologies(variable_cost_file, techs)
+
+    # Delete storage technologies based on STORAGE_TECHNOLOGY
+    df_filtered = schema.delete_technologies(df_filtered, storage_techs)
+
+    # Add the new technologies
+    for category, tech_details in techs.items():
+        for tech_key, tech_info in tech_details.items():
+            if not tech_info:  # Check if the value is an empty dictionary
+                utils.print_update(level=4,message=f"Disregarding {tech_key} as it is empty")
+                continue
+            df_filtered = schema.add_technologies_variable_cost(df_filtered, tech_key, tech_info, start_year, last_year, region)
+
+    # Add the storage technologies
+    for storage_key, storage_info in storage_techs.items():
+        df_filtered = schema.add_technologies_variable_cost(df_filtered, storage_key, storage_info, start_year, last_year, region)
+
+    # Save the file with updated technologies
+    df_filtered.to_csv(variable_cost_file, index=False)
+
+    utils.print_update(level=4, message=f"updated: {variable_cost_file}")
 
 def update_availability_factor(
    
@@ -320,7 +358,7 @@ def main(
         #step 8: Update CAPEX
         update_capex(clews_builder_config)
         update_capex_storage(clews_builder_config)
-
+        update_variable_cost(clews_builder_config)
         #step 9: Update TECHNOLOGY from/to STORAGE
         update_technology_from_to_storage(clews_builder_config)
         
