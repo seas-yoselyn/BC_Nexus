@@ -122,9 +122,9 @@ LandUseCodes= {
   'BLT': 'Built-up land',
   'WAT': 'Water bodies',
   'OTH': 'Other agricultural land',
-  'PSN': 'Natural pasture',
-  'PSC': 'Cultivated pasture',
-  'PCF': 'Confined livestock operations',
+  #'PSN': 'Natural pasture',
+  #'PSC': 'Cultivated pasture',
+  #'PCF': 'Confined livestock operations',
 }
 
 # Evapotranspiration values for water balances for other land uses.
