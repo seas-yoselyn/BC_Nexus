@@ -10,7 +10,7 @@ from bcnexus import utils
 from bcnexus.attributes_parser import AttributesParser
 from bcnexus.clews import datapackage as clews_data_module
 from bcnexus.clews import livestock as bcnexus_lvs
-from bcnexus.clews import agrivoltaic as bcnexus_agv
+
 from bcnexus.clews import schema as schema_processor
 from bcnexus.clews import sets_n_ratios, update_global_params, update_yearly_params
 
@@ -147,9 +147,16 @@ class BuildModel:
         self.get_LandCluster_data()
     
     #2. Build base SETs and Ratios
-        SetNames,NewSetItems,IARList,OARList=    sets_n_ratios.build(self.SETs_save_to)
+        SetNames,NewSetItems,IARList,OARList,ModeList=    sets_n_ratios.build(self.SETs_save_to)
     
-    #3. Collect Livestock data and build SETs including livestock data
+    #3. Build agrivoltaic modes (must run before livestock so mode count is correct)
+        if include_agrivoltaic:
+            from bcnexus.clews import agrivoltaic as bcnexus_agv
+            SetNames, NewSetItems, IARList, OARList, ModeList = \
+                bcnexus_agv.build_agrivoltaic_modes(
+                    SetNames, NewSetItems, IARList, OARList, ModeList)
+
+    #4. Collect Livestock data and build SETs including livestock data
         if include_livestock:
             utils.print_banner("Building Livestock SETs and Ratios data...")
 
@@ -194,17 +201,16 @@ class BuildModel:
                         'color': '#000000'
                     })
 
-    
-        #4. Collect Agrivoltaics data and build SETs including agrivoltaic data
-        if include_agrivoltaic:
-            utils.print_banner("Building AGV SETs and Ratios data...")
-            bcnexus_agv.main(
-                csv_save_to=self.SETs_save_to,
+    #5. Final write: ensure agrivoltaic (and any other) changes are persisted
+        if include_agrivoltaic and not include_livestock:
+            sets_n_ratios.UpdateSETS(
                 SetNames=SetNames,
                 NewSetItems=NewSetItems,
                 IARList=IARList,
                 OARList=OARList,
+                csv_save_to=self.SETs_save_to,
             )
+ 
     ## NOT NEEDED : EL_20251115
     # ---------------------------
         # Update STORAGE TECHNOLOGY in TECHNOLOGY SET

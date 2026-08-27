@@ -1,559 +1,519 @@
 """
-======================================================
-Agrivoltaic Modelling
-======================================================
+agrivoltaic.py
+Adds agrivoltaic (AGV) modes of operation to existing LNDAGR cluster
+technologies so that solar panel co-production competes for the same
+land pool as conventional agriculture inside the LP optimizer.
 
+Design follows the livestock.py pattern: receives the base build
+outputs from sets_n_ratios.BuildCLEWsModel(), appends AGV mode
+labels and IAR/OAR rows, and returns the updated lists for
+downstream consumers (livestock, UpdateSETS).
+
+Author:  Yoselyn (YOS), 2025
 """
 
-from __future__ import annotations
-
-import math
+import os
+import decimal
 from pathlib import Path
-from typing import Iterable
 
-import pandas as pd
-
-from bcnexus.clews import sets_n_ratios as SnR
-from bcnexus.clews import model_structure
 from bcnexus import utils
+from bcnexus.clews import model_structure as clews_const
 
-print_level_base = 2
+# ---------------------------------------------------------------------------
+# AGV configuration  (centralised here; importable by other modules)
+# ---------------------------------------------------------------------------
 
+# Crops eligible for agrivoltaic deployment and their yield retention
+# factors (fraction of conventional yield kept under partial shading).
+AGV_ELIGIBLE_CROPS: dict = {
+    'MAI': 0.92,   # Barron-Gafford et al. 2019, Marrou et al. 2013
+    'WHE': 0.95,   # Weselek et al. 2019
+    'PTW': 0.88,   # Schindele et al. 2020 (flagged uncertain)
+}
 
-# ==========================================================================
-# GeoCLEWs Baseline
-# ==========================================================================
+# Electricity co-product output [PJ / (1000 km^2 / yr)].
+# Derived as: solar_input (4470) * panel_efficiency (0.018) * shade_factor (0.70)
+AGV_ELECTRICITY_OAR: float = 1
 
-_BASELINE_CACHE: dict[tuple[str, str], dict] = {}
+# Fuel code for the electricity output.  Must already exist in the FUEL set.
+# Uses ELCB01 (electricity from power plants) so that AGV output enters the
+# grid at the same node as utility-scale solar.
+AGV_ELECTRICITY_FUEL: str = 'ELCB01'
 
-DEFAULT_WS_INTENSITY: str = 'Rain-fed High'
-DEFAULT_LANDCLUSTER_ROOT: Path = Path('data/clews_data/LandClusterData')
-
-
-def get_geoclews_baselines(land_region: str,
-                           landcluster_root: str | Path | None = None,
-                           ws_intensity: str = DEFAULT_WS_INTENSITY,
-                           refresh: bool = False) -> dict:
-
-    cache_key = (land_region, ws_intensity)
-    if not refresh and cache_key in _BASELINE_CACHE:
-        return _BASELINE_CACHE[cache_key]
-
-    root = Path(landcluster_root) if landcluster_root else DEFAULT_LANDCLUSTER_ROOT
-
-    utils.print_update(
-        level=print_level_base,
-        message=f"Loading GeoCLEWs baselines for '{land_region}' "
-                f"(ws_intensity='{ws_intensity}') from {root}"
-    )
-
-    baselines = _compute_geoclews_baselines(land_region, root, ws_intensity)
-    _BASELINE_CACHE[cache_key] = baselines
-
-    utils.print_update(
-        level=print_level_base + 1,
-        message=f"  PRC (BC-wide) = {baselines['precipitation']:.4f} m/yr "
-                f"over {baselines['total_area']:.2f} k.sqkm, "
-                f"{len(baselines['cluster_ids'])} clusters"
-    )
-    return baselines
+PRINT_LEVEL: int = 2
 
 
-def _compute_geoclews_baselines(land_region: str,
-                                root: Path,
-                                ws_intensity: str) -> dict:
-    yld_df = pd.read_csv(root / f'clustering_results_{land_region}.csv')
-    prc_df = pd.read_csv(root / f'clustering_results_prc_{land_region}.csv')
-    evt_df = pd.read_csv(root / f'clustering_results_evt_{land_region}.csv')
-    cwd_df = pd.read_csv(root / f'clustering_results_cwd_{land_region}.csv')
+# ---------------------------------------------------------------------------
+# Cluster data loader  (mirrors the loading logic inside BuildCLEWsModel)
+# ---------------------------------------------------------------------------
 
-    yld_df = yld_df.merge(prc_df, on='cluster', how='left')
+def _load_cluster_data() -> dict:
+    """
+    Read the four GeoCLEWs cluster CSV files for every land region
+    and return them in a dict keyed by region code.
 
-    cluster_ids = yld_df['cluster'].astype(int).tolist()
-    cluster_areas = dict(zip(
-        yld_df['cluster'].astype(int),
-        yld_df['land_area_total'].astype(float)
-    ))
-    cluster_precipitation = dict(zip(
-        yld_df['cluster'].astype(int),
-        yld_df['precipitation'].astype(float)
-    ))
+    Returns a dict of the form::
 
-    total_area = float(yld_df['land_area_total'].sum())
-    precipitation_aw = float(
-        (yld_df['land_area_total'] * yld_df['precipitation']).sum() / total_area
-    )
+        {
+          'BC1': {
+              'Clusters':                     [header_line, data_line, ...],
+              'PrecipitationClusters':        [...],
+              'EvapotranspirationClusters':   [...],
+              'IrrigationWaterDeficitClusters': [...]
+          },
+          ...
+        }
+    """
+    lcd = clews_const.LandCluster_data
+    root = lcd['root']
+    result = {}
+
+    for region in clews_const.LandRegions:
+        cluster_file = os.path.join(
+            root, lcd['ClusterBaseFileName'] + region + '.csv')
+        precip_file = os.path.join(
+            root, lcd['PrecipitationClusterBaseFileName'] + region + '.csv')
+        evt_file = os.path.join(
+            root, lcd['EvapotranspirationClusterBaseFileName'] + region + '.csv')
+        cwd_file = os.path.join(
+            root, lcd['IrrigationWaterDeficitClusterBaseFileName'] + region + '.csv')
+
+        result[region] = {
+            'Clusters': open(cluster_file, 'r').readlines(),
+            'PrecipitationClusters': open(precip_file, 'r').readlines(),
+            'EvapotranspirationClusters': open(evt_file, 'r').readlines(),
+            'IrrigationWaterDeficitClusters': open(cwd_file, 'r').readlines(),
+        }
+
+    return result
 
 
-    crops = sorted({
-        col.split(' ')[0]
-        for col in yld_df.columns
-        if ' ' in col and any(tag in col for tag in ('Rain-fed', 'Irrigation'))
-    })
+# ---------------------------------------------------------------------------
+# Mode mapping builder
+# ---------------------------------------------------------------------------
 
-    cluster_yield_per_crop: dict[str, dict[int, float]] = {}
-    cluster_evt_per_crop:   dict[str, dict[int, float]] = {}
-    cluster_cwd_per_crop:   dict[str, dict[int, float]] = {}
-    suitable_clusters:      dict[str, list[int]]        = {}
+def _build_parent_mode_lookup(ModeList: list) -> dict:
+    """
+    Scan ModeList for crop combinations that match AGV-eligible crops
+    and return a lookup dict.
 
-    yield_aw: dict[str, float]     = {}
-    evt_aw:   dict[str, float]     = {}
-    cwd_aw:   dict[str, float]     = {}
-    evt_ratio: dict[str, float]    = {}
+    Returns::
 
-    evt_idx = evt_df.set_index('cluster')
-    cwd_idx = cwd_df.set_index('cluster')
+        {
+          'MAI': [('MAIHI', 0), ('MAIII', 1), ('MAIHR', 2), ...],
+          'WHE': [...],
+          'PTW': [...]
+        }
 
-    for crop in crops:
-        col = f'{crop} {ws_intensity}'
-        if col not in yld_df.columns:
+    The integer is the 0-based index in ModeList (mode number = index + 1).
+    """
+    lookup: dict = {}
+    for idx, combo in enumerate(ModeList):
+        if len(combo) < 3:
             continue
-
-        cluster_yield_per_crop[crop] = {}
-        cluster_evt_per_crop[crop]   = {}
-        cluster_cwd_per_crop[crop]   = {}
-
-        for cid in cluster_ids:
-            y = float(yld_df.loc[yld_df['cluster'] == cid, col].iloc[0])
-            cluster_yield_per_crop[crop][cid] = y
-            cluster_evt_per_crop[crop][cid]   = float(evt_idx.loc[cid, col]) \
-                                                if col in evt_idx.columns else 0.0
-            cluster_cwd_per_crop[crop][cid]   = float(cwd_idx.loc[cid, col]) \
-                                                if col in cwd_idx.columns else 0.0
-
-        eligible = [cid for cid in cluster_ids
-                    if cluster_yield_per_crop[crop][cid] > 0]
-        suitable_clusters[crop] = eligible
-
-        if eligible:
-            areas = pd.Series({cid: cluster_areas[cid] for cid in eligible})
-            yvals = pd.Series({cid: cluster_yield_per_crop[crop][cid]
-                                for cid in eligible})
-            evals = pd.Series({cid: cluster_evt_per_crop[crop][cid]
-                                for cid in eligible})
-            cvals = pd.Series({cid: cluster_cwd_per_crop[crop][cid]
-                                for cid in eligible})
-            wsum = areas.sum()
-            yield_aw[crop] = float((areas * yvals).sum() / wsum)
-            evt_aw[crop]   = float((areas * evals).sum() / wsum)
-            cwd_aw[crop]   = float((areas * cvals).sum() / wsum)
-            evt_ratio[crop] = (
-                evt_aw[crop] / precipitation_aw if precipitation_aw > 0 else float('nan')
-            )
-        else:
-            yield_aw[crop]   = float('nan')
-            evt_aw[crop]     = float('nan')
-            cwd_aw[crop]     = float('nan')
-            evt_ratio[crop]  = float('nan')
-
-    return {
-        'land_region':            land_region,
-        'ws_intensity_used':      ws_intensity,
-        'cluster_ids':            cluster_ids,
-        'cluster_areas':          cluster_areas,
-        'cluster_precipitation':  cluster_precipitation,
-        'cluster_yield_per_crop': cluster_yield_per_crop,
-        'cluster_evt_per_crop':   cluster_evt_per_crop,
-        'cluster_cwd_per_crop':   cluster_cwd_per_crop,
-        'suitable_clusters':      suitable_clusters,
-        'precipitation':          precipitation_aw,
-        'total_area':             total_area,
-        'yield_per_crop':         yield_aw,
-        'evt_per_crop':           evt_aw,
-        'cwd_per_crop':           cwd_aw,
-        'evt_ratio_per_crop':     evt_ratio,
-    }
+        crop_prefix = combo[:-2]          # 'MAIHI' -> 'MAI'
+        if crop_prefix in AGV_ELIGIBLE_CROPS:
+            lookup.setdefault(crop_prefix, []).append((combo, idx))
+    return lookup
 
 
-def clear_geoclews_cache() -> None:
-    _BASELINE_CACHE.clear()
+# ---------------------------------------------------------------------------
+# Public entry point
+# ---------------------------------------------------------------------------
 
+def build_agrivoltaic_modes(
+    SetNames: list,
+    NewSetItems: list,
+    IARList: list,
+    OARList: list,
+    ModeList: list,
+) -> tuple:
+    """
+    Append agrivoltaic modes to the LNDAGR cluster technologies.
 
-def baseline_summary(land_region: str,
-                     crops: Iterable[str] | None = None,
-                     **kwargs) -> str:
-    """Diagnostic summary of derived baselines (BC-wide aggregates)."""
-    b = get_geoclews_baselines(land_region, **kwargs)
-    lines = [
-        f"GeoCLEWs baselines for '{land_region}'",
-        f"  ws_intensity:  {b['ws_intensity_used']}",
-        f"  precipitation: {b['precipitation']:.4f}  m/yr   (BC-wide AW)",
-        f"  total_area:    {b['total_area']:.2f}  k.sqkm",
-        f"  clusters:      {b['cluster_ids']}",
-        '',
-        f"  {'Crop':<6}{'Yield':>10}{'ET':>10}{'CWD':>10}{'EvtRatio':>12}   Suitable clusters",
-        f"  {'-'*60}",
-    ]
-    crop_iter = list(crops) if crops else sorted(b['yield_per_crop'].keys())
-    for crop in crop_iter:
-        y = b['yield_per_crop'].get(crop, float('nan'))
-        e = b['evt_per_crop'].get(crop, float('nan'))
-        c = b['cwd_per_crop'].get(crop, float('nan'))
-        r = b['evt_ratio_per_crop'].get(crop, float('nan'))
-        sc = b['suitable_clusters'].get(crop, [])
-        lines.append(f"  {crop:<6}{y:>10.4f}{e:>10.4f}{c:>10.6f}{r:>12.4f}   {sc}")
-    return '\n'.join(lines)
+    For each eligible crop-intensity-irrigation combination, a new mode
+    is added to every LNDAGR cluster technology.  The new mode:
 
+    * Consumes the same land commodity as the parent mode (IAR = 1).
+    * Consumes the same precipitation and irrigation water.
+    * Produces the same crop fuel but at a reduced OAR (yield factor).
+    * Produces ELCB01 electricity as a co-product (the novel output).
+    * Produces the same evapotranspiration, groundwater, runoff OARs.
 
-def cluster_summary(land_region: str,
-                    crops: Iterable[str] | None = None,
-                    **kwargs) -> str:
-    """Per-cluster breakdown used for AGV mode generation."""
-    b = get_geoclews_baselines(land_region, **kwargs)
-    crop_iter = list(crops) if crops else sorted(b['cluster_yield_per_crop'].keys())
+    Parameters
+    ----------
+    SetNames, NewSetItems, IARList, OARList, ModeList
+        The base build outputs from sets_n_ratios.BuildCLEWsModel().
 
-    lines = [
-        f"GeoCLEWs per-cluster values for '{land_region}' ({b['ws_intensity_used']})",
-        '',
-        f"  {'Cluster':<8}{'Area':>8}{'PRC':>8}   crops & yields",
-        f"  {'-'*55}",
-    ]
-    for cid in b['cluster_ids']:
-        area = b['cluster_areas'][cid]
-        prc  = b['cluster_precipitation'][cid]
-        crops_here = []
-        for crop in crop_iter:
-            y = b['cluster_yield_per_crop'].get(crop, {}).get(cid, 0)
-            if y > 0:
-                crops_here.append(f"{crop}={y:.3f}")
-        lines.append(f"  {cid:<8}{area:>8.2f}{prc:>8.3f}   {', '.join(crops_here)}")
-    return '\n'.join(lines)
+    Returns
+    -------
+    tuple
+        (SetNames, NewSetItems, IARList, OARList, ModeList) with AGV
+        modes appended.  The caller can pass these directly to
+        livestock.main() or sets_n_ratios.UpdateSETS().
+    """
+    from bcnexus.clews.sets_n_ratios import AddActivityListItems, Fill_Set
+    utils.print_banner("Building Agrivoltaic Modes")
 
+    # Decimal context matching sets_n_ratios (2 significant figures)
+    ctx = decimal.Context()
+    ctx.prec = 4
 
+    # Reference data from model_structure
+    IrrigationTypeList = clews_const.IrrigationTypeList
+    IntensityList = clews_const.IntensityList
+    CropYieldFactors = clews_const.CropYieldFactors
+    GroundwaterPercentofExcess = clews_const.GroundwaterPercentofExcess
+    LandRegions = clews_const.LandRegions
+    Regions = clews_const.Regions
+    snapshot = clews_const.snapshot
+    Years = list(range(snapshot['start'], snapshot['end'] + 1))
+    Region = next(iter(Regions))          # 'REGION1'
 
-# ==========================================================================
-# 2.  SETs
-# ==========================================================================
+    # Load cluster data independently (avoids modifying sets_n_ratios)
+    cluster_data = _load_cluster_data()
 
-def get_Agrivoltaic_SETs(ms=model_structure) -> dict:
-    """One new LNDAGV{pathway}{land_region}C{cid:02d} technology per
-    suitable (pathway, cluster). No new fuels — AGV reuses existing
-    land, water, electricity, and commodity fuels."""
-    techs = {}
-    for land_region in ms.LandRegions:
-        baselines = get_geoclews_baselines(land_region)
-        for pathway, attrs in ms.AgrivoltaicPathways.items():
-            crop = attrs['crop']
-            for cid in baselines['suitable_clusters'].get(crop, []):
-                name = f'LNDAGV{pathway}{land_region}C{cid:02d}'
-                techs[name] = {
-                    'description': (
-                        f"Agrivoltaic {attrs['label']} in {land_region}, "
-                        f"cluster {cid:02d}"
-                    ),
-                    'color': '#FFB300',
-                }
-    utils.print_update(
-        level=print_level_base,
-        message=f"Agrivoltaic SETs: {len(techs)} new technologies."
-    )
-    return {'TECHNOLOGY': techs, 'FUEL': {}}
+    # Build the lookup from crop code to parent mode indices
+    parent_lookup = _build_parent_mode_lookup(ModeList)
 
+    if not parent_lookup:
+        utils.print_warning("No AGV-eligible crop modes found in ModeList. "
+                            "Skipping agrivoltaic module.")
+        return SetNames, NewSetItems, IARList, OARList, ModeList
 
-def update_SetItems_with_Agrivoltaic(SetNames: list,
-                                     NewSetItems: list,
-                                     agv_sets: dict) -> list:
-    idx = SetNames.index('TECHNOLOGY')
-    existing = {item['value'] for item in NewSetItems[idx]}
-    added = 0
-    for name, attrs in agv_sets['TECHNOLOGY'].items():
-        if name not in existing:
-            NewSetItems[idx].append({
-                'value': name,
-                'name':  attrs['description'],
-                'color': attrs.get('color', '#000000'),
+    # ------------------------------------------------------------------
+    # Step 1:  Append AGV mode labels to ModeList and record the mapping
+    # ------------------------------------------------------------------
+    #
+    # agv_modes is a list of dicts, one per new mode:
+    #   { 'agv_mode':  <1-based mode number>,
+    #     'parent_mode': <1-based mode number of conventional counterpart>,
+    #     'label':      'AGVMAIHI',
+    #     'parent_label': 'MAIHI',
+    #     'crop':       'MAI',
+    #     'yield_factor': 0.92 }
+
+    agv_modes: list = []
+
+    for crop in AGV_ELIGIBLE_CROPS:
+        if crop not in parent_lookup:
+            continue
+        yield_factor = AGV_ELIGIBLE_CROPS[crop]
+
+        for (parent_combo, parent_idx) in parent_lookup[crop]:
+            agv_label = "AGV" + parent_combo      # e.g. 'AGVMAIHI'
+            ModeList.append(agv_label)
+            new_mode = len(ModeList)               # 1-based
+
+            agv_modes.append({
+                'agv_mode': new_mode,
+                'parent_mode': parent_idx + 1,
+                'label': agv_label,
+                'parent_label': parent_combo,
+                'crop': crop,
+                'yield_factor': yield_factor,
             })
-            added += 1
-    utils.print_update(
-        level=print_level_base + 1,
-        message=f"Added {added} agrivoltaic technologies to TECHNOLOGY set."
-    )
-    return NewSetItems
+
+    utils.print_update(level=PRINT_LEVEL,
+        message=f"Created {len(agv_modes)} AGV mode labels "
+                f"(crops: {list(AGV_ELIGIBLE_CROPS.keys())})")
+
+    # ------------------------------------------------------------------
+    # Step 2:  Write IAR / OAR rows for every AGV mode on every cluster
+    # ------------------------------------------------------------------
+
+    rows_written = 0
+
+    for region_code in LandRegions:
+        rd = cluster_data[region_code]
+        Clusters = rd['Clusters']
+        PrecipitationClusters = rd['PrecipitationClusters']
+        EvapotranspirationClusters = rd['EvapotranspirationClusters']
+        IrrigationWaterDeficitClusters = rd['IrrigationWaterDeficitClusters']
+
+        # Header row of the main cluster file gives column labels
+        header_cols = Clusters[0].strip().split(',')
+
+        for clustercount in range(1, len(Clusters)):
+            cluster_id = Clusters[clustercount].split(',')[0].zfill(2)
+            tech = "LNDAGR" + region_code + "C" + cluster_id
+
+            for info in agv_modes:
+                mode_str = str(info['agv_mode'])
+                parent_combo = info['parent_label']
+                crop = info['crop']
+                yf = info['yield_factor']
+                suffix = parent_combo[-2:]       # e.g. 'HI'
+                intensity_code = suffix[0]       # H, I, or L
+                irrig_code = suffix[1]           # I or R
+
+                # Build the label used to index into the cluster CSV
+                # columns, e.g. "MAI Irrigation High"
+                irrig_name = IrrigationTypeList[irrig_code]
+                intens_name = IntensityList[intensity_code]
+                combo_label = crop + " " + irrig_name + " " + intens_name
+
+                # Check that this crop combination exists in this cluster
+                if combo_label not in header_cols:
+                    continue
+                col_idx = header_cols.index(combo_label)
+                conv_yield_raw = float(
+                    Clusters[clustercount].split(',')[col_idx])
+                if conv_yield_raw == 0.0:
+                    continue                     # crop does not grow here
+
+                # ---------- IARs (identical to parent mode) ----------
+
+                # Land commodity
+                AddActivityListItems(
+                    Years, Region, tech,
+                    "L" + parent_combo + region_code,
+                    IARList, value="1", g=mode_str)
+
+                # Precipitation
+                precip_val = float(
+                    PrecipitationClusters[clustercount].split(',')[1])
+                precip_str = format(
+                    ctx.create_decimal(repr(precip_val)), 'f')
+                AddActivityListItems(
+                    Years, Region, tech,
+                    "WTRPRC" + region_code,
+                    IARList, g=mode_str, v=precip_str)
+
+                # Irrigation water
+                cwd_header = (IrrigationWaterDeficitClusters[0]
+                              .strip().split(','))
+                cwd_col = cwd_header.index(combo_label)
+                irrig_val = float(
+                    IrrigationWaterDeficitClusters[clustercount]
+                    .split(',')[cwd_col])
+                if irrig_name == 'Rain-fed':
+                    irrig_val = 0.0
+                irrig_str = format(
+                    ctx.create_decimal(repr(irrig_val)), 'f')
+                AddActivityListItems(
+                    Years, Region, tech,
+                    "AGRWAT" + region_code,
+                    IARList, g=mode_str, v=irrig_str)
+
+                # ---------- OARs (modified for AGV) ----------
+
+                # Crop commodity (reduced by yield factor)
+                agv_yield = (conv_yield_raw
+                             * CropYieldFactors.get(crop, 1.0)
+                             * yf)
+                agv_yield_str = format(
+                    ctx.create_decimal(repr(agv_yield)), 'f')
+                AddActivityListItems(
+                    Years, Region, tech,
+                    "CRP" + crop,
+                    OARList, g=mode_str, v=agv_yield_str)
+
+                # Electricity co-product (the novel AGV output)
+                elec_str = format(
+                    ctx.create_decimal(repr(AGV_ELECTRICITY_OAR)), 'f')
+                AddActivityListItems(
+                    Years, Region, tech,
+                    AGV_ELECTRICITY_FUEL,
+                    OARList, g=mode_str, v=elec_str)
+
+                # Evapotranspiration
+                evt_header = (EvapotranspirationClusters[0]
+                              .strip().split(','))
+                evt_col = evt_header.index(combo_label)
+                evt_val = float(
+                    EvapotranspirationClusters[clustercount]
+                    .split(',')[evt_col])
+                evt_str = format(
+                    ctx.create_decimal(repr(evt_val)), 'f')
+                AddActivityListItems(
+                    Years, Region, tech,
+                    "WTREVT" + region_code,
+                    OARList, g=mode_str, v=evt_str)
+
+                # Groundwater
+                gw_val = ((precip_val + irrig_val - evt_val)
+                          * GroundwaterPercentofExcess)
+                gw_str = format(
+                    ctx.create_decimal(repr(gw_val)), 'f')
+                AddActivityListItems(
+                    Years, Region, tech,
+                    "WTRGRC" + region_code,
+                    OARList, g=mode_str, v=gw_str)
+
+                # Surface runoff
+                ro_val = ((precip_val + irrig_val - evt_val)
+                          * (1 - GroundwaterPercentofExcess))
+                ro_str = format(
+                    ctx.create_decimal(repr(ro_val)), 'f')
+                AddActivityListItems(
+                    Years, Region, tech,
+                    "WTRSUR" + region_code,
+                    OARList, g=mode_str, v=ro_str)
+
+                rows_written += 1
+
+    utils.print_update(level=PRINT_LEVEL,
+        message=f"Wrote IAR/OAR rows for {rows_written} "
+                f"AGV mode-cluster combinations")
+
+    # ------------------------------------------------------------------
+    # Step 3:  Register AGV mode numbers in MODE_OF_OPERATION set
+    # ------------------------------------------------------------------
+    # The MODE_OF_OPERATION set is created at the end of BuildCLEWsModel
+    # by iterating ModeList.  Since we appended to ModeList before that
+    # set is finalised (when called from the right point in the pipeline),
+    # the modes will be picked up automatically.
+    #
+    # If this module runs after UpdateSETS has already written MODE_OF_OPERATION,
+    # we need to add the entries here:
+    if "MODE_OF_OPERATION" in SetNames:
+        for info in agv_modes:
+            Fill_Set(NewSetItems, SetNames, "MODE_OF_OPERATION",
+                     str(info['agv_mode']), "#000000", info['label'])
+
+    return SetNames, NewSetItems, IARList, OARList, ModeList
 
 
-# ==========================================================================
-# 3.  Activity Ratios
-# ==========================================================================
+# ---------------------------------------------------------------------------
+# Convenience main() following the livestock.py calling convention
+# ---------------------------------------------------------------------------
 
-def update_IARlist(IARList_existing: list,
-                   OARList_existing: list,
-                   agv_sets: dict,
-                   ms: object = model_structure) -> tuple:
-    """Emit IAR/OAR rows for the new LNDAGV* technologies (single mode
-    of operation = 1). Land is drawn directly from the raw land fuel
-    L{land_region}, putting AGV in direct competition with the regular
-    cluster ag techs (LNDAGR{land_region}C{cid:02d})."""
+def main(SetNames: list,
+         NewSetItems: list,
+         IARList: list,
+         OARList: list,
+         ModeList: list,
+         csv_save_to: str | Path = None,
+) -> tuple:
+    """
+    Entry point matching the livestock.py pattern.
 
-    new_techs = set(agv_sets['TECHNOLOGY'].keys())
+    Parameters
+    ----------
+    SetNames, NewSetItems, IARList, OARList, ModeList
+        Base build outputs.
+    csv_save_to
+        If provided, writes updated SETs to this directory immediately.
+        If None, just returns the updated lists (caller writes later).
 
-    # Purge prior rows on the new tech names (idempotency for re-runs)
-    IARList_existing = [r for r in IARList_existing if r['c'][1] not in new_techs]
-    OARList_existing = [r for r in OARList_existing if r['c'][1] not in new_techs]
+    Returns
+    -------
+    tuple of (SetNames, NewSetItems, IARList, OARList, ModeList)
+    """
+    result = build_agrivoltaic_modes(
+        SetNames, NewSetItems, IARList, OARList, ModeList)
 
-    IARList_new, OARList_new = [], []
-    seen_iar, seen_oar = set(), set()
+    if csv_save_to is not None:
+        from bcnexus.clews.sets_n_ratios import UpdateSETS
+        UpdateSETS(result[0], result[1], result[2], result[3],
+                   Path(csv_save_to))
 
-    shade_factor  = ms.AgrivoltaicShadeFactor
-    gw_pct        = ms.GroundwaterPercentofExcess
-    yield_factors = ms.AgrivoltaicCropYieldFactor
-    solar_inputs  = ms.AgrivoltaicSolarInput
-    elec_yields   = ms.AgrivoltaicElectricityYield
-
-    for region in ms.Regions.keys():
-        for land_region in ms.LandRegions:
-            baselines = get_geoclews_baselines(land_region)
-            grid_letter = ms.LandToGridMap[land_region]
-            elec_fuel = f'ELC{grid_letter}01'
-
-            raw_land_fuel = f'L{land_region}'
-            prc_fuel = f'WTRPRC{land_region}'
-            irr_fuel = f'AGRWAT{land_region}'
-            evt_fuel = f'WTREVT{land_region}'
-            grc_fuel = f'WTRGRC{land_region}'
-            sur_fuel = f'WTRSUR{land_region}'
-
-            for year in range(ms.snapshot['start'], ms.snapshot['end'] + 1):
-                for pathway, attrs in ms.AgrivoltaicPathways.items():
-                    crop = attrs['crop']
-                    commodity_fuel = f'CRP{crop}'
-                    yld_factor = yield_factors[crop]
-                    solar_in   = solar_inputs[crop]
-                    elec_yld   = elec_yields[crop]
-
-                    suitable = baselines['suitable_clusters'].get(crop, [])
-                    if not suitable:
-                        continue
-
-                    for cid in suitable:
-                        tech = f'LNDAGV{pathway}{land_region}C{cid:02d}'
-
-                        prc_v  = baselines['cluster_precipitation'][cid]
-                        base_y = baselines['cluster_yield_per_crop'][crop][cid]
-                        base_e = baselines['cluster_evt_per_crop'][crop][cid]
-                        base_c = baselines['cluster_cwd_per_crop'][crop][cid]
-                        if base_y <= 0:
-                            continue
-
-                        crop_y = base_y * yld_factor
-                        evt_v  = base_e * shade_factor
-                        irr_v  = base_c * shade_factor
-                        excess = prc_v + irr_v - evt_v
-                        grc_v  = excess * gw_pct
-                        sur_v  = excess * (1 - gw_pct)
-
-                        # IAR
-                        _add(seen_iar, IARList_new, region, tech, raw_land_fuel, 1, year, 1)
-                        _add(seen_iar, IARList_new, region, tech, prc_fuel,      1, year, prc_v)
-                        _add(seen_iar, IARList_new, region, tech, irr_fuel,      1, year, irr_v)
-                        _add(seen_iar, IARList_new, region, tech, 'SOL',         1, year, solar_in)
-
-                        # OAR
-                        _add(seen_oar, OARList_new, region, tech, commodity_fuel, 1, year, crop_y)
-                        _add(seen_oar, OARList_new, region, tech, evt_fuel,       1, year, evt_v)
-                        _add(seen_oar, OARList_new, region, tech, grc_fuel,       1, year, grc_v)
-                        _add(seen_oar, OARList_new, region, tech, sur_fuel,       1, year, sur_v)
-                        _add(seen_oar, OARList_new, region, tech, elec_fuel,      1, year, elec_yld)
-
-    IARList_existing.extend(IARList_new)
-    OARList_existing.extend(OARList_new)
-
-    utils.print_update(
-        level=print_level_base,
-        message=f"Agrivoltaic Ratios updated: "
-                f"{len(IARList_new)} IAR rows, {len(OARList_new)} OAR rows."
-    )
-    return IARList_existing, OARList_existing
+    return result
 
 
-def _add(seen, lst, region, tech, fuel, mode, year, value):
-    key = (region, tech, fuel, mode, year)
-    if key not in seen:
-        lst.append({'c': list(key), 'v': value})
-        seen.add(key)
+# ---------------------------------------------------------------------------
+# Verification utility
+# ---------------------------------------------------------------------------
 
+def verify_agv_modes(iar_csv: str | Path, oar_csv: str | Path) -> None:
+    """
+    Read compiled IAR and OAR CSVs and print a summary of AGV mode
+    rows for manual verification.
 
-def _purge_beta1_residue(csv_save_to: Path,
-                        ms: object = model_structure) -> None:
-    cluster_tech_pat = r'^LNDAGR[A-Z0-9]+C\d{2}$'
+    Call after a full build to confirm that:
+    * Every eligible crop has AGV modes on every cluster where the
+      crop appears.
+    * Crop OAR = conventional OAR x yield factor.
+    * ELCB01 OAR = AGV_ELECTRICITY_OAR for every AGV mode-cluster pair.
+    """
+    import pandas as pd
 
-    for ratio_file in ('InputActivityRatio.csv', 'OutputActivityRatio.csv'):
-        path = csv_save_to / ratio_file
-        if not path.exists():
-            continue
-        df = pd.read_csv(path)
-        tech = df['TECHNOLOGY'].astype(str)
-        mode = df['MODE_OF_OPERATION'].astype(int)
+    iar = pd.read_csv(iar_csv)
+    oar = pd.read_csv(oar_csv)
 
-        live_modes = set(mode[~tech.str.match(cluster_tech_pat)].tolist())
-        cluster_mode_counts = (
-            mode[tech.str.match(cluster_tech_pat)]
-            .value_counts()
-        )
-        cluster_only_modes = set(cluster_mode_counts.index) - live_modes
-        if not cluster_only_modes:
-            continue
-
-        mop_path = csv_save_to / 'MODE_OF_OPERATION.csv'
-        if mop_path.exists():
-            current_modes = set(pd.read_csv(mop_path)['VALUE'].astype(int))
-            cluster_only_modes &= current_modes  # only purge ones that exist
-
-        before = len(df)
-        df = df[~((tech.str.match(cluster_tech_pat)) &
-                  (mode.isin(cluster_only_modes)))]
-        after = len(df)
-        if before != after:
-            df.to_csv(path, index=False)
-            utils.print_update(
-                level=print_level_base + 1,
-                message=f"Purged {before - after} β-1 residue rows "
-                        f"from {ratio_file} (modes {sorted(cluster_only_modes)})"
-            )
-
-
-# ==========================================================================
-# 5.  Dedup
-# ==========================================================================
-
-def _dedup(lst: list) -> list:
-    seen = set()
-    out  = []
-    for item in lst:
-        k = tuple(item['c'])
-        if k not in seen:
-            seen.add(k)
-            out.append(item)
-    return out
-
-
-# ==========================================================================
-# 6.  Save IAR/OAR rows and parameters to CSV
-# ==========================================================================
-
-def _append_agrivoltaic_to_csvs(IARList: list,
-                                OARList: list,
-                                csv_save_to: Path,
-                                agv_sets: dict) -> None:
-    csv_save_to = Path(csv_save_to)
-    new_techs = set(agv_sets['TECHNOLOGY'].keys())
-
-    # Update TECHNOLOGY.csv
-    tech_file = csv_save_to / 'TECHNOLOGY.csv'
-    if tech_file.exists():
-        df = pd.read_csv(tech_file)
-        existing = set(df['VALUE'].astype(str))
-        missing = sorted(new_techs - existing)
-        if missing:
-            df = pd.concat(
-                [df, pd.DataFrame({'VALUE': missing})], ignore_index=True
-            )
-            df.to_csv(tech_file, index=False)
-            utils.print_update(
-                level=print_level_base + 1,
-                message=f"Added {len(missing)} AGV techs to TECHNOLOGY.csv"
-            )
-
-    # Append IAR rows
-    iar_file = csv_save_to / 'InputActivityRatio.csv'
-    _append_ratio_rows(iar_file, IARList, new_techs, 'IAR')
-
-    # Append OAR rows
-    oar_file = csv_save_to / 'OutputActivityRatio.csv'
-    _append_ratio_rows(oar_file, OARList, new_techs, 'OAR')
-
-
-def _append_ratio_rows(path: Path, rows_list: list, new_techs: set, label: str) -> None:
-    df = pd.read_csv(path)
-    df = df[~df['TECHNOLOGY'].astype(str).isin(new_techs)]   # idempotent
-    new_rows = [
-        {'REGION': r['c'][0], 'TECHNOLOGY': r['c'][1], 'FUEL': r['c'][2],
-         'MODE_OF_OPERATION': r['c'][3], 'YEAR': r['c'][4], 'VALUE': r['v']}
-        for r in rows_list if r['c'][1] in new_techs
+    # AGV modes are identified by MODE_OF_OPERATION numbers that
+    # exceed the conventional + non-agricultural count.
+    # We detect them by checking ModeList labels, but here we look
+    # for ELCB01 OAR on LNDAGR technologies as the marker.
+    agv_elec = oar[
+        (oar['TECHNOLOGY'].str.startswith('LNDAGR')) &
+        (oar['FUEL'] == AGV_ELECTRICITY_FUEL)
     ]
-    if new_rows:
-        df = pd.concat([df, pd.DataFrame(new_rows)], ignore_index=True)
-        df = df.drop_duplicates(
-            subset=['REGION', 'TECHNOLOGY', 'FUEL', 'MODE_OF_OPERATION', 'YEAR'],
-            keep='last'
-        )
-        df.to_csv(path, index=False)
-        utils.print_update(
-            level=print_level_base + 1,
-            message=f"Appended {len(new_rows)} agrivoltaic {label} rows."
-        )
+
+    if agv_elec.empty:
+        utils.print_warning("No AGV electricity OAR rows found in "
+                            f"{oar_csv}.  AGV modes may not have been built.")
+        return
+
+    # Group by technology and mode
+    summary = (agv_elec
+               .groupby(['TECHNOLOGY', 'MODE_OF_OPERATION'])
+               .agg(elec_oar=('VALUE', 'first'),
+                    years=('YEAR', 'count'))
+               .reset_index())
+
+    utils.print_banner("AGV mode verification")
+    print(f"  AGV electricity rows found: {len(agv_elec)}")
+    print(f"  Unique tech-mode combos:    {len(summary)}")
+    print(f"  Technologies covered:       "
+          f"{summary['TECHNOLOGY'].nunique()}")
+    print(f"  Expected ELCB01 OAR:        {AGV_ELECTRICITY_OAR}")
+
+    mismatched = summary[
+        summary['elec_oar'].astype(float) != AGV_ELECTRICITY_OAR]
+    if not mismatched.empty:
+        utils.print_error("Mismatched electricity OAR values:")
+        print(mismatched.to_string(index=False))
+    else:
+        utils.print_update(level=PRINT_LEVEL,
+            message="All electricity OAR values match expected value.")
+
+    # Check crop OAR reduction
+    for crop, yf in AGV_ELIGIBLE_CROPS.items():
+        crop_fuel = "CRP" + crop
+        agv_crop = oar[
+            (oar['TECHNOLOGY'].str.startswith('LNDAGR')) &
+            (oar['FUEL'] == crop_fuel) &
+            (oar['MODE_OF_OPERATION'].isin(
+                summary['MODE_OF_OPERATION'].unique()))
+        ]
+        conv_crop = oar[
+            (oar['TECHNOLOGY'].str.startswith('LNDAGR')) &
+            (oar['FUEL'] == crop_fuel) &
+            (~oar['MODE_OF_OPERATION'].isin(
+                summary['MODE_OF_OPERATION'].unique()))
+        ]
+        if not agv_crop.empty and not conv_crop.empty:
+            print(f"\n  {crop} AGV yield check (sample, year "
+                  f"{agv_crop['YEAR'].iloc[0]}):")
+            print(f"    Conventional OAR range: "
+                  f"{conv_crop['VALUE'].min():.4f} to "
+                  f"{conv_crop['VALUE'].max():.4f}")
+            print(f"    AGV OAR range:          "
+                  f"{agv_crop['VALUE'].min():.4f} to "
+                  f"{agv_crop['VALUE'].max():.4f}")
+            print(f"    Expected ratio:         {yf}")
 
 
-def update_parameters_csv(csv_save_to: Path,
-                          agv_sets: dict,
-                          ms=model_structure) -> None:
-    """Write TotalAnnualMaxCapacity for AGV (cluster physical area).
-    OperationalLife, CapitalCost, ResidualCapacity, and
-    CapacityToActivityUnit are all managed by hand in csv_template/."""
-    region = list(ms.Regions.keys())[0]
-    years  = list(range(ms.snapshot['start'], ms.snapshot['end'] + 1))
+if __name__ == "__main__":
+    # Standalone test: build base model then apply AGV modes
+    from bcnexus.clews import sets_n_ratios as SnR
 
-    # TotalAnnualMaxCapacity = cluster physical area (1000 km^2)
-    rows = []
-    for land_region in ms.LandRegions:
-        baselines = get_geoclews_baselines(land_region)
-        for pathway, attrs in ms.AgrivoltaicPathways.items():
-            crop = attrs['crop']
-            for cid in baselines['suitable_clusters'].get(crop, []):
-                tech = f'LNDAGV{pathway}{land_region}C{cid:02d}'
-                area = baselines['cluster_areas'][cid]
-                rows.extend({'REGION': region, 'TECHNOLOGY': tech,
-                             'YEAR': y, 'VALUE': area} for y in years)
-    _append_param_rows(
-        csv_save_to / 'TotalAnnualMaxCapacity.csv',
-        cols=['REGION', 'TECHNOLOGY', 'YEAR', 'VALUE'],
-        rows=rows,
-        key_cols=['REGION', 'TECHNOLOGY', 'YEAR'],
-    )
+    SetNames, NewSetItems, IARList, OARList, ModeList = \
+        SnR.BuildCLEWsModel()
 
+    SetNames, NewSetItems, IARList, OARList, ModeList = \
+        build_agrivoltaic_modes(
+            SetNames, NewSetItems, IARList, OARList, ModeList)
 
-def _append_param_rows(path: Path, cols: list, rows: list, key_cols: list) -> None:
-    df = pd.read_csv(path) if path.exists() else pd.DataFrame(columns=cols)
-    new = pd.DataFrame(rows, columns=cols)
-    df = pd.concat([df, new], ignore_index=True)
-    df = df.drop_duplicates(subset=key_cols, keep='last')
-    df.to_csv(path, index=False)
-    utils.print_update(
-        level=print_level_base + 1,
-        message=f"Updated {path.name} with {len(new)} AGV rows."
-    )
+    save_dir = Path('data/clews_data/SETs')
+    SnR.UpdateSETS(SetNames, NewSetItems, IARList, OARList, save_dir)
 
-# ==========================================================================
-# 7.  Writing entry point
-# ==========================================================================
+    with open(save_dir / 'ModeList.txt', 'w') as f:
+        for idx, mode in enumerate(ModeList, 1):
+            f.write(f"{idx}: {mode}\n")
 
-def main(csv_save_to: str | Path = 'data/clews_data/SETs',
-         SetNames: list = None,
-         NewSetItems: list = None,
-         IARList: list = None,
-         OARList: list = None) -> None:
-    """Build agrivoltaics under Option α (standalone technology per
-    pathway × cluster, single mode of operation, OperationalLife and
-    CapitalCost managed manually in csv_template/)."""
-    csv_save_to = Path(csv_save_to)
-
-    if any(x is None for x in (SetNames, NewSetItems, IARList, OARList)):
-        SetNames, NewSetItems, IARList, OARList = SnR.build(csv_save_to)
-
-    agv_sets = get_Agrivoltaic_SETs()
-    NewSetItems = update_SetItems_with_Agrivoltaic(SetNames, NewSetItems, agv_sets)
-    IARList, OARList = update_IARlist(IARList, OARList, agv_sets)
-    IARList = _dedup(IARList)
-    OARList = _dedup(OARList)
-
-    _append_agrivoltaic_to_csvs(IARList, OARList, csv_save_to, agv_sets)
-    update_parameters_csv(csv_save_to, agv_sets)
-
-    utils.print_update(
-        level=print_level_base,
-        message="Agrivoltaic (Option α, standalone tech with manual "
-                "OperationalLife) build complete."
-    )
-
-
-if __name__ == '__main__':
-    main()
+    print(f"\nModeList ({len(ModeList)} modes):")
+    for idx, mode in enumerate(ModeList, 1):
+        print(f"  {idx:3d}: {mode}")

@@ -22,3 +22,19 @@ Set parameter WLSSecret
 Set parameter LicenseID to value 2575186
 Set parameter LogFile to value "gurobi.log"
 Using license file /home/yds3/gurobi.lic
+
+Gurobi 12.0.0 (linux64, gurobi_cl) logging started Sat Aug  8 12:30:57 2026
+
+Set parameter WLSAccessID
+Set parameter WLSSecret
+Set parameter LicenseID to value 2575186
+Set parameter LogFile to value "gurobi.log"
+Using license file /root/anaconda3/envs/bcnexus/lib/gurobi.lic
+Academic license 2575186 - for non-commercial use only - registered to yd___@sfu.ca
+
+Gurobi Optimizer version 12.0.0 build v12.0.0rc1 (linux64 - "Ubuntu 24.04.1 LTS")
+Copyright (c) 2024, Gurobi Optimization, LLC
+
+
+Error 10003: Unable to open file 'your_model_file.lp' for input
+

@@ -811,7 +811,8 @@ def build(save_to='SETs'):
     return (SetNames, 
             NewSetItems, 
             IARList, 
-            OARList)
+            OARList,
+            ModeList)
 
 def check_landcluster_data(landcluser_config:dict,
                            land_to_grid_map:dict):

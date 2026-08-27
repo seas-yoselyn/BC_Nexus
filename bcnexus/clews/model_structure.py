@@ -443,9 +443,9 @@ AgrivoltaicPathways = {
 #        Colauzzi et al. (2026) 4-year Italian trial -12% at ST1
 #   Cross-cutting: Laub et al. (2022) meta-analysis yield response
 AgrivoltaicCropYieldFactor = {
-    'MAI': 0.92,
-    'WHE': 0.95,
-    'PTW': 0.88,
+    'MAI': 1,
+    'WHE': 1,
+    'PTW': 1,
 }
 
 # Shade derate applied to BOTH irrigation demand and evapotranspiration.
