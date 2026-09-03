@@ -15,7 +15,7 @@ Regions= {'REGION1': ['BC','#000000']}
 # Add or reduce the model time horizon as needed.
 snapshot={ 
   'start': 2021,
-  'end':2026
+  'end':2050
   }
 
 HYDRO_GENERATION= {
@@ -334,10 +334,11 @@ units= {
 }
 
 plot_technologies = {
-    "capacity": ["PWRWND", "PWRNGS", "PWRBIO", "PWRHYD", "PWRSOL", "PWRGEO", "PWRURN", "CCS", "HDG", "IMPPWR"],
+    "capacity": ["PWRWND", "PWRNGS", "PWRBIO", "PWRHYD", "PWRSOL", "PWRGEO", "PWRURN", "CCS", "HDG", "IMPPWR","LNDAGRBC1C01", "LNDAGRBC1C02", "LNDAGRBC1C03", "LNDAGRBC1C04", "LNDAGRBC1C05", "LNDAGRBC1C06", "LNDAGRBC1C07"],
     "emission": ["DEMAGR", "DEMCOM", "DEMIND", "DEMRES", "DEMTRA", "CCS"],
-    "energy": ["PWRBIO", "PWRHYD", "PWRNGS", "PWRSOL", "PWRWND", "PWRGEO", "PWRURN", "CCS", "IMPPWR"],
-    "landuse": ["LNDAGRBC1C01", "LNDAGRBC1C02", "LNDAGRBC1C03", "LNDAGRBC1C04", "LNDAGRBC1C05", "LNDAGRBC1C06", "LNDAGRBC1C07"]
+    "energy": ["PWRBIO", "PWRHYD", "PWRNGS", "PWRSOL", "PWRWND", "PWRGEO", "PWRURN", "CCS", "IMPPWR", "LNDAGRBC1C01","LNDAGRBC1C02", "LNDAGRBC1C03", "LNDAGRBC1C04", "LNDAGRBC1C05", "LNDAGRBC1C06", "LNDAGRBC1C07"],
+    "landuse": ["LNDAGRBC1C01", "LNDAGRBC1C02", "LNDAGRBC1C03", "LNDAGRBC1C04", "LNDAGRBC1C05", "LNDAGRBC1C06", "LNDAGRBC1C07"],
+    "agv_landuse": ["LNDAGRBC1C01", "LNDAGRBC1C02", "LNDAGRBC1C03", "LNDAGRBC1C04", "LNDAGRBC1C05", "LNDAGRBC1C06", "LNDAGRBC1C07"]
 }
 
 # --------------------------------------------------------------------------
@@ -431,17 +432,7 @@ AgrivoltaicPathways = {
 }
 
 # Crop yield derate under moderate-shade agrivoltaic geometry.
-# Per-crop values from primary AGV field and simulation literature;
-# see thesis Section 3.X for full derivation.
-#
-# References:
-#   MAI: Ramos-Fuentes et al. (2023) 7.7% reduction at 20-25% shade;
-#        Amaducci et al. (2018) maize under Agrovoltaico simulation
-#   WHE: Weselek et al. (2021) Heggelbach pilot +2.7% in 2018;
-#        Dupraz et al. (2011) STICS modelling, LER 1.35-1.7
-#   PTW: Weselek et al. (2021) +11% potato in 2018;
-#        Colauzzi et al. (2026) 4-year Italian trial -12% at ST1
-#   Cross-cutting: Laub et al. (2022) meta-analysis yield response
+
 AgrivoltaicCropYieldFactor = {
     'MAI': 1,
     'WHE': 1,
@@ -477,9 +468,9 @@ AgrivoltaicSolarInput = {
 # Derivation: 4,007 GWh/yr on 1% of ~25,500 km^2 BC cropland
 # = 56 PJ per 1000 km^2 per year.
 AgrivoltaicElectricityYield = {
-    'MAI': 56.0,
-    'WHE': 56.0,
-    'PTW': 56.0,
+    'MAI': 56,
+    'WHE': 56,
+    'PTW': 56,
 }
 
 # EL_225115 added this to identify committed sites

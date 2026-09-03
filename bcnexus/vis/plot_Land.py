@@ -1,7 +1,18 @@
+"""Land use figures for the BC Nexus CLEWs model.
+
+Every figure is a single call from the notebook and returns a plotly figure,
+or None when the input frame holds no matching rows.
+"""
+
+import re
+from functools import lru_cache
+from pathlib import Path
+
 import pandas as pd
-from bcnexus import constants
-# import plotly.express as px
 import plotly.graph_objects as go
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+from bcnexus import constants
 from bcnexus.vis import palette
 
 
@@ -31,6 +42,27 @@ _MODE_TAIL = ["Barren and sparsely vegetated land", "Forest land",
               "Grassland & woodland", "Built-up land", "Water bodies",
               "Other agricultural land", "Storage Discharging Mode"]
 
+# ---------------------------------------------------------------- land tiers
+SETS_DIR = "data/clews_data/SETs"
+REGION_LAND = "BC1"
+LAND_POOL = f"L{REGION_LAND}"
+LAND_SUPPLY_TECH = f"MINLND{REGION_LAND}"
+ELEC_FUEL = "ELCB01"
+PWR_LAND_FUEL = "LND4PWR"
+
+# 1000 km2, Statistics Canada Table 17-10-0009-01
+BC_TOTAL_AREA = 925.186
+
+_AREA_UNIT = "Thousand Square Km"
+_TOL = 1e-6                       # barrier residue cut
+
+_PWR_LABELS = {
+    "PWRNGSB": "Natural gas", "PWRBIOB": "Biomass", "PWRHYDB": "Hydro",
+    "PWRWNDB": "Wind", "PWRSOLB": "Solar", "PWRGEOB": "Geothermal",
+    "PWRURNB": "Nuclear", "PWRBSWB": "Switchgrass", "PWRBCWB": "Clearwood",
+}
+
+
 def get_mode_names(readable: bool = True) -> dict:
     """{mode_int: name} for the model's MODE_OF_OPERATION ordering.
 
@@ -48,6 +80,7 @@ def get_mode_names(readable: bool = True) -> dict:
         i += 1
     return names
 
+
 def _label(key: str) -> str:
     return getattr(constants, "legend_labels", {}).get(key, key)
 
@@ -59,9 +92,23 @@ def _layout(fig, title, ytitle, legend_title=""):
     return fig
 
 
+def _stacked_area(pivot: pd.DataFrame, order=None):
+    """Stacked area over a YEAR-indexed pivot, colored from the palette."""
+    fig = go.Figure()
+    cols = order or pivot.sum().sort_values(ascending=False).index
+    for col in cols:
+        if col not in pivot.columns:
+            continue
+        fig.add_trace(go.Scatter(x=pivot.index, y=pivot[col], name=str(col),
+                                 stackgroup="one", mode="lines",
+                                 line=dict(color=palette.color(col)),
+                                 fillcolor=palette.color(col)))
+    return fig
+
+
 # ---------------------------------------------------------------- existing
-def plot_landuse_for_clusters(data:pd.DataFrame,
-                              scenario:str=None):
+def plot_landuse_for_clusters(data: pd.DataFrame,
+                              scenario: str = None):
 
     title_suffix = f" [{scenario}]" if scenario else ""
     data = data[(data['FUEL'] == "LND4PWR")]
@@ -105,12 +152,7 @@ def plot_land_area_by_crop(prod: pd.DataFrame, scenario: str = None):
     d["Crop"] = d.FUEL.str[1:4].map(_CROP_LABELS).fillna(d.FUEL.str[1:4])
     g = d.groupby(["YEAR", "Crop"], as_index=False).VALUE.sum()
     pivot = g.pivot(index="YEAR", columns="Crop", values="VALUE").fillna(0)
-    fig = go.Figure()
-    for crop in pivot.sum().sort_values(ascending=False).index:
-        fig.add_trace(go.Scatter(x=pivot.index, y=pivot[crop], name=crop,
-                                 stackgroup="one", mode="lines",
-                                 line=dict(color=palette.color(crop)),
-                                 fillcolor=palette.color(crop)))
+    fig = _stacked_area(pivot)
     return _layout(fig, f"Cropland area by crop{sfx}", "Thousand Square Km", "Crop")
 
 
@@ -318,3 +360,306 @@ def plot_forest_trajectory(cap: pd.DataFrame, scenario: str = None):
     fig.add_annotation(x=g.YEAR.iloc[-1], y=g.VALUE.iloc[-1],
                        text=f"net {net:+.2f} kkm²", showarrow=True, arrowhead=2)
     return _layout(fig, f"Forest land trajectory{sfx}", "Thousand Square Km")
+
+
+# ------------------------------------------------- land tiers from the SETs
+@lru_cache(maxsize=4)
+def _crop_oar_cached(sets_dir: str) -> pd.DataFrame:
+    oar = pd.read_csv(Path(sets_dir) / "OutputActivityRatio.csv")
+    oar = oar.loc[oar.FUEL.str.startswith("CRP")
+                  & oar.TECHNOLOGY.str.startswith("LNDAGR"),
+                  ["TECHNOLOGY", "FUEL", "MODE_OF_OPERATION", "YEAR", "VALUE"]]
+    oar["MODE_OF_OPERATION"] = oar.MODE_OF_OPERATION.astype(int)
+    return oar
+
+
+@lru_cache(maxsize=4)
+def _tiers_cached(sets_dir: str) -> dict:
+    """Land technology tier sets, read from the SETs IAR and OAR."""
+    iar = pd.read_csv(Path(sets_dir) / "InputActivityRatio.csv")
+    oar = pd.read_csv(Path(sets_dir) / "OutputActivityRatio.csv")
+
+    land_tier = set(iar.loc[iar.FUEL == LAND_POOL, "TECHNOLOGY"])
+
+    agv_modes = {int(m) for m in oar.loc[
+        oar.TECHNOLOGY.str.startswith("LNDAGR") & (oar.FUEL == "ELCB01"),
+        "MODE_OF_OPERATION"].unique()}
+
+    agv = {t for t in land_tier if t.startswith("LNDAGV")}
+    lvs = {t for t in land_tier if t.startswith("LNDLVS")}
+    crop = {t for t in land_tier
+            if t.startswith("LND")
+            and t not in agv | lvs
+            and len(t) == len("LND") + 5 + len(REGION_LAND)}
+    other = land_tier - agv - lvs - crop
+
+    lvs_prod = set(
+        oar.loc[oar.FUEL.str.match(r"^LVS(BEF|MIL|PIG|SHP)$"), "TECHNOLOGY"]
+    )
+
+    return {"land_tier": land_tier, "crop": crop, "agv": agv,
+            "livestock": lvs, "other": other,
+            "agv_modes": agv_modes, "lvs_prod": lvs_prod}
+
+
+def land_tiers(sets_dir=None) -> dict:
+    """Classify the land technologies from the SETs IAR and OAR.
+
+    Keys: 'land_tier', 'crop', 'agv', 'livestock', 'other', 'agv_modes',
+    'lvs_prod'. Read once per directory and cached; after a rebuild call
+    land_tiers.cache_clear().
+    """
+    return _tiers_cached(str(Path(sets_dir or SETS_DIR).resolve()))
+
+
+land_tiers.cache_clear = _tiers_cached.cache_clear
+
+
+def _category(tech: str, tiers: dict) -> str:
+    if tech in tiers["agv"]:
+        return "Agrivoltaic"
+    if tech in tiers["livestock"]:
+        return "Livestock"
+    if tech in tiers["crop"]:
+        return "Crops"
+    if tech.startswith("LNDAGR"):
+        return "Cropland (cluster tier)"
+    code = tech[len("LND"):len("LND") + 3]
+    return _LAND_CLASS_LABELS.get(code, _label(tech))
+
+
+def _crop_of(tech: str) -> str:
+    body = tech[len("LND"):-len(REGION_LAND)]
+    code = body[3:6] if body.startswith("AGV") else body[:3]
+    return _CROP_LABELS.get(code, code)
+
+
+def _pwr_label(tech: str) -> str:
+    stem = re.sub(r"\d+$", "", tech)
+    return _PWR_LABELS.get(stem, _label(stem))
+
+
+def _agricultural(act: pd.DataFrame, tiers: dict) -> pd.DataFrame:
+    agr = act[act.TECHNOLOGY.isin(tiers["crop"] | tiers["agv"])].copy()
+    if agr.empty:
+        return agr
+    agr["System"] = agr.TECHNOLOGY.map(
+        lambda t: "Agrivoltaic" if t in tiers["agv"] else "Conventional")
+    agr["Crop"] = agr.TECHNOLOGY.map(_crop_of)
+    return agr
+
+
+# ------------------------------------------------------- agrivoltaic figures
+def plot_land_by_category(act: pd.DataFrame, scenario: str = None,
+                          sets_dir=None, supply_line: bool = True):
+    """Provincial land by category: crops, agrivoltaic, livestock, cover.
+
+    Draws the BC total area reference and the MINLND supply trace.
+    Input: TotalTechnologyAnnualActivity.
+    """
+    sfx = f" [{scenario}]" if scenario else ""
+    tiers = land_tiers(sets_dir)
+    d = act[act.TECHNOLOGY.isin(tiers["land_tier"])].copy()
+    if d.empty:
+        return None
+    d["Category"] = d.TECHNOLOGY.map(lambda t: _category(t, tiers))
+    pivot = (d.groupby(["YEAR", "Category"]).VALUE.sum()
+             .unstack("Category").fillna(0))
+
+    fig = _stacked_area(pivot)
+    fig.add_hline(y=BC_TOTAL_AREA, line_dash="dash", line_color="black",
+                  line_width=1,
+                  annotation_text=f"BC total area {BC_TOTAL_AREA:,.1f}",
+                  annotation_position="top left")
+
+    supply = act[act.TECHNOLOGY == LAND_SUPPLY_TECH].set_index("YEAR").VALUE
+    if supply_line and not supply.empty:
+        fig.add_trace(go.Scatter(x=supply.index, y=supply.values, mode="lines",
+                                 name=f"Land supply ({LAND_SUPPLY_TECH})",
+                                 line=dict(color="black", width=1)))
+    return _layout(fig, f"Total land in BC by category{sfx}",
+                   _AREA_UNIT, "Category")
+
+
+def land_balance(act: pd.DataFrame, sets_dir=None) -> pd.DataFrame:
+    """Allocated versus supplied land per year, with the residual gap."""
+    tiers = land_tiers(sets_dir)
+    allocated = (act[act.TECHNOLOGY.isin(tiers["land_tier"])]
+                 .groupby("YEAR").VALUE.sum())
+    supplied = act[act.TECHNOLOGY == LAND_SUPPLY_TECH].set_index("YEAR").VALUE
+    return pd.DataFrame({"allocated": allocated, "supplied": supplied,
+                         "gap": supplied - allocated})
+
+
+def plot_agricultural_land(act: pd.DataFrame, scenario: str = None,
+                           by: str = "system", sets_dir=None):
+    """Agricultural land, conventional and agrivoltaic.
+
+    by='system' stacks the two systems; by='crop' splits each system by crop.
+    Input: TotalTechnologyAnnualActivity.
+    """
+    sfx = f" [{scenario}]" if scenario else ""
+    agr = _agricultural(act, land_tiers(sets_dir))
+    if agr.empty:
+        return None
+
+    if by == "crop":
+        agr["Label"] = agr.Crop + " (" + agr.System + ")"
+        pivot = (agr.groupby(["YEAR", "Label"]).VALUE.sum()
+                 .unstack("Label").fillna(0))
+        fig = _stacked_area(pivot)
+        return _layout(fig, f"Agricultural land by crop and system{sfx}",
+                       _AREA_UNIT, "Crop and system")
+
+    pivot = (agr.groupby(["YEAR", "System"]).VALUE.sum()
+             .unstack("System").fillna(0))
+    fig = _stacked_area(pivot, order=["Conventional", "Agrivoltaic"])
+    return _layout(fig, f"Agricultural land, conventional and agrivoltaic{sfx}",
+                   _AREA_UNIT, "System")
+
+
+def plot_agv_eligible_crops(act: pd.DataFrame, scenario: str = None,
+                            sets_dir=None, shared_y: bool = False):
+    """Conventional and agrivoltaic land, one panel per AGV eligible crop.
+
+    Panels carry independent y-axes by default, since the agrivoltaic area
+    is orders of magnitude below the conventional area in most scenarios.
+    Input: TotalTechnologyAnnualActivity.
+    """
+    sfx = f" [{scenario}]" if scenario else ""
+    agr = _agricultural(act, land_tiers(sets_dir))
+    if agr.empty:
+        return None
+    eligible = sorted(agr.loc[agr.System == "Agrivoltaic", "Crop"].unique())
+    if not eligible:
+        return None
+
+    g = (agr[agr.Crop.isin(eligible)]
+         .groupby(["YEAR", "Crop", "System"]).VALUE.sum().reset_index())
+
+    fig = make_subplots(rows=1, cols=len(eligible),
+                        shared_yaxes=shared_y,
+                        subplot_titles=eligible,
+                        horizontal_spacing=0.06)
+
+    for col, crop in enumerate(eligible, start=1):
+        for system in ("Conventional", "Agrivoltaic"):
+            dd = g[(g.Crop == crop) & (g.System == system)]
+            if dd.empty:
+                continue
+            fig.add_trace(go.Scatter(x=dd.YEAR, y=dd.VALUE, name=system,
+                                     stackgroup=f"s{col}", mode="lines",
+                                     legendgroup=system,
+                                     showlegend=(col == 1),
+                                     line=dict(color=palette.color(system)),
+                                     fillcolor=palette.color(system)),
+                          row=1, col=col)
+        fig.update_xaxes(title_text="Year", row=1, col=col)
+
+    fig.update_yaxes(title_text=_AREA_UNIT, row=1, col=1)
+    fig.update_layout(title=f"Conventional and agrivoltaic land, eligible crops{sfx}",
+                      template="plotly_white", hovermode="x unified",
+                      legend_title="System")
+    return fig
+
+
+def agv_share(act: pd.DataFrame, years=None, sets_dir=None) -> pd.DataFrame:
+    """Agrivoltaic share of agricultural land, provincial total."""
+    agr = _agricultural(act, land_tiers(sets_dir))
+    if agr.empty:
+        return pd.DataFrame()
+    pivot = (agr.groupby(["YEAR", "System"]).VALUE.sum()
+             .unstack("System").fillna(0.0))
+    pivot["Total"] = pivot.sum(axis=1)
+    pivot["AGV share %"] = 100 * pivot.get("Agrivoltaic", 0) / pivot["Total"]
+    return pivot.reindex(years) if years else pivot
+
+
+def plot_land_for_power(df: pd.DataFrame, scenario: str = None):
+    """Land occupied by electricity generation, split by generation source.
+
+    Complements plot_energy_land_footprint, which reports only the total.
+    Input: UseByTechnology, or ProductionByTechnology.
+    """
+    sfx = f" [{scenario}]" if scenario else ""
+    d = df[df.FUEL == PWR_LAND_FUEL].copy()
+    if d.empty:
+        return None
+    if "TIMESLICE" in d.columns:            # UseByTechnology, timeslice level
+        d = d.groupby(["TECHNOLOGY", "YEAR"], as_index=False).VALUE.sum()
+    d["Source"] = d.TECHNOLOGY.map(_pwr_label)
+
+    g = d.groupby(["YEAR", "Source"]).VALUE.sum().unstack("Source").fillna(0)
+    g = g.loc[:, g.sum() > _TOL]          # drop barrier residue
+    if g.empty:
+        return None
+    fig = _stacked_area(g)
+    return _layout(fig, f"Land occupied by electricity generation{sfx}",
+                   _AREA_UNIT, "Source")
+
+def plot_crop_production(prod: pd.DataFrame, scenario: str = None):
+    """Annual production of every agricultural commodity (CRP fuels).
+
+    Input: ProductionByTechnologyAnnual.
+    """
+    sfx = f" [{scenario}]" if scenario else ""
+    d = prod[prod.FUEL.str.startswith("CRP")].copy()
+    if d.empty:
+        return None
+    d["Crop"] = d.FUEL.str[3:6].map(_CROP_LABELS).fillna(d.FUEL.str[3:6])
+    pivot = d.groupby(["YEAR", "Crop"]).VALUE.sum().unstack("Crop").fillna(0)
+    fig = _stacked_area(pivot)
+    return _layout(fig, f"Crop production{sfx}", "Million tonnes", "Crop")
+
+
+def plot_crop_production_by_system(bymode: pd.DataFrame, scenario: str = None,
+                                   sets_dir=None, shared_y: bool = False):
+    """Production of the AGV eligible crops, conventional versus agrivoltaic.
+
+    Reconstructed as activity by mode times the output activity ratio, since
+    both systems share the LNDAGR cluster technologies and differ only by
+    mode. Input: TotalAnnualTechnologyActivityByMode.
+    """
+    sfx = f" [{scenario}]" if scenario else ""
+    tiers = land_tiers(sets_dir)
+    oar = _crop_oar_cached(str(Path(sets_dir or SETS_DIR).resolve()))
+
+    d = bymode[bymode.TECHNOLOGY.str.startswith("LNDAGR")].copy()
+    if d.empty or oar.empty:
+        return None
+    d["MODE_OF_OPERATION"] = d.MODE_OF_OPERATION.astype(int)
+    d = d.merge(oar, on=["TECHNOLOGY", "MODE_OF_OPERATION", "YEAR"],
+                suffixes=("_act", "_oar"))
+    if d.empty:
+        return None
+    d["VALUE"] = d.VALUE_act * d.VALUE_oar
+    d["System"] = d.MODE_OF_OPERATION.map(
+        lambda m: "Agrivoltaic" if m in tiers["agv_modes"] else "Conventional")
+    d["Crop"] = d.FUEL.str[3:6].map(_CROP_LABELS).fillna(d.FUEL.str[3:6])
+
+    eligible = sorted(d.loc[d.System == "Agrivoltaic", "Crop"].unique())
+    if not eligible:
+        return None
+    g = (d[d.Crop.isin(eligible)]
+         .groupby(["YEAR", "Crop", "System"]).VALUE.sum().reset_index())
+
+    fig = make_subplots(rows=1, cols=len(eligible), shared_yaxes=shared_y,
+                        subplot_titles=eligible, horizontal_spacing=0.06)
+    for col, crop in enumerate(eligible, start=1):
+        for system in ("Conventional", "Agrivoltaic"):
+            dd = g[(g.Crop == crop) & (g.System == system)]
+            if dd.empty:
+                continue
+            fig.add_trace(go.Scatter(x=dd.YEAR, y=dd.VALUE, name=system,
+                                     stackgroup=f"p{col}", mode="lines",
+                                     legendgroup=system,
+                                     showlegend=(col == 1),
+                                     line=dict(color=palette.color(system)),
+                                     fillcolor=palette.color(system)),
+                          row=1, col=col)
+        fig.update_xaxes(title_text="Year", row=1, col=col)
+    fig.update_yaxes(title_text="Million tonnes", row=1, col=1)
+    fig.update_layout(title=f"Crop production by system{sfx}",
+                      template="plotly_white", hovermode="x unified",
+                      legend_title="System")
+    return fig

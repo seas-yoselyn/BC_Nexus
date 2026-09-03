@@ -33,7 +33,7 @@ AGV_ELIGIBLE_CROPS: dict = {
 
 # Electricity co-product output [PJ / (1000 km^2 / yr)].
 # Derived as: solar_input (4470) * panel_efficiency (0.018) * shade_factor (0.70)
-AGV_ELECTRICITY_OAR: float = 1
+AGV_ELECTRICITY_OAR: float = 56
 
 # Fuel code for the electricity output.  Must already exist in the FUEL set.
 # Uses ELCB01 (electricity from power plants) so that AGV output enters the
@@ -218,6 +218,30 @@ def build_agrivoltaic_modes(
         message=f"Created {len(agv_modes)} AGV mode labels "
                 f"(crops: {list(AGV_ELIGIBLE_CROPS.keys())})")
 
+
+    for region_code in LandRegions:
+        for info in agv_modes:
+            parent_combo  = info['parent_label']
+            agv_land_fuel = "LAGV"   + parent_combo + region_code
+            agv_land_tech = "LNDAGV" + parent_combo + region_code
+
+            Fill_Set(NewSetItems, SetNames, "TECHNOLOGY", agv_land_tech,
+                     "#000000",
+                     "Agrivoltaic land allocation for " + parent_combo
+                     + " in " + region_code + ".")
+            Fill_Set(NewSetItems, SetNames, "FUEL", agv_land_fuel,
+                     "#000000",
+                     "Agrivoltaic land commodity for " + parent_combo
+                     + " in " + region_code + ".")
+
+            AddActivityListItems(Years, Region, agv_land_tech,
+                                 "L" + region_code, IARList, value="1")
+            AddActivityListItems(Years, Region, agv_land_tech,
+                                 agv_land_fuel, OARList, value="1")
+
+    utils.print_update(level=PRINT_LEVEL,
+        message=f"Created {len(agv_modes) * len(LandRegions)} "
+                f"AGV land allocation technologies")
     # ------------------------------------------------------------------
     # Step 2:  Write IAR / OAR rows for every AGV mode on every cluster
     # ------------------------------------------------------------------
@@ -267,7 +291,7 @@ def build_agrivoltaic_modes(
                 # Land commodity
                 AddActivityListItems(
                     Years, Region, tech,
-                    "L" + parent_combo + region_code,
+                    "LAGV" + parent_combo + region_code,
                     IARList, value="1", g=mode_str)
 
                 # Precipitation
@@ -500,7 +524,7 @@ if __name__ == "__main__":
     # Standalone test: build base model then apply AGV modes
     from bcnexus.clews import sets_n_ratios as SnR
 
-    SetNames, NewSetItems, IARList, OARList, ModeList = \
+    SetNames, NewSetItems, IARList, OARList, EARList, ModeList = \
         SnR.BuildCLEWsModel()
 
     SetNames, NewSetItems, IARList, OARList, ModeList = \

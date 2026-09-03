@@ -21,22 +21,24 @@ def sol_gurobi(lp_path: str,
     threads=int(threads)
     
     try:
-        utils.print_update(level=3,message="Gurobi update : \n")
-        utils.print_update(level=3,message=f"{50*'-'}")
+        utils.print_update(level=3, message="Gurobi update : \n")
+        utils.print_update(level=3, message=f"{50*'-'}")
         m = gp.read(lp_path)
-        m.Params.LogToConsole = 0  # don't send log to console
-        m.Params.Method = 2  # 2 = barrier
-        m.Params.Threads = threads  # limit solve to use max {threads}
+        m.Params.LogToConsole = 0        # console quiet; log goes to LogFile below
+        m.Params.LogFile = log_path
+        m.Params.Threads = threads
+
+        m.Params.Method = 2              # barrier
+        m.Params.Crossover = 0          # automatic: run crossover, let Gurobi pick strategy
+        m.Params.BarConvTol = 1e-03
+        m.Params.BarHomogeneous = 1      # robust barrier for ill conditioned LPs
         m.Params.NumericFocus = 2
-        m.Params.ScaleFlag = 2 
-        m.Params.BarConvTol = 1e-04 
-        m.Params.BarHomogeneous = 1   # more robust barrier for numerically hard LPs
-        m.Params.Crossover = 0  # skip crossover; accept barrier interior-point solution
-        m.Params.LogFile = log_path  # don't write log to file
+        m.Params.ScaleFlag = 2
         m.optimize()
         utils.print_update(level=3,message=f"{50*'-'}")
         utils.print_update(level=4,message="Model run completed. Please check the log for detailed report.")
         return m
+
     except gp.GurobiError as e:
         utils.print_update(level=4,message='Error code ' + str(e.errno) + ': ' + str(e))
     except AttributeError:

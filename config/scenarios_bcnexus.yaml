@@ -7,18 +7,21 @@
 # ------------------
 info_SCENARIOS:
   # aligned with folder name
-  Model_Kotzur_Base_CNZ: "Baseline scenario with Canada Energy Futures 2023 report's Canada Net Zero Demand. Call for Power 2024 sites fitted as committed plants. Potential resource options for Solar (5GW) and Wind (10GW) modeled. Hourly profiles absorbed from 2021 historical data. Allowed CCS ( <= 0.2 GW) and HDG (<=0.2 GW) from 2026"
-  Model_Kotzur_CNZ_LIMITED_CO2: "Baseline scenario with CO2 annual limit up to 50 MTeCO2."
-  Model_Kotzur_CNZ_LIMITED_CO2_PLTY: "Baseline scenario with emission penalty up to $170/MTeCo2. "
-  Model_Kotzur_HYDROGEN: "Hydrogen intense scenario with sectoral hydrogen demand assumptions and no emission limit, no limit on CCS, HDG techs."
-  Model_Kotzur_NUC_standard_2028: "Standard Nuclear scenario with Investment allowed from Y2028. All other assumptions are same as Base_CNZ scenario."
-  Model_Kotzur_NUC_standard_2028_2xCost: "Expensive Nuclear scenario with Investment allowed from Y2028. All other assumptions are same as Base_CNZ scenario. Cost of Nuclear is 2x the standard cost."
-  Model_Kotzur_NUC_standard_2030: "Standard Nuclear scenario with Investment allowed from Y2030. All other assumptions are same as Base_CNZ scenario."
-  Model_Kotzur_NUC_standard_2030_2xCost: "Expensive Nuclear scenario with Investment allowed from Y2030. All other assumptions are same as Base_CNZ scenario. Cost of Nuclear is 2x the standard cost."
-  Model_Kotzur_NUC_standard_2035: "Standard Nuclear scenario with Investment allowed from Y2035. All other assumptions are same as Base_CNZ scenario."
-  Model_Kotzur_NUC_standard_2035_2xCost: "Expensive Nuclear scenario with Investment allowed from Y2035. All other assumptions are same as Base_CNZ scenario. Cost of Nuclear is 2x the standard cost."
-  Model_Kotzur_NUC_standard_2035_4xCost: "Expensive Nuclear scenario with Investment allowed from Y2035. All other assumptions are same as Base_CNZ scenario. Cost of Nuclear is 4x the standard cost."
-  Model_Kotzur_Base_CNZ_2: Description
+  #Model_Kotzur_Base_CNZ: "Baseline scenario with Canada Energy Futures 2023 report's Canada Net Zero Demand. Call for Power 2024 sites fitted as committed plants. Potential resource options for Solar (5GW) and Wind (10GW) modeled. Hourly profiles absorbed from 2021 historical data. Allowed CCS ( <= 0.2 GW) and HDG (<=0.2 GW) from 2026"
+  #Model_Kotzur_CNZ_LIMITED_CO2: "Baseline scenario with CO2 annual limit up to 50 MTeCO2."
+  #Model_Kotzur_CNZ_LIMITED_CO2_PLTY: "Baseline scenario with emission penalty up to $170/MTeCo2. "
+  #Model_Kotzur_HYDROGEN: "Hydrogen intense scenario with sectoral hydrogen demand assumptions and no emission limit, no limit on CCS, HDG techs."
+  #Model_Kotzur_NUC_standard_2028: "Standard Nuclear scenario with Investment allowed from Y2028. All other assumptions are same as Base_CNZ scenario."
+  #Model_Kotzur_NUC_standard_2028_2xCost: "Expensive Nuclear scenario with Investment allowed from Y2028. All other assumptions are same as Base_CNZ scenario. Cost of Nuclear is 2x the standard cost."
+  #Model_Kotzur_NUC_standard_2030: "Standard Nuclear scenario with Investment allowed from Y2030. All other assumptions are same as Base_CNZ scenario."
+  #Model_Kotzur_NUC_standard_2030_2xCost: "Expensive Nuclear scenario with Investment allowed from Y2030. All other assumptions are same as Base_CNZ scenario. Cost of Nuclear is 2x the standard cost."
+  #Model_Kotzur_NUC_standard_2035: "Standard Nuclear scenario with Investment allowed from Y2035. All other assumptions are same as Base_CNZ scenario."
+  #Model_Kotzur_NUC_standard_2035_2xCost: "Expensive Nuclear scenario with Investment allowed from Y2035. All other assumptions are same as Base_CNZ scenario. Cost of Nuclear is 2x the standard cost."
+  #Model_Kotzur_NUC_standard_2035_4xCost: "Expensive Nuclear scenario with Investment allowed from Y2035. All other assumptions are same as Base_CNZ scenario. Cost of Nuclear is 4x the standard cost."
+  #Model_Kotzur_Base_CNZ_2: Description
+  Model_Kotzur_Base_Current_Measure: "Base case with CEF 2026 Current Measures Energy Demand"
+  Model_Kotzur_Base_Higher: "Base case with CEF 2026 Higher Energy Demand"
+  Model_Kotzur_Subsidy: "Government assumes costs of pv and farmers only of agricultural production"
 
 SCENARIOS:
   # scneario_name: ####### CAN'T DELETE, CAN BE EMPTY
@@ -44,48 +47,153 @@ SCENARIOS:
   #         total_annual_max_capacity: 0.2 #GW
   #         total_annual_max_capacity_investment: '[0,0,0,0,0,1]'
 
-  #scenario
-  Base_CNZ:
-    Demand: {}
-    EMISSION: {}
-    TECHS:
-      CCS01:
-        capital_cost: 9999 # we can also prove a vector e.g. [xxx xxx ]
-        total_annual_max_capacity: 0.2 #GW
-        operational_life: 25
-        total_annual_max_capacity_investment: [ 0, 0, 0, 0, 0, 1 ]
-      HDG01:
-        operational_life: 25
-        total_annual_max_capacity: 0.2 #GW
-        total_annual_max_capacity_investment: [ 0, 0, 0, 0, 0, 1 ]
+  # #scenario
+  # Base_CNZ:
+  #   Demand: {}
+  #   EMISSION: {}
+  #   TECHS:
+  #     CCS01:
+  #       capital_cost: 9999 # we can also prove a vector e.g. [xxx xxx ]
+  #       total_annual_max_capacity: 0.2 #GW
+  #       operational_life: 25
+  #       total_annual_max_capacity_investment: [ 0, 0, 0, 0, 0, 1 ]
+  #     HDG01:
+  #       operational_life: 25
+  #       total_annual_max_capacity: 0.2 #GW
+  #       total_annual_max_capacity_investment: [ 0, 0, 0, 0, 0, 1 ]
   
-  #scenario      
-  Base_CNZ_noCCS:
-    Demand: {}
-    EMISSION: {}
-    TECHS:
-      CCS01:
-        capital_cost: 9999 # we can also prove a vector e.g. [xxx xxx ]
-        total_annual_max_capacity: 0 #GW
-        operational_life: 25
-        total_annual_max_capacity_investment: [ 0 ]
-      HDG01:
-        total_annual_max_capacity: 0.2 #GW
-        total_annual_max_capacity_investment: [ 0, 0, 0, 0, 0, 1 ]
+  # #scenario      
+  # Base_CNZ_noCCS:
+  #   Demand: {}
+  #   EMISSION: {}
+  #   TECHS:
+  #     CCS01:
+  #       capital_cost: 9999 # we can also prove a vector e.g. [xxx xxx ]
+  #       total_annual_max_capacity: 0 #GW
+  #       operational_life: 25
+  #       total_annual_max_capacity_investment: [ 0 ]
+  #     HDG01:
+  #       total_annual_max_capacity: 0.2 #GW
+  #       total_annual_max_capacity_investment: [ 0, 0, 0, 0, 0, 1 ]
     # remarks:
     #   "Baseline"
 
   #scenario
-  EF2026_Higher:
-    Demand:
+#scenario
+  Base_Current_Measure:
+    Demand: &demand_CM
       COMELCB02:
-        specified_annual_demand: [60.824, 60.249, 59.654, 61.7685, 63.2562, 64.2888, 65.1745, 65.5388, 67.6936, 83.8452, 85.0166, 86.3723, 87.5373, 88.7959, 90.3501, 92.1253, 93.9155, 95.7072, 97.414, 99.1789, 101.6212, 104.2612, 106.9617, 109.6329, 112.3596, 115.4875, 118.9077, 122.4707, 126.0566, 129.9008]
+        specified_annual_demand: [60.82, 60.25, 59.65, 61.77, 63.22, 64.24, 65.07, 65.19, 65.22, 66.11, 66.39, 66.77, 67.11, 67.52, 68.17, 68.95, 69.76, 70.48, 71.13, 71.77, 72.44, 73.12, 73.72, 74.3, 74.81, 75.4, 76.06, 76.83, 77.64, 78.49]
       INDELCB02:
-        specified_annual_demand: [88.0486, 86.9117, 85.3515, 84.776, 88.504, 93.8038, 97.1905, 101.5138, 109.5277, 115.0365, 117.2175, 119.5607, 128.69, 145.0132, 154.5665, 157.1436, 159.3233, 168.2277, 184.2443, 193.2781, 194.8989, 196.4145, 204.9358, 220.6916, 229.3065, 230.9662, 232.5866, 234.1513, 235.4618, 237.0623]
+        specified_annual_demand: [88.05, 86.91, 85.35, 84.78, 88.2, 93.24, 96.32, 100.05, 107.24, 111.87, 113.19, 114.74, 123.3, 139.1, 148.2, 150.17, 152.04, 160.36, 175.6, 183.95, 185.09, 185.94, 186.62, 187.29, 187.91, 188.69, 189.61, 190.63, 191.53, 192.45]
       RESELCB02:
-        specified_annual_demand: [74.8686, 77.2359, 73.8251, 74.8291, 74.4647, 74.078, 73.8107, 73.905, 74.1426, 74.4617, 74.9444, 75.5257, 76.1331, 76.72, 77.5095, 78.4456, 79.3542, 80.2233, 81.1197, 82.0099, 82.902, 83.8136, 84.7489, 85.6465, 86.5279, 87.5023, 88.4651, 89.402, 90.2599, 91.1728]
+        specified_annual_demand: [74.87, 77.24, 73.83, 74.83, 74.46, 74.06, 73.69, 73.55, 73.54, 73.59, 73.84, 74.18, 74.62, 75.11, 75.83, 76.65, 77.47, 78.23, 79.0, 79.77, 80.59, 81.4, 82.23, 83.02, 83.79, 84.6, 85.44, 86.3, 87.14, 87.95]
       TRAELCB02:
-        specified_annual_demand: [1.4089, 1.6937, 2.1583, 3.5263, 4.036, 4.5757, 5.359, 6.4214, 7.7409, 9.3386, 10.8776, 12.3358, 13.6722, 14.9275, 16.2218, 17.5403, 18.7867, 19.9621, 21.1116, 22.1962, 23.1986, 24.147, 25.041, 25.8998, 26.6823, 27.4748, 28.2149, 28.9024, 29.4796, 30.0479]
+        specified_annual_demand: [1.41, 1.69, 2.16, 3.53, 4.04, 4.57, 5.33, 6.31, 7.54, 9.05, 10.51, 11.88, 13.17, 14.42, 15.72, 17.01, 18.24, 19.39, 20.49, 21.53, 22.52, 23.45, 24.32, 25.13, 25.87, 26.6, 27.3, 27.98, 28.58, 29.12]
+      COMBIO:
+        accumulated_annual_demand: [0.0, 0.0, 0.0, 2.32, 3.0, 4.3, 5.63, 6.94, 8.26, 9.61, 9.7, 9.79, 9.87, 9.96, 10.03, 10.1, 10.18, 10.26, 10.33, 10.41, 10.48, 10.56, 10.64, 10.71, 10.78, 10.86, 10.95, 11.05, 11.17, 11.3]
+      COMHDG:
+        accumulated_annual_demand: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+      COMNGS:
+        accumulated_annual_demand: [82.19, 88.35, 85.96, 85.35, 86.76, 87.41, 87.73, 87.25, 86.59, 85.84, 86.35, 86.94, 87.77, 88.88, 89.74, 90.24, 91.07, 92.12, 92.99, 93.82, 94.47, 94.98, 95.39, 95.72, 96.02, 96.34, 96.74, 97.22, 97.85, 98.52]
+      COMRPP:
+        accumulated_annual_demand: [5.66, 6.54, 6.39, 6.65, 7.19, 7.81, 8.32, 8.68, 8.91, 9.1, 9.34, 9.59, 9.81, 10.04, 10.22, 10.4, 10.59, 10.79, 10.99, 11.18, 11.38, 11.59, 11.79, 11.98, 12.19, 12.39, 12.6, 12.83, 13.1, 13.37]
+      INDBIO:
+        accumulated_annual_demand: [142.75, 137.93, 135.61, 149.4, 152.92, 164.07, 177.69, 188.79, 198.71, 208.47, 210.55, 212.95, 215.68, 219.22, 221.88, 223.34, 225.04, 227.17, 229.26, 231.34, 232.67, 233.18, 233.34, 233.46, 233.85, 234.28, 235.04, 236.0, 236.77, 237.5]
+      INDDSL:
+        accumulated_annual_demand: [95.67, 94.09, 91.11, 89.96, 88.19, 86.78, 85.7, 83.17, 81.26, 79.68, 80.24, 81.06, 81.8, 83.6, 85.1, 86.02, 86.48, 87.12, 88.24, 89.71, 90.82, 91.43, 91.78, 92.2, 92.82, 93.34, 94.18, 95.13, 96.03, 96.86]
+      INDHDG:
+        accumulated_annual_demand: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+      INDNGS:
+        accumulated_annual_demand: [271.5, 276.09, 287.66, 284.75, 302.17, 337.31, 355.82, 354.13, 351.61, 347.78, 349.7, 352.67, 359.99, 370.46, 375.41, 375.42, 380.37, 390.27, 398.32, 404.61, 408.33, 410.21, 411.16, 411.38, 412.37, 413.32, 414.74, 416.48, 418.26, 420.04]
+      RESBIO:
+        accumulated_annual_demand: [6.0, 5.95, 5.41, 8.1, 8.46, 9.54, 10.59, 11.68, 12.77, 13.84, 13.6, 13.41, 13.23, 13.08, 12.9, 12.72, 12.56, 12.42, 12.3, 12.2, 12.11, 12.03, 11.97, 11.92, 11.89, 11.85, 11.82, 11.8, 11.8, 11.78]
+      RESHDG:
+        accumulated_annual_demand: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+      RESNGS:
+        accumulated_annual_demand: [83.46, 86.54, 76.38, 72.34, 70.13, 67.13, 64.33, 61.99, 59.83, 57.68, 57.11, 56.68, 56.31, 55.97, 55.48, 54.97, 54.53, 54.13, 53.8, 53.49, 53.26, 53.06, 52.91, 52.77, 52.72, 52.64, 52.6, 52.57, 52.59, 52.59]
+      RESRPP:
+        accumulated_annual_demand: [1.13, 1.09, 1.1, 1.05, 1.06, 1.09, 1.13, 1.16, 1.18, 1.18, 1.18, 1.18, 1.18, 1.18, 1.17, 1.15, 1.14, 1.12, 1.1, 1.08, 1.06, 1.04, 1.02, 0.99, 0.97, 0.94, 0.92, 0.89, 0.86, 0.84]
+      TRABIO:
+        accumulated_annual_demand: [19.67, 23.07, 32.11, 35.1, 46.47, 47.51, 48.74, 49.54, 51.63, 56.45, 56.07, 55.79, 55.49, 55.74, 55.96, 55.97, 55.78, 55.61, 55.81, 56.11, 56.22, 56.14, 56.02, 55.98, 56.06, 56.15, 56.45, 56.83, 57.18, 57.53]
+      TRADSL:
+        accumulated_annual_demand: [127.42, 136.69, 127.13, 124.17, 115.8, 115.35, 115.54, 115.18, 113.48, 109.44, 109.15, 109.05, 108.85, 109.79, 110.64, 111.07, 111.05, 111.1, 111.93, 112.94, 113.58, 113.81, 113.94, 114.24, 114.79, 115.35, 116.32, 117.46, 118.53, 119.57]
+      TRAGSL:
+        accumulated_annual_demand: [160.55, 158.58, 155.48, 151.27, 144.59, 141.4, 137.83, 133.59, 129.01, 123.44, 119.9, 116.68, 113.59, 111.42, 109.34, 107.04, 104.49, 102.03, 100.13, 98.41, 96.49, 94.38, 92.26, 90.32, 88.63, 87.01, 85.75, 84.69, 83.67, 82.73]
+      TRAHDG:
+        accumulated_annual_demand: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+      TRAHFO:
+        accumulated_annual_demand: [14.54, 14.92, 14.63, 14.45, 14.55, 14.93, 15.47, 15.88, 16.25, 16.52, 16.89, 17.28, 17.65, 18.26, 18.83, 19.28, 19.62, 19.95, 20.43, 20.93, 21.33, 21.62, 21.87, 22.13, 22.44, 22.73, 23.09, 23.48, 23.83, 24.17]
+      TRAJFL:
+        accumulated_annual_demand: [37.92, 59.26, 73.94, 74.72, 74.72, 74.92, 75.53, 75.87, 76.28, 76.48, 77.26, 78.11, 78.85, 80.26, 81.58, 82.59, 83.27, 83.95, 85.07, 86.28, 87.21, 87.86, 88.41, 89.03, 89.79, 90.53, 91.51, 92.59, 93.59, 94.55]
+      TRALPG:
+        accumulated_annual_demand: [3.32, 3.41, 3.65, 3.6, 3.6, 3.63, 3.66, 3.64, 3.6, 3.54, 3.5, 3.47, 3.45, 3.45, 3.46, 3.46, 3.44, 3.43, 3.44, 3.46, 3.46, 3.45, 3.44, 3.44, 3.44, 3.44, 3.46, 3.48, 3.5, 3.52]
+      TRANGS:
+        accumulated_annual_demand: [0.72, 0.78, 0.72, 0.73, 0.73, 0.72, 0.72, 0.72, 0.72, 0.73, 0.74, 0.75, 0.75, 0.76, 0.77, 0.78, 0.78, 0.79, 0.8, 0.8, 0.81, 0.81, 0.82, 0.82, 0.82, 0.83, 0.83, 0.84, 0.84, 0.85]
+    EMISSION: {}
+    TECHS: &techs_CM
+      CCS01:
+        capital_cost: 9999
+        total_annual_max_capacity: 0.2
+        operational_life: 25
+        total_annual_max_capacity_investment: [0, 0, 0, 0, 0, 1]
+      HDG01:
+        operational_life: 25
+        total_annual_max_capacity: 0.2
+        total_annual_max_capacity_investment: [0, 0, 0, 0, 0, 1]
+
+
+#scenario
+  CEF_High:
+    Demand: &demand_HIGH
+      COMELCB02:
+        specified_annual_demand: [60.82, 60.25, 59.65, 61.77, 63.26, 64.29, 65.17, 65.54, 67.69, 83.85, 85.02, 86.37, 87.54, 88.8, 90.35, 92.13, 93.92, 95.71, 97.41, 99.18, 101.62, 104.26, 106.96, 109.63, 112.36, 115.49, 118.91, 122.47, 126.06, 129.9]
+      INDELCB02:
+        specified_annual_demand: [88.05, 86.91, 85.35, 84.78, 88.5, 93.8, 97.19, 101.51, 109.53, 115.04, 117.22, 119.56, 128.69, 145.01, 154.57, 157.14, 159.32, 168.23, 184.24, 193.28, 194.9, 196.41, 204.94, 220.69, 229.31, 230.97, 232.59, 234.15, 235.46, 237.06]
+      RESELCB02:
+        specified_annual_demand: [74.87, 77.24, 73.83, 74.83, 74.46, 74.08, 73.81, 73.91, 74.14, 74.46, 74.94, 75.53, 76.13, 76.72, 77.51, 78.45, 79.35, 80.22, 81.12, 82.01, 82.9, 83.81, 84.75, 85.65, 86.53, 87.5, 88.47, 89.4, 90.26, 91.17]
+      TRAELCB02:
+        specified_annual_demand: [1.41, 1.69, 2.16, 3.53, 4.04, 4.58, 5.36, 6.42, 7.74, 9.34, 10.88, 12.34, 13.67, 14.93, 16.22, 17.54, 18.79, 19.96, 21.11, 22.2, 23.2, 24.15, 25.04, 25.9, 26.68, 27.47, 28.21, 28.9, 29.48, 30.05]
+      COMBIO:
+        accumulated_annual_demand: [0.0, 0.0, 0.0, 2.32, 3.0, 4.3, 5.63, 6.93, 8.24, 9.65, 9.73, 9.84, 9.93, 10.03, 10.13, 10.21, 10.3, 10.4, 10.49, 10.6, 10.72, 10.84, 10.97, 11.09, 11.22, 11.37, 11.53, 11.69, 11.87, 12.04]
+      COMHDG:
+        accumulated_annual_demand: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+      COMNGS:
+        accumulated_annual_demand: [82.19, 88.35, 85.96, 85.35, 86.92, 87.79, 88.31, 88.09, 87.89, 88.03, 89.07, 90.13, 91.32, 92.74, 93.89, 94.56, 95.59, 96.83, 97.86, 98.87, 99.81, 100.82, 102.0, 103.07, 104.13, 105.09, 106.02, 106.85, 107.73, 108.57]
+      COMRPP:
+        accumulated_annual_demand: [5.66, 6.54, 6.39, 6.65, 7.2, 7.81, 8.34, 8.7, 9.05, 10.02, 10.37, 10.76, 11.11, 11.5, 11.83, 12.11, 12.43, 12.76, 13.09, 13.44, 13.88, 14.32, 14.77, 15.22, 15.73, 16.24, 16.79, 17.36, 18.03, 18.68]
+      INDBIO:
+        accumulated_annual_demand: [142.75, 137.93, 135.61, 149.4, 153.51, 165.2, 180.45, 193.59, 206.13, 219.04, 223.19, 227.56, 231.9, 237.02, 241.32, 244.17, 247.44, 251.0, 254.97, 258.79, 261.96, 264.48, 267.37, 271.1, 274.7, 277.41, 279.8, 281.93, 284.02, 286.43]
+      INDDSL:
+        accumulated_annual_demand: [95.67, 94.09, 91.11, 89.95, 88.29, 87.2, 85.67, 82.74, 80.8, 78.96, 80.06, 81.27, 82.31, 84.37, 85.95, 87.11, 87.93, 88.85, 90.52, 92.46, 93.84, 94.83, 95.59, 97.19, 98.78, 99.83, 100.75, 101.46, 102.18, 102.99]
+      INDHDG:
+        accumulated_annual_demand: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+      INDNGS:
+        accumulated_annual_demand: [271.5, 276.09, 287.66, 284.75, 303.35, 340.87, 361.88, 363.31, 364.94, 365.86, 372.9, 380.14, 390.72, 403.44, 410.13, 411.5, 418.0, 428.97, 437.7, 444.42, 449.21, 455.23, 464.72, 474.43, 480.94, 484.0, 486.43, 488.4, 490.04, 492.11]
+      RESBIO:
+        accumulated_annual_demand: [6.0, 5.95, 5.41, 8.1, 8.46, 9.54, 10.59, 11.64, 12.7, 13.72, 13.45, 13.23, 13.05, 12.9, 12.73, 12.55, 12.4, 12.26, 12.15, 12.06, 12.01, 11.96, 11.92, 11.9, 11.91, 11.91, 11.91, 11.91, 11.94, 11.96]
+      RESHDG:
+        accumulated_annual_demand: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+      RESNGS:
+        accumulated_annual_demand: [83.46, 86.54, 76.38, 72.34, 70.14, 67.15, 64.29, 61.72, 59.3, 56.89, 56.1, 55.46, 54.94, 54.5, 53.95, 53.34, 52.83, 52.36, 51.97, 51.65, 51.46, 51.27, 51.13, 51.02, 51.05, 51.02, 51.0, 50.97, 51.06, 51.1]
+      RESRPP:
+        accumulated_annual_demand: [1.13, 1.09, 1.1, 1.05, 1.06, 1.09, 1.13, 1.16, 1.19, 1.19, 1.19, 1.19, 1.2, 1.2, 1.19, 1.18, 1.17, 1.15, 1.14, 1.12, 1.11, 1.09, 1.07, 1.05, 1.03, 1.0, 0.98, 0.95, 0.93, 0.9]
+      TRABIO:
+        accumulated_annual_demand: [19.67, 23.07, 32.11, 35.1, 46.52, 47.63, 48.95, 49.87, 53.78, 61.8, 62.19, 62.61, 62.85, 63.69, 64.74, 65.33, 65.84, 66.3, 67.67, 68.86, 70.07, 70.62, 71.32, 72.66, 74.27, 75.65, 77.0, 78.31, 79.77, 81.42]
+      TRADSL:
+        accumulated_annual_demand: [127.42, 136.69, 127.13, 124.17, 115.94, 115.66, 116.1, 116.08, 113.21, 106.63, 106.23, 106.07, 105.81, 106.67, 107.21, 107.61, 107.48, 107.47, 108.38, 109.59, 110.08, 110.36, 110.47, 111.72, 112.86, 113.51, 114.13, 114.61, 115.08, 115.64]
+      TRAGSL:
+        accumulated_annual_demand: [160.55, 158.58, 155.48, 151.27, 144.68, 141.62, 138.21, 134.16, 129.88, 124.61, 121.37, 118.45, 115.56, 113.6, 111.73, 109.64, 107.32, 105.07, 103.67, 102.36, 100.8, 98.92, 97.09, 96.09, 95.23, 94.13, 93.08, 92.04, 91.13, 90.44]
+      TRAHDG:
+        accumulated_annual_demand: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+      TRAHFO:
+        accumulated_annual_demand: [14.54, 14.92, 14.63, 14.45, 14.58, 15.0, 15.49, 15.8, 16.08, 16.24, 16.48, 16.75, 16.98, 17.41, 17.81, 18.13, 18.36, 18.59, 19.03, 19.47, 19.82, 20.04, 20.26, 20.68, 21.1, 21.43, 21.74, 22.02, 22.31, 22.61]
+      TRAJFL:
+        accumulated_annual_demand: [37.92, 59.26, 73.94, 74.72, 74.8, 75.1, 75.87, 76.44, 77.16, 77.7, 78.83, 80.04, 81.06, 82.79, 84.41, 85.74, 86.75, 87.74, 89.47, 91.24, 92.66, 93.66, 94.61, 96.29, 98.03, 99.42, 100.75, 101.96, 103.2, 104.53]
+      TRALPG:
+        accumulated_annual_demand: [3.32, 3.41, 3.65, 3.6, 3.61, 3.64, 3.68, 3.69, 3.68, 3.65, 3.64, 3.64, 3.64, 3.68, 3.71, 3.73, 3.74, 3.75, 3.8, 3.85, 3.89, 3.9, 3.91, 3.97, 4.02, 4.06, 4.09, 4.13, 4.16, 4.21]
+      TRANGS:
+        accumulated_annual_demand: [0.72, 0.78, 0.72, 0.73, 0.73, 0.72, 0.72, 0.72, 0.73, 0.73, 0.74, 0.75, 0.75, 0.76, 0.77, 0.77, 0.78, 0.79, 0.79, 0.8, 0.81, 0.81, 0.82, 0.82, 0.83, 0.84, 0.84, 0.85, 0.85, 0.86]
     EMISSION: {}
     TECHS:
       CCS01:
@@ -98,314 +206,77 @@ SCENARIOS:
         total_annual_max_capacity: 0.2
         total_annual_max_capacity_investment: [0, 0, 0, 0, 0, 1]
 
-  #scenario
-  AGV_MAND:
-      Demand: {}
+
+#scenario
+  AGV_SUB:
+      Demand: *demand_CM
       EMISSION: {}
       TECHS:
-        LNDAGVWHEBC1C03:
-          total_annual_activity_lower_limit: [0.0, 0.0, 0.0, 0.0, 0.004121, 0.008242, 0.012363, 0.016484, 0.020604, 0.024725, 0.028846, 0.032967, 0.037088, 0.041209, 0.04533, 0.049451, 0.053571, 0.057692, 0.061813, 0.065934, 0.070055, 0.074176, 0.078297, 0.082418, 0.086538, 0.090659, 0.09478, 0.098901, 0.103022, 0.107143]
-        LNDAGVPTWBC1C03:
-          total_annual_activity_lower_limit: [0.0, 0.0, 0.0, 0.0, 0.004121, 0.008242, 0.012363, 0.016484, 0.020604, 0.024725, 0.028846, 0.032967, 0.037088, 0.041209, 0.04533, 0.049451, 0.053571, 0.057692, 0.061813, 0.065934, 0.070055, 0.074176, 0.078297, 0.082418, 0.086538, 0.090659, 0.09478, 0.098901, 0.103022, 0.107143]
-        LNDAGVMAIBC1C03:
-          total_annual_activity_lower_limit: [0.0, 0.0, 0.0, 0.0, 0.001374, 0.002747, 0.004121, 0.005495, 0.006868, 0.008242, 0.009615, 0.010989, 0.012363, 0.013736, 0.01511, 0.016484, 0.017857, 0.019231, 0.020604, 0.021978, 0.023352, 0.024725, 0.026099, 0.027473, 0.028846, 0.03022, 0.031593, 0.032967, 0.034341, 0.035714]
-        CCS01:
-          capital_cost: 9999
-          total_annual_max_capacity: 0.2
-          operational_life: 25
-          total_annual_max_capacity_investment: [0, 0, 0, 0, 0, 1]
-        HDG01:
-          operational_life: 25
-          total_annual_max_capacity: 0.2
-          total_annual_max_capacity_investment: [0, 0, 0, 0, 0, 1]
+        <<: *techs_CM
+        LNDAGVMAIHIBC1:
+          capital_cost: 120.0
+        LNDAGVMAIHRBC1:
+          capital_cost: 112.0
+        LNDAGVMAIIIBC1:
+          capital_cost: 67.0
+        LNDAGVMAIIRBC1:
+          capital_cost: 60.0
+        LNDAGVMAILRBC1:
+          capital_cost: 10.0
+        LNDAGVWHEHIBC1:
+          capital_cost: 120.0
+        LNDAGVWHEHRBC1:
+          capital_cost: 112.0
+        LNDAGVWHEIIBC1:
+          capital_cost: 67.0
+        LNDAGVWHEIRBC1:
+          capital_cost: 60.0
+        LNDAGVWHELRBC1:
+          capital_cost: 10.0
+        LNDAGVPTWHIBC1:
+          capital_cost: 120.0
+        LNDAGVPTWHRBC1:
+          capital_cost: 112.0
+        LNDAGVPTWIIBC1:
+          capital_cost: 67.0
+        LNDAGVPTWIRBC1:
+          capital_cost: 60.0
+        LNDAGVPTWLRBC1:
+          capital_cost: 10.0
 
-    #scenario
-  CNZ_LIMITED_CO2:
-    Demand: {}
-    EMISSION:
-      CO2:
-        annual_emission_limit: 70
-    TECHS:
-      CCS01:
-        capital_cost: 9999
-        operational_life: 20
-
-  #scenario
-  CNZ_LIMITED_CO2_PTY:
-    Demand: {}
-    EMISSION:
-      CO2:
-        # annual_emission_limit: [70,70,70,60,60,50]
-        emission_penalty: [ 45, 45, 50, 65, 80, 95, 110, 125, 140, 155, 170 ]
-    TECHS:
-      CCS01:
-        capital_cost: 9999
-        operational_life: 20
-
-  #scenario
-  IMP_USA_100:
-    Demand: {}
-    EMISSION:
-      CO2:
-        # annual_emission_limit: [70,70,70,60,60,50]
-        emission_penalty: [ 45, 45, 50, 65, 80, 95, 110, 125, 140, 155, 170 ]
-    TECHS:
-      PWRIMPB01:
-        # Import from USA
-        capacit: 0.571 #GW from [4,500 GWh /(8,760 × 0.9)]
-        # capital_cost: 7863 # $/kW
-        availability_factor: 0.9
-        efficiency: 1
-        operational_life: 50 #years
-        total_annual_min_capacity: 0.571 # float
-        total_annual_max_capacity: 0.571 # float
-
-      PWRURNB01:
-        # Nuclear
-        capital_cost: 7863 # $/kW
-        # NREL ATB 2024, Moderate Scenario, Market price of 2035 , CAPEX 7863 USD/kW, FOM  136 USD/kW, VOM 2.6 USD/kWh
-        efficiency: 0.3333
-        input_fuel: PWRURN
-        operational_life: 35 #years
-        # total_annual_min_capacity: # float
-        # total_annual_max_capacity: # float 
-        total_annual_max_capacity_investment: [ 0, 0, 0, 0, 0, 0, 0, 0, 1 ] # from 2028          
-  #scenario
-  NUC_standard_2028:
-    # NUC + CNZ_LIMITED_CO2_PTY
-    Demand: {}
-    EMISSION:
-      CO2:
-        # annual_emission_limit: [70,70,70,60,60,50]
-        emission_penalty: [ 45, 45, 50, 65, 80, 95, 110, 125, 140, 155, 170 ]
-    TECHS:
-      CCS01:
-        capital_cost: 9999
-        operational_life: 20
-
-      PWRURNB01:
-        # Nuclear
-        capital_cost: 7863 # $/kW
-        # NREL ATB 2024, Moderate Scenario, Market price of 2035 , CAPEX 7863 USD/kW, FOM  136 USD/kW, VOM 2.6 USD/kWh
-        efficiency: 0.3333
-        input_fuel: PWRURN
-        operational_life: 35 #years
-        # total_annual_min_capacity: # float
-        # total_annual_max_capacity: # float 
-        total_annual_max_capacity_investment: [ 0, 0, 0, 0, 0, 0, 0, 0, 1 ] # from 2028
-
-  NUC_standard_2028_2xCost:
-    # NUC + CNZ_LIMITED_CO2_PTY
-    Demand: {}
-    EMISSION:
-      CO2:
-        # annual_emission_limit: [70,70,70,60,60,50]
-        emission_penalty: [ 45, 45, 50, 65, 80, 95, 110, 125, 140, 155, 170 ]
-    TECHS:
-      CCS01:
-        capital_cost: 9999
-        operational_life: 20
-
-      PWRURNB01:
-        # Nuclear
-        capital_cost: 15726 # (7863*2)  # $/kW
-        # NREL ATB 2024, Moderate Scenario, Market price of 2035 , CAPEX 7863 USD/kW, FOM  136 USD/kW, VOM 2.6 USD/kWh
-        efficiency: 0.3333
-        input_fuel: PWRURN
-        operational_life: 35 #years
-        # total_annual_min_capacity: # float
-        # total_annual_max_capacity: # float 
-        total_annual_max_capacity_investment: [ 0, 0, 0, 0, 0, 0, 0, 0, 1 ] # from 2028
-
-  NUC_standard_2030:
-    # NUC + CNZ_LIMITED_CO2_PTY
-    Demand: {}
-    EMISSION:
-      CO2:
-        # annual_emission_limit: [70,70,70,60,60,50]
-        emission_penalty: [ 45, 45, 50, 65, 80, 95, 110, 125, 140, 155, 170 ]
-    TECHS:
-      CCS01:
-        capital_cost: 9999
-        operational_life: 20
-
-      PWRURNB01:
-        # Nuclear
-        capital_cost: 7863 # $/kW
-        # NREL ATB 2024, Moderate Scenario, Market price of 2035 , CAPEX 7863 USD/kW, FOM  136 USD/kW, VOM 2.6 USD/kWh
-        efficiency: 0.3333
-        input_fuel: PWRURN
-        operational_life: 35 #years
-        # total_annual_min_capacity: # float
-        # total_annual_max_capacity: # float 
-        total_annual_max_capacity_investment: [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 ] # from 2030
-
-  NUC_standard_2030_2xCost:
-    # NUC + CNZ_LIMITED_CO2_PTY
-    Demand: {}
-    EMISSION:
-      CO2:
-        # annual_emission_limit: [70,70,70,60,60,50]
-        emission_penalty: [ 45, 45, 50, 65, 80, 95, 110, 125, 140, 155, 170 ]
-    TECHS:
-      CCS01:
-        capital_cost: 9999
-        operational_life: 20
-
-      PWRURNB01:
-        # Nuclear
-        capital_cost: 15726 # (7863*2)  # $/kW
-        # NREL ATB 2024, Moderate Scenario, Market price of 2035 , CAPEX 7863 USD/kW, FOM  136 USD/kW, VOM 2.6 USD/kWh
-        efficiency: 0.3333
-        input_fuel: PWRURN
-        operational_life: 35 #years
-        # total_annual_min_capacity: # float
-        # total_annual_max_capacity: # float 
-        total_annual_max_capacity_investment: [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 ] # from 2030
-
-  NUC_standard_2035:
-    # NUC + CNZ_LIMITED_CO2_PTY
-    Demand: {}
-    EMISSION:
-      CO2:
-        # annual_emission_limit: [70,70,70,60,60,50]
-        emission_penalty: [ 45, 45, 50, 65, 80, 95, 110, 125, 140, 155, 170 ]
-    TECHS:
-      CCS01:
-        capital_cost: 9999
-        operational_life: 20
-
-      PWRURNB01:
-        # Nuclear
-        capital_cost: 7863 # $/kW
-        # NREL ATB 2024, Moderate Scenario, Market price of 2035 , CAPEX 7863 USD/kW, FOM  136 USD/kW, VOM 2.6 USD/kWh
-        efficiency: 0.3333
-        input_fuel: PWRURN
-        operational_life: 35 #years
-        # total_annual_min_capacity: # float
-        # total_annual_max_capacity: # float 
-        total_annual_max_capacity_investment: [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 ] # from 2035
-
-  NUC_standard_2035_2xCost:
-    # NUC + CNZ_LIMITED_CO2_PTY
-    Demand: {}
-    EMISSION:
-      CO2:
-        # annual_emission_limit: [70,70,70,60,60,50]
-        emission_penalty: [ 45, 45, 50, 65, 80, 95, 110, 125, 140, 155, 170 ]
-    TECHS:
-      CCS01:
-        capital_cost: 9999
-        operational_life: 20
-
-      PWRURNB01:
-        # Nuclear
-        capital_cost: 15726 # (7863*2)  # $/kW
-        # NREL ATB 2024, Moderate Scenario, Market price of 2035 , CAPEX 7863 USD/kW, FOM  136 USD/kW, VOM 2.6 USD/kWh
-        efficiency: 0.3333
-        input_fuel: PWRURN
-        operational_life: 35 #years
-        total_annual_min_capacity: # GW
-        total_annual_max_capacity: # float 
-        total_annual_max_capacity_investment: [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 ] # from 2035
-  NUC_standard_2035_4xCost:
-    # NUC + CNZ_LIMITED_CO2_PTY
-    Demand: {}
-    EMISSION:
-      CO2:
-        # annual_emission_limit: [70,70,70,60,60,50]
-        emission_penalty: [ 45, 45, 50, 65, 80, 95, 110, 125, 140, 155, 170 ]
-    TECHS:
-      CCS01:
-        capital_cost: 9999
-        operational_life: 20
-      PWRURNB01:
-        # Nuclear
-        capital_cost: 31452 # (7863*2)  # $/kW
-        # NREL ATB 2024, Moderate Scenario, Market price of 2035 , CAPEX 7863 USD/kW, FOM  136 USD/kW, VOM 2.6 USD/kWh
-        efficiency: 0.3333
-        input_fuel: PWRURN
-        operational_life: 35 #years
-        # total_annual_min_capacity: # float
-        # total_annual_max_capacity: # float 
-        total_annual_max_capacity_investment: [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 ] # from 2035
-  #scenario
-
-  # HYDROGEN:
-  #   Demand:
-  #     TRAHDG:
-  #       accumulated_annual_demand: [0, 0, 0, 0, 8.959, 12.92544, 16.78746, 20.59696, 24.78204, 28.8464, 33.0876, 37.3422, 41.67892, 46.19744, 50.7708, 55.3486, 59.96458, 64.57248, 69.22646, 73.9898, 78.8523, 83.83752, 88.98146, 94.3254, 99.9061, 105.73824, 111.8196, 118.14444, 124.72084, 131.544]
-  #     TRADSL:
-  #       accumulated_annual_demand: [97.11, 96.19, 97.68, 94.33, 89.015, 85.6544, 81.55812, 77.73012, 76.32148, 73.7688, 71.91856, 69.91268, 67.9959, 66.31136, 64.5758, 62.73588, 60.8825, 58.9632, 57.06738, 55.2482, 53.46718, 51.73056, 50.0539, 48.44924, 46.9098, 45.41816, 43.94846, 42.47748, 40.9973, 39.492]
-  #     TRAJFL:
-  #       accumulated_annual_demand: [39.94, 72.29, 80.01, 82.62, 81.206, 80.94016, 80.24442, 79.23292, 78.47648, 77.6748, 76.79384, 75.79512, 74.74518, 73.7712, 72.6934, 71.46552, 70.12292, 68.64432, 67.07616, 65.472, 63.83052, 62.16192, 60.47464, 58.77536, 57.0741, 55.3636, 53.63194, 51.86808, 50.06186, 48.204]
-  #     INDHDG:
-  #       accumulated_annual_demand: [0, 0, 0, 0, 12.6015, 19.85976, 25.12244, 29.99528, 38.1984, 47.5776, 53.90294, 59.80872, 67.32992, 75.12912, 82.2798, 89.09212, 95.4874, 102.01968, 108.8857, 116.0596, 123.49842, 131.0372, 138.73722, 146.78352, 155.1634, 163.84512, 172.8024, 182.0344, 191.56076, 201.36]
-  #     INDNGS:
-  #       accumulated_annual_demand: [218.37, 229.17, 236.88, 230.18, 239.4285, 255.97024, 242.13756, 228.58472, 238.6016, 249.7824, 242.26706, 233.37128, 230.59008, 227.81088, 222.4602, 216.01788, 208.6126, 201.61032, 195.2643, 189.3604, 183.71158, 178.0128, 172.33278, 166.85648, 161.4966, 156.16488, 150.7976, 145.3656, 139.85924, 134.24]
-  #   EMISSION: 
-  #     CO2:
-  #       annual_emission_limit: 9999
-  #       emission_penalty: 0
-  #   TECHS: 
-  #     CCS01:
-  #       capital_cost: 9999
-  #       operational_life: 20
-
-
-  # # Baseline Calibration with scenario config
-  #     calibration:
-  #       Demand: {}
-  #       EMISSION: {}
-  #       TECHS: 
-  #         PWRHYDB01:
-  #             total_annual_max_capacity_investment: 0
-  #         PWRHYDB02:
-  #             total_annual_max_capacity_investment: 0
-  #         PWRNGSB01:
-  #             total_annual_max_capacity_investment: 0
-  #         PWRNGSB02:
-  #             total_annual_max_capacity_investment: 0
-  #         PWRBIOB01:
-  #             total_annual_max_capacity_investment: 0
-  #         PWRBIOB02:
-  #             total_annual_max_capacity_investment: 0
-  #         PWRGEOB01:
-  #             total_annual_max_capacity_investment: 0
-  #         PWRSOLB01:
-  #             total_annual_max_capacity_investment: 0
-  #         PWRWNDB01:
-  #             total_annual_max_capacity_investment: 0
-  #         PWRWNDB02:
-  #             total_annual_max_capacity_investment: 0
-  #         PWRWNDB03:
-  #             total_annual_max_capacity_investment: 0
-  #         PWRWNDB04:
-  #             total_annual_max_capacity_investment: 0
-  #         PWRWNDB05:
-  #             total_annual_max_capacity_investment: 0
-  #         PWRWNDB06:
-  #             total_annual_max_capacity_investment: 0
-  #         PWRWNDB07:
-  #             total_annual_max_capacity_investment: 0
-  #         PWRWNDB08:
-  #             total_annual_max_capacity_investment: 0
-  #         PWRWNDB09:
-  #             total_annual_max_capacity_investment: 0
-  #         PWRWNDB10:
-  #             total_annual_max_capacity_investment: 0
-  #         PWRSOLB04:
-  #           total_annual_max_capacity: '[0,0,0,0,0,0,0,0,0,0,0]'
-  #         PWRSOLB05:
-  #           total_annual_max_capacity: '[0,0,0,0,0,0,0,0,0,0,0]'
-  #         PWRSOLB06:
-  #           total_annual_max_capacity: '[0,0,0,0,0,0,0,0,0,0,0]'
-  #         PWRSOLB07:
-  #           total_annual_max_capacity: '[0,0,0,0,0,0,0,0,0,0,0]'
-  #         CCS01:
-  #             capital_cost: 9999 # we can also prove a vector e.g. [xxx xxx ]
-  #             total_annual_max_capacity: 0.2 #GW
-  #             operational_life: 25
-  #             total_annual_max_capacity_investment: '[0,0,0,0,0]'
-  #         HDG01:
-  #             total_annual_max_capacity_investment: '[0,0,0,0,0]'
+#scenario
+  AGV_SUB_HIGH:
+      Demand: *demand_HIGH
+      EMISSION: {}
+      TECHS:
+        <<: *techs_CM
+        LNDAGVMAIHIBC1:
+          capital_cost: 120.0
+        LNDAGVMAIHRBC1:
+          capital_cost: 112.0
+        LNDAGVMAIIIBC1:
+          capital_cost: 67.0
+        LNDAGVMAIIRBC1:
+          capital_cost: 60.0
+        LNDAGVMAILRBC1:
+          capital_cost: 10.0
+        LNDAGVWHEHIBC1:
+          capital_cost: 120.0
+        LNDAGVWHEHRBC1:
+          capital_cost: 112.0
+        LNDAGVWHEIIBC1:
+          capital_cost: 67.0
+        LNDAGVWHEIRBC1:
+          capital_cost: 60.0
+        LNDAGVWHELRBC1:
+          capital_cost: 10.0
+        LNDAGVPTWHIBC1:
+          capital_cost: 120.0
+        LNDAGVPTWHRBC1:
+          capital_cost: 112.0
+        LNDAGVPTWIIBC1:
+          capital_cost: 67.0
+        LNDAGVPTWIRBC1:
+          capital_cost: 60.0
+        LNDAGVPTWLRBC1:
+          capital_cost: 10.0

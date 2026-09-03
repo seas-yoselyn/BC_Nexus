@@ -23,6 +23,7 @@ Usage
 """
 from __future__ import annotations
 
+import zlib
 from pathlib import Path
 
 # ---------------------------------------------------------------- base palette
@@ -84,6 +85,38 @@ COST = {
 EMISSION = {"CO2": "#D9534F", "Net": "#1a202c", "Gross emissions": "#D9534F",
             "CCS captured": "#2E8B57", "Model": "#D9534F", "Target": "#2E8B57"}
 
+# Nexus land tiers, agrivoltaics, livestock and the wood/grass biofuels. These
+# are categories the C/L/E/W and scenario-comparison figures emit that had no
+# explicit colour, so each was falling through to FALLBACK — and therefore
+# changing colour between sessions. Agrivoltaic gets a deliberate
+# high-contrast teal: it is the variable under study, it must not collide with
+# Solar's pale yellow or the crop greens, and it has to stay legible stacked
+# against both.
+NEXUS = {
+    "Agrivoltaic": "#0F8B8D", "Conventional": "#C57F7B",
+    "Crops": "#8AA83B", "Livestock": "#A9746E",
+    "Cropland (cluster tier)": "#C9B37E",
+    "Switchgrass": "#4E8F4A", "Clearwood": "#356E5B",
+    "Beef": "#8C4A3F", "Milk": "#C9D6DF", "Pork": "#E0A2A0",
+    "Sheep": "#B5A88F",
+}
+
+# Scenario colours. In the comparison figures the scenario name IS the legend
+# entry, so it needs a colour like any other label — without these the names
+# fall to FALLBACK, which is picked to sit apart from the assigned commodity
+# hues but not to separate its own members. Drawn as translucent overlaid
+# areas, near-neighbour fallbacks turn into indistinguishable mush, so these
+# are a deliberately well-separated qualitative set.
+SCENARIO_COLOURS = {
+    "Base_Current_Measure": "#4C72B0",     # blue
+    "Base_CNZ": "#55A868",                 # green
+    "CEF_High": "#C44E52",                 # red
+    "CEF_Low": "#E8A33D",                  # amber
+    "AGV_SUB": "#DD8452",                  # orange
+    "AGV_SUB_HIGH": "#8172B3",             # purple
+    "AGV_NOSUB": "#937860",                # brown
+}
+
 # code -> label (mirrors dashboard.yaml legend_labels; extended)
 LEGEND_LABELS = {
     "PWRWND": "Wind", "PWRNGS": "Natural Gas", "PWRBIO": "Biomass/Biofuel",
@@ -104,7 +137,7 @@ LEGEND_LABELS = {
 # merged lookup (later dicts win only where keys are new)
 PALETTE: dict[str, str] = {}
 for _d in (POWER, FUELS, SECTORS, LAND_CLUSTERS, LAND_COVER, CROPS, WATER,
-           COST, EMISSION):
+           COST, EMISSION, NEXUS, SCENARIO_COLOURS):
     for _k, _v in _d.items():
         PALETTE.setdefault(_k, _v)
 
@@ -149,6 +182,29 @@ _ALIASES = {
     "power export": "Power Export", "exppwr": "Power Export",
     "battery": "Battery", "battery_storage": "Battery",
     "transmission": "Transmission", "pwrtrn": "Transmission",
+    # imports: plot_Energy labels the IMP/MIN busbar producers "Imports"
+    "imports": "Power Import", "import": "Power Import",
+    "exports": "Power Export", "export": "Power Export",
+    # agrivoltaics
+    "agrivoltaic": "Agrivoltaic", "agrivoltaics": "Agrivoltaic",
+    "agv": "Agrivoltaic", "conventional": "Conventional",
+    # wood and grass biofuels: plot_Land says "Switchgrass"/"Clearwood",
+    # plot_Energy says "Biofuel (switchgrass)"/"Biofuel (clearwood)".
+    # Both vocabularies must resolve to one colour per feedstock.
+    "switchgrass": "Switchgrass", "bsw": "Switchgrass",
+    "biofuel (switchgrass)": "Switchgrass",
+    "clearwood": "Clearwood", "bcw": "Clearwood",
+    "biofuel (clearwood)": "Clearwood",
+    # land tiers
+    "crops": "Crops", "livestock": "Livestock",
+    "cropland (cluster tier)": "Cropland (cluster tier)",
+    "cropland": "Cropland (cluster tier)",
+    # livestock products
+    "beef": "Beef", "milk": "Milk", "pork": "Pork", "sheep": "Sheep",
+    # scenarios, including the dotted spelling the run list is sometimes
+    # written with
+    "agv.sub": "AGV_SUB", "agv.sub_high": "AGV_SUB_HIGH",
+    "base_cm": "Base_Current_Measure", "base": "Base_Current_Measure",
     # sectors - "Industry" (NamingConvention) == "Industrial" (dashboard.yaml)
     "industry": "Industrial", "industrial": "Industrial", "ind": "Industrial",
     "residential": "Residential", "res": "Residential",
@@ -225,41 +281,83 @@ def load_from_yaml(dashboard_cfg: str | Path = "config/dashboard.yaml") -> None:
                 PALETTE.setdefault(lbl, v)
 
 
+def _fallback_index(key: str) -> int:
+    """Stable slot in FALLBACK for an unmapped key.
+
+    crc32, not hash(): CPython salts string hashing per process
+    (PYTHONHASHSEED), so hash() handed an unmapped label a different colour on
+    every kernel restart — the one thing this module exists to prevent. crc32
+    is fixed by the standard, so a figure rendered today and re-rendered next
+    month agree.
+    """
+    return zlib.crc32(str(key).encode("utf-8")) % len(FALLBACK)
+
+
 def color(label: str, i: int = None) -> str:
     """Colour for one legend label; deterministic fallback if unmapped.
 
     Resolution order: canonical alias -> palette -> code->label map ->
     stable fallback cycle.
+
+    i overrides the fallback slot, for a caller that wants a positional cycle.
+    Leave it out to get the label's own stable colour, which is what makes the
+    same legend entry match across figures.
     """
     key = canon(label)
     if key in PALETTE:
         return PALETTE[key]
     if label in LEGEND_LABELS and LEGEND_LABELS[label] in PALETTE:
         return PALETTE[LEGEND_LABELS[label]]
-    idx = i if i is not None else (abs(hash(str(label))) % len(FALLBACK))
+    # keyed on the canonical form, so "Biofuel (switchgrass)" and
+    # "Switchgrass" cannot land on different fallback slots
+    idx = i if i is not None else _fallback_index(key)
     return FALLBACK[idx % len(FALLBACK)]
 
 
 def map_for(labels) -> dict:
     """{label: colour} for a series/list of legend labels — pass straight to
-    plotly express as `color_discrete_map=`."""
+    plotly express as `color_discrete_map=`.
+
+    Mapped labels take their palette colour. Unmapped ones take their stable
+    fallback slot, and when two of them collide the later one (in sorted
+    order) steps to the next free slot so a legend never shows one colour
+    twice. The result depends only on the set of labels, never on their order,
+    so adding a series does not recolour the others.
+    """
     uniq = list(dict.fromkeys(map(str, labels)))
-    return {lbl: color(lbl, i) for i, lbl in enumerate(uniq)}
+    out, used = {}, set()
+    for lbl in uniq:
+        if is_known(lbl):
+            out[lbl] = color(lbl)
+            used.add(out[lbl])
+    for lbl in sorted(l for l in uniq if l not in out):
+        idx = _fallback_index(canon(lbl))
+        chosen = FALLBACK[idx]
+        for step in range(len(FALLBACK)):
+            cand = FALLBACK[(idx + step) % len(FALLBACK)]
+            if cand not in used:
+                chosen = cand
+                break
+        out[lbl] = chosen
+        used.add(chosen)
+    return {lbl: out[lbl] for lbl in uniq}
 
 
 def harmonize(fig, by: str = "name"):
     """Recolour an existing figure's traces by their legend name.
 
-    Use when a figure was built without a colour map; leaves traces whose
-    name is unmapped untouched only if they already carry an explicit colour.
+    Use when a figure was built without a colour map. Colours come from
+    map_for over the trace names, so a harmonized figure matches one built
+    with color_discrete_map=map_for(...) rather than drifting from it.
     """
     if fig is None:
         return fig
-    for i, tr in enumerate(fig.data):
-        name = getattr(tr, by, None)
+    names = [str(getattr(tr, by, None) or "") for tr in fig.data]
+    cmap = map_for([n for n in names if n])
+    for tr, name in zip(fig.data, names):
         if not name:
             continue
-        c = color(str(name), i)
+        c = cmap[name]
         if hasattr(tr, "marker") and tr.marker is not None:
             try:
                 tr.marker.color = c
