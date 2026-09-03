@@ -29,7 +29,21 @@ AGV_ELIGIBLE_CROPS: dict = {
     'MAI': 0.92,   # Barron-Gafford et al. 2019, Marrou et al. 2013
     'WHE': 0.95,   # Weselek et al. 2019
     'PTW': 0.88,   # Schindele et al. 2020 (flagged uncertain)
+    'ALF': 0.90,   # PROVISIONAL - not a literature value. Alfalfa is a
+                   # shade-tolerant C3 forage, so 0.90 is a deliberately
+                   # conservative placeholder. Alfalfa is ~45% of modelled
+                   # crop demand and the largest land user, so this number
+                   # materially drives the AGV result - source it before
+                   # publishing.
 }
+
+# Shade transmission under agrivoltaic panel geometry. Applied to BOTH
+# irrigation demand and evapotranspiration, per Marrou et al. (2013)
+# half-density wheat cycle (0.68 PAR) and Weselek et al. (2021) Heggelbach
+# pilot (0.70 mean PAR). Single value across crops.
+# NOTE: model_structure.AgrivoltaicShadeFactor holds the same value but is
+# never read by any code path. This is the live constant.
+AGV_SHADE_FACTOR: float = 0.70
 
 # Electricity co-product output [PJ / (1000 km^2 / yr)].
 # Derived as: solar_input (4470) * panel_efficiency (0.018) * shade_factor (0.70)
@@ -313,6 +327,8 @@ def build_agrivoltaic_modes(
                     .split(',')[cwd_col])
                 if irrig_name == 'Rain-fed':
                     irrig_val = 0.0
+                # Panels shade the canopy, cutting crop water demand.
+                irrig_val = irrig_val * AGV_SHADE_FACTOR
                 irrig_str = format(
                     ctx.create_decimal(repr(irrig_val)), 'f')
                 AddActivityListItems(
@@ -348,6 +364,9 @@ def build_agrivoltaic_modes(
                 evt_val = float(
                     EvapotranspirationClusters[clustercount]
                     .split(',')[evt_col])
+                # Same shade derate as irrigation: less radiation reaching
+                # the canopy means less evapotranspiration.
+                evt_val = evt_val * AGV_SHADE_FACTOR
                 evt_str = format(
                     ctx.create_decimal(repr(evt_val)), 'f')
                 AddActivityListItems(

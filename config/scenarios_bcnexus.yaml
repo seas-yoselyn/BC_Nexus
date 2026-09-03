@@ -243,6 +243,16 @@ SCENARIOS:
           capital_cost: 60.0
         LNDAGVPTWLRBC1:
           capital_cost: 10.0
+        LNDAGVALFHIBC1:
+          capital_cost: 120.0
+        LNDAGVALFHRBC1:
+          capital_cost: 112.0
+        LNDAGVALFIIBC1:
+          capital_cost: 67.0
+        LNDAGVALFIRBC1:
+          capital_cost: 60.0
+        LNDAGVALFLRBC1:
+          capital_cost: 10.0
 
 #scenario
   AGV_SUB_HIGH:
@@ -279,4 +289,14 @@ SCENARIOS:
         LNDAGVPTWIRBC1:
           capital_cost: 60.0
         LNDAGVPTWLRBC1:
+          capital_cost: 10.0
+        LNDAGVALFHIBC1:
+          capital_cost: 120.0
+        LNDAGVALFHRBC1:
+          capital_cost: 112.0
+        LNDAGVALFIIBC1:
+          capital_cost: 67.0
+        LNDAGVALFIRBC1:
+          capital_cost: 60.0
+        LNDAGVALFLRBC1:
           capital_cost: 10.0
