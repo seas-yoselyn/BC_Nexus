@@ -50,12 +50,18 @@ reads TotalCapacityAnnual.
 Both default to 1 for these technologies (no CapacityFactor or
 AvailabilityFactor rows exist), so capacity == activity is feasible.
 
-Why pinning the covers is enough for crops
-------------------------------------------
-The land budget closes on its own, so crops need no per-crop constraint:
+How the land budget closes
+--------------------------
+Crops need no per-crop constraint; they take what the covers leave:
 
-    scaled covers 910.29  +  crop headroom 14.71  =  925
-    observed cultivated, scaled: 14.72
+    covers  +  CROP_RESERVE  +  NON_CLUSTER_LAND_RESERVE  =  TOTAL_AREA
+
+The first attempt sized the covers to leave only the observed cultivated area
+(14.5) for crops, and the model went infeasible on the remote: 2021 crop
+demand is 2.666 Mt and the pre-fix runs needed about 38 thousand sq km to
+produce it. CROP_RESERVE now carries that gap explicitly - see its comment for
+why the gap exists and why it is a symptom of diluted yields rather than of
+missing farmland.
 
 Every number is derived from data/clews_data/LandClusterData at run time.
 Nothing is hardcoded, so re-running after the cluster data changes gives
@@ -125,6 +131,26 @@ TOTAL_AREA = 925.0
 # check_budget() below now fails loudly rather than shipping that to a solve.
 NON_CLUSTER_LAND_RESERVE = 15.0
 
+# Cropland to leave free, thousand sq km.
+#
+# The observed cultivated area is 12.156 (14.5 scaled), but the model cannot
+# meet crop demand on it: 2021 demand is 2.666 Mt and the pre-fix runs needed
+# ~38 to produce it. Pinning cropland to the observed area makes the model
+# INFEASIBLE - that is what happened on the first remote solve, 2026-09-04.
+#
+# The gap is not a land-data error alone. sets_n_ratios notes that cluster-mean
+# yields are "a dilution artifact of averaging yields over clusters dominated
+# by non-crop cells": diluted yields need more land per tonne, and the model
+# was compensating with area. So this reserve is a workaround for the yield
+# problem, not a statement about how much of BC is farmed. BC's real farm area
+# is roughly 26 (2.6 Mha), between the raster's 12.2 and the model's 38.
+#
+# Sized from the pre-fix Base_Current_Measure runs (37.954 at 6ts, 43.566 at
+# 24ts) with margin, because the cluster ceilings push crops off the highest
+# yielding cluster and raise the land needed further. Lower it once the yields
+# are de-diluted; the land pins get tighter and more honest as it falls.
+CROP_RESERVE = 50.0
+
 YEAR_START, YEAR_END = 2021, 2050
 REGION = "REGION1"
 REGION_CODE = "BC1"      # land region; cluster techs are LNDAGR<REGION_CODE>C<nn>
@@ -160,7 +186,7 @@ CAPACITY_LO = "TotalAnnualMinCapacity.csv"
 CAPACITY_HI = "TotalAnnualMaxCapacity.csv"
 
 
-def read_observed(total_area):
+def read_observed(total_area, crop_reserve):
     """Return observed areas scaled to total_area, plus the precipitation cap.
 
     Also returns each cluster's own area, scaled the same way. A cluster
@@ -212,11 +238,17 @@ def read_observed(total_area):
     # the same way is what made the first version infeasible: the covers
     # expanded to fill land livestock needed.
     cluster_scale = total_area / clustered
-    scale = (total_area - NON_CLUSTER_LAND_RESERVE) / clustered
+    cover_room = total_area - NON_CLUSTER_LAND_RESERVE - crop_reserve
+    cover_unscaled = sum(areas.values())
+    if cover_room <= 0:
+        sys.exit("reserves exceed the modelled area; nothing left for cover")
+    scale = cover_room / cover_unscaled
     areas = {tech: value * scale for tech, value in areas.items()}
     cluster_areas = {t: v * cluster_scale for t, v in cluster_areas.items()}
+    # Rain falls on every hectare the clusters process, not just the part
+    # the cover classes occupy, so the ceiling scales with cluster_scale.
     return (areas, cluster_areas, clustered, scale,
-            cultivated * scale, precip_cap * scale)
+            cultivated * scale, precip_cap * cluster_scale)
 
 
 def load(path):
@@ -260,7 +292,8 @@ def drop(body, techs, years=None):
     return keep
 
 
-def check_budget(template, areas, cluster_areas, cultivated):
+def check_budget(template, areas, cluster_areas, crop_reserve,
+                 capped=True):
     """Refuse to write a parameter set the solver cannot satisfy.
 
     Cluster technologies process land, so their ceilings bound everything that
@@ -279,14 +312,17 @@ def check_budget(template, areas, cluster_areas, cultivated):
         if year == str(YEAR_START):
             existing += float(value)
 
+    # Without ceilings the clusters are unbounded, so the only real limit is
+    # the land supply itself; say so rather than implying a false constraint.
     capacity = sum(cluster_areas.values())
-    demand = sum(areas.values()) + cultivated + existing
+    label = "cluster processing capacity" if capped else "land supply (no caps)"
+    demand = sum(areas.values()) + crop_reserve + existing
     margin = capacity - demand
 
     print(f"\nLand budget check (year {YEAR_START}):")
-    print(f"  cluster processing capacity   {capacity:10.3f}")
+    print(f"  {label:<29} {capacity:10.3f}")
     print(f"  pinned covers                 {sum(areas.values()):10.3f}")
-    print(f"  crops (observed, scaled)      {cultivated:10.3f}")
+    print(f"  cropland reserved             {crop_reserve:10.3f}")
     print(f"  other LND floors already set  {existing:10.3f}")
     print(f"  reserve for livestock + AGV   "
           f"{NON_CLUSTER_LAND_RESERVE - existing:10.3f}")
@@ -321,6 +357,12 @@ def main():
                     help=f"land area the model represents, thousand sq km "
                          f"(default {TOTAL_AREA}; pass 763.757 to model only "
                          f"the clustered extent unscaled)")
+    ap.add_argument("--crop-reserve", type=float, default=CROP_RESERVE,
+                    help=f"cropland left free, thousand sq km "
+                         f"(default {CROP_RESERVE})")
+    ap.add_argument("--no-cluster-caps", action="store_true",
+                    help="skip the per-cluster activity ceilings, to isolate "
+                         "whether they cause an infeasibility")
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--revert", action="store_true")
     a = ap.parse_args()
@@ -356,7 +398,7 @@ def main():
 
     # ---- apply --------------------------------------------------------
     (areas, cluster_areas, clustered, scale,
-     cultivated, precip_cap) = read_observed(a.total_area)
+     cultivated, precip_cap) = read_observed(a.total_area, a.crop_reserve)
 
     pinned_total = sum(areas[t] for t in PINNED_TECHS)
     headroom = a.total_area - NON_CLUSTER_LAND_RESERVE - pinned_total
@@ -378,7 +420,8 @@ def main():
     if headroom < 0:
         sys.exit("land budget infeasible: pinned covers exceed the land area")
 
-    check_budget(template, areas, cluster_areas, cultivated)
+    check_budget(template, areas, cluster_areas, a.crop_reserve,
+                 capped=not a.no_cluster_caps)
 
     # Activity upper limits: precipitation cap, the land-cover ceiling, and
     # each cluster's own area. The cluster caps apply in every year, not just
@@ -392,9 +435,10 @@ def main():
          for y in all_years]
         + [[REGION, tech, str(y), f"{areas[tech]:.3f}"]
            for tech in PINNED_TECHS for y in frozen]
-        + [[REGION, tech, str(y), f"{area:.3f}"]
-           for tech, area in sorted(cluster_areas.items())
-           for y in all_years], newline))
+        + ([] if a.no_cluster_caps else
+           [[REGION, tech, str(y), f"{area:.3f}"]
+            for tech, area in sorted(cluster_areas.items())
+            for y in all_years]), newline))
     save(path, header, body, newline, a.dry_run)
 
     # Activity floor pins the area; capacity min/max keeps the plots honest.
@@ -405,7 +449,9 @@ def main():
     verb = "would write" if a.dry_run else "wrote"
     print(f"\n{verb} into {ACTIVITY_HI}:")
     print(f"  {len(list(all_years)):>4} precipitation cap rows")
-    print(f"  {len(cluster_areas) * len(list(all_years)):>4} cluster ceiling rows")
+    n_clus = 0 if a.no_cluster_caps else len(cluster_areas) * len(list(all_years))
+    print(f"  {n_clus:>4} cluster ceiling rows"
+          f"{'  (--no-cluster-caps)' if a.no_cluster_caps else ''}")
     print(f"  {n:>4} land-cover pin rows")
     print(f"and {n} land-cover pin rows into each of "
           f"{ACTIVITY_LO}, {CAPACITY_LO}, {CAPACITY_HI}")
