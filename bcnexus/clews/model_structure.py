@@ -182,7 +182,26 @@ DomesticRenewables= ['WND', 'HYD', 'BIO', 'SOL', 'GEO']
 
 
 LandUseIntensity_FUEL='LND4PWR'
-# Transformation technologies that connect parts of the CLEWs model together.  
+
+# Land-use classes that host power generation. LND4PWR is emitted from these
+# modes only, so a power build-out competes for real land instead of drawing
+# on an unlimited free supply. Each entry must be a key of LandUseCodes; mode
+# numbers are derived at build time, never hardcoded.
+#
+# THIS IS A MODELLING CHOICE, NOT A BUG FIX - revisit it before publishing.
+# Built-up land alone is not enough: 2021 LND4PWR demand is about 8.9 (hydro
+# 4.5, biomass 4.0) against roughly 1.3 of built-up land, so restricting it to
+# 'BLT' makes the model infeasible. The default below reflects where BC's
+# generation actually sits:
+#   BLT  thermal plants, substations, switchyards
+#   WAT  hydro reservoirs, which the land-cover raster classes as water
+#   BAR  wind and solar on barren and marginal terrain
+# Forest and grassland are deliberately excluded so a power build-out cannot
+# quietly clear them; add 'GRS' if biomass plantations should compete for
+# grassland.
+PowerPlantLandUseCodes=('BLT', 'WAT', 'BAR')
+
+# Transformation technologies that connect parts of the CLEWs model together.
     # For example, power transmission between grids, oil refineries, biofuel plants, etc.
     # Note:  These technologies cannot create fuels but assume that their fuels are created elsewhere (either in the DomesticMining, DomesticRenewables or ImportFuels).
 
@@ -220,14 +239,15 @@ TransformationTechnologies= [
  
  
  # Lands that needed for Powerplants
- ['LNDAGRBC1C01', '', '', 'LND4PWR', '1', '', '54'], #seven times for all land clusters from GEAZ clustering
- ['LNDAGRBC1C02', '', '', 'LND4PWR', '1', '', '54'], # connection between LND4PWR with Built-up land in LNDAGRBC
- ['LNDAGRBC1C03', '', '', 'LND4PWR', '1', '', '54'],
- ['LNDAGRBC1C04', '', '', 'LND4PWR', '1', '', '54'],
- ['LNDAGRBC1C05', '', '', 'LND4PWR', '1', '', '54'],
- ['LNDAGRBC1C06', '', '', 'LND4PWR', '1', '', '54'],
- ['LNDAGRBC1C07', '', '', 'LND4PWR', '1', '', '54'],
- 
+ # NOTE: the LND4PWR output of the LNDAGR cluster technologies used to be
+ # declared here, one row per cluster, pinned to mode '54'. Those rows were
+ # dead: get_transformation_techs_power() keeps only PWR* and PWRTRN* entries
+ # (the 'lnd_list' comprehension that would have collected them is commented
+ # out), so nothing ever read them, and the hardcoded 54 silently rotted as
+ # soon as the mode numbering moved. LND4PWR is now emitted by
+ # sets_n_ratios.BuildCLEWsModel from the PowerPlantLandUseCodes modes, with the
+ # mode number and the cluster list both derived at build time.
+
  # Thermal
  ['PWRNGSB', 'LND4PWR', '0.0006', '', '', '', '1'], 
  ['PWRBIOB', 'LND4PWR', '0.293', '', '', '', '1'],
@@ -316,6 +336,19 @@ CropYieldFactors= {
   'WHE': 0.95,
   'SWI': 0.95 # EL_20251125 added
 }
+
+# Smallest yield, already multiplied by CropYieldFactors, for which a crop
+# mode is worth building. Below this the cluster-mean yield is a dilution
+# artefact of averaging over cells that are mostly not cropland, and it
+# injects e-8 scale coefficients that hurt the LP's conditioning.
+#
+# Every code path that decides whether a crop mode exists MUST apply this same
+# test to the same quantity. The agrivoltaic module used to skip only exactly
+# zero yields, so AGV modes survived in clusters where the conventional parent
+# had been dropped: all five agrivoltaic alfalfa regimes existed in cluster 1
+# (62% of the modelled land area) while conventional alfalfa there did not,
+# handing agrivoltaics land no other crop could reach.
+MinCropYieldOAR= 0.0001
 
 Limitations={
   'FUEL': "'INFLOW' fuel and the associated activity ratios are handled separately.",

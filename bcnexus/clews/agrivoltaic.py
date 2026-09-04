@@ -169,14 +169,21 @@ def build_agrivoltaic_modes(
     from bcnexus.clews.sets_n_ratios import AddActivityListItems, Fill_Set
     utils.print_banner("Building Agrivoltaic Modes")
 
-    # Decimal context matching sets_n_ratios (2 significant figures)
+    # Decimal context matching sets_n_ratios (2 significant figures).
+    # This said 2 while setting 4, so agrivoltaic yields were written to finer
+    # precision than the conventional yields they are compared against - a
+    # small bias in favour of AGV in exactly the comparison the module exists
+    # to make. Parity matters more than absolute precision here; raising both
+    # to 4 would be a defensible improvement, but it moves every conventional
+    # yield in the model and needs its own validation run.
     ctx = decimal.Context()
-    ctx.prec = 4
+    ctx.prec = 2
 
     # Reference data from model_structure
     IrrigationTypeList = clews_const.IrrigationTypeList
     IntensityList = clews_const.IntensityList
     CropYieldFactors = clews_const.CropYieldFactors
+    MinCropYieldOAR = clews_const.MinCropYieldOAR
     GroundwaterPercentofExcess = clews_const.GroundwaterPercentofExcess
     LandRegions = clews_const.LandRegions
     Regions = clews_const.Regions
@@ -297,8 +304,17 @@ def build_agrivoltaic_modes(
                 col_idx = header_cols.index(combo_label)
                 conv_yield_raw = float(
                     Clusters[clustercount].split(',')[col_idx])
-                if conv_yield_raw == 0.0:
-                    continue                     # crop does not grow here
+                # Build an AGV mode only where the conventional parent mode
+                # was itself built. This must be the same test, on the same
+                # quantity, that sets_n_ratios applies - panels on a field
+                # cannot make a crop viable on land where the crop is not
+                # modelled at all. Skipping only exactly-zero yields let all
+                # five agrivoltaic alfalfa regimes exist in cluster 1, 62% of
+                # the modelled land area, with no conventional alfalfa there
+                # to compete against.
+                if conv_yield_raw * CropYieldFactors.get(crop, 1.0) \
+                        < MinCropYieldOAR:
+                    continue                     # crop not modelled here
 
                 # ---------- IARs (identical to parent mode) ----------
 

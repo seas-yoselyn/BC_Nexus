@@ -128,7 +128,11 @@ def get_transformation_techs_power():
 
     # Create a separate list for items starting with 'PWR'
     pwr_list = [item for item in _TransformationTechnologies_ if item[0][:3] == 'PWR' and not item[0][:6] == 'PWRTRN']
-    # lnd_list = [item for item in _TransformationTechnologies_ if item[0][:3] == 'LND']
+    # There is deliberately no lnd_list here. LND4PWR is emitted by
+    # BuildCLEWsModel from the PowerPlantLandUseCodes modes, where the mode
+    # number is derived from ModeList; declaring it in
+    # TransformationTechnologies meant carrying a hardcoded mode number that
+    # silently detached from the land-use mode it was meant to name.
     trn_list=[item for item in _TransformationTechnologies_ if item[0][:6] == 'PWRTRN']
     
     updated_pwr_list=[]
@@ -166,6 +170,7 @@ def BuildCLEWsModel():
     LandCluster_data=clews_const.LandCluster_data
     TransformationTechnologies:dict = get_transformation_techs_power()
     LandUseIntensity=clews_const.LandUseIntensity_FUEL
+    PowerPlantLandUse=set(clews_const.PowerPlantLandUseCodes)
     CarbonCaptureFuels=clews_const.CarbonCaptureFuels
   
     ImportFuels:dict = clews_const.ImportFuels
@@ -184,8 +189,18 @@ def BuildCLEWsModel():
     IrrigationTypeList : dict= clews_const.IrrigationTypeList
     IntensityList= clews_const.IntensityList
     CropYieldFactors:dict = clews_const.CropYieldFactors
+    MinCropYieldOAR = clews_const.MinCropYieldOAR
     GroundwaterPercentofExcess:dict =clews_const.GroundwaterPercentofExcess
     LandUseCodes :dict= clews_const.LandUseCodes
+    # A typo here would emit no LND4PWR from that class, quietly shrinking the
+    # land available to the power system - or, if every entry is wrong,
+    # producing none at all and making the model infeasible. Fail loudly.
+    _unknown = PowerPlantLandUse - set(LandUseCodes)
+    if _unknown or not PowerPlantLandUse:
+        raise ValueError(
+            f"PowerPlantLandUseCodes {sorted(_unknown) or '(empty)'} are not "
+            f"LandUseCodes keys; LND4PWR would not be produced from them. "
+            f"Valid codes: {sorted(LandUseCodes)}")
     EvapotranspirationPercentPRCOtherLandUse :dict= clews_const.EvapotranspirationPercentPRCOtherLandUse
     GroundwaterPercentofExcessOtherLandUse :dict= clews_const.GroundwaterPercentofExcessOtherLandUse
         
@@ -571,7 +586,7 @@ def BuildCLEWsModel():
                 if _combo_label in Clusters[0].strip().split(','):
                     _yield_check = float(Clusters[clustercount].split(',')[
                         Clusters[0].strip().split(',').index(_combo_label)]) * CropYieldFactors[modeCombo[:-2][0:3]]
-                    if _yield_check < 0.0001:
+                    if _yield_check < MinCropYieldOAR:
                         continue
                 # Add the IAR for the combo into the correct mode.
                 AddActivityListItems(Years, Region, "LNDAGR" + LandRegion + "C" + Clusters[clustercount].split(',')[0].zfill(2),
@@ -679,6 +694,18 @@ def BuildCLEWsModel():
                 # LSOU becomes LNDFORSOU, etc. in specified mode
                 AddActivityListItems(Years, Region, "LNDAGR" + LandRegion + "C" + line.split(',')[0].zfill(2),
                 "L" + LandUseCode + LandRegion, IARList, value = "1", g = str(ModeNum + 1)) # print(Sets)
+
+                # Land for power generation. This is the only place LND4PWR
+                # enters the model, and it is deliberately confined to
+                # land-cover modes: a mode's outputs are locked in fixed
+                # proportion to its activity, so LND4PWR sharing a mode with a
+                # crop would weld the power build-out to that crop's output in
+                # both directions. Mode numbers come from ModeNum rather than
+                # literals, so they cannot drift out of step with the numbering.
+                if LandUseCode in PowerPlantLandUse:
+                    AddActivityListItems(Years, Region,
+                    "LNDAGR" + LandRegion + "C" + line.split(',')[0].zfill(2),
+                    LandUseIntensity, OARList, value = "1", g = str(ModeNum + 1))
 
 
                 # Now add precipitation and water balance inputs and outputs
