@@ -22,6 +22,29 @@ ALF = {1: "ALFHI", 2: "ALFII", 3: "ALFHR", 4: "ALFIR", 5: "ALFLR"}
 COVER = {51: "Barren", 52: "Forest", 53: "Grassland",
          54: "Built-up(power)", 55: "Water", 56: "OtherAg"}
 NEEDED = "TotalAnnualTechnologyActivityByMode.csv"
+SETS = Path("data/clews_data/SETs")
+
+
+def real_modes():
+    """(technology, mode) pairs that actually appear in the IAR or OAR.
+
+    A technology-mode with neither is a phantom: it sits in no constraint and
+    carries no cost, so the LP is indifferent to its value and a barrier solve
+    without crossover parks it anywhere. Those values are not land and must not
+    be summed as if they were.
+    """
+    keep = set()
+    for name in ("InputActivityRatio.csv", "OutputActivityRatio.csv"):
+        f = SETS / name
+        if not f.exists():
+            return None
+        d = pd.read_csv(f)
+        d = norm(d)
+        if not {"TECHNOLOGY", "MODE_OF_OPERATION", "VALUE"} <= set(d.columns):
+            return None
+        d = d[d.VALUE.astype(float) != 0]
+        keep |= set(zip(d.TECHNOLOGY, d.MODE_OF_OPERATION.astype(int)))
+    return keep
 
 # otoole has used both long and short column names over the years.
 COLMAP = {"r": "REGION", "t": "TECHNOLOGY", "m": "MODE_OF_OPERATION",
@@ -71,6 +94,18 @@ def report(run: Path):
         print("  no LNDAGR rows - skipping")
         return
     bym["MODE_OF_OPERATION"] = bym.MODE_OF_OPERATION.astype(int)
+
+    keep = real_modes()
+    if keep is None:
+        print("  [warn] SETs not found - phantom modes NOT filtered")
+    else:
+        before = len(bym)
+        pairs = list(zip(bym.TECHNOLOGY, bym.MODE_OF_OPERATION))
+        bym = bym[[p in keep for p in pairs]]
+        dropped = before - len(bym)
+        if dropped:
+            print(f"  [filtered {dropped} phantom technology-mode rows "
+                  f"with no IAR/OAR]")
 
     alf = bym[bym.MODE_OF_OPERATION.isin(ALF)].groupby("YEAR").VALUE.sum()
     if alf.empty or len(alf) < 3:
