@@ -137,6 +137,11 @@ def cluster_areas():
                 for r in csv.DictReader(fh)}
 
 
+def configured_limit(tech):
+    """A cluster technology's configured activity ceiling, or None."""
+    return configured("TotalTechnologyAnnualActivityUpperLimit.csv", tech)
+
+
 def configured(param, tech):
     """A technology's configured limit for the base year, or None."""
     path = TEMPLATE / param
@@ -221,21 +226,39 @@ def check_cluster_area(run):
     areas = cluster_areas()
     if not areas:
         return (WARN, "cluster data not found; cannot check areas", [])
-    # The model may be scaled up from the clustered extent; compare on shares
-    # so the check works whichever --total-area the pins were built with.
-    scale = sum(used.values()) / sum(areas.values()) if sum(areas.values()) else 1
+
+    # Prefer the configured ceiling. Deriving a scale from total usage is
+    # wrong whenever the model does not use all the land available: a run
+    # that drew 909.8 of 925 shrinks the yardstick by 1.7% and every binding
+    # cluster then reads as 1.03x over. Only fall back to shares when no
+    # ceilings are configured.
+    configured = {t: configured_limit(t) for t in areas}
+    have_caps = any(v is not None for v in configured.values())
+    if have_caps:
+        source = "configured cap"
+        expect = {t: (configured[t] if configured[t] is not None else None)
+                  for t in areas}
+    else:
+        total_area = sum(areas.values())
+        scale = sum(used.values()) / total_area if total_area else 1
+        source = "cluster area (no caps set; scaled by usage)"
+        expect = {t: areas[t] * scale for t in areas}
+
     bad, detail = [], []
     for t in sorted(areas):
-        expect = areas[t] * scale
+        want = expect[t]
         got = used.get(t, 0.0)
-        ratio = got / expect if expect else 0
-        detail.append(f"{t}: {got:8.3f} vs {expect:8.3f} area  ({ratio:.2f}x)")
+        if want is None:
+            detail.append(f"{t}: {got:8.3f}  (no ceiling configured)")
+            continue
+        ratio = got / want if want else 0
+        detail.append(f"{t}: {got:8.3f} vs {want:8.3f} {source}  ({ratio:.2f}x)")
         if ratio > 1 + TOL:
             bad.append(f"{t} at {ratio:.2f}x")
     if bad:
         return (FAIL, "clusters process more land than they contain: "
                       + ", ".join(bad), detail)
-    return (PASS, "every cluster within its own area", detail)
+    return (PASS, f"every cluster within its {source}", detail)
 
 
 def check_power_land(run):
