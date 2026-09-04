@@ -172,11 +172,24 @@ COVER_COLUMNS = {
 # land budget can be checked, and they bound crops implicitly.
 CULTIVATED_COLUMNS = ["Irrigated cultivated land", "Rain-fed cultivated land"]
 
-# Clustered area not attributed to any named cover class, assigned to the
-# "other agricultural land" technology so the budget closes exactly.
+# Clustered area not attributed to any named cover class. It is a residual -
+# what the raster could not label - not an observation, so it is deliberately
+# NOT pinned. It carries the slack instead: crops, livestock and AGV all draw
+# on the same budget, and something has to absorb the difference.
+#
+# Pinning it was the second cause of infeasibility on the remote (2026-09-04):
+# the residual scaled to 31.445 and was written as min == max, while the model
+# had never used more than 0.061 of it. An equality on a bucket the model does
+# not want is exactly the constraint that cannot be satisfied.
 RESIDUAL_TECH = "LNDOTHBC1"
 
-PINNED_TECHS = sorted(set(COVER_COLUMNS.values()) | {RESIDUAL_TECH})
+# Only the classes the raster actually measured are frozen.
+PINNED_TECHS = sorted(set(COVER_COLUMNS.values()))
+
+# Rows any version of this tool may have written, for cleanup on revert
+# and before re-applying. Includes RESIDUAL_TECH, which earlier versions
+# pinned and this one deliberately does not.
+OURS = set(PINNED_TECHS) | {RESIDUAL_TECH}
 
 # Files this tool writes. Activity limits bind land area; capacity limits keep
 # the land-cover plots consistent with it.
@@ -307,7 +320,7 @@ def check_budget(template, areas, cluster_areas, crop_reserve,
     for fields, _ in load(lo_path)[1]:
         tech, year, value = fields[1], fields[2], fields[3]
         # Rows this tool is about to replace do not count as pre-existing.
-        if tech in PINNED_TECHS or not tech.startswith("LND"):
+        if tech in OURS or not tech.startswith("LND"):
             continue
         if year == str(YEAR_START):
             existing += float(value)
@@ -316,16 +329,17 @@ def check_budget(template, areas, cluster_areas, crop_reserve,
     # the land supply itself; say so rather than implying a false constraint.
     capacity = sum(cluster_areas.values())
     label = "cluster processing capacity" if capped else "land supply (no caps)"
-    demand = sum(areas.values()) + crop_reserve + existing
+    pinned = sum(areas[t] for t in PINNED_TECHS)
+    demand = pinned + crop_reserve + existing
     margin = capacity - demand
 
     print(f"\nLand budget check (year {YEAR_START}):")
     print(f"  {label:<29} {capacity:10.3f}")
-    print(f"  pinned covers                 {sum(areas.values()):10.3f}")
+    print(f"  pinned covers                 {pinned:10.3f}")
     print(f"  cropland reserved             {crop_reserve:10.3f}")
     print(f"  other LND floors already set  {existing:10.3f}")
-    print(f"  reserve for livestock + AGV   "
-          f"{NON_CLUSTER_LAND_RESERVE - existing:10.3f}")
+    print(f"  free for residual cover       "
+          f"{margin:10.3f}")
     print(f"  {'margin':<29} {margin:+10.3f}")
     if margin < 0:
         sys.exit(f"\nland budget infeasible by {-margin:.3f}: the cluster "
@@ -339,7 +353,7 @@ def pin(template, filename, areas, frozen, dry_run):
     """Write min == max rows for every pinned cover over the frozen years."""
     path = template / filename
     header, body, newline = load(path)
-    body = drop(body, set(PINNED_TECHS), set(frozen))
+    body = drop(body, OURS, set(frozen))
     body.extend(make_rows(
         [[REGION, tech, str(y), f"{areas[tech]:.3f}"]
          for tech in PINNED_TECHS for y in frozen], newline))
@@ -382,14 +396,14 @@ def main():
     if a.revert:
         path = template / ACTIVITY_HI
         header, body, newline = load(path)
-        body = drop(body, {PRECIP_SUPPLY} | set(PINNED_TECHS))
+        body = drop(body, {PRECIP_SUPPLY} | OURS)
         body = [(f, r) for f, r in body if not f[1].startswith(CLUSTER_PREFIX)]
         save(path, header, body, newline, a.dry_run)
 
         for name in (ACTIVITY_LO, CAPACITY_LO, CAPACITY_HI):
             path = template / name
             header, body, newline = load(path)
-            body = drop(body, set(PINNED_TECHS), set(frozen))
+            body = drop(body, OURS, set(frozen))
             save(path, header, body, newline, a.dry_run)
 
         verb = "would remove" if a.dry_run else "removed"
@@ -428,7 +442,7 @@ def main():
     # the frozen ones - a cluster never grows, whatever the scenario.
     path = template / ACTIVITY_HI
     header, body, newline = load(path)
-    body = drop(body, {PRECIP_SUPPLY} | set(PINNED_TECHS))
+    body = drop(body, {PRECIP_SUPPLY} | OURS)
     body = [(f, r) for f, r in body if not f[1].startswith(CLUSTER_PREFIX)]
     body.extend(make_rows(
         [[REGION, PRECIP_SUPPLY, str(y), f"{precip_cap:.3f}"]
