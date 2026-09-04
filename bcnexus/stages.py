@@ -36,11 +36,20 @@ NC = typer.Option(1, "--n-clusters", "-nc")
 @app.command()
 def build(scenario: str = S, storage: str = A,
           hour_grouping: int = HG, n_clusters: int = NC,
-          include_livestock: bool = True):
-    """Stage #1-#3: CLEWs builder -> temporal profiles -> storage-case schema."""
+          include_livestock: bool = True,
+          include_agrivoltaic: bool = True):
+    """Stage #1-#3: CLEWs builder -> temporal profiles -> storage-case schema.
+
+    include_agrivoltaic must be on for the LNDAGV* technologies to exist at
+    all. With it off the build produces no agrivoltaic technologies, and any
+    LNDAGV rows in the parameter templates are dropped when the parameters are
+    harmonised against the TECHNOLOGY set - which reads as costs being deleted.
+    """
     m = _make_runner(scenario, storage, hour_grouping, n_clusters)
-    out = m.stage_build(include_livestock=include_livestock)
-    typer.echo(f"[build] done -> {out}")
+    out = m.stage_build(include_livestock=include_livestock,
+                        include_agrivoltaic=include_agrivoltaic)
+    typer.echo(f"[build] done -> {out}"
+               f"  (livestock={include_livestock}, agrivoltaic={include_agrivoltaic})")
 
 
 @app.command()
