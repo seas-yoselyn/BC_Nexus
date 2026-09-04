@@ -26,51 +26,28 @@ SETS = Path("data/clews_data/SETs")
 
 
 def real_modes():
-    """(technology, mode) pairs that actually appear in the IAR or OAR.
+    """(technology, mode) pairs that actually consume land.
 
-    A technology-mode with neither is a phantom: it sits in no constraint and
-    carries no cost, so the LP is indifferent to its value and a barrier solve
-    without crossover parks it anywhere. Those values are not land and must not
-    be summed as if they were.
+    Activity alone is not land. Some cluster modes carry water flows -
+    precipitation in, evapotranspiration out - while consuming no land
+    commodity and producing no crop. LNDAGRBC1C01's alfalfa modes are the
+    example: CRPALF output 0.0, land input 0.0. Precipitation supply is
+    uncapped, so nothing bounds those variables and a barrier solve with
+    Crossover=0 parks them at an arbitrary value. C01 came back as 11, 88,
+    320 and 875 kkm2 across runs while C03 held at ~11.9 throughout.
+
+    Land commodities are the fuels beginning with 'L' (LALFHIBC1, LFORBC1,
+    LAGVMAIHIBC1 ...); water is WTR*/AGRWAT. Requiring a non-zero land input
+    keeps exactly the modes whose activity is an area.
     """
-    keep = set()
-    for name in ("InputActivityRatio.csv", "OutputActivityRatio.csv"):
-        f = SETS / name
-        if not f.exists():
-            return None
-        d = pd.read_csv(f)
-        d = norm(d)
-        if not {"TECHNOLOGY", "MODE_OF_OPERATION", "VALUE"} <= set(d.columns):
-            return None
-        d = d[d.VALUE.astype(float) != 0]
-        keep |= set(zip(d.TECHNOLOGY, d.MODE_OF_OPERATION.astype(int)))
-    return keep
-
-# otoole has used both long and short column names over the years.
-COLMAP = {"r": "REGION", "t": "TECHNOLOGY", "m": "MODE_OF_OPERATION",
-          "y": "YEAR", "value": "VALUE", "f": "FUEL"}
-
-
-def norm(df, stem=None):
-    """Rename short otoole columns to the long form, if present.
-
-    Older result files name the value column after the variable itself
-    (e.g. 'TotalCapacityAnnual') rather than 'VALUE'.
-    """
-    ren = {c: COLMAP[c] for c in df.columns if c in COLMAP}
-    if stem and stem in df.columns:
-        ren[stem] = "VALUE"
-    return df.rename(columns=ren)
-
-
-def find_runs(root: Path, want: str | None):
-    """Any directory holding the file we need counts as a run."""
-    hits = sorted({p.parent for p in root.rglob(NEEDED)})
-    if want:
-        hits = [h for h in hits if want.lower() in str(h).lower()]
-    else:
-        hits = [h for h in hits if "archive" not in str(h).lower()]
-    return hits
+    f = SETS / "InputActivityRatio.csv"
+    if not f.exists():
+        return None
+    d = norm(pd.read_csv(f))
+    if not {"TECHNOLOGY", "MODE_OF_OPERATION", "FUEL", "VALUE"} <= set(d.columns):
+        return None
+    d = d[(d.VALUE.astype(float) != 0) & d.FUEL.str.startswith("L")]
+    return set(zip(d.TECHNOLOGY, d.MODE_OF_OPERATION.astype(int)))
 
 
 def label(p: Path) -> str:
