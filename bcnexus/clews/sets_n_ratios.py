@@ -190,6 +190,7 @@ def BuildCLEWsModel():
     IntensityList= clews_const.IntensityList
     CropYieldFactors:dict = clews_const.CropYieldFactors
     MinCropYieldOAR = clews_const.MinCropYieldOAR
+    CropSoilN2O:dict = clews_const.CropSoilN2O
     GroundwaterPercentofExcess:dict =clews_const.GroundwaterPercentofExcess
     LandUseCodes :dict= clews_const.LandUseCodes
     # A typo here would emit no LND4PWR from that class, quietly shrinking the
@@ -617,10 +618,23 @@ def BuildCLEWsModel():
                         "LNDAGR" + LandRegion + "C" + Clusters[clustercount].split(',')[0].zfill(2),
                         "CRP" + modeCombo[:-2], OARList, g = str(mode + 1), v = str(Value))
 
-                        # Direct + indirect N2O from agricultural soils
+                        # Direct + indirect N2O from agricultural soils.
                         # Applied only to crop modes (this if-branch); non-crop
                         # land uses (FOR, SET, etc.) are added in a separate loop.
-                        
+                        #
+                        # Emitted here, next to the crop OAR, so it lands on the
+                        # cluster technology and the crop-combo mode that
+                        # actually carries the crop, and so it inherits the
+                        # MinCropYieldOAR skip above: a crop mode that was never
+                        # built cannot emit. The rows this replaces were pinned
+                        # to the same mode numbers but attached to the
+                        # LND{combo}{LR} land-tier technologies, which are
+                        # mode-1-only, so all but one of them were inert.
+                        for _emission, _factor in CropSoilN2O.items():
+                            AddActivityListItems(Years, Region,
+                            "LNDAGR" + LandRegion + "C" + Clusters[clustercount].split(',')[0].zfill(2),
+                            _emission, EARList, g = str(mode + 1), v = str(_factor))
+
                         # IAR for Irrigation
                         Location = IrrigationWaterDeficitClusters[0].strip().split(',').index(CropComboLabel)
                         IrrigationValue = float(IrrigationWaterDeficitClusters[clustercount].split(',')[Location])
@@ -801,6 +815,82 @@ def BuildCLEWsModel():
             ModeList)
     
     
+def write_emission_activity_ratio(EARList: list,
+                                  csv_dir: str | Path,
+                                  extra_generated_techs: set = None) -> int:
+    """
+    Merge generated EmissionActivityRatio rows into the parameter file.
+
+    EmissionActivityRatio is half generated and half hand-maintained: the CO2
+    rows on the DEM* demand technologies and CCS01 are curated by hand and must
+    survive untouched, while the agricultural soil N2O and the livestock
+    CH4/N2O rows are now emitted by the build. So this replaces rather than
+    rewrites - it drops only the rows belonging to a generated family, then
+    appends EARList.
+
+    A "generated family" is any row on a technology this build emits emissions
+    for, plus the legacy LND{combo}{LR} crop-tier rows those replaced. That
+    legacy clause matters: those rows named crop-combo mode numbers on
+    mode-1-only technologies, so they were inert, and leaving them behind would
+    quietly resurrect one of them (alfalfa-high-irrigated, which lands on mode
+    1) on top of the generated row for the same crop.
+
+    Writes into ``csv_dir`` - the build input directory, not the SETs
+    directory, because the hand-maintained rows arrive there with the csv
+    template. Idempotent: re-running replaces the same families again.
+
+    Returns the number of rows in the file afterwards.
+    """
+    csv_dir = Path(csv_dir)
+    path = csv_dir / 'EmissionActivityRatio.csv'
+    columns = ['REGION', 'TECHNOLOGY', 'EMISSION',
+               'MODE_OF_OPERATION', 'YEAR', 'VALUE']
+
+    generated_techs = {str(item['c'][1]) for item in EARList}
+    if extra_generated_techs:
+        generated_techs |= {str(t) for t in extra_generated_techs}
+    generated_emissions = {str(item['c'][2]) for item in EARList}
+
+    if path.exists():
+        existing = pd.read_csv(path)
+    else:
+        utils.print_warning(
+            f"{path} not found; writing generated emission rows only. Any "
+            f"hand-maintained CO2 rows for the demand technologies are absent.")
+        existing = pd.DataFrame(columns=columns)
+
+    tech = existing['TECHNOLOGY'].astype(str)
+    emission = existing['EMISSION'].astype(str)
+
+    # Legacy crop-tier rows: LND{combo}{LR}, never LNDAGR{LR}C{cc}, carrying an
+    # emission this build now generates.
+    legacy_crop_tier = (tech.str.startswith('LND')
+                        & ~tech.str.startswith('LNDAGR')
+                        & emission.isin(generated_emissions))
+
+    drop = tech.isin(generated_techs) | legacy_crop_tier
+    kept = existing[~drop]
+
+    new_rows = pd.DataFrame(
+        [{'REGION': i['c'][0], 'TECHNOLOGY': i['c'][1], 'EMISSION': i['c'][2],
+          'MODE_OF_OPERATION': i['c'][3], 'YEAR': i['c'][4], 'VALUE': i['v']}
+         for i in EARList],
+        columns=columns)
+
+    merged = pd.concat([kept, new_rows], ignore_index=True)[columns]
+    merged = merged.drop_duplicates(
+        subset=['REGION', 'TECHNOLOGY', 'EMISSION',
+                'MODE_OF_OPERATION', 'YEAR'], keep='last')
+    merged.to_csv(path, index=False)
+
+    utils.print_update(
+        level=PRINT_LEVEL_BASE + 1,
+        message=(f"EmissionActivityRatio: kept {len(kept)} hand-maintained "
+                 f"row(s), replaced {int(drop.sum())} with "
+                 f"{len(new_rows)} generated row(s) -> {len(merged)} total"))
+    return len(merged)
+
+
 def build(save_to='SETs'):
     save_to:Path=utils.ensure_path(save_to)
     utils.print_banner("Building CLEWs SETs")
@@ -835,10 +925,11 @@ def build(save_to='SETs'):
     for limitation in clews_set_builder_limitaitons :
         utils.print_warning(f'{clews_set_builder_limitaitons[limitation]}')
         
-    return (SetNames, 
-            NewSetItems, 
-            IARList, 
+    return (SetNames,
+            NewSetItems,
+            IARList,
             OARList,
+            EARList,
             ModeList)
 
 def check_landcluster_data(landcluser_config:dict,

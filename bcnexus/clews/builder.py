@@ -147,14 +147,14 @@ class BuildModel:
         self.get_LandCluster_data()
     
     #2. Build base SETs and Ratios
-        SetNames,NewSetItems,IARList,OARList,ModeList=    sets_n_ratios.build(self.SETs_save_to)
+        SetNames,NewSetItems,IARList,OARList,EARList,ModeList= sets_n_ratios.build(self.SETs_save_to)
     
     #3. Build agrivoltaic modes (must run before livestock so mode count is correct)
         if include_agrivoltaic:
             from bcnexus.clews import agrivoltaic as bcnexus_agv
-            SetNames, NewSetItems, IARList, OARList, ModeList = \
+            SetNames, NewSetItems, IARList, OARList, EARList, ModeList = \
                 bcnexus_agv.build_agrivoltaic_modes(
-                    SetNames, NewSetItems, IARList, OARList, ModeList)
+                    SetNames, NewSetItems, IARList, OARList, EARList, ModeList)
 
     #4. Collect Livestock data and build SETs including livestock data
         if include_livestock:
@@ -165,14 +165,18 @@ class BuildModel:
                 SetNames, NewSetItems, livestock_sets
             )
 
-            agr_mode_count = len(NewSetItems[SetNames.index('MODE_OF_OPERATION')])
-            livestock_modes = bcnexus_lvs._assign_livestock_modes(agr_mode_count)
+            # Mode numbers come from ModeList, the same list the crop and
+            # agrivoltaic modes were appended to, so livestock lands after
+            # them and ModeList.txt below names every mode that exists.
+            livestock_modes = bcnexus_lvs._assign_livestock_modes(
+                ModeList=ModeList)
 
             IARList, OARList = bcnexus_lvs.update_IARlist(
                 IARList_existing=IARList,
                 OARList_existing=OARList,
                 livestock_sets=livestock_sets,
                 livestock_modes=livestock_modes,
+                EARList_existing=EARList,
             )
 
             # Overwrite CSVs with the combined (base + livestock) data
@@ -201,6 +205,14 @@ class BuildModel:
                         'color': '#000000'
                     })
 
+            # Livestock technologies carry their mode number in the
+            # mode-keyed parameter files. Those numbers shift whenever a crop
+            # or agrivoltaic mode is added ahead of them, so realign them here
+            # rather than leaving a hand-maintained literal to rot.
+            bcnexus_lvs.sync_livestock_param_modes(
+                self.clews_build_input_csv_dir, livestock_modes
+            )
+
     #5. Final write: ensure agrivoltaic (and any other) changes are persisted
         if include_agrivoltaic and not include_livestock:
             sets_n_ratios.UpdateSETS(
@@ -210,6 +222,23 @@ class BuildModel:
                 OARList=OARList,
                 csv_save_to=self.SETs_save_to,
             )
+
+    #6. Write the generated emission rows.
+        # Goes to the build input directory, not SETs_save_to: the CO2 rows on
+        # the demand technologies are hand-maintained and arrive there with the
+        # csv template, so the generated agricultural and livestock rows have
+        # to be merged in beside them rather than written over them.
+        sets_n_ratios.write_emission_activity_ratio(
+            EARList, self.clews_build_input_csv_dir)
+
+    #7. Rewrite ModeList.txt from the final ModeList.
+        # sets_n_ratios.build() writes it before the agrivoltaic and livestock
+        # modes exist, so on its own it names only the crop and land-cover
+        # modes. Anything reading it to interpret a mode number in the results
+        # was reading a truncated map.
+        with open(Path(self.SETs_save_to) / 'ModeList.txt', 'w') as mode_file:
+            for idx, mode in enumerate(ModeList, 1):
+                mode_file.write(f"{idx}: {mode}\n")
  
     ## NOT NEEDED : EL_20251115
     # ---------------------------

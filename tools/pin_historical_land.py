@@ -89,8 +89,16 @@ TOTAL_AREA = 925.0
 CROP_RESERVE = 50.0
 
 # Livestock pasture (LivestockLandArea sums to 8.989 at base year, runs grow it
-# to 12.544) plus agrivoltaic arrays (up to ~0.9). Neither is in the cluster
-# file, so both need room reserved off the top.
+# to 12.544) plus agrivoltaic arrays (up to ~0.9). Neither appears as a column
+# in the cluster file, so neither is covered by the cover floors and both need
+# room reserved off the top before forest takes the remainder.
+#
+# The name is now half wrong and the number is not: as of the livestock cluster
+# rewrite, both livestock and agrivoltaic land DO run through the LNDAGR
+# cluster technologies and so do count against --cluster-caps. What has not
+# changed is that they occupy real area the cover floors do not account for, so
+# the forest budget still has to leave it out. Read this as "land the cover
+# floors do not see", not "land outside the clusters".
 NON_CLUSTER_LAND_RESERVE = 15.0
 
 YEAR_START, YEAR_END = 2021, 2050

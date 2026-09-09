@@ -321,6 +321,50 @@ Emissions= {
 }
 
 
+# Nitrous oxide from agricultural soils, per unit of crop-mode activity on the
+# LNDAGR cluster technologies (thousand sq km of land in that crop regime).
+#
+# Lifted verbatim from the values that used to be hand-maintained in
+# EmissionActivityRatio.csv, where they were uniform across every crop and
+# every intensity/irrigation regime and constant across all 30 years. They are
+# generated here instead because the hand-maintained rows named the crop-combo
+# mode number (2=ALFII, 49=WHEIR, ...) but sat on the LND{combo}{LR} land-tier
+# technologies, which only ever have mode 1. 72 of the 74 crop rows therefore
+# addressed a mode their technology did not have and contributed exactly zero
+# N2O; only alfalfa-high-irrigated, which happened to land on mode 1, emitted
+# anything at all. Generating them alongside the crop OAR puts them on the
+# technology and mode that actually carries the crop, and removes the mode
+# number from the set of things a human has to keep in step.
+#
+# Uniformity across crops is inherited from that data, not asserted here: a
+# per-crop or per-regime factor would be an improvement and belongs in this
+# dict as a nested mapping when the numbers exist.
+CropSoilN2O= {
+  'N2O_DIR': 2.16462335,
+  'N2O_IND': 0.93916,
+}
+
+# Whether agrivoltaic crop modes also emit soil N2O. They grow the same crop on
+# the same soil, so they do - and leaving them out would make panels a free way
+# to dodge the nitrogen penalty, biasing the exact comparison the agrivoltaic
+# module exists to make. Set False only to reproduce a pre-2026 run.
+AgrivoltaicEmitsSoilN2O= True
+
+# Livestock emissions, per unit of production-technology activity. The LVS{pw}
+# production technologies take HRD{pw} at an input activity ratio of 1, so
+# their activity is thousand head and these factors are per thousand head.
+# Also lifted verbatim from EmissionActivityRatio.csv, where they were pinned
+# to modes 58-62 and had already fallen out of step with the build (livestock
+# had moved to 78-82 once agrivoltaic modes were inserted ahead of it), so
+# every livestock emission was landing on a mode its technology did not have.
+LivestockEmissionFactors= {
+  'BEFN': {'CH4_FER': 1.484, 'CH4_MAN': 0.056,   'N2O_MAN': 18.55},
+  'BEFC': {'CH4_FER': 1.484, 'CH4_MAN': 0.056,   'N2O_MAN': 18.55},
+  'MIL':  {'CH4_FER': 3.584, 'CH4_MAN': 1.344,   'N2O_MAN': 26.5},
+  'PIG':  {'CH4_FER': 0.042, 'CH4_MAN': 0.448,   'N2O_MAN': 5.3},
+  'SHP':  {'CH4_FER': 0.224, 'CH4_MAN': 0.00784, 'N2O_MAN': 3.18},
+}
+
 # Crop yield factors for calibrating the model.  Codes here must match crop codes in the land use data.
 # -------->>>>>>>>>>>>>>>>>>> needs to be automated
 CropYieldFactors= {
@@ -441,9 +485,15 @@ LivestockGroundwaterPercentofExcess = {
     'SHP':  0.051,   # GRS proxy
 }
 
-# BC1 area weighted precipitation from Geoclews
+# BC1 area weighted precipitation from Geoclews.
+#
+# NO LONGER READ. Livestock land now runs through the LNDAGR cluster
+# technologies, so its water balance uses the same per-cluster depths from
+# clustering_results_prc_BC1.csv that the crops and land covers use, which
+# range 0.53 to 2.71 around this area-weighted mean. Kept as the documented
+# provenance of that mean; delete it once nothing refers to it.
 LivestockRegionalPrecipitation = {
-    'BC1': 0.9682,  
+    'BC1': 0.9682,
 }
 
 

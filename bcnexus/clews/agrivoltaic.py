@@ -140,6 +140,7 @@ def build_agrivoltaic_modes(
     NewSetItems: list,
     IARList: list,
     OARList: list,
+    EARList: list,
     ModeList: list,
 ) -> tuple:
     """
@@ -153,17 +154,18 @@ def build_agrivoltaic_modes(
     * Produces the same crop fuel but at a reduced OAR (yield factor).
     * Produces ELCB01 electricity as a co-product (the novel output).
     * Produces the same evapotranspiration, groundwater, runoff OARs.
+    * Emits the same agricultural soil N2O per unit of land.
 
     Parameters
     ----------
-    SetNames, NewSetItems, IARList, OARList, ModeList
+    SetNames, NewSetItems, IARList, OARList, EARList, ModeList
         The base build outputs from sets_n_ratios.BuildCLEWsModel().
 
     Returns
     -------
     tuple
-        (SetNames, NewSetItems, IARList, OARList, ModeList) with AGV
-        modes appended.  The caller can pass these directly to
+        (SetNames, NewSetItems, IARList, OARList, EARList, ModeList) with
+        AGV modes appended.  The caller can pass these directly to
         livestock.main() or sets_n_ratios.UpdateSETS().
     """
     from bcnexus.clews.sets_n_ratios import AddActivityListItems, Fill_Set
@@ -185,6 +187,8 @@ def build_agrivoltaic_modes(
     CropYieldFactors = clews_const.CropYieldFactors
     MinCropYieldOAR = clews_const.MinCropYieldOAR
     GroundwaterPercentofExcess = clews_const.GroundwaterPercentofExcess
+    CropSoilN2O = clews_const.CropSoilN2O
+    EmitsSoilN2O = clews_const.AgrivoltaicEmitsSoilN2O
     LandRegions = clews_const.LandRegions
     Regions = clews_const.Regions
     snapshot = clews_const.snapshot
@@ -200,7 +204,7 @@ def build_agrivoltaic_modes(
     if not parent_lookup:
         utils.print_warning("No AGV-eligible crop modes found in ModeList. "
                             "Skipping agrivoltaic module.")
-        return SetNames, NewSetItems, IARList, OARList, ModeList
+        return SetNames, NewSetItems, IARList, OARList, EARList, ModeList
 
     # ------------------------------------------------------------------
     # Step 1:  Append AGV mode labels to ModeList and record the mapping
@@ -410,6 +414,20 @@ def build_agrivoltaic_modes(
                     "WTRSUR" + region_code,
                     OARList, g=mode_str, v=ro_str)
 
+                # Agricultural soil N2O, at the conventional rate.
+                # An agrivoltaic field is the same crop on the same soil
+                # under the same nitrogen regime, so it carries the same
+                # per-hectare soil emission. Omitting it would make panels
+                # a costless way to shed the nitrogen penalty and would
+                # bias precisely the conventional-vs-agrivoltaic
+                # comparison this module exists to make.
+                if EmitsSoilN2O:
+                    for n2o_emission, n2o_factor in CropSoilN2O.items():
+                        AddActivityListItems(
+                            Years, Region, tech,
+                            n2o_emission,
+                            EARList, g=mode_str, v=str(n2o_factor))
+
                 rows_written += 1
 
     utils.print_update(level=PRINT_LEVEL,
@@ -431,7 +449,7 @@ def build_agrivoltaic_modes(
             Fill_Set(NewSetItems, SetNames, "MODE_OF_OPERATION",
                      str(info['agv_mode']), "#000000", info['label'])
 
-    return SetNames, NewSetItems, IARList, OARList, ModeList
+    return SetNames, NewSetItems, IARList, OARList, EARList, ModeList
 
 
 # ---------------------------------------------------------------------------
@@ -442,6 +460,7 @@ def main(SetNames: list,
          NewSetItems: list,
          IARList: list,
          OARList: list,
+         EARList: list,
          ModeList: list,
          csv_save_to: str | Path = None,
 ) -> tuple:
@@ -450,18 +469,23 @@ def main(SetNames: list,
 
     Parameters
     ----------
-    SetNames, NewSetItems, IARList, OARList, ModeList
+    SetNames, NewSetItems, IARList, OARList, EARList, ModeList
         Base build outputs.
     csv_save_to
         If provided, writes updated SETs to this directory immediately.
         If None, just returns the updated lists (caller writes later).
 
+        Note this writes only the SETs and activity ratios. The generated
+        emission rows in EARList go to the build input directory, where the
+        hand-maintained CO2 rows live - see
+        sets_n_ratios.write_emission_activity_ratio.
+
     Returns
     -------
-    tuple of (SetNames, NewSetItems, IARList, OARList, ModeList)
+    tuple of (SetNames, NewSetItems, IARList, OARList, EARList, ModeList)
     """
     result = build_agrivoltaic_modes(
-        SetNames, NewSetItems, IARList, OARList, ModeList)
+        SetNames, NewSetItems, IARList, OARList, EARList, ModeList)
 
     if csv_save_to is not None:
         from bcnexus.clews.sets_n_ratios import UpdateSETS
@@ -562,9 +586,9 @@ if __name__ == "__main__":
     SetNames, NewSetItems, IARList, OARList, EARList, ModeList = \
         SnR.BuildCLEWsModel()
 
-    SetNames, NewSetItems, IARList, OARList, ModeList = \
+    SetNames, NewSetItems, IARList, OARList, EARList, ModeList = \
         build_agrivoltaic_modes(
-            SetNames, NewSetItems, IARList, OARList, ModeList)
+            SetNames, NewSetItems, IARList, OARList, EARList, ModeList)
 
     save_dir = Path('data/clews_data/SETs')
     SnR.UpdateSETS(SetNames, NewSetItems, IARList, OARList, save_dir)
