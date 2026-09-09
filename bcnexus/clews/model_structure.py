@@ -357,12 +357,39 @@ AgrivoltaicEmitsSoilN2O= True
 # to modes 58-62 and had already fallen out of step with the build (livestock
 # had moved to 78-82 once agrivoltaic modes were inserted ahead of it), so
 # every livestock emission was landing on a mode its technology did not have.
+#
+# UNIT CORRECTION 2026-09-09. Every factor decomposes exactly as an IPCC 2006
+# Tier 1 implied factor (kg of gas per head per year, North America) times an
+# AR5 GWP100 (CH4 28, N2O 265). Checking all 15 against that decomposition
+# showed CH4_FER and CH4_MAN land in t CO2e per head while N2O_MAN landed in
+# kg CO2e per head - 1000x larger for the same physical quantity:
+#
+#   CH4_FER  MIL   128   x 28  = 3584 kg = 3.584 t   -> stored 3.584   (t)
+#   CH4_MAN  MIL    48   x 28  = 1344 kg = 1.344 t   -> stored 1.344   (t)
+#   N2O_MAN  MIL     0.1 x 265 =   26.5 kg = 0.0265 t -> stored 26.5   (kg)
+#   N2O_MAN  BEFN    0.07x 265 =   18.55 kg           -> stored 18.55  (kg)
+#   N2O_MAN  PIG     0.02x 265 =    5.3  kg           -> stored 5.3    (kg)
+#   N2O_MAN  SHP     0.012x265 =    3.18 kg           -> stored 3.18   (kg)
+#
+# The N2O_MAN column is divided by 1000 below to match the CH4 columns. This
+# was invisible while the emission rows were inert; the moment they went live
+# it made the model infeasible, with the IIS naming exactly
+# E9_ModelPeriodEmissionsLimit(REGION1,N2O_MAN) against the 120 livestock
+# commodity energy balances. Forced N2O_MAN was 2.13x the annual cap and
+# 3.19x the model-period cap; corrected it is 0.002x and 0.003x.
+#
+# STILL UNRESOLVED, and not a feasibility problem: activity is thousand head,
+# so a factor in t CO2e per head yields kt CO2e, while `units['emission']`
+# declares Million Tonnes. Every emission in the model is therefore reported
+# 1000x smaller than its label claims - the CH4 total of ~1048 is 1.05 Mt
+# CO2e, which is the right order for BC enteric fermentation. Settle the label
+# against the caps before publishing; it does not change any solution.
 LivestockEmissionFactors= {
-  'BEFN': {'CH4_FER': 1.484, 'CH4_MAN': 0.056,   'N2O_MAN': 18.55},
-  'BEFC': {'CH4_FER': 1.484, 'CH4_MAN': 0.056,   'N2O_MAN': 18.55},
-  'MIL':  {'CH4_FER': 3.584, 'CH4_MAN': 1.344,   'N2O_MAN': 26.5},
-  'PIG':  {'CH4_FER': 0.042, 'CH4_MAN': 0.448,   'N2O_MAN': 5.3},
-  'SHP':  {'CH4_FER': 0.224, 'CH4_MAN': 0.00784, 'N2O_MAN': 3.18},
+  'BEFN': {'CH4_FER': 1.484, 'CH4_MAN': 0.056,   'N2O_MAN': 0.01855},
+  'BEFC': {'CH4_FER': 1.484, 'CH4_MAN': 0.056,   'N2O_MAN': 0.01855},
+  'MIL':  {'CH4_FER': 3.584, 'CH4_MAN': 1.344,   'N2O_MAN': 0.0265},
+  'PIG':  {'CH4_FER': 0.042, 'CH4_MAN': 0.448,   'N2O_MAN': 0.0053},
+  'SHP':  {'CH4_FER': 0.224, 'CH4_MAN': 0.00784, 'N2O_MAN': 0.00318},
 }
 
 # Crop yield factors for calibrating the model.  Codes here must match crop codes in the land use data.
