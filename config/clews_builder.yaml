@@ -351,9 +351,9 @@ TECHNOLOGIES:
       variable_cost: 0.001
     PWRWNDB14:
       capital_cost: 1735.2745158554371
-      name: Taylor Wind Project
+      name: Mount Mabel Wind Project
       operational_life: 20.0
-      potential: 0.2
+      potential: 0.1428
       start_year: 2032
       status: future
       variable_cost: 0.001
@@ -383,21 +383,29 @@ TECHNOLOGIES:
       variable_cost: 0.001
     PWRWNDB18:
       capital_cost: 1735.2745158554371
-      name: Mount Mabel Wind Project
-      operational_life: 20.0
-      potential: 0.1428
-      start_year: 2032
-      status: future
-      variable_cost: 0.001
-    PWRWNDB19:
-      capital_cost: 1735.2745158554371
       name: Boulder and Elkhart Wind Project
       operational_life: 20.0
       potential: 0.09440000000000001
       start_year: 2032
       status: future
       variable_cost: 0.001
+    PWRWNDB19:
+      capital_cost: 1735.2745158554371
+      name: Taylor Wind Project
+      operational_life: 20.0
+      potential: 0.2
+      start_year: 2032
+      status: future
+      variable_cost: 0.001
     PWRWNDB20:
+      capital_cost: 1564.55696742041
+      name: Columbia-Shuswap_1
+      operational_life: 20.0
+      potential: 0.8
+      start_year: 2033
+      status: future
+      variable_cost: 0.0
+    PWRWNDB21:
       capital_cost: 1564.55696742041
       name: Skeena-QueenCharlotte_1
       operational_life: 20.0
@@ -405,7 +413,7 @@ TECHNOLOGIES:
       start_year: 2033
       status: future
       variable_cost: 0.0
-    PWRWNDB21:
+    PWRWNDB22:
       capital_cost: 1564.55696742041
       name: FraserValley_1
       operational_life: 20.0
@@ -413,7 +421,7 @@ TECHNOLOGIES:
       start_year: 2033
       status: future
       variable_cost: 0.0
-    PWRWNDB22:
+    PWRWNDB23:
       capital_cost: 1564.55696742041
       name: Kitimat-Stikine_1
       operational_life: 20.0
@@ -421,7 +429,7 @@ TECHNOLOGIES:
       start_year: 2033
       status: future
       variable_cost: 0.0
-    PWRWNDB23:
+    PWRWNDB24:
       capital_cost: 1564.55696742041
       name: PeaceRiver_1
       operational_life: 20.0
@@ -429,7 +437,7 @@ TECHNOLOGIES:
       start_year: 2033
       status: future
       variable_cost: 0.0
-    PWRWNDB24:
+    PWRWNDB25:
       capital_cost: 1564.55696742041
       name: EastKootenay_1
       operational_life: 20.0
@@ -437,19 +445,11 @@ TECHNOLOGIES:
       start_year: 2033
       status: future
       variable_cost: 0.0
-    PWRWNDB25:
+    PWRWNDB26:
       capital_cost: 1564.55696742041
       name: Thompson-Nicola_1
       operational_life: 20.0
       potential: 5.0
-      start_year: 2033
-      status: future
-      variable_cost: 0.0
-    PWRWNDB26:
-      capital_cost: 1564.55696742041
-      name: Columbia-Shuswap_1
-      operational_life: 20.0
-      potential: 0.8
       start_year: 2033
       status: future
       variable_cost: 0.0

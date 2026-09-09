@@ -55,8 +55,8 @@
 55: Water bodies
 56: Other agricultural land
 57: Storage Discharging Mode
-73: Livestock pathway Beef (natural pasture)
-74: Livestock pathway Beef (cultivated pasture)
-75: Livestock pathway Dairy
-76: Livestock pathway Swine
-77: Livestock pathway Sheep
+78: Livestock pathway Beef (natural pasture)
+79: Livestock pathway Beef (cultivated pasture)
+80: Livestock pathway Dairy
+81: Livestock pathway Swine
+82: Livestock pathway Sheep
