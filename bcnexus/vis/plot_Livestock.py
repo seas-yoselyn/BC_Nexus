@@ -20,8 +20,6 @@ from pathlib import Path
 
 import pandas as pd
 import plotly.graph_objects as go
-from plotly.subplots import make_subplots
-
 from bcnexus.clews import model_structure as ms
 from bcnexus.vis import palette
 
@@ -32,22 +30,11 @@ _AREA_UNIT = "Thousand Square Km"
 _PRODUCT_UNIT = "kt"
 _HERD_UNIT = "Thousand head"
 
-# Emission unit. model_structure.units['emission'] says "Million Tonnes of
-# CO2", but the factors are t CO2e per head against an activity in thousand
-# head, which yields kt CO2e - the CH4 total of ~1048 is 1.05 Mt CO2e, the
-# right order for BC enteric fermentation. The axis is labelled for what the
-# numbers actually are. If the unit question is ever settled in favour of Mt,
-# change this one constant rather than each figure.
-_EMISSION_UNIT = "kt CO2e"
-
 # ---------------------------------------------------------------- labels
 # Pathway -> readable label, straight from the model structure so a new
 # pathway shows up in the figures without touching this file.
 _PATHWAY_LABELS = {pw: attrs["label"]
                    for pw, attrs in ms.LivestockPathways.items()}
-
-_SOIL_N2O_LABELS = {"N2O_DIR": "Soil N2O, direct",
-                    "N2O_IND": "Soil N2O, indirect"}
 
 # Exact technology names, never prefixes.
 _LAND_TECH = {f"LNDLVS{pw}{REGION_LAND}": pw for pw in ms.LivestockPathways}
@@ -161,93 +148,20 @@ def plot_livestock_production(prod: pd.DataFrame, scenario: str = None,
                    _PRODUCT_UNIT, "Animal")
 
 
-def plot_livestock_n2o(emis: pd.DataFrame, scenario: str = None,
-                       with_soil: bool = True):
-    """Nitrous oxide from manure management, per animal type.
-
-    Input: AnnualTechnologyEmission.
-
-    N2O_MAN is the only N2O livestock emits. When ``with_soil`` is set, the
-    agricultural soil N2O (N2O_DIR + N2O_IND, from the crop modes on the
-    LNDAGR cluster technologies) is drawn as a reference line, because it is
-    roughly ten times larger and manure N2O is easy to over-read on its own
-    axis.
-    """
-    if emis is None or emis.empty or "EMISSION" not in emis.columns:
-        return None
-    d = _by_pathway(emis[emis.EMISSION == "N2O_MAN"], _PROD_TECH)
-    if d is None:
-        return None
-    pivot = _pivot_years(d)
-    fig = _stacked_area(pivot)
-
-    if with_soil:
-        soil = emis[emis.EMISSION.isin(_SOIL_N2O_LABELS)]
-        if not soil.empty:
-            total = soil.groupby("YEAR", as_index=False).VALUE.sum()
-            fig.add_trace(go.Scatter(
-                x=total.YEAR, y=total.VALUE, name="Agricultural soil N2O",
-                mode="lines", line=dict(color="#8A6D3B", dash="dot", width=2)))
-
-    return _layout(fig, f"Livestock N2O (manure management){_sfx(scenario)}",
-                   _EMISSION_UNIT, "Animal")
-
-
-def plot_livestock_ch4(emis: pd.DataFrame, scenario: str = None):
-    """Methane per animal type, split into enteric fermentation and manure.
-
-    Input: AnnualTechnologyEmission.
-
-    Two panels on a shared y-axis rather than one stack of ten series: the
-    split is the analytically interesting part. Enteric fermentation
-    dominates for ruminants and manure for swine, and that contrast is
-    invisible once the two are summed.
-    """
-    if emis is None or emis.empty or "EMISSION" not in emis.columns:
-        return None
-
-    panels = [("CH4_FER", "Enteric fermentation"), ("CH4_MAN", "Manure management")]
-    frames = {}
-    for code, title in panels:
-        d = _by_pathway(emis[emis.EMISSION == code], _PROD_TECH)
-        if d is not None:
-            frames[code] = _pivot_years(d)
-    if not frames:
-        return None
-
-    fig = make_subplots(rows=1, cols=2, shared_yaxes=True,
-                        subplot_titles=[t for _, t in panels])
-
-    for col, (code, _title) in enumerate(panels, start=1):
-        pivot = frames.get(code)
-        if pivot is None:
-            continue
-        for name in _ordered(pivot):
-            fig.add_trace(go.Scatter(
-                x=pivot.index, y=pivot[name], name=str(name),
-                stackgroup=f"s{col}", mode="lines",
-                legendgroup=str(name), showlegend=(col == 1),
-                line=dict(color=palette.color(name)),
-                fillcolor=palette.color(name)), row=1, col=col)
-
-    fig.update_xaxes(title_text="Year", row=1, col=1)
-    fig.update_xaxes(title_text="Year", row=1, col=2)
-    fig.update_yaxes(title_text=_EMISSION_UNIT, row=1, col=1)
-    fig.update_layout(title=f"Livestock CH4 by source{_sfx(scenario)}",
-                      legend_title="Animal", template="plotly_white",
-                      hovermode="x unified")
-    return fig
-
-
 # ---------------------------------------------------------------- one call
 DEFAULT_INPUT_DIR = "data/clews_data/clews_build_data/input_csvs"
 
-FIGURES = ("land", "production", "n2o", "ch4")
+FIGURES = ("land", "production")
 
 
 def livestock_figures(result_pack, scenario: str = None, show: bool = True,
                       input_dir: str | Path = DEFAULT_INPUT_DIR) -> dict:
-    """Build every livestock figure in one call.
+    """Build the livestock land and production figures in one call.
+
+    Livestock EMISSIONS live in plot_Climate, alongside the rest of the
+    inventory, so that enteric fermentation, manure and soils can be read
+    against each other and against the energy system. See
+    plot_Climate.agriculture_emission_figures().
 
     Notebook usage::
 
@@ -264,7 +178,6 @@ def livestock_figures(result_pack, scenario: str = None, show: bool = True,
     dropped, since the figures are about results, not inputs.
     """
     prod = result_pack.get_df("ProductionByTechnologyAnnual")
-    emis = result_pack.get_df("AnnualTechnologyEmission")
 
     demand = None
     demand_file = Path(input_dir) / "AccumulatedAnnualDemand.csv"
@@ -277,16 +190,13 @@ def livestock_figures(result_pack, scenario: str = None, show: bool = True,
     figs = {
         "land": plot_livestock_land(prod, scenario),
         "production": plot_livestock_production(prod, scenario, demand=demand),
-        "n2o": plot_livestock_n2o(emis, scenario),
-        "ch4": plot_livestock_ch4(emis, scenario),
     }
     figs = {k: v for k, v in figs.items() if v is not None}
 
     missing = [k for k in FIGURES if k not in figs]
     if missing:
         print(f"no rows for: {', '.join(missing)} "
-              f"(checked ProductionByTechnologyAnnual and "
-              f"AnnualTechnologyEmission)")
+              f"(checked ProductionByTechnologyAnnual)")
 
     if show:
         for fig in figs.values():
